@@ -4,7 +4,7 @@ namespace Deployer;
 require 'recipe/symfony.php';
 
 // Config
-
+set('keep_releases', 2);
 set('repository', 'https://github.com/kwadro/onlinepdf.git');
 set('git_tty', true);
 set('deploy_path', '/home/kwadro/kwadro.com.ua/service');
