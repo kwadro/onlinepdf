@@ -24,94 +24,12 @@
     </head>
     <body>
     {% block header %}
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <h1 class="logo"><a href="/">PDFTool</a></h1>
-            <nav>
-                <ul class="nav-menu">
-                    <li><a href="#features">Features</a></li>
-                    <li><a href="#security">Security</a></li>
-                    <li><a href="#upload">Get Started</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+        {% include "header.html.twig" %}
     {% endblock %}
     {% block main %}
-        <main>
-            <section>
-                <h1>
-                    <img src="{{ asset('images/icons/hello.svg') }}" alt="" width="24" height="24" style="vertical-align:middle; margin-right:8px;">
-                    Welcome to Your All-in-One PDF Processing Tool!
-                </h1>
-                <p>We're glad to have you here! Our platform is a simple, reliable, and secure solution for working with your
-                    PDF documents — no software installation needed. Everything runs directly in your browser.</p>
-
-                <hr>
-
-                <h2 id="features">
-                    <img src="{{ asset('images/icons/tools.svg') }}" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
-                    What Can You Do with PDF Here?
-                </h2>
-                <ul>
-                    <li><strong>Merge multiple PDF files</strong> into one — perfect for reports, documents, or presentations.
-                    </li>
-                    <li><strong>Split a large PDF</strong> — extract selected pages into a new file.</li>
-                    <li><strong>Compress your PDF</strong> — reduce file size without losing quality.</li>
-                    <li><strong>Convert to/from PDF</strong> — turn Word, Excel, JPG into PDFs and vice versa.</li>
-                    <li><strong>Edit your PDF</strong> — add text, images, signatures, or watermarks.</li>
-                </ul>
-
-                <hr>
-
-                <h2 id="security">
-                    <img src="{{ asset('images/icons/lock.svg') }}" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
-                    Your Privacy Matters
-                </h2>
-                <ul>
-                    <li><strong>We do not store your files</strong>: all documents are automatically deleted from our servers
-                        within an hour.
-                    </li>
-                    <li>All data is transferred over a <strong>secure HTTPS connection</strong>.</li>
-                    <li>The platform is designed with privacy and confidentiality in mind.</li>
-                </ul>
-
-                <hr>
-
-                <h2 id="upload">
-                    <img src="{{ asset('images/icons/start.svg') }}" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
-                    Ready to Start?
-                </h2>
-                <ol>
-                    <li>Upload your PDF file.</li>
-                    <li>Select the action you need.</li>
-                    <li>Get your result in seconds!</li>
-                </ol>
-
-                <p>
-                    <a href="#" class="upload-button">Click here to upload a file</a>
-                </p>
-            </section>
-        </main>
-
     {% endblock %}
     {% block footer %}
-        <!-- Footer -->
-        <footer>
-            <div class="container">
-                <p>&copy; 2025 PDFTool.ai — Your fast and free online PDF editor.</p>
-                <p>
-                    <a href="/privacy-policy">Privacy Policy</a> |
-                    <a href="/terms-of-service">Terms of Service</a> |
-                    <a href="/contact">Contact Us</a>
-                </p>
-                <p>
-                    Optimized for: <em>merge PDF files online, compress PDFs, edit PDF without software, secure PDF processing</em>
-                </p>
-            </div>
-        </footer>
+        {% include "footer.html.twig" %}
     {% endblock %}
     </body>
 </html>
