@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Free Online PDF Tools | Merge, Split, Compress & Edit PDFs{% endblock %}</title>
+        <meta name="description" content="Quick and secure online PDF tools. Merge, split, compress, edit, and convert PDFs with ease. 100% free and private. No registration required." />
+        <meta name="keywords" content="PDF tools, merge PDFs, split PDF, compress PDF, edit PDF online, convert PDF, secure PDF service" />
+        <meta name="author" content="Ihor Tson" />
+        <meta property="og:title" content="Online PDF Tool - Merge, Split, Edit & Compress" />
+        <meta property="og:description" content="Free and fast online tools to work with PDF files securely. No software installation needed." />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://service.kwadro.com.ua/" />
+        <meta property="og:image" content="https://service.kwadro.com.ua//og-image.jpg" />
+        <link rel="canonical" href="https://service.kwadro.com.ua/" />
+        <link href="{{ asset('css/styles.css') }}" rel="stylesheet">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+    {% block header %}
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <h1 class="logo"><a href="/">PDFTool</a></h1>
+            <nav>
+                <ul class="nav-menu">
+                    <li><a href="#features">Features</a></li>
+                    <li><a href="#security">Security</a></li>
+                    <li><a href="#upload">Get Started</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    {% endblock %}
+    {% block main %}
+        <main>
+            <section>
+                <h1>
+                    <img src="/icons/hello.svg" alt="" width="24" height="24" style="vertical-align:middle; margin-right:8px;">
+                    Welcome to Your All-in-One PDF Processing Tool!
+                </h1>
+                <p>We're glad to have you here! Our platform is a simple, reliable, and secure solution for working with your
+                    PDF documents — no software installation needed. Everything runs directly in your browser.</p>
+
+                <hr>
+
+                <h2 id="features">
+                    <img src="/icons/tools.svg" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
+                    What Can You Do with PDF Here?
+                </h2>
+                <ul>
+                    <li><strong>Merge multiple PDF files</strong> into one — perfect for reports, documents, or presentations.
+                    </li>
+                    <li><strong>Split a large PDF</strong> — extract selected pages into a new file.</li>
+                    <li><strong>Compress your PDF</strong> — reduce file size without losing quality.</li>
+                    <li><strong>Convert to/from PDF</strong> — turn Word, Excel, JPG into PDFs and vice versa.</li>
+                    <li><strong>Edit your PDF</strong> — add text, images, signatures, or watermarks.</li>
+                </ul>
+
+                <hr>
+
+                <h2 id="security">
+                    <img src="/icons/lock.svg" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
+                    Your Privacy Matters
+                </h2>
+                <ul>
+                    <li><strong>We do not store your files</strong>: all documents are automatically deleted from our servers
+                        within an hour.
+                    </li>
+                    <li>All data is transferred over a <strong>secure HTTPS connection</strong>.</li>
+                    <li>The platform is designed with privacy and confidentiality in mind.</li>
+                </ul>
+
+                <hr>
+
+                <h2 id="upload">
+                    <img src="/icons/start.svg" alt="" width="20" height="20" style="vertical-align:middle; margin-right:6px;">
+                    Ready to Start?
+                </h2>
+                <ol>
+                    <li>Upload your PDF file.</li>
+                    <li>Select the action you need.</li>
+                    <li>Get your result in seconds!</li>
+                </ol>
+
+                <p>
+                    <a href="#" class="upload-button">Click here to upload a file</a>
+                </p>
+            </section>
+        </main>
+
+    {% endblock %}
+    {% block footer %}
+        <!-- Footer -->
+        <footer>
+            <div class="container">
+                <p>&copy; 2025 PDFTool.ai — Your fast and free online PDF editor.</p>
+                <p>
+                    <a href="/privacy-policy">Privacy Policy</a> |
+                    <a href="/terms-of-service">Terms of Service</a> |
+                    <a href="/contact">Contact Us</a>
+                </p>
+                <p>
+                    Optimized for: <em>merge PDF files online, compress PDFs, edit PDF without software, secure PDF processing</em>
+                </p>
+            </div>
+        </footer>
+    {% endblock %}
+    </body>
+</html>
