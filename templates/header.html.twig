@@ -7,10 +7,11 @@
 
         <ul class="nav nav-pills">
             <li class="nav-item"><a href="{{ path('homepage') }}" class="nav-link {% if 'homepage' in app.request.get('_route')  %}active {% endif %}" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="{{ path('about') }}" class="nav-link {% if 'about' in app.request.get('_route')  %}active {% endif %}">{{'About'|trans}}</a></li>
             <li class="nav-item"><a href="{{ path('contact') }}" class="nav-link {% if 'contact' in app.request.get('_route')  %}active {% endif %}">{{'Contact'|trans}}</a></li>
 {#            <li class="nav-item"><a href="#" class="nav-link">Pricing</a></li>#}
 {#            <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>#}
-            <li class="nav-item"><a href="{{ path('about') }}" class="nav-link {% if 'about' in app.request.get('_route')  %}active {% endif %}">{{'About'|trans}}</a></li>
+
             <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="dropdown-language" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

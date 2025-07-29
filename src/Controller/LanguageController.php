@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -33,11 +33,8 @@ class LanguageController extends AbstractController
         $request->setLocale($_locale);
         $referer = $request->headers->get('referer');
         $temp = explode('/', $referer);
-        $temp[3]= $_locale;
+        $temp[3] = $_locale;
         $newReferer = implode('/', $temp);
-
-
-        //return new Response('Locale switched to ' . $_locale);
         return new RedirectResponse($newReferer ?: $this->generateUrl('homepage'));
     }
 }
