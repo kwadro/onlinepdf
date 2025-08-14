@@ -2,6 +2,27 @@
     <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
         <h1 class="w-100 mb-4">{{'Contact'|trans}}</h1>
     </section>
+    <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    {% for message in app.flashes('success') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(contactForm) }}
+                    {{ form_row(contactForm.name , {'attr': {'class': 'mb-1 form-control name'}})}}
+                    {{ form_row(contactForm.email, {'attr': {'class': 'mb-1 form-control email'}})}}
+                    {{ form_row(contactForm.message,{'attr': {'class': 'mb-1 form-control message'}})}}
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    {{ form_end(contactForm) }}
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 
 
