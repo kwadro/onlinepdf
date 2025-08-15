@@ -1,0 +1,5 @@
+easyadmin:
+    resource: .
+    type: easyadmin.routes
+    locale:
+        en
