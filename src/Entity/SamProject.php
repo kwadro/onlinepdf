@@ -27,7 +27,7 @@ class SamProject
     private ?string $password = null;
     #[ORM\Column(length: 255)]
     private ?string $dumpLink = null;
-    #[ORM\Column]
+    #[ORM\Column(type: 'datetime_immutable')]
     private ?\DateTimeImmutable $created_at = null;
 
     public function getId(): ?int
