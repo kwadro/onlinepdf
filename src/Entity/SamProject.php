@@ -3,9 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\SamProjectRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SamProjectRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class SamProject
 {
     #[ORM\Id]
@@ -15,21 +18,36 @@ class SamProject
 
     #[ORM\Column(length: 255)]
     private ?string $name = null;
-    #[ORM\Column]
-    private ?int $typeServer = null;
     #[ORM\Column(length: 255)]
-    private ?string $host = null;
-    #[ORM\Column(length: 255)]
-    private ?string $port = null;
-    #[ORM\Column(length: 255)]
-    private ?string $user = null;
-    #[ORM\Column(length: 255)]
-    private ?string $password = null;
-    #[ORM\Column(length: 255)]
-    private ?string $dumpLink = null;
-    #[ORM\Column(type: 'datetime_immutable')]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?string $description = null;
 
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $created_at;
+    #[ORM\Column(type: 'datetime_immutable')]
+    private \DateTimeImmutable $updated_at;
+    #[ORM\OneToMany(
+        targetEntity: ServerData::class,
+        mappedBy: 'project',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true
+    )]
+    private Collection $servers;
+    public function __construct()
+    {
+        $this->servers = new ArrayCollection();
+    }
+    #[ORM\PrePersist]
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    #[ORM\PreUpdate]
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -39,29 +57,15 @@ class SamProject
     {
         return $this->name;
     }
-    public function getTypeServer(): ?int
+    public function getDescription(): ?string
     {
-        return $this->typeServer;
+        return $this->description;
     }
-    public function getHost(): ?string
+    public function setDescription(?string $description): static
     {
-        return $this->host;
-    }
-    public function getPort(): ?string
-    {
-        return $this->port;
-    }
-    public function getUser(): ?string
-    {
-        return $this->host;
-    }
-    public function getPassword(): ?string
-    {
-        return $this->host;
-    }
-    public function getDumpLink(): ?string
-    {
-        return $this->dumpLink;
+        $this->description = $description;
+
+        return $this;
     }
     public function setName(string $name): static
     {
@@ -69,49 +73,38 @@ class SamProject
 
         return $this;
     }
-
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
     }
-
-    public function setCreatedAt(?\DateTimeImmutable $created_at): static
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        if(!$created_at){
-            $created_at = new \DateTimeImmutable();
+        return $this->updated_at;
+    }
+    /** @return Collection<int, ServerData> */
+    public function getServers(): Collection {
+        return $this->servers;
+    }
+    public function addServer(ServerData $server): self
+    {
+        if (!$this->servers->contains($server)) {
+            $this->servers->add($server);
+            $server->setProject($this);
         }
-        $this->created_at = $created_at;
+        return $this;
+    }
 
+    public function removeServer(ServerData $server): self
+    {
+        if ($this->servers->removeElement($server)) {
+            if ($server->getProject() === $this) {
+                $server->setProject(null);
+            }
+        }
         return $this;
     }
-    public function setTypeServer(?int$typeServer): static
+    public function __toString(): string
     {
-        $this->typeServer=$typeServer;
-        return $this;
-    }
-    public function setHost(?string $host): static
-    {
-        $this->host = $host;
-        return $this;
-    }
-    public function setPort(?string $port): static
-    {
-        $this->port = $port;
-        return $this;
-    }
-    public function setUser(?string $user): static
-    {
-        $this->user = $user;
-        return $this;
-    }
-    public function setPassword(?string $password): static
-    {
-        $this->password = $password;
-        return $this;
-    }
-    public function setDumpLink(?string $dumpLink): static
-    {
-        $this->dumpLink = $dumpLink;
-        return $this;
+        return $this->name;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\SamProject;
+use App\Entity\ServerData;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -54,7 +55,7 @@ class DashboardController extends AbstractDashboardController
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Sam Project')
+            ->setTitle('Sam Projects')
             // set this option if you prefer the page content to span the entire
             // browser width, instead of the default design which sets a max width
             ->renderContentMaximized()
@@ -62,8 +63,7 @@ class DashboardController extends AbstractDashboardController
             ->disableDarkMode()
             ->setDefaultColorScheme('dark')
             ->generateRelativeUrls()
-            ->setLocales(['en'])
-            ;
+            ->setLocales(['en']);
     }
 
     public function configureMenuItems(): iterable
@@ -71,6 +71,7 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
         yield MenuItem::section('Projects');
 
-         yield MenuItem::linkToCrud('Project', 'fas fa-list', SamProject::class);
+        yield MenuItem::linkToCrud('Project', 'fas fa-list', SamProject::class);
+        yield MenuItem::linkToCrud('Servers', 'fas fa-list', ServerData::class);
     }
 }
