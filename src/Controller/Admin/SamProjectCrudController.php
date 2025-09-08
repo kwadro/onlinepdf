@@ -8,24 +8,20 @@ use App\Form\Type\ServerDataType;
 use App\Repository\SamProjectRepository;
 use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\QueryBuilder;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FieldCollection;
-use EasyCorp\Bundle\EasyAdminBundle\Collection\FilterCollection;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use EasyCorp\Bundle\EasyAdminBundle\Dto\EntityDto;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
-use Symfony\Component\HttpFoundation\Response;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class SamProjectCrudController extends AbstractCrudController
 {
@@ -71,6 +67,7 @@ class SamProjectCrudController extends AbstractCrudController
             }
         }
     }
+
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
         $this->handleFileUpload($entityInstance);
@@ -85,6 +82,10 @@ class SamProjectCrudController extends AbstractCrudController
             TextField::new('description')->setRequired(false),
             DateTimeField::new('created_at')->onlyOnIndex(),
             DateTimeField::new('updated_at')->onlyOnIndex(),
+            AssociationField::new('git_user')
+                ->setCrudController(GitUserCrudController::class)
+                ->setFormTypeOption('by_reference', true)
+                ->autocomplete(),
             CollectionField::new('servers')
                 ->setEntryType(ServerDataType::class)
                 ->setEntryIsComplex(true)
@@ -94,6 +95,7 @@ class SamProjectCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false),
         ];
     }
+
     public function configureCrud(Crud $crud): Crud
     {
         return $crud
@@ -102,6 +104,7 @@ class SamProjectCrudController extends AbstractCrudController
             ->setPageTitle('new', 'Create New Project')
             ->setDefaultSort(['created_at' => 'DESC']);
     }
+
     public function configureActions(Actions $actions): Actions
     {
         $exportAll = Action::new('exportCsvAll', 'Export CSV (All Filtered)')
@@ -109,9 +112,8 @@ class SamProjectCrudController extends AbstractCrudController
             ->createAsGlobalAction();
         return $actions
             ->add(Crud::PAGE_INDEX, $exportAll);
-
-
     }
+
     public function exportCsvAllAction(AdminContext $context, SamProjectRepository $entityRepository): Response
     {
         $entities = $entityRepository->createQueryBuilder('e')
@@ -119,12 +121,13 @@ class SamProjectCrudController extends AbstractCrudController
             ->getResult();
         return $this->createCsvResponse($entities, 'projects_all.csv');
     }
+
     private function getExportFields(): array
     {
         return [
-            'id'        => 'ID',
-            'Name'      => 'Project Name',
-            'Description'      => 'Project Description',
+            'id' => 'ID',
+            'Name' => 'Project Name',
+            'Description' => 'Project Description',
             'RepositoryUrl' => 'Created At',
             'RepositoryUser' => 'Repository User',
             'RepositoryPassword' => 'Repository Password',
@@ -154,7 +157,7 @@ class SamProjectCrudController extends AbstractCrudController
                         $value = $value->format('Y-m-d H:i:s');
                     }
 
-                    $row[] = is_scalar($value) ? $value : (string) $value;
+                    $row[] = is_scalar($value) ? $value : (string)$value;
                 }
                 fputcsv($handle, $row);
             }

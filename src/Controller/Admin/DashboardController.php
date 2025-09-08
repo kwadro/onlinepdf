@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\GitUser;
 use App\Entity\SamProject;
 use App\Entity\ServerData;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
@@ -73,5 +74,6 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::linkToCrud('Project', 'fas fa-list', SamProject::class);
         yield MenuItem::linkToCrud('Servers', 'fas fa-list', ServerData::class);
+        yield MenuItem::linkToCrud('Git User', 'fas fa-list', GitUser::class);
     }
 }

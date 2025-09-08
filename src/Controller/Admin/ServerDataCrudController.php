@@ -131,7 +131,7 @@ class ServerDataCrudController extends AbstractCrudController
 
             AssociationField::new('project')
                 ->setCrudController(SamProjectCrudController::class)
-                ->setFormTypeOption('by_reference', false)
+                ->setFormTypeOption('by_reference', true)
                 ->autocomplete()
                 ->onlyOnIndex(),
         ];

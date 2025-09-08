@@ -32,6 +32,9 @@ class SamProject
         orphanRemoval: true
     )]
     private Collection $servers;
+
+    #[ORM\ManyToOne(inversedBy: 'samProjects')]
+    private ?GitUser $git_user = null;
     public function __construct()
     {
         $this->servers = new ArrayCollection();
@@ -106,5 +109,17 @@ class SamProject
     public function __toString(): string
     {
         return $this->name;
+    }
+
+    public function getGitUser(): ?GitUser
+    {
+        return $this->git_user;
+    }
+
+    public function setGitUser(?GitUser $git_user): static
+    {
+        $this->git_user = $git_user;
+
+        return $this;
     }
 }
