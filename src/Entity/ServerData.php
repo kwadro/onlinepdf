@@ -45,6 +45,24 @@ class ServerData
     #[ORM\JoinColumn(nullable: false)]
     private ?SamProject $project = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $web_url = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $web_admin_url = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $web_admin_login = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $web_admin_password = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $http_auth_login = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $http_auth_password = null;
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -179,5 +197,77 @@ class ServerData
         ];
 
         return $options[$this->type_server]??0;
+    }
+
+    public function getWebUrl(): ?string
+    {
+        return $this->web_url;
+    }
+
+    public function setWebUrl(?string $web_url): static
+    {
+        $this->web_url = $web_url;
+
+        return $this;
+    }
+
+    public function getWebAdminUrl(): ?string
+    {
+        return $this->web_admin_url;
+    }
+
+    public function setWebAdminUrl(?string $web_admin_url): static
+    {
+        $this->web_admin_url = $web_admin_url;
+
+        return $this;
+    }
+
+    public function getWebAdminLogin(): ?string
+    {
+        return $this->web_admin_login;
+    }
+
+    public function setWebAdminLogin(?string $web_admin_login): static
+    {
+        $this->web_admin_login = $web_admin_login;
+
+        return $this;
+    }
+
+    public function getWebAdminPassword(): ?string
+    {
+        return $this->web_admin_password;
+    }
+
+    public function setWebAdminPassword(?string $web_admin_password): static
+    {
+        $this->web_admin_password = $web_admin_password;
+
+        return $this;
+    }
+
+    public function getHttpAuthLogin(): ?string
+    {
+        return $this->http_auth_login;
+    }
+
+    public function setHttpAuthLogin(?string $http_auth_login): static
+    {
+        $this->http_auth_login = $http_auth_login;
+
+        return $this;
+    }
+
+    public function getHttpAuthPassword(): ?string
+    {
+        return $this->http_auth_password;
+    }
+
+    public function setHttpAuthPassword(?string $http_auth_password): static
+    {
+        $this->http_auth_password = $http_auth_password;
+
+        return $this;
     }
 }
