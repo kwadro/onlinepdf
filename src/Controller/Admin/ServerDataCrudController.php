@@ -68,7 +68,7 @@ class ServerDataCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $entity = $this->getContext()?->getEntity()?->getInstance();
-        dump($this->getContext()->getEntity()->getInstance());
+
         $oldFileName = null;
         $oldFilePath = null;
         if ($entity instanceof ServerData) {
@@ -132,8 +132,7 @@ class ServerDataCrudController extends AbstractCrudController
             AssociationField::new('project')
                 ->setCrudController(SamProjectCrudController::class)
                 ->setFormTypeOption('by_reference', true)
-                ->autocomplete()
-                ->onlyOnIndex(),
+                ->autocomplete(),
         ];
 
         return $result;

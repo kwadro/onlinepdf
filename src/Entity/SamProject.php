@@ -38,10 +38,24 @@ class SamProject
 
     #[ORM\Column(length: 255)]
     private ?string $git_url = null;
+
+    /**
+     * @var Collection<int, ServiceData>
+     */
+    #[ORM\OneToMany(
+        targetEntity: ServiceData::class,
+        mappedBy: 'project',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
+    private Collection $services;
+
     public function __construct()
     {
         $this->servers = new ArrayCollection();
+        $this->services = new ArrayCollection();
     }
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -54,6 +68,7 @@ class SamProject
     {
         $this->updated_at = new \DateTimeImmutable();
     }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,34 +78,42 @@ class SamProject
     {
         return $this->name;
     }
+
     public function getDescription(): ?string
     {
         return $this->description;
     }
+
     public function setDescription(?string $description): static
     {
         $this->description = $description;
 
         return $this;
     }
+
     public function setName(string $name): static
     {
         $this->name = $name;
 
         return $this;
     }
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->created_at;
     }
+
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updated_at;
     }
+
     /** @return Collection<int, ServerData> */
-    public function getServers(): Collection {
+    public function getServers(): Collection
+    {
         return $this->servers;
     }
+
     public function addServer(ServerData $server): self
     {
         if (!$this->servers->contains($server)) {
@@ -109,6 +132,7 @@ class SamProject
         }
         return $this;
     }
+
     public function __toString(): string
     {
         return $this->name;
@@ -134,6 +158,36 @@ class SamProject
     public function setGitUrl(string $git_url): static
     {
         $this->git_url = $git_url;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ServiceData>
+     */
+    public function getServices(): Collection
+    {
+        return $this->services;
+    }
+
+    public function addService(ServiceData $service): static
+    {
+        if (!$this->services->contains($service)) {
+            $this->services->add($service);
+            $service->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeService(ServiceData $service): static
+    {
+        if ($this->services->removeElement($service)) {
+            // set the owning side to null (unless already changed)
+            if ($service->getProject() === $this) {
+                $service->setProject(null);
+            }
+        }
 
         return $this;
     }

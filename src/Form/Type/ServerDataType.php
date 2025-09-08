@@ -40,7 +40,6 @@ class ServerDataType extends AbstractType
             if( $server === null){
                 return;
             }
-            dump($server);
             $form   = $event->getForm();
             $fileLink = $server->getDumpLink();
             $fileName = basename($fileLink);

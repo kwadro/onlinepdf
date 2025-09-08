@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\SamProject;
 use App\Form\ServerDataFormType;
 use App\Form\Type\ServerDataType;
+use App\Form\Type\ServiceDataType;
 use App\Repository\SamProjectRepository;
 use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
@@ -82,17 +83,26 @@ class SamProjectCrudController extends AbstractCrudController
             TextField::new('description')->setRequired(false),
             DateTimeField::new('created_at')->onlyOnIndex(),
             DateTimeField::new('updated_at')->onlyOnIndex(),
+            TextField::new('git_url')->setRequired(false)->onlyOnForms(),
             AssociationField::new('git_user')
                 ->setCrudController(GitUserCrudController::class)
                 ->setFormTypeOption('by_reference', true)
-                ->autocomplete(),
+                ->autocomplete()->onlyOnForms(),
             CollectionField::new('servers')
                 ->setEntryType(ServerDataType::class)
                 ->setEntryIsComplex(true)
                 ->allowAdd()
                 ->allowDelete()
-                ->renderExpanded()
+                ->renderExpanded(false)
                 ->setFormTypeOption('by_reference', false),
+            CollectionField::new('services')
+                ->setEntryType(ServiceDataType::class)
+                ->setEntryIsComplex(true)
+                ->allowAdd()
+                ->allowDelete()
+                ->renderExpanded(false)
+                ->setFormTypeOption('by_reference', false)
+                ->onlyOnForms(),
         ];
     }
 
