@@ -35,6 +35,9 @@ class SamProject
 
     #[ORM\ManyToOne(inversedBy: 'samProjects')]
     private ?GitUser $git_user = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $git_url = null;
     public function __construct()
     {
         $this->servers = new ArrayCollection();
@@ -119,6 +122,18 @@ class SamProject
     public function setGitUser(?GitUser $git_user): static
     {
         $this->git_user = $git_user;
+
+        return $this;
+    }
+
+    public function getGitUrl(): ?string
+    {
+        return $this->git_url;
+    }
+
+    public function setGitUrl(string $git_url): static
+    {
+        $this->git_url = $git_url;
 
         return $this;
     }
