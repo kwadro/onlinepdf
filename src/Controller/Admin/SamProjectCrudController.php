@@ -9,6 +9,7 @@ use App\Form\Type\ServiceDataType;
 use App\Repository\SamProjectRepository;
 use App\Service\UploaderHelper;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -23,7 +24,9 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpKernel\Attribute\AsController;
 
+#[AdminDashboard(routePath: '/sam_project/{_locale}', routeName: 'admin_sam_project')]
 class SamProjectCrudController extends AbstractCrudController
 {
     private UploaderHelper $uploaderHelper;

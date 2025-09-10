@@ -6,15 +6,18 @@ use App\Entity\GitUser;
 use App\Entity\SamProject;
 use App\Entity\ServerData;
 use App\Entity\ServiceData;
+use App\Entity\User;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
@@ -77,5 +80,8 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToCrud('Servers', 'fas fa-list', ServerData::class);
         yield MenuItem::linkToCrud('Git User', 'fas fa-list', GitUser::class);
         yield MenuItem::linkToCrud('Services', 'fas fa-list', ServiceData::class);
+
+        yield MenuItem::section('Users');
+        yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
     }
 }
