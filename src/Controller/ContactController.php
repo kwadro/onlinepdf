@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ContactController extends AbstractController
 {
-    #[Route('/{_locale}/contact', name: 'contact' )]
+    #[Route('/{_locale}/contact', name: 'contact')]
     public function index(Request $request): Response
     {
         $form = $this->createForm(ContactFormType::class);
@@ -29,6 +29,5 @@ class ContactController extends AbstractController
         return $this->render('contact/index.html.twig', [
             'contactForm' => $form,
         ]);
-
     }
 }

@@ -196,7 +196,7 @@ class ServerData
             3 => 'Stage',
         ];
 
-        return $options[$this->type_server]??0;
+        return $options[$this->type_server] ?? 0;
     }
 
     public function getWebUrl(): ?string

@@ -34,11 +34,11 @@ class MailerController extends AbstractController
 //            $customMailer = new Mailer($transport);
 //            $customMailer->send($email);
 
-            $message =  'sending emails is fun again test !'.time();
-        }catch (TransportExceptionInterface $exception) {
-            $message =  $exception->getMessage();
+            $message = 'sending emails is fun again test !' . time();
+        } catch (TransportExceptionInterface $exception) {
+            $message = $exception->getMessage();
         }
 
-        return $this->render('email/sendemail.html.twig',['message' => $message]);
+        return $this->render('email/sendemail.html.twig', ['message' => $message]);
     }
 }

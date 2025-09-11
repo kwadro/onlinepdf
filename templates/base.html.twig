@@ -1,49 +1,68 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{{'Free Online PDF Tools | Merge, Split, Compress & Edit PDFs'|trans}}{% endblock %}</title>
-        <meta name="description" content="{{'Quick and secure online PDF tools. Merge, split, compress, edit, and convert PDFs with ease. 100% free and private. No registration required.'|trans}}" />
-        <meta name="keywords" content="{{'PDF tools, merge PDFs, split PDF, compress PDF, edit PDF online, convert PDF, secure PDF service'|trans}}" />
-        <meta name="author" content="{{'Ihor Tson'|trans}}" />
-        <meta property="og:title" content="{{'Online PDF Tool - Merge, Split, Edit and Compress'|trans}}" />
-        <meta property="og:description" content="{{'Free and fast online tools to work with PDF files securely. No software installation needed.'|trans}}" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="{{ path('homepage') }}" />
-        <meta property="og:image" content="{{ asset('images/icons/og-image.png') }}" />
-        <link rel="canonical" href="{{ path('homepage') }}/" />
-        <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}"/>
-        <!-- Google Tag Manager -->
-        <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-                    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-                j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-                'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','GTM-MT76448G');</script>
-        <!-- End Google Tag Manager -->
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{{ 'Free Online PDF Tools | Merge, Split, Compress & Edit PDFs'|trans }}{% endblock %}</title>
+    <meta name="description"
+          content="{{ 'Quick and secure online PDF tools. Merge, split, compress, edit, and convert PDFs with ease. 100% free and private. No registration required.'|trans }}"/>
+    <meta name="keywords"
+          content="{{ 'PDF tools, merge PDFs, split PDF, compress PDF, edit PDF online, convert PDF, secure PDF service'|trans }}"/>
+    <meta name="author" content="{{ 'Ihor Tson'|trans }}"/>
+    <meta property="og:title" content="{{ 'Online PDF Tool - Merge, Split, Edit and Compress'|trans }}"/>
+    <meta property="og:description"
+          content="{{ 'Free and fast online tools to work with PDF files securely. No software installation needed.'|trans }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{ path('homepage') }}"/>
+    <meta property="og:image" content="{{ asset('images/icons/og-image.png') }}"/>
+    <link rel="canonical" href="{{ path('homepage') }}/"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}"/>
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-MT76448G');</script>
+    <!-- End Google Tag Manager -->
 
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+    {% endblock %}
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-    </head>
-    <body class="d-flex flex-column min-vh-100">
-    <!-- Google Tag Manager (noscript) -->
-    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MT76448G"
-                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-    {% block header %}
-        {% include "header.html.twig" %}
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
     {% endblock %}
-    {% block main %}
-    {% endblock %}
-    {% block footer %}
-        {% include "footer.html.twig" %}
-    {% endblock %}
-    </body>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"
+            integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"
+            integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ"
+            crossorigin="anonymous"></script>
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MT76448G"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+{% block header %}
+    {% include "header.html.twig" %}
+{% endblock %}
+{% block main %}
+{% endblock %}
+{% block footer %}
+    {% include "footer.html.twig" %}
+{% endblock %}
+</body>
 </html>

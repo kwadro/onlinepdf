@@ -23,7 +23,7 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig');
     }
 
-    #[Route('/', name: 'default',locale: 'en')]
+    #[Route('/', name: 'default', locale: 'en')]
     public function default(): Response
     {
         return $this->render('home/index.html.twig');

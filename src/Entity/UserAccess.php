@@ -19,6 +19,12 @@ class UserAccess
     #[ORM\ManyToOne(inversedBy: 'accesses')]
     private ?User $user = null;
 
+    #[ORM\ManyToOne(
+        cascade: ['persist', 'remove'],
+        inversedBy: 'users'
+    )]
+    private ?SamProject $project = null;
+
 
     public function getId(): ?int
     {
@@ -52,5 +58,17 @@ class UserAccess
     public function __toString(): string
     {
         return sprintf('Access %s', $this->id);
+    }
+
+    public function getProject(): ?SamProject
+    {
+        return $this->project;
+    }
+
+    public function setProject(?SamProject $project): static
+    {
+        $this->project = $project;
+
+        return $this;
     }
 }

@@ -3,16 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Entity\UserAccess;
-use App\Form\Type\ServiceDataType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
 class UserCrudController extends AbstractCrudController
 {
@@ -29,14 +25,14 @@ class UserCrudController extends AbstractCrudController
             BooleanField::new('isVerified')->setRequired(false),
             EmailField::new('email'),
             ChoiceField::new('roles')
-                    ->setChoices([
-                        'User' => 'ROLE_USER',
-                        'Editor' => 'ROLE_EDITOR',
-                        'Admin' => 'ROLE_ADMIN',
-                        'Super Admin' => 'ROLE_SUPER_ADMIN',
-                    ])
-                    ->allowMultipleChoices()
-                    ->renderAsBadges(),
+                ->setChoices([
+                    'User' => 'ROLE_USER',
+                    'Editor' => 'ROLE_EDITOR',
+                    'Admin' => 'ROLE_ADMIN',
+                    'Super Admin' => 'ROLE_SUPER_ADMIN',
+                ])
+                ->allowMultipleChoices()
+                ->renderAsBadges(),
             CollectionField::new('accesses')
                 ->useEntryCrudForm(UserAccessCrudController::class)
                 ->setEntryIsComplex(true)

@@ -8,6 +8,7 @@ use App\Form\Type\ServerDataType;
 use App\Form\Type\ServiceDataType;
 use App\Repository\SamProjectRepository;
 use App\Service\UploaderHelper;
+use DateTimeInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
@@ -24,7 +25,6 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Symfony\Component\HttpKernel\Attribute\AsController;
 
 #[AdminDashboard(routePath: '/sam_project/{_locale}', routeName: 'admin_sam_project')]
 class SamProjectCrudController extends AbstractCrudController
@@ -135,20 +135,6 @@ class SamProjectCrudController extends AbstractCrudController
         return $this->createCsvResponse($entities, 'projects_all.csv');
     }
 
-    private function getExportFields(): array
-    {
-        return [
-            'id' => 'ID',
-            'Name' => 'Project Name',
-            'Description' => 'Project Description',
-            'RepositoryUrl' => 'Created At',
-            'RepositoryUser' => 'Repository User',
-            'RepositoryPassword' => 'Repository Password',
-            'CreatedAt' => 'Created At'
-        ];
-    }
-
-
     private function createCsvResponse(iterable $entities, string $filename): Response
     {
         $fields = $this->getExportFields();
@@ -166,7 +152,7 @@ class SamProjectCrudController extends AbstractCrudController
                     $getter = 'get' . ucfirst($prop);
                     $value = method_exists($entity, $getter) ? $entity->$getter() : null;
 
-                    if ($value instanceof \DateTimeInterface) {
+                    if ($value instanceof DateTimeInterface) {
                         $value = $value->format('Y-m-d H:i:s');
                     }
 
@@ -185,5 +171,18 @@ class SamProjectCrudController extends AbstractCrudController
         );
 
         return $response;
+    }
+
+    private function getExportFields(): array
+    {
+        return [
+            'id' => 'ID',
+            'Name' => 'Project Name',
+            'Description' => 'Project Description',
+            'RepositoryUrl' => 'Created At',
+            'RepositoryUser' => 'Repository User',
+            'RepositoryPassword' => 'Repository Password',
+            'CreatedAt' => 'Created At'
+        ];
     }
 }

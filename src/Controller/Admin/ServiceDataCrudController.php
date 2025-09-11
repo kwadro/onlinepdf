@@ -20,7 +20,7 @@ class ServiceDataCrudController extends AbstractCrudController
 
     public function configureFields(string $pageName): iterable
     {
-       $result = [
+        $result = [
             IdField::new('id')->setRequired(false)->onlyOnIndex(),
             TextField::new('name')->setRequired(false),
             TextField::new('url')->setRequired(false),
@@ -34,7 +34,7 @@ class ServiceDataCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', true)
                 ->autocomplete(),
         ];
-       return $result;
+        return $result;
     }
 
     public function configureCrud(Crud $crud): Crud

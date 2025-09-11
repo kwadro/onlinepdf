@@ -16,7 +16,6 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 use Symfony\Component\Validator\Constraints\File;
 
 class ServerDataCrudController extends AbstractCrudController
@@ -40,12 +39,6 @@ class ServerDataCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
     }
 
-    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
-    {
-        $this->handleFileUpload($entityInstance);
-        parent::updateEntity($entityManager, $entityInstance);
-    }
-
     private function handleFileUpload($entityInstance): void
     {
         $request = $this->getContext()->getRequest();
@@ -59,6 +52,12 @@ class ServerDataCrudController extends AbstractCrudController
                 exit;
             }
         }
+    }
+
+    public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
+    {
+        $this->handleFileUpload($entityInstance);
+        parent::updateEntity($entityManager, $entityInstance);
     }
 
     /**
@@ -84,7 +83,7 @@ class ServerDataCrudController extends AbstractCrudController
 
         $result = [
             IdField::new('id')->setRequired(false)->onlyOnIndex(),
-            ChoiceField::new('type_server','Type Server')
+            ChoiceField::new('type_server', 'Type Server')
                 ->setChoices([
                     'Live' => 1,
                     'Test' => 2,
@@ -94,7 +93,7 @@ class ServerDataCrudController extends AbstractCrudController
                     'expanded' => false,
                     'multiple' => false,
                     'required' => true,
-            ])->setRequired(true),
+                ])->setRequired(true),
             TextField::new('hostname')->setRequired(false),
             TextField::new('port')->setRequired(false),
             TextField::new('username')->setRequired(false),

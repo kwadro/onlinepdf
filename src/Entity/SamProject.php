@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SamProjectRepository;
+use DateTimeImmutable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -22,9 +23,9 @@ class SamProject
     private ?string $description = null;
 
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $created_at;
+    private DateTimeImmutable $created_at;
     #[ORM\Column(type: 'datetime_immutable')]
-    private \DateTimeImmutable $updated_at;
+    private DateTimeImmutable $updated_at;
     #[ORM\OneToMany(
         targetEntity: ServerData::class,
         mappedBy: 'project',
@@ -49,24 +50,32 @@ class SamProject
         orphanRemoval: true,
     )]
     private Collection $services;
+    #[ORM\OneToMany(
+        targetEntity: UserAccess::class,
+        mappedBy: 'project',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
+    private Collection $users;
 
     public function __construct()
     {
         $this->servers = new ArrayCollection();
         $this->services = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
-        $this->created_at = new \DateTimeImmutable();
-        $this->updated_at = new \DateTimeImmutable();
+        $this->created_at = new DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
     }
 
     #[ORM\PreUpdate]
     public function setUpdatedAtValue(): void
     {
-        $this->updated_at = new \DateTimeImmutable();
+        $this->updated_at = new DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -77,6 +86,13 @@ class SamProject
     public function getName(): ?string
     {
         return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getDescription(): ?string
@@ -91,19 +107,12 @@ class SamProject
         return $this;
     }
 
-    public function setName(string $name): static
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updated_at;
     }
@@ -186,6 +195,36 @@ class SamProject
             // set the owning side to null (unless already changed)
             if ($service->getProject() === $this) {
                 $service->setProject(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ServiceData>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUsers(UserAccess $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setProject($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUsers(UserAccess $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getProject() === $this) {
+                $user->setProject(null);
             }
         }
 

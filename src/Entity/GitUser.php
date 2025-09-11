@@ -90,7 +90,9 @@ class GitUser
 
         return $this;
     }
-    public function __toString(): string{
-        return $this->user_name."|".$this->user_password;
+
+    public function __toString(): string
+    {
+        return $this->user_name . "|" . $this->user_password;
     }
 }

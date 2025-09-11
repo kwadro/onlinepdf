@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ContactFormTypeRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactFormTypeRepository::class)]
@@ -23,7 +24,7 @@ class ContactFormType
     private ?string $message = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $created_at = null;
+    private ?DateTimeImmutable $created_at = null;
 
     public function getId(): ?int
     {
@@ -66,15 +67,15 @@ class ContactFormType
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
     }
 
-    public function setCreatedAt(?\DateTimeImmutable $created_at): static
+    public function setCreatedAt(?DateTimeImmutable $created_at): static
     {
-        if(!$created_at){
-            $created_at = new \DateTimeImmutable();
+        if (!$created_at) {
+            $created_at = new DateTimeImmutable();
         }
         $this->created_at = $created_at;
 
