@@ -3,9 +3,12 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\UserAccess;
+use App\Form\Type\ServiceDataType;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\EmailField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextEditorField;
@@ -33,7 +36,15 @@ class UserCrudController extends AbstractCrudController
                         'Super Admin' => 'ROLE_SUPER_ADMIN',
                     ])
                     ->allowMultipleChoices()
-                    ->renderAsBadges()
+                    ->renderAsBadges(),
+            CollectionField::new('accesses')
+                ->useEntryCrudForm(UserAccessCrudController::class)
+                ->setEntryIsComplex(true)
+                ->allowAdd()
+                ->allowDelete()
+                ->renderExpanded(false)
+                ->setFormTypeOption('by_reference', false)
+                ->onlyOnForms(),
         ];
     }
 

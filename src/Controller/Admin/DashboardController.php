@@ -5,8 +5,10 @@ namespace App\Controller\Admin;
 use App\Entity\GitUser;
 use App\Entity\SamProject;
 use App\Entity\ServerData;
+use App\Entity\ServerType;
 use App\Entity\ServiceData;
 use App\Entity\User;
+use App\Entity\UserAccess;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
@@ -17,7 +19,7 @@ use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
-#[IsGranted('ROLE_SUPER_ADMIN')]
+//#[IsGranted('ROLE_SUPER_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
@@ -83,5 +85,7 @@ class DashboardController extends AbstractDashboardController
 
         yield MenuItem::section('Users');
         yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud('User Access', 'fas fa-list', UserAccess::class);
+        yield MenuItem::linkToCrud('Server Type', 'fas fa-list', ServerType::class);
     }
 }

@@ -50,17 +50,10 @@ class SamProject
     )]
     private Collection $services;
 
-    /**
-     * @var Collection<int, UserProject>
-     */
-    #[ORM\ManyToMany(targetEntity: UserProject::class, mappedBy: 'projects')]
-    private Collection $users;
-
     public function __construct()
     {
         $this->servers = new ArrayCollection();
         $this->services = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
     #[ORM\PrePersist]
@@ -194,33 +187,6 @@ class SamProject
             if ($service->getProject() === $this) {
                 $service->setProject(null);
             }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, UserProject>
-     */
-    public function getUsers(): Collection
-    {
-        return $this->users;
-    }
-
-    public function addUser(UserProject $user): static
-    {
-        if (!$this->users->contains($user)) {
-            $this->users->add($user);
-            $user->addProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUser(UserProject $user): static
-    {
-        if ($this->users->removeElement($user)) {
-            $user->removeProject($this);
         }
 
         return $this;
