@@ -24,7 +24,8 @@ class UserAccess
         inversedBy: 'users'
     )]
     private ?SamProject $project = null;
-
+    #[ORM\Column]
+    private bool $service = false;
 
     public function getId(): ?int
     {
@@ -57,7 +58,7 @@ class UserAccess
 
     public function __toString(): string
     {
-        return sprintf('Access %s', $this->id);
+        return sprintf('Access %s', $this->project);
     }
 
     public function getProject(): ?SamProject
@@ -71,4 +72,17 @@ class UserAccess
 
         return $this;
     }
+
+    public function getService(): bool
+    {
+        return $this->service;
+    }
+
+    public function setService(bool $service): static
+    {
+        $this->service = $service;
+
+        return $this;
+    }
+
 }

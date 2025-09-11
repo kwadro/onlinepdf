@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\UserAccess;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 
 class UserAccessCrudController extends AbstractCrudController
@@ -20,12 +21,12 @@ class UserAccessCrudController extends AbstractCrudController
             AssociationField::new('user')
                 ->setCrudController(UserCrudController::class)
                 ->setFormTypeOption('by_reference', true)
-                ->autocomplete(),
-            AssociationField::new('project')
+                ->autocomplete()->onlyOnIndex(),
+            AssociationField::new('project', 'Project')
                 ->setCrudController(SamProjectCrudController::class)
                 ->setFormTypeOption('by_reference', true)
                 ->autocomplete(),
-            ChoiceField::new('servertype')
+            ChoiceField::new('servertype','Server Type')
                 ->setChoices([
                     'Live' => 1,
                     'Test' => 2,
@@ -39,6 +40,7 @@ class UserAccessCrudController extends AbstractCrudController
                     'multiple' => true,
                     'required' => true,
                 ]),
+            BooleanField::new('service','Service')
         ];
     }
 }
