@@ -62,7 +62,11 @@ class ServerData
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $http_auth_password = null;
+    #[ORM\Column(length: 255)]
+    private ?string $php_version = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $framework_version = null;
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {
@@ -267,6 +271,29 @@ class ServerData
     public function setHttpAuthPassword(?string $http_auth_password): static
     {
         $this->http_auth_password = $http_auth_password;
+
+        return $this;
+    }
+    public function getPhpVersion(): ?string
+    {
+        return $this->php_version;
+    }
+
+    public function setPhpVersion(string $php_version): static
+    {
+        $this->php_version = $php_version;
+
+        return $this;
+    }
+
+    public function getFrameworkVersion(): ?string
+    {
+        return $this->framework_version;
+    }
+
+    public function setFrameworkVersion(string $framework_version): static
+    {
+        $this->framework_version = $framework_version;
 
         return $this;
     }

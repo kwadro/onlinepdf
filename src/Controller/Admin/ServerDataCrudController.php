@@ -10,6 +10,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\UrlField;
@@ -83,6 +84,11 @@ class ServerDataCrudController extends AbstractCrudController
 
         $result = [
             IdField::new('id')->setRequired(false)->onlyOnIndex(),
+            FormField::addTab('SSH Connect'),
+            AssociationField::new('project')
+                ->setCrudController(SamProjectCrudController::class)
+                ->setFormTypeOption('by_reference', true)
+                ->autocomplete()->onlyOnIndex(),
             ChoiceField::new('type_server', 'Type Server')
                 ->setChoices([
                     'Live' => 1,
@@ -98,6 +104,8 @@ class ServerDataCrudController extends AbstractCrudController
             TextField::new('port')->setRequired(false),
             TextField::new('username')->setRequired(false),
             TextField::new('password')->setRequired(false),
+
+            FormField::addTab('File Collection'),
             UrlField::new('dump_link')->setFormTypeOptions([
                 'mapped' => true,
                 'disabled' => true
@@ -125,13 +133,27 @@ class ServerDataCrudController extends AbstractCrudController
                 ->setLabel('Upload Dump (zip)')->onlyOnForms()
                 ->setHelp($help),
 
-            DateTimeField::new('created_at')->onlyOnIndex(),
-            DateTimeField::new('updated_at')->onlyOnIndex(),
+            DateTimeField::new('created_at')->hideOnForm(),
+            DateTimeField::new('updated_at')->hideOnForm(),
 
+            FormField::addTab('WEB'),
+            FormField::addFieldset('Environment'),
+            TextField::new('php_version')->setRequired(false)->hideOnIndex(),
+            TextField::new('framework_version')->setRequired(false)->hideOnIndex(),
+            FormField::addFieldset('Url'),
+            TextField::new('web_url')->setRequired(false)->hideOnIndex(),
+            TextField::new('web_admin_url')->setRequired(false)->hideOnIndex(),
+            TextField::new('web_admin_login','Admin Login')->setRequired(false)->hideOnIndex(),
+            TextField::new('web_admin_password','Admin Password')->setRequired(false)->hideOnIndex(),
+            FormField::addFieldset('Http Authorization'),
+            TextField::new('http_auth_login','Http Login')->setRequired(false)->hideOnIndex(),
+            TextField::new('http_auth_password','Http Password')->setRequired(false)->hideOnIndex(),
+
+            FormField::addTab('Project Association'),
             AssociationField::new('project')
                 ->setCrudController(SamProjectCrudController::class)
                 ->setFormTypeOption('by_reference', true)
-                ->autocomplete(),
+                ->autocomplete()->hideOnIndex(),
         ];
 
         return $result;

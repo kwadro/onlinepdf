@@ -16,8 +16,6 @@ class ServiceDataCrudController extends AbstractCrudController
     {
         return ServiceData::class;
     }
-
-
     public function configureFields(string $pageName): iterable
     {
         $result = [
