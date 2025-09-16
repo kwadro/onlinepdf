@@ -9,18 +9,22 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class UploaderHelper
 {
     public const DUMP_FILE_DIR = '/uploads/files/';
+    const DUMP_AVATAR_DIR = '/uploads/avatars/';
     private string $targetDirectory;
+    private string $targetAvatarDirectory;
     private RequestStack $requestStack;
 
     public function __construct(
         string $targetDirectory,
+        string $targetAvatarDirectory,
         RequestStack $requestStack,
     ) {
         $this->targetDirectory = $targetDirectory;
         $this->requestStack = $requestStack;
+        $this->targetAvatarDirectory = $targetAvatarDirectory;
     }
 
-    public function uploadServerFile(UploadedFile $uploadedFile): string
+    public function uploadServerFile(UploadedFile $uploadedFile,$entityInstance): void
     {
         $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
         $newFilename = Urlizer::urlize($originalFilename) . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
@@ -28,13 +32,23 @@ class UploaderHelper
             $this->targetDirectory,
             $newFilename
         );
-        return $newFilename;
-    }
-
-    public function setFileNameToEntity(string $newFilename, $entityInstance): void
-    {
         $request = $this->requestStack->getCurrentRequest();
         $baseUrl = $request ? $request->getSchemeAndHttpHost() . $request->getBasePath() : '';
         $entityInstance->setDumpLink($baseUrl . self::DUMP_FILE_DIR . $newFilename);
+    }
+    public function uploadAvatar(UploadedFile $uploadedFile, $entityInstance): void
+    {
+        $originalFilename = pathinfo($uploadedFile->getClientOriginalName(), PATHINFO_FILENAME);
+
+        $newFilename = Urlizer::urlize($originalFilename) . '-' . uniqid() . '.' . $uploadedFile->guessExtension();
+
+
+        $uploadedFile->move(
+            $this->targetAvatarDirectory,
+            $newFilename
+        );
+        $request = $this->requestStack->getCurrentRequest();
+        $baseUrl = $request ? $request->getSchemeAndHttpHost() . $request->getBasePath() : '';
+        $entityInstance->setAvatarUrl($baseUrl . self::DUMP_AVATAR_DIR . $newFilename);
     }
 }

@@ -46,8 +46,7 @@ class ServerDataCrudController extends AbstractCrudController
         $uploadedFile = $request->files->get('ServerData')['dump_link_upload'];
         if ($uploadedFile instanceof UploadedFile) {
             try {
-                $newFilename = $this->uploaderHelper->uploadServerFile($uploadedFile);
-                $this->uploaderHelper->setFileNameToEntity($newFilename, $entityInstance);
+               $this->uploaderHelper->uploadServerFile($uploadedFile, $entityInstance);
             } catch (FileException $e) {
                 echo "Error: " . $e->getMessage();
                 exit;
