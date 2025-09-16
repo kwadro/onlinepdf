@@ -4,11 +4,15 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use LogicException;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -30,21 +34,30 @@ use Symfony\Contracts\HttpClient\HttpClientInterface;
  */
 class CustomAuthenticator extends AbstractAuthenticator
 {
+    public const GOOGLE_OAUTH_BASE_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
+    public const GOOGLE_GET_TOKEN_URL = 'https://oauth2.googleapis.com/token';
+    public const GOOGLE_GET_PROFILE_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
     private UrlGeneratorInterface $urlGenerator;
     private HttpClientInterface $http;
     private EntityManagerInterface $em;
     private RouterInterface $router;
+    private EmailVerifier $emailVerifier;
+    private UserPasswordHasherInterface $userPasswordHasher;
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         HttpClientInterface $http,
         EntityManagerInterface $em,
-        RouterInterface $router
+        RouterInterface $router,
+        EmailVerifier $emailVerifier,
+        UserPasswordHasherInterface $userPasswordHasher
     ) {
         $this->router = $router;
         $this->urlGenerator = $urlGenerator;
         $this->http = $http;
         $this->em = $em;
+        $this->emailVerifier = $emailVerifier;
+        $this->userPasswordHasher = $userPasswordHasher;
     }
 
 
@@ -86,7 +99,7 @@ class CustomAuthenticator extends AbstractAuthenticator
         if ($request->attributes->get('_route') === 'login_google_callback') {
             $code = $request->query->get('code');
 
-            $tokenResponse = $this->http->request('POST', 'https://oauth2.googleapis.com/token', [
+            $tokenResponse = $this->http->request('POST', self::GOOGLE_GET_TOKEN_URL, [
                 'body' => [
                     'code' => $code,
                     'client_id' => $_ENV['GOOGLE_CLIENT_ID'],
@@ -102,7 +115,7 @@ class CustomAuthenticator extends AbstractAuthenticator
 
             $accessToken = $tokenResponse['access_token'];
 
-            $profile = $this->http->request('GET', 'https://www.googleapis.com/oauth2/v2/userinfo', [
+            $profile = $this->http->request('GET', self::GOOGLE_GET_PROFILE_URL, [
                 'headers' => [
                     'Authorization' => 'Bearer ' . $accessToken,
                 ]
@@ -112,19 +125,23 @@ class CustomAuthenticator extends AbstractAuthenticator
             $verified = $profile['verified_email'] ?? false;
 
             if (!$email || !$verified) {
-                throw new \Exception('Google email not confirmed!');
+                throw new Exception('Google email not confirmed!');
             }
 
-            $name = '';
-            $picture = '';
+            $name = $profile['name'] ?? null;
+            $picture = $profile['picture'] ?? null;
+
             return new Passport(
                 new UserBadge($email, function ($userIdentifier) use ($name, $picture) {
                     $user = $this->em->getRepository(User::class)->findOneBy(['email' => $userIdentifier]);
-
+                    $isNewUser = false;
                     if (!$user) {
                         $user = new User();
                         $user->setEmail($userIdentifier);
-                        $user->setPassword(bin2hex(random_bytes(16))); // випадковий пароль
+                        $randomString = bin2hex(random_bytes(16));
+                        $randomPassword = $this->userPasswordHasher->hashPassword($user, $randomString);
+                        $user->setPassword($randomPassword);
+                        $isNewUser = true;
                     }
                     if ($name) {
                         $names = explode(' ', $name);
@@ -132,13 +149,26 @@ class CustomAuthenticator extends AbstractAuthenticator
                         $user->setLastName($names[1] ?? '');
                     }
                     if ($picture) {
-                        //$user->setAvatarUrl($picture);
+                        $user->setAvatarUrl($picture);
                     }
                     $this->em->persist($user);
                     $this->em->flush();
+
+                    if ($isNewUser) {
+                        $this->emailVerifier->sendEmailConfirmation(
+                            'app_verify_email',
+                            $user,
+                            (new TemplatedEmail())
+                                ->from(new Address('pdf-editor@kwadro.com.ua', 'Acme Mail Bot'))
+                                ->to((string)$user->getEmail())
+                                ->subject('Please Confirm your Email')
+                                ->htmlTemplate('registration/confirmation_email.html.twig')
+                        );
+                    }
+
                     return $user;
                 }),
-                new CustomCredentials(function($credentials, $user) {
+                new CustomCredentials(function ($credentials, $user) {
                     return true;
                 }, 'google_oauth')
             );
@@ -146,8 +176,11 @@ class CustomAuthenticator extends AbstractAuthenticator
         throw new LogicException('Unknown authentication method');
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): RedirectResponse
-    {
+    public function onAuthenticationSuccess(
+        Request $request,
+        TokenInterface $token,
+        string $firewallName
+    ): RedirectResponse {
         return new RedirectResponse($this->router->generate('admin'));
     }
 
