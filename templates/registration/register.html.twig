@@ -26,8 +26,14 @@
 
                         {{ form_row(registrationForm.agreeTerms, {'attr': {'class': 'mb-3 form-check'}}) }}
 
-                        <button type="submit" class="btn btn-lg btn-primary">Register</button>
+                        <button type="submit" class="mb-3 btn btn-lg btn-primary">Register</button>
                         {{ form_end(registrationForm) }}
+                        <a href="{{ path('login_google') }}" >
+                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 py-2">
+                                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" class="me-2" width="24" height="24">
+                                <span class="">Register with Google</span>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
