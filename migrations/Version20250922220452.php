@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20250922170539 extends AbstractMigration
+final class Version20250922220452 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -27,5 +27,10 @@ final class Version20250922170539 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('DROP TABLE refresh_tokens');
+    }
+
+    public function isTransactional(): bool
+    {
+        return false;
     }
 }
