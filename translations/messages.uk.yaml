@@ -55,3 +55,8 @@ menu.users: "Користувачі"
 menu.user_access: "Доступ Користувачів"
 menu.server_type: "Типи серверів"
 menu.dashboard: "Панель інструментів"
+register:
+    require_message: "Email and password are required"
+    user_exist_message: "User with the some email already exists"
+    not_found_message: 'User not found'
+    invalid_credential_message: 'Invalid credentials'
