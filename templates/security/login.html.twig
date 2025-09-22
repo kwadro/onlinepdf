@@ -10,8 +10,7 @@
                     <div class="col-lg-4">
                         <h2 class="w-100 mb-4">{{ 'Login'|trans }}</h2>
                         {% if error %}
-                            <div
-                                class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
                         {% endif %}
                         {% if app.user %}
                             <div class="mb-3">

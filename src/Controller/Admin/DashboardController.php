@@ -14,6 +14,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
 
@@ -23,6 +24,7 @@ class DashboardController extends AbstractDashboardController
 {
     public function __construct(
         private ChartBuilderInterface $chartBuilder,
+        private TranslatorInterface $translator
     ) {
     }
 
@@ -69,22 +71,22 @@ class DashboardController extends AbstractDashboardController
             ->disableDarkMode()
             ->setDefaultColorScheme('dark')
             ->generateRelativeUrls()
-            ->setLocales(['en']);
+            ->setLocales(['en','uk']);
     }
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        yield MenuItem::section('Projects');
+        yield MenuItem::linkToDashboard($this->translator->trans('menu.dashboard', [], 'messages'), 'fa fa-home');
+        yield MenuItem::section($this->translator->trans('menu.projects', [], 'messages'));
 
-        yield MenuItem::linkToCrud('Project', 'fas fa-list', SamProject::class);
-        yield MenuItem::linkToCrud('Servers', 'fas fa-list', ServerData::class);
-        yield MenuItem::linkToCrud('Git User', 'fas fa-list', GitUser::class);
-        yield MenuItem::linkToCrud('Services', 'fas fa-list', ServiceData::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.projects', [], 'messages'), 'fas fa-list', SamProject::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.servers', [], 'messages'), 'fas fa-list', ServerData::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.git_user', [], 'messages'), 'fas fa-list', GitUser::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.services', [], 'messages'), 'fas fa-list', ServiceData::class);
 
-        yield MenuItem::section('Users');
-        yield MenuItem::linkToCrud('Users', 'fas fa-list', User::class);
-        yield MenuItem::linkToCrud('User Access', 'fas fa-list', UserAccess::class);
-        yield MenuItem::linkToCrud('Server Type', 'fas fa-list', ServerType::class);
+        yield MenuItem::section($this->translator->trans('menu.users', [], 'messages'));
+        yield MenuItem::linkToCrud($this->translator->trans('menu.users', [], 'messages'), 'fas fa-list', User::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.user_access', [], 'messages'), 'fas fa-list', UserAccess::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.server_type', [], 'messages'), 'fas fa-list', ServerType::class);
     }
 }

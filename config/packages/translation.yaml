@@ -1,6 +1,6 @@
 framework:
-    default_locale: en
-    enabled_locales: ['en', 'ua']
+    default_locale: 'uk'
+    enabled_locales: ['en', 'uk']
     translator:
         default_path: '%kernel.project_dir%/translations'
-        providers:
+

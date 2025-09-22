@@ -32,15 +32,16 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown-language" role="button"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ app.locale|upper }}
+                    {{ app.request.locale|upper }}
                 </a>
+
                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdown-language">
                     <li>
-                        <a class="dropdown-item"
+                        <a class="dropdown-item {% if app.request.locale == 'en' %} active {% endif %}"
                            href="{{ path('switch_language', {_locale: 'en'}) }}">{{ 'English'|trans }}</a></li>
                     <li>
-                        <a class="dropdown-item"
-                           href="{{ path('switch_language', {_locale: 'ua'}) }}">{{ 'Ukrainian'|trans }}</a>
+                        <a class="dropdown-item {% if app.request.locale == 'uk' %} active {% endif %}"
+                           href="{{ path('switch_language', {_locale: 'uk'}) }}">{{ 'Ukrainian'|trans }}</a>
                     </li>
                 </ul>
             </li>
