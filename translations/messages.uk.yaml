@@ -56,7 +56,9 @@ menu.user_access: "Доступ Користувачів"
 menu.server_type: "Типи серверів"
 menu.dashboard: "Панель інструментів"
 register:
-    require_message: "Email and password are required"
-    user_exist_message: "User with the some email already exists"
-    not_found_message: 'User not found'
-    invalid_credential_message: 'Invalid credentials'
+    require_message: "Необхідно вказати адресу електронної пошти та пароль"
+    user_exist_message: "Кориcтувач з таким email вже існує"
+    not_found_message: 'Користувача не знайдено'
+    invalid_credential_message: 'Недійсні облікові дані'
+    success_login: 'Успішний вхід'
+    success_register: 'Реєстрація успішна'

@@ -43,6 +43,7 @@ class RegistrationController extends AbstractController
                 'error' => $this->translator->trans('register.require_message', [], 'messages')
             ], 400);
         }
+
         // check if a user already exists
         $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
         if ($existingUser) {
@@ -50,11 +51,17 @@ class RegistrationController extends AbstractController
                 'error' => $this->translator->trans('register.user_exist_message', [], 'messages')
             ], 400);
         }
+
         // create new user
         $user = new User();
+
         $user->setEmail($data['email']);
         $hashedPassword = $userPasswordHasher->hashPassword($user, $data['password']);
         $user->setPassword($hashedPassword);
+
+        $user->setFirstName($data['firstName'] ?? null);
+        $user->setLastName($data['lastName'] ?? null);
+
         $entityManager->persist($user);
         $entityManager->flush();
 

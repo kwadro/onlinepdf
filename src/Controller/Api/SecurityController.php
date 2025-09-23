@@ -92,6 +92,7 @@ class SecurityController extends AbstractController
         $refreshToken = $refreshTokenGenerator->createForUserWithTtl($user, 2592000);
         $refreshTokenManager->save($refreshToken);
         return $this->json([
+            'message'  => $this->translator->trans('register.success_login', [], 'messages'),
             'access_token'  => $accessToken,
             'refresh_token' => $refreshToken->getRefreshToken(),
             'user' => [
