@@ -39,17 +39,21 @@ class RegistrationController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['email'], $data['password'])) {
-            return $this->json([
-                'error' => $this->translator->trans('register.require_message', [], 'messages')
-            ], 400);
+            $message = [
+                'status'=>'error',
+                'text'=>$this->translator->trans('register.require_message', [], 'messages')
+            ];
+            return $this->json(['message' => $message],400);
         }
 
         // check if a user already exists
         $existingUser = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
         if ($existingUser) {
-            return $this->json([
-                'error' => $this->translator->trans('register.user_exist_message', [], 'messages')
-            ], 400);
+            $message = [
+                'status'=>'error',
+                'text'=>$this->translator->trans('register.user_exist_message', [], 'messages')
+            ];
+            return $this->json(['message' => $message],400);
         }
 
         // create new user
@@ -69,12 +73,12 @@ class RegistrationController extends AbstractController
             $refreshToken = $refreshTokenGenerator->createForUserWithTtl($user, 30 * 24 * 60 * 60);
             $refreshTokenManager->save($refreshToken);
         } catch (NotFoundExceptionInterface|ContainerExceptionInterface $e) {
-            return $this->json([
-                'error' => $e->getMessage()
-            ], 500);
+            $message = ['status'=>'error','text'=>$e->getMessage()];
+            return $this->json(['message' => $message],500);
         }
+        $message = ['status'=>'success','text'=>'User registered successfully'];
         return $this->json([
-            'message' => 'User registered successfully',
+            'message' => $message,
             'access_token' => $jwtManager->create($user),
             'refresh_token' => $refreshToken->getRefreshToken(),
             'user' => [

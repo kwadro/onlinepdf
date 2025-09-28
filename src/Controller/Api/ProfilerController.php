@@ -8,17 +8,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ProfilerController extends AbstractController
 {
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {
+    }
     #[Route('/api/me', name: 'api_profiler', methods: ['POST'])]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+//    #[IsGranted('IS_AUTHENTICATED')]
     public function me(): Response
     {
         $user = $this->getUser();
-
         if (!$user) {
-            return $this->json(['error' => 'User not found'], 404);
+            $message = [
+                'status'=>'error',
+                'text'=>$this->translator->trans('register.not_found_message', [], 'messages')
+            ];
+            return $this->json(['message' => $message],404);
+
         }
 
         return $this->json([

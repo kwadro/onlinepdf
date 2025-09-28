@@ -77,13 +77,20 @@ class SecurityController extends AbstractController
         $data = json_decode($request->getContent(), true);
 
         if (!isset($data['email'], $data['password'])) {
-            return $this->json(['error' => $this->translator->trans('register.require_message', [], 'messages')], 400);
+            $message = [
+                'status'=>'error',
+                'text'=>$this->translator->trans('register.require_message', [], 'messages')
+            ];
+            return $this->json(['message' => $message],400);
         }
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $data['email']]);
 
         if (!$user) {
-            return $this->json(['error' => $this->translator->trans('register.not_found_message', [], 'messages')],
-                404);
+            $message = [
+                'status'=>'error',
+                'text'=>$this->translator->trans('register.not_found_message', [], 'messages')
+            ];
+            return $this->json(['message' => $message],404);
         }
         if (!$userPasswordHasher->isPasswordValid($user, $data['password'])) {
             return $this->json(['error' => $this->translator->trans('register.invalid_credential_message', [], 'messages')], 401);
