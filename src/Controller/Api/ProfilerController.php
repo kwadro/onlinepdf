@@ -16,7 +16,7 @@ class ProfilerController extends AbstractController
         private TranslatorInterface $translator
     ) {
     }
-    #[Route('/api/me', name: 'api_profiler', methods: ['POST'])]
+    #[Route('/api/me', name: 'api_profiler', methods: ['GET'])]
 //    #[IsGranted('IS_AUTHENTICATED')]
     public function me(): Response
     {
