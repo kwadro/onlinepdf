@@ -33,7 +33,9 @@ class ProfilerController extends AbstractController
         return $this->json([
             'id'    => $user->getId(),
             'email' => $user->getEmail(),
-            'roles' => $user->getRoles(),
+            'first_name' => $user->getFirstName(),
+            'last_name' => $user->getLastName(),
+//            'roles' => $user->getRoles(),
         ]);
     }
 }
