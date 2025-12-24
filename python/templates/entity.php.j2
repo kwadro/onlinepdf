@@ -1,0 +1,213 @@
+<?php
+
+namespace App\Entity;
+
+use DateTimeImmutable;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\{{ name }}Repository;
+{%- for field in fields %}
+{%- if field.type =='relation' and field.objectRelation!='self' %}
+use App\Entity\{{ field.objectRelation }};
+{%- endif %}
+{%- endfor %}
+
+#[ORM\Entity(repositoryClass: {{ name }}Repository::class)]
+class {{ name }}
+{
+
+{%- for field in fields %}
+    {%- if field.type =='relation' %}
+    #[ORM\{{ field.typeRelation }}(
+      {%- if field.typeRelation =='ManyToMany' %}
+        {%- if field.roleRelation =='master' %}
+          targetEntity: {{ field.objectRelation }}::class,
+            mappedBy: '{{ field.mappedBy }}',
+            cascade: ['persist'],
+            orphanRemoval: false,
+        {%- else %}
+          targetEntity: {{ field.objectRelation }}::class,
+            inversedBy: '{{ field.inversedBy }}',
+            cascade: ['persist'],
+            orphanRemoval: false,
+        {%- endif %}
+      {%- elif field.typeRelation =='ManyToOne' %}
+            targetEntity: {{ field.objectRelation }}::class,
+            cascade: ['persist'],
+            inversedBy: '{{ field.inversedBy }}'
+      {%- elif field.typeRelation =='OneToMany' %}
+        targetEntity: {{ field.objectRelation }}::class,
+        mappedBy: '{{ field.mappedBy }}',
+        cascade: ['persist'],
+        orphanRemoval: false,
+      {%- endif %}
+    )]
+    {%- if field.typeRelation =='ManyToOne' %}
+        {%- if field.objectRelation =='self' %}
+    #[ORM\JoinColumn(name: '{{ field.name }}_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+        {%- endif %}
+    {%- endif %}
+
+    {%- if field.typeRelation =='ManyToMany' or field.typeRelation =='OneToMany' %}
+        public ?Collection ${{ field.name }};
+    {%- else %}
+       {%- if field.objectRelation =='self' %}
+        public ?{{ name }} ${{ field.name }}=null;
+       {%- else %}
+        private ?{{ field.objectRelation }} ${{ field.name }};
+       {%- endif %}
+    {%- endif %}
+
+    {%- else %}
+    {%- if field.id %}
+    #[ORM\Id]
+    #[ORM\GeneratedValue]{% endif %}
+
+    #[ORM\Column(type:"{{ field.doc_type }}", nullable:true)]
+    private ?{{ field.php_type }} ${{ field.name }};
+    {%- endif %}
+{%- endfor %}
+
+    #[ORM\Column(type:"date", nullable:true)]
+    private ?\DateTimeInterface $updated_at;
+
+    #[ORM\Column(type:"date", nullable:true)]
+    private ?\DateTimeInterface $created_at;
+
+    public function __construct()
+    {
+    {%- for field in fields %}
+    {%- if field.type =='relation' and (field.typeRelation =='ManyToMany' or field.typeRelation =='OneToMany') %}
+        $this->{{ field.name }} = new ArrayCollection();
+    {%- endif %}
+    {%- endfor %}
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(?\DateTimeInterface $created_at): self
+    {
+        $this->created_at = $created_at;
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
+    {
+        $this->updated_at = $updated_at;
+        return $this;
+    }
+{%- for field in fields %}
+  {%- if field.type =='relation' %}
+    {%- if field.typeRelation =='ManyToMany' %}
+    public function add{{field.objectRelation|pascal}}({{field.objectRelation}} ${{field.objectRelation|lower}}): self
+    {
+        if (!$this->{{field.name}}->contains(${{field.objectRelation|lower}})) {
+            $this->{{field.name}}->add(${{field.objectRelation|lower}});
+            ${{field.objectRelation|lower}}->add{{name}}($this);
+        }
+        return $this;
+    }
+
+    public function remove{{field.objectRelation|pascal}}({{field.objectRelation}} ${{field.objectRelation|lower}}): self
+    {
+        if ($this->{{field.name}}->removeElement(${{field.objectRelation|lower}})) {
+            ${{field.objectRelation|lower}}->remove{{name}}($this);
+        }
+        return $this;
+    }
+
+    public function get{{field.name|pascal}}(): ?Collection
+    {
+        return $this->{{field.name}};
+    }
+    {%- endif %}
+
+    {%- if field.typeRelation =='ManyToOne' %}
+
+    {%- if field.objectRelation == 'self' %}
+       {%- set fieldName = field.name %}
+       {%- set objectClass = 'self' %}
+    {%- else %}
+       {%- set fieldName = field.objectRelation %}
+       {%- set objectClass = field.objectRelation %}
+    {%- endif %}
+
+    public function get{{fieldName|pascal}}(): ?{{objectClass}}
+    {
+        return $this->{{fieldName|lower}};
+    }
+    public function set{{fieldName|pascal}}(?{{objectClass}} ${{fieldName|lower}}): {{name}}
+    {
+        $this->{{fieldName|lower}} = ${{fieldName|lower}};
+        return $this;
+    }
+    {%- endif %}
+
+    {%- if field.typeRelation == 'OneToMany' %}
+    {%- if field.objectRelation == 'self' %}
+       {%- set addName = field.mappedBy %}
+       {%- set fieldName = field.name %}
+       {%- set objectClass = 'self' %}
+    {%- else %}
+       {%- set addName = field.mappedBy %}
+       {%- set fieldName = field.objectRelation %}
+       {%- set objectClass = field.objectRelation %}
+    {%- endif %}
+
+    public function add{{fieldName|singularize|capitalize}}({{objectClass}} ${{fieldName|lower}}): self
+    {
+        if(!$this->{{field.name}}->contains(${{fieldName|lower}})) {
+           $this->{{field.name}}[] = ${{fieldName|lower}};
+           ${{fieldName|lower}}->set{{addName|pascal}}($this);
+        }
+        return $this;
+    }
+
+    public function remove{{fieldName|singularize|capitalize}}({{objectClass}} ${{fieldName|lower}}): self
+    {
+        if($this->{{field.name}}->removeElement(${{fieldName|lower}})) {
+           if (${{fieldName|lower}}->get{{addName|pascal}}() === $this) {
+               ${{fieldName|lower}}->set{{addName|pascal}}(null);
+           }
+        }
+        return $this;
+    }
+
+    public function get{{field.name|pascal}}(): ?Collection
+    {
+        return $this->{{field.name}};
+    }
+    {%- endif %}
+  {%- else %}
+    public function set{{field.name|pascal}}(?{{field.php_type}} ${{field.name}}): self
+    {
+        $this->{{field.name}} = ${{field.name}};
+        return $this;
+    }
+
+    public function get{{field.name|pascal}}(): ?{{field.php_type}}
+    {
+        return $this->{{field.name}};
+    }
+{%- endif %}
+
+    {%- if field.isstring %}
+    public function __toString(): string
+    {
+        return $this->{{field.name}};
+    }
+    {%- endif %}
+
+{%- endfor %}
+
+}

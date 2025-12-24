@@ -1,0 +1,181 @@
+groups:
+    catalog:
+        translate:
+            link:
+                uk: Каталог
+                en: Catalog
+        entities:
+            Product:
+                translate:
+                    link:
+                        uk: Продукти
+                        en: Products
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: sku
+                      type: string
+                    - name: description
+                      type: text
+                    - name: start_date
+                      type: date
+                      isnative: true
+                    - name: end_date
+                      type: date
+                      isnative: false
+                    - name: status
+                      type: choice
+                      options: New,In Progress,Done,Refund
+                    - name: image
+                      type: image
+                    - name: category
+                      type: relation
+                      objectRelation: Category
+                      typeRelation: ManyToOne
+                      inversedBy: products
+                    - name: tags
+                      type: relation
+                      objectRelation: Tag
+                      typeRelation: ManyToMany
+                      roleRelation: master
+                      mappedBy: products
+            Category:
+                translate:
+                    link:
+                        uk: Категорії
+                        en: Categories
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: products
+                      type: relation
+                      objectRelation: Product
+                      typeRelation: OneToMany
+                      mappedBy: category
+            Tag:
+                translate:
+                    link:
+                        uk: Теги
+                        en: Tags
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: products
+                      type: relation
+                      objectRelation: Product
+                      typeRelation: ManyToMany
+                      roleRelation: slave
+                      inversedBy: tags
+    sales:
+        translate:
+            link:
+                uk: Торгівля
+                en: Sales
+        entities:
+            Source:
+                translate:
+                    link:
+                        uk: Склад
+                        en: Source
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: code
+                      type: string
+                    - name: phone
+                      type: string
+            Sale:
+                translate:
+                    link:
+                         uk: Замовлення
+                         en: Sale
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: incrementid
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: status
+                      type: choice
+                      option: New,In Progress,Done,Refund
+                    - name: source
+                      type: relation
+                      objectRelation: Source
+                      typeRelation: ManyToOne
+                      inversedBy: source
+                    - name: client
+                      type: relation
+                      objectRelation: Client
+                      typeRelation: ManyToOne
+                      inversedBy: client
+                    - name: orderitems
+                      type: relation
+                      objectRelation: Orderitem
+                      typeRelation: OneToMany
+                      mappedBy: sale
+            Orderitem:
+                translate:
+                    link:
+                        uk: Елементи замовлення
+                        en: Order item
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: sku
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: sale
+                      type: relation
+                      objectRelation: Sale
+                      typeRelation: ManyToOne
+                      inversedBy: orderitems
+                    - name: status
+                      type: choice
+                      options: New,In Progress,Done,Refund
+                    - name: qty
+                      type: string
+                    - name: price
+                      type: string
+            Client:
+                translate:
+                    link:
+                        uk: Клієнт
+                        en: Client
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: phone
+                        type: string
+                        isrequire: true
+                        isstring: true
+                    -   name: name
+                        type: string
+                        isrequire: false
+                    -   name: email
+                        type: string
+                        isrequire: false

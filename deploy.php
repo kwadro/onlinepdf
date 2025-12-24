@@ -15,9 +15,9 @@ set('shared_dirs', [
 
 // Hosts
 host('production')
-    ->setHostname('kwadro.ftp.tools')
+    ->setHostname('kwadro.ftp.tools') // або IP
     ->set('remote_user', 'kwadro')
-    ->set('branch', 'release/1.0.0')
+    ->set('branch', 'production')
     ->setIdentityFile('~/.ssh/id_rsa');
 
 // Hooks

@@ -1,0 +1,27 @@
+{%- for group_name, group in groups.items() %}
+menu.group_{{ group_name|lower }}: {{ group.translate.link[lang] }}
+      {%- for entity_name, entity in group.entities.items() %}
+menu.link_{{ entity_name|lower }}_single: {{ entity.translate.link[lang_single] }}
+menu.link_{{ entity_name|lower }}: {{ entity.translate.link[lang] }}
+            {%- if lang=='uk' %}
+                {%- set seen = '' %}
+                {%- for  field in entity.fields %}
+                    {%- if 'name_uk' in field and field.name not in seen %}
+{{ field['name'] | replace('_', ' ')  |  title  }}: {{ field['name_uk'] | title }}
+                        {%- set seen = seen ~ ',' ~ field.name %}
+                    {%- endif %}
+                {%- endfor %}
+            {%- endif %}
+            {%- if lang=='en' %}
+                {%- set seen = '' %}
+                {%- for  field in entity.fields %}
+                    {%- if 'name_uk' in field and field.name not in seen %}
+{{ field['name'] | replace('_', ' ')  |  title  }}: {{ field['name'] | replace('_', ' ')  |  title  }}
+                        {%- set seen = seen ~ ',' ~ field.name %}
+                    {%- endif %}
+                {%- endfor %}
+            {%- endif %}
+
+
+      {%- endfor %}
+{%- endfor %}

@@ -10,6 +10,7 @@ use App\Entity\ServiceData;
 use App\Entity\User;
 use App\Entity\UserAccess;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
@@ -17,6 +18,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\UX\Chartjs\Builder\ChartBuilderInterface;
 use Symfony\UX\Chartjs\Model\Chart;
+
+// @GENERATE USE START
+use App\Entity\Recipe;
+use App\Entity\RecipeCategory;
+use App\Entity\RecipeStep;
+use App\Entity\Ingredient;
+use App\Entity\Component;
+use App\Entity\Unit;
+// @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
 //#[IsGranted('ROLE_SUPER_ADMIN')]
@@ -79,14 +89,25 @@ class DashboardController extends AbstractDashboardController
         yield MenuItem::linkToDashboard($this->translator->trans('menu.dashboard', [], 'messages'), 'fa fa-home');
         yield MenuItem::section($this->translator->trans('menu.projects', [], 'messages'));
 
-        yield MenuItem::linkToCrud($this->translator->trans('menu.projects', [], 'messages'), 'fas fa-list', SamProject::class);
-        yield MenuItem::linkToCrud($this->translator->trans('menu.servers', [], 'messages'), 'fas fa-list', ServerData::class);
-        yield MenuItem::linkToCrud($this->translator->trans('menu.git_user', [], 'messages'), 'fas fa-list', GitUser::class);
-        yield MenuItem::linkToCrud($this->translator->trans('menu.services', [], 'messages'), 'fas fa-list', ServiceData::class);
-
         yield MenuItem::section($this->translator->trans('menu.users', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.users', [], 'messages'), 'fas fa-list', User::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.user_access', [], 'messages'), 'fas fa-list', UserAccess::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.server_type', [], 'messages'), 'fas fa-list', ServerType::class);
+// @GENERATE MENU START
+yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'messages'));
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipe', [], 'messages'), 'fas fa-list', Recipe::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipecategory', [], 'messages'), 'fas fa-list', Recipecategory::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipestep', [], 'messages'), 'fas fa-list', Recipestep::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_ingredient', [], 'messages'), 'fas fa-list', Ingredient::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_component', [], 'messages'), 'fas fa-list', Component::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_unit', [], 'messages'), 'fas fa-list', Unit::class);
+// @GENERATE MENU FINISH
+    }
+    public function configureAssets(): \EasyCorp\Bundle\EasyAdminBundle\Config\Assets
+    {
+        return Assets::new()
+            ->addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css')
+            ->addJsFile('https://cdn.jsdelivr.net/npm/flatpickr')
+            ->addJsFile('lib/admin-datepicker.js');
     }
 }

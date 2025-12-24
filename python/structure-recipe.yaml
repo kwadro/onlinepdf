@@ -1,0 +1,262 @@
+groups:
+    catalog:
+        translate:
+            link:
+                uk: Каталог
+                en: Catalog
+        entities:
+            Recipe:
+                translate:
+                    link:
+                        uk: Рецепти
+                        uk_single: Рецепт
+                        en: Recipes
+                        en_single: Recipe
+                import:
+                    type: csv
+                    resource: recipes.csv
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: slug
+                      type: string
+                    - name: position
+                      type: integer
+                    - name: is_active
+                      type: select
+                      typeInput: yesno
+                    - name: meta_title
+                      type: string
+                    - name: meta_description
+                      type: text
+                    - name: short_description
+                      name_uk: Короткий опис
+                      type: text
+                    - name: description
+                      name_uk: Опис
+                      type: text
+                      numOfRows: 10
+                    - name: cuisine
+                      name_uk: кухня
+                      type: string
+                    - name: prep_time_min
+                      name_uk: час підготовки
+                      type: integer
+                    - name: cook_time_min
+                      name_uk: час приготування
+                      type: integer
+                    - name: servings
+                      type: integer
+                    - name: notes
+                      type: text
+                      numOfRows: 3
+                    - name: image
+                      name_uk: Картинка
+                      type: image
+                      uploadDir: recipes
+                    - name: image1
+                      name_uk: Картинка 1
+                      type: image
+                      uploadDir: recipes
+                    - name: image2
+                      name_uk: Картинка 2
+                      type: image
+                      uploadDir: recipes
+                    - name: recipecategorys
+                      name_uk: Категорії
+                      type: relation
+                      objectRelation: RecipeCategory
+                      typeRelation: ManyToMany
+                      roleRelation: master
+                      mappedBy: recipes
+                    - name: components
+                      name_uk: Інградієнти
+                      type: relation
+                      objectRelation: Component
+                      typeRelation: ManyToMany
+                      roleRelation: master
+                      mappedBy: recipes
+                    - name: recipesteps
+                      name_uk: кроки
+                      type: relation
+                      objectRelation: RecipeStep
+                      typeRelation: OneToMany
+                      mappedBy: recipe
+            RecipeCategory:
+                translate:
+                    link:
+                        uk: Категорії
+                        uk_single: Категорію
+                        en: Categories
+                        en_single: Category
+                import:
+                    type: json
+                    resource: recipe_categories.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      name_uk: назва
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: slug
+                      name_uk: лінк
+                      type: string
+                    - name: position
+                      name_uk: позиція
+                      type: integer
+                    - name: is_active
+                      name_uk: активний?
+                      type: select
+                      typeInput: yesno
+                    - name: image
+                      type: image
+                      uploadDir: recipes
+                    - name: meta_title
+                      name_uk: мета тайтл
+                      type: string
+                    - name: meta_description
+                      name_uk: мета опис
+                      type: text
+                    - name: parent
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: self
+                      inversedBy: children
+                    - name: children
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: self
+                      mappedBy: parent
+                    - name: recipes
+                      name_uk: рецепти
+                      type: relation
+                      objectRelation: Recipe
+                      typeRelation: ManyToMany
+                      roleRelation: slave
+                      inversedBy: recipecategorys
+            RecipeStep:
+                translate:
+                    link:
+                        uk: Кроки Приготування
+                        uk_single: Крок Приготування
+                        en: Recipe Steps
+                        en_single: Recipe Step
+                import:
+                    type: json
+                    resource: recipe_categories.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: recipe
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Recipe
+                      inversedBy: recipesteps
+                    - name: position
+                      type: integer
+                    - name: question
+                      type: text
+                    - name: answer
+                      type: text
+                    - name: image
+                      type: image
+                      uploadDir: recipesteps
+            Ingredient:
+                translate:
+                    link:
+                        uk: Інградієнти
+                        uk_single: Інградієнт
+                        en: Ingredients
+                        en_single: Ingredient
+                import:
+                    type: json
+                    resource: recipe_categories.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: sku
+                      type: string
+                    - name: url
+                      type: string
+                    - name: price
+                      type: money
+                    - name: components
+                      type: relation
+                      objectRelation: Component
+                      typeRelation: OneToMany
+                      mappedBy: ingredient
+            Component:
+                translate:
+                    link:
+                        uk: Компоненти Рецепта
+                        uk_single: Компонент Рецепта
+                        en: Components
+                        en_single: Component
+                import:
+                    type: json
+                    resource: recipe_categories.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: ingredient
+                      type: relation
+                      objectRelation: Ingredient
+                      typeRelation: ManyToOne
+                      inversedBy: components
+                    - name: unit
+                      type: relation
+                      objectRelation: Unit
+                      typeRelation: ManyToOne
+                    - name: quantity
+                      type: integer
+                    - name: recipes
+                      type: relation
+                      objectRelation: Recipe
+                      typeRelation: ManyToMany
+                      roleRelation: slave
+                      inversedBy: components
+            Unit:
+                translate:
+                    link:
+                        uk: Одиниці
+                        uk_single: Одиниця
+                        en: Units
+                        en_single: Unit
+                import:
+                    type: json
+                    resource: recipe_categories.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                    - name: short_name
+                      type: string
+                      isstring: true
+
+

@@ -1,0 +1,5 @@
+{%- for group_name, group in groups.items() %}
+    {%- for field_name, field in group.entities.items() %}
+use App\Entity\{{ field_name }};
+    {%- endfor %}
+{%- endfor %}

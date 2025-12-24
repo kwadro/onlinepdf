@@ -62,3 +62,44 @@ register:
     invalid_credential_message: 'Недійсні облікові дані'
     success_login: 'Успішний вхід'
     success_register: 'Реєстрація успішна'
+grud.manage : 'Редагувати'
+grud.edit : 'Переглянути'
+grud.create_new : 'Створити'
+menu.link_export_csv: 'Експорт CSV'
+menu.link_import_csv: 'Імпорт CSV'
+menu.link_new: 'Додати'
+Enter a positive number only: Введіть тільки додатне число
+#@GENERATE TRANSLATE START
+menu.group_catalog: Каталог
+menu.link_recipe_single: Рецепт
+menu.link_recipe: Рецепти
+Short Description: Короткий Опис
+Description: Опис
+Cuisine: Кухня
+Prep Time Min: Час Підготовки
+Cook Time Min: Час Приготування
+Image: Картинка
+Image1: Картинка 1
+Image2: Картинка 2
+Recipecategorys: Категорії
+Components: Інградієнти
+Recipesteps: Кроки
+menu.link_recipecategory_single: Категорію
+menu.link_recipecategory: Категорії
+Name: Назва
+Slug: Лінк
+Position: Позиція
+Is Active: Активний?
+Meta Title: Мета Тайтл
+Meta Description: Мета Опис
+Recipes: Рецепти
+menu.link_recipestep_single: Крок Приготування
+menu.link_recipestep: Кроки Приготування
+menu.link_ingredient_single: Інградієнт
+menu.link_ingredient: Інградієнти
+menu.link_component_single: Компонент Рецепта
+menu.link_component: Компоненти Рецепта
+menu.link_unit_single: Одиниця
+menu.link_unit: Одиниці
+#@GENERATE TRANSLATE FINISH
+

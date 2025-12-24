@@ -71,3 +71,43 @@ register:
     invalid_credential_message: 'Invalid credentials'
     success_login: 'Login success'
     success_register: 'Register success'
+grud.manage : 'Manage'
+grud.edit : 'edit'
+grud.create_new : 'Create NEW'
+menu.link_export_csv: 'Export CSV'
+menu.link_import_csv: 'Import CSV'
+menu.link_new: 'New'
+#@GENERATE TRANSLATE START
+menu.group_catalog: Catalog
+menu.link_recipe_single: Recipe
+menu.link_recipe: Recipes
+Short Description: Short Description
+Description: Description
+Cuisine: Cuisine
+Prep Time Min: Prep Time Min
+Cook Time Min: Cook Time Min
+Image: Image
+Image1: Image1
+Image2: Image2
+Recipecategorys: Recipecategorys
+Components: Components
+Recipesteps: Recipesteps
+menu.link_recipecategory_single: Category
+menu.link_recipecategory: Categories
+Name: Name
+Slug: Slug
+Position: Position
+Is Active: Is Active
+Meta Title: Meta Title
+Meta Description: Meta Description
+Recipes: Recipes
+menu.link_recipestep_single: Recipe Step
+menu.link_recipestep: Recipe Steps
+menu.link_ingredient_single: Ingredient
+menu.link_ingredient: Ingredients
+menu.link_component_single: Component
+menu.link_component: Components
+menu.link_unit_single: Unit
+menu.link_unit: Units
+#@GENERATE TRANSLATE FINISH
+

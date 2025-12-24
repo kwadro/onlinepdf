@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+{%- for group_name, group in groups.items() %}
+{%- for field_name, field in group.entities.items() %}
+php bin/console app:export:csv {{ field_name }}
+{%- endfor %}
+{%- endfor %}
+
+

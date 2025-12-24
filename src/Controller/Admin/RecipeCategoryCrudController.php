@@ -1,0 +1,89 @@
+<?php
+namespace App\Controller\Admin;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use App\Entity\RecipeCategory;
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+class RecipeCategoryCrudController extends AbstractCrudController
+{
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {
+    }
+    public static function getEntityFqcn(): string { return RecipeCategory::class; }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')->hideOnForm(),
+            TextField::new('name')->setRequired(true),
+            TextField::new('slug'),
+            IntegerField::new('position')
+            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+            ->setHelp('Enter a positive number only'),
+            ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
+            TextField::new('meta_title'),
+        
+            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            AssociationField::new('parent'),
+            AssociationField::new('children')->setFormTypeOption('by_reference', false),
+            AssociationField::new('recipes')->setFormTypeOption('by_reference', false),
+        ];
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+         $manage = $this->translator->trans('grud.manage', [], 'messages');
+         $edit = $this->translator->trans('grud.edit', [], 'messages');
+         $createNew = $this->translator->trans('grud.create_new', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_recipecategory_single', [], 'messages');
+         return $crud
+            ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
+            ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
+            ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))
+            ->setDefaultSort(['created_at' => 'DESC']);
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+          $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
+                      ->linkToRoute('admin_export_csv', ['entity' => 'RecipeCategory'])
+                      ->createAsGlobalAction()
+                      ->addCssClass('btn btn-secondary')
+                      ->setIcon('fa fa-file-csv');
+          $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
+                       ->linkToRoute('admin_import', ['entity' => 'RecipeCategory'])
+                       ->createAsGlobalAction()
+                       ->addCssClass('btn btn-secondary')
+                       ->setIcon('fa fa-upload');
+          $addNew = $this->translator->trans('menu.link_new', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_recipecategory_single', [], 'messages');
+          return $actions
+             ->add(Crud::PAGE_INDEX, $export)
+             ->add(Crud::PAGE_INDEX, $import)
+             ->update(Crud::PAGE_INDEX, Action::NEW,
+                         fn (Action $action) =>
+                             $action->setLabel(sprintf('%s %s',$addNew,$linkName))
+                     );
+    //    return $actions
+    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
+    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
+    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
+    //        ->setPermission(Action::DETAIL, 'ROLE_USER');
+    }
+}

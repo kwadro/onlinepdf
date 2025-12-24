@@ -1,0 +1,137 @@
+<?php
+namespace App\Controller\Admin;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use App\Entity\{{ name }};
+{%- for field in fields %}
+{%- if (field.typeRelation=='ManyToMany' or field.typeRelation=='OneToMany') and field.roleRelation=='master' %}
+use App\Form\Type\{{ field.objectRelation }}Type;
+{%- endif %}
+{%- endfor %}
+use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\DateField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use Symfony\Contracts\Translation\TranslatorInterface;
+
+class {{ name }}CrudController extends AbstractCrudController
+{
+    public function __construct(
+        private TranslatorInterface $translator
+    ) {
+    }
+    public static function getEntityFqcn(): string { return {{ name }}::class; }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+{%- for field in fields %}
+    {%- set configureField = '' %}
+    {%- if field.id %}
+        {%- set configureField = configureField  ~ "IdField::new('id')->hideOnForm()" %}
+    {%- elif field.type=='text' %}
+        {% set rows = field.numOfRows | default(3) %}
+        {%- set configureField = configureField ~ "TextareaField::new('" ~ field.name ~ "')->setHelp('Enter full text here')->setNumOfRows('" ~ rows ~ "')->hideOnIndex()" %}
+    {%- elif field.type=='money' %}
+        {%- set configureField = configureField ~ "MoneyField::new('" ~ field.name ~ "')->setCurrency('USD')->setStoredAsCents(false)" %}
+    {%- elif field.type=='image' %}
+        {%- set configureField = configureField ~ "ImageField::new('" ~ field.name ~ "')->setBasePath('/uploads/" ~ field.uploadDir | default('images') ~ "')->setUploadDir('public/uploads/" ~ field.uploadDir | default('images') ~ "')->onlyOnForms()" %}
+    {%- elif field.type=='select' and field.typeInput=='yesno' %}
+        {%- set configureField = configureField ~ "ChoiceField::new('" ~ field.name ~ "')->setChoices(['Yes' => 'Yes', 'No' => 'No'])" %}
+    {%- elif field.php_type=='string' %}
+        {%- set configureField = configureField  ~ "TextField::new('" ~ field.name ~ "')"  %}
+    {%- elif field.php_type=='date' or field.php_type=='datetime'%}
+        {%- set configureField = configureField ~ "DateField::new('" ~ field.name ~ "')->renderAsNativeWidget('" ~ field.isnative ~ "')" %}
+
+
+    {%- elif field.php_type=='choice' %}
+        {%- set configureField = configureField ~ "ChoiceField::new('" ~ field.name ~ "')->setChoices(['New' => 'New', 'In Progress' => 'In Progress', 'Done' => 'Done', 'Refund' => 'Refund'])" %}
+
+    {%- elif field.type=='integer'  %}
+        {%- set configureField = configureField ~ "IntegerField::new('" ~ field.name ~ "')"  ~ "\n" %}
+        {%- set configureField = configureField ~ "            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])" ~ "\n" %}
+        {%- set configureField = configureField ~ "            ->setHelp('Enter a positive number only')" %}
+
+    {%- elif field.php_type=='relation' %}
+        {%- if field.typeRelation=='ManyToMany1' or field.typeRelation=='OneToMany' %}
+           {%- if field.roleRelation=='master' %}
+           {%- set configureField = configureField  ~ "CollectionField::new('" ~ field.name ~ "')" ~ "\n" %}
+           {%- set configureField = configureField  ~ "            ->setEntryType(" ~ field.objectRelation ~ "Type::class)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "            ->setEntryIsComplex(true)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "            ->allowAdd()->allowDelete()->renderExpanded(false)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "            ->setFormTypeOption('by_reference', false)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "            ->onlyOnForms()"  %}
+           {%- else %}
+           {%- set configureField = configureField  ~ "AssociationField::new('" ~ field.name ~ "')->setFormTypeOption('by_reference', false)" %}
+           {%- endif %}
+        {%- elif field.typeRelation=='ManyToOne' %}
+           {%- set configureField = configureField  ~ "AssociationField::new('" ~ field.name ~ "')" %}
+        {%- else %}
+           {%- set configureField = configureField  ~ "AssociationField::new('" ~ field.name ~ "')->setFormTypeOption('by_reference', false)" %}
+        {%- endif %}
+    {%- endif %}
+
+    {%- if field.isrequire %}
+        {%- set configureField = configureField  ~ "->setRequired(true)," %}
+    {%- else %}
+        {%- if configureField %}
+            {%- set configureField = configureField ~ ","  %}
+        {%- endif %}
+    {%- endif %}
+    {%- if configureField %}
+            {{ configureField  }}
+    {%- endif %}
+{%- endfor %}
+        ];
+    }
+
+
+    public function configureCrud(Crud $crud): Crud
+    {
+         $manage = $this->translator->trans('grud.manage', [], 'messages');
+         $edit = $this->translator->trans('grud.edit', [], 'messages');
+         $createNew = $this->translator->trans('grud.create_new', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_{{ name| lower }}_single', [], 'messages');
+         return $crud
+            ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
+            ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
+            ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))
+            ->setDefaultSort(['created_at' => 'DESC']);
+    }
+
+    public function configureActions(Actions $actions): Actions
+    {
+          $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
+                      ->linkToRoute('admin_export_csv', ['entity' => '{{ name }}'])
+                      ->createAsGlobalAction()
+                      ->addCssClass('btn btn-secondary')
+                      ->setIcon('fa fa-file-csv');
+          $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
+                       ->linkToRoute('admin_import', ['entity' => '{{ name }}'])
+                       ->createAsGlobalAction()
+                       ->addCssClass('btn btn-secondary')
+                       ->setIcon('fa fa-upload');
+          $addNew = $this->translator->trans('menu.link_new', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_{{ name| lower }}_single', [], 'messages');
+          return $actions
+             ->add(Crud::PAGE_INDEX, $export)
+             ->add(Crud::PAGE_INDEX, $import)
+             ->update(Crud::PAGE_INDEX, Action::NEW,
+                         fn (Action $action) =>
+                             $action->setLabel(sprintf('%s %s',$addNew,$linkName))
+                     );
+    //    return $actions
+    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
+    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
+    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
+    //        ->setPermission(Action::DETAIL, 'ROLE_USER');
+    }
+}
