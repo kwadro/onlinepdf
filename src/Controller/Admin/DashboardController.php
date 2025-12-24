@@ -87,12 +87,10 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard($this->translator->trans('menu.dashboard', [], 'messages'), 'fa fa-home');
-        yield MenuItem::section($this->translator->trans('menu.projects', [], 'messages'));
 
         yield MenuItem::section($this->translator->trans('menu.users', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.users', [], 'messages'), 'fas fa-list', User::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.user_access', [], 'messages'), 'fas fa-list', UserAccess::class);
-        yield MenuItem::linkToCrud($this->translator->trans('menu.server_type', [], 'messages'), 'fas fa-list', ServerType::class);
 // @GENERATE MENU START
 yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipe', [], 'messages'), 'fas fa-list', Recipe::class);
