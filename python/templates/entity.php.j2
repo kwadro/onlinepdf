@@ -36,10 +36,14 @@ class {{ name }}
       {%- elif field.typeRelation =='ManyToOne' %}
             targetEntity: {{ field.objectRelation }}::class,
             cascade: ['persist'],
+           {%- if field.inversedBy !='' %}
             inversedBy: '{{ field.inversedBy }}'
+           {%- endif %}
       {%- elif field.typeRelation =='OneToMany' %}
         targetEntity: {{ field.objectRelation }}::class,
+        {%- if field.mappedBy !='' %}
         mappedBy: '{{ field.mappedBy }}',
+        {%- endif %}
         cascade: ['persist'],
         orphanRemoval: false,
       {%- endif %}

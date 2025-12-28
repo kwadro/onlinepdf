@@ -35,5 +35,5 @@ services:
     App\Import\ImportManager:
         arguments:
             $handlers: !tagged_iterator app.import_handler
-    App\Import\Handler\SaleImportHandler:
-        tags: ['app.import_handler']
+    App\Twig\SiteSettingExtension:
+        tags: ['twig.extension']

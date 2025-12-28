@@ -8,6 +8,7 @@
 /public/images/
 /var/
 /vendor/
+/export/
 ###< symfony/framework-bundle ###
 
 ###> phpunit/phpunit ###

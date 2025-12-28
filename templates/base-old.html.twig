@@ -1,21 +1,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% set setting = site_settings() %}
     <meta charset="UTF-8">
-    <title>{% block title %}{{setting.seo.meta_title}}{% endblock %}</title>
-    <meta name="description" content="{{setting.seo.meta_description}}"/>
-    <meta name="keywords" content="{{setting.seo.meta_keywords}}"/>
-    <meta name="author" content="{{setting.seo.author}}"/>
-    <meta property="og:title" content="{{setting.seo.og_title}}"/>
-    <meta property="og:description" content="{{setting.seo.og_description}}"/>
-    <meta property="og:type" content="{{setting.seo.og_type}}"/>
 
-    <meta property="og:url" content="{{ absolute_url(path('homepage')) }}"/>
-    <meta property="og:image" content="{{ absolute_url(asset('uploads/images/' ~ setting.seo.og_logo)) }}"/>
-    <link rel="canonical" href="{{ absolute_url(path('homepage')) }}/"/>
-    <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('uploads/images/' ~ setting.header.favicon)) }}"/>
-
+    <title>{% block title %}{{ 'Free Online PDF Tools | Merge, Split, Compress & Edit PDFs'|trans }}{% endblock %}</title>
+    <meta name="description"
+          content="{{ 'Quick and secure online PDF tools. Merge, split, compress, edit, and convert PDFs with ease. 100% free and private. No registration required.'|trans }}"/>
+    <meta name="keywords"
+          content="{{ 'PDF tools, merge PDFs, split PDF, compress PDF, edit PDF online, convert PDF, secure PDF service'|trans }}"/>
+    <meta name="author" content="{{ 'Ihor Tson'|trans }}"/>
+    <meta property="og:title" content="{{ 'Online PDF Tool - Merge, Split, Edit and Compress'|trans }}"/>
+    <meta property="og:description"
+          content="{{ 'Free and fast online tools to work with PDF files securely. No software installation needed.'|trans }}"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="{{ path('homepage') }}"/>
+    <meta property="og:image" content="{{ asset('images/icons/og-image.png') }}"/>
+    <link rel="canonical" href="{{ path('homepage') }}/"/>
+    <link rel="icon" type="image/x-icon" href="{{ asset('images/favicon.ico') }}"/>
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -26,9 +27,10 @@
             var f = d.getElementsByTagName(s)[0],
                 j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
             j.async = true;
-            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', {{setting.seo.gtm_code}});</script>
+        })(window, document, 'script', 'dataLayer', 'GTM-MT76448G');</script>
     <!-- End Google Tag Manager -->
 
     {% block stylesheets %}
@@ -51,17 +53,17 @@
 <body class="d-flex flex-column min-vh-100">
 <!-- Google Tag Manager (noscript) -->
 <noscript>
-    <iframe src="https://www.googletagmanager.com/ns.html?id={{setting.seo.gtm_code}}"
+    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MT76448G"
             height="0" width="0" style="display:none;visibility:hidden"></iframe>
 </noscript>
 <!-- End Google Tag Manager (noscript) -->
 {% block header %}
-    {% include "header.html.twig" %}
+    {% include "header-1.html.twig" %}
 {% endblock %}
 {% block main %}
 {% endblock %}
 {% block footer %}
-    {% include "footer.html.twig" %}
+    {% include "footer-1.html.twig" %}
 {% endblock %}
 </body>
 </html>

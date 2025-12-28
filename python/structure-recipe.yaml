@@ -258,5 +258,293 @@ groups:
                     - name: short_name
                       type: string
                       isstring: true
+    setting:
+        translate:
+            link:
+                uk: Настройки Сайта
+                en: Setting Site
+        entities:
+            Site:
+                translate:
+                    link:
+                        uk: Сайти
+                        uk_single: Сайт
+                        en: Sites
+                        en_single: Site
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: code
+                      type: string
+                      isrequire: true
+                    - name: domain
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: headersettingsites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: HeaderSetting
+                      mappedBy: site
+                    - name: seosettingsites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: SeoSetting
+                      mappedBy: site
+                    - name: footersettingsites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: FooterSetting
+                      mappedBy: site
+
+
+            Locale:
+                translate:
+                    link:
+                        uk: Мови
+                        uk_single: Мова
+                        en: Locales
+                        en_single: Locale
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: code
+                        type: string
+                        isrequire: true
+                    -   name: name
+                        type: string
+                        isrequire: true
+                        isstring: true
+                    -   name: is_default
+                        type: select
+                        typeInput: yesno
+                    -   name: headertranslatelocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: HeaderTranslation
+                        mappedBy: locale
+                    -   name: footertranslatelocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: FooterTranslation
+                        mappedBy: locale
+                    -   name: seosettingtranslatelocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: SeoSettingsTranslation
+                        mappedBy: locale
+
+            HeaderSetting:
+                relatedSaleAndLocale: true
+                translate:
+                    link:
+                        uk: Настройки Заголовків
+                        uk_single: Настройка Заголовка
+                        en: Header Settings
+                        en_single: Header Setting
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: site
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Site
+                        inversedBy: headersettingsites
+                        isstring: true
+                    -   name: translations
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: HeaderTranslation
+                        mappedBy: headersetting
+                    -   name: logo
+                        type: image
+                        uploadDir: logo
+                    -   name: favicon
+                        type: image
+
+            HeaderTranslation:
+                translate:
+                    link:
+                        uk: Переклад Заголовків
+                        uk_single: Переклад Заголовка
+                        en: Header Translations
+                        en_single: Header Translation
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: headersetting
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: HeaderSetting
+                      inversedBy: translations
+                      isstring: true
+                    - name: locale
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Locale
+                      inversedBy: headertranslatelocales
+                    - name: title
+                      type: string
+                    - name: menu_json
+                      type: string
+            SeoSetting:
+                relatedSaleAndLocale: true
+                translate:
+                    link:
+                        uk: Seo Настройки
+                        uk_single: Seo Настройка
+                        en: Seo Settings
+                        en_single: Seo Setting
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: site
+                      isstring: true
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Site
+                      inversedBy: seosettingsites
+                    - name: translations
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: SeoSettingsTranslation
+                      mappedBy: seosetting
+            SeoSettingsTranslation:
+                translate:
+                    link:
+                        uk: Seo Настройки Переклад
+                        uk_single: Seo Настройка Переклад
+                        en: Seo Settings Translation
+                        en_single: Seo Setting Translation
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: seosetting
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: SeoSetting
+                      inversedBy: translations
+                    - name: locale
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Locale
+                      inversedBy: seosettingtranslatelocales
+                    - name: meta_title
+                      type: string
+                      isstring: true
+                    - name: meta_description
+                      type: text
+                    - name: meta_keywords
+                      type: string
+                    - name: author
+                      type: string
+                    - name: og_title
+                      type: string
+                    - name: og_description
+                      type: text
+                    - name: og_type
+                      type: string
+                    - name: og_image
+                      type: image
+                    - name: gtm_code
+                      type: string
+            FooterSetting:
+                relatedSaleAndLocale: true
+                translate:
+                    link:
+                        uk: Настройки Футера
+                        uk_single: Настройка Футера
+                        en: Footer Settings
+                        en_single: Footer Setting
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: site
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Site
+                        inversedBy: footersettingsites
+                        isstring: true
+                    -   name: translations
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: FooterTranslation
+                        mappedBy: footersetting
+
+            FooterTranslation:
+                translate:
+                    link:
+                        uk: Переклад Футера
+                        uk_single: Переклад Футера
+                        en: Footer Translations
+                        en_single: Footer Translation
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: footersetting
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: FooterSetting
+                        isstring: true
+                        inversedBy: translations
+                    -   name: locale
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Locale
+                        inversedBy: footertranslatelocales
+                    -   name: content
+                        type: text
+                        isHtml: true
+                        numOfRows: 10
+            MegaMenuItem:
+                translate:
+                    link:
+                        uk: Пункти Меню
+                        uk_single: Пункт Меню
+                        en: Menu Items
+                        en_single: Menu Item
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: megamenutype
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: MegaMenuType
+                      inversedBy: megamenuitems
+                    - name: url
+                      type: string
+            MegaMenuType:
+                translate:
+                    link:
+                        uk: Типи Пунктів Меню
+                        uk_single: Тип Пунктів Меню
+                        en: Type Menu Items
+                        en_single: Type Menu Item
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+                    - name: megamenuitems
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: MegaMenuItem
+                      mappedBy: megamenutype
 
 

@@ -1,12 +1,12 @@
-{% set setting = site_settings() %}
+{%- raw %}
 <div class="container">
-    <header class="d-flex flex-wrap justify-content-center align-items-center py-3 mb-4 border-bottom">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
         <a href="{{absolute_url(path('homepage')) }}"
            class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
-            <img src="{{ absolute_url(asset('uploads/logo/logo.png'))}}"
-                   alt="" width="100" height="auto"
+            <img src="{{ absolute_url(asset('uploads/logo/{%- endraw %}{{setting.logo}}{%- raw %}'))}}"
+                   alt="" width="24" height="24"
                  style="vertical-align:middle; margin-right:8px;">
-            <span class="fs-4">{{ setting.header.title}}</span>
+            <span class="fs-4">{{ '{%- endraw %}{{setting.title}}{%- raw %}'|trans}}</span>
         </a>
 
         <ul class="nav nav-pills">
@@ -50,3 +50,4 @@
         </ul>
     </header>
 </div>
+{%- endraw %}

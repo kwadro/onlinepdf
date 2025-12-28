@@ -77,6 +77,7 @@ grud.create_new : 'Create NEW'
 menu.link_export_csv: 'Export CSV'
 menu.link_import_csv: 'Import CSV'
 menu.link_new: 'New'
+Catalog Recipes: 'Catalog Recipes'
 #@GENERATE TRANSLATE START
 menu.group_catalog: Catalog
 menu.link_recipe_single: Recipe
@@ -109,5 +110,26 @@ menu.link_component_single: Component
 menu.link_component: Components
 menu.link_unit_single: Unit
 menu.link_unit: Units
+menu.group_setting: Setting Site
+menu.link_site_single: Site
+menu.link_site: Sites
+menu.link_locale_single: Locale
+menu.link_locale: Locales
+menu.link_headersetting_single: Header Setting
+menu.link_headersetting: Header Settings
+menu.link_headertranslation_single: Header Translation
+menu.link_headertranslation: Header Translations
+menu.link_seosetting_single: Seo Setting
+menu.link_seosetting: Seo Settings
+menu.link_seosettingstranslation_single: Seo Setting Translation
+menu.link_seosettingstranslation: Seo Settings Translation
+menu.link_footersetting_single: Footer Setting
+menu.link_footersetting: Footer Settings
+menu.link_footertranslation_single: Footer Translation
+menu.link_footertranslation: Footer Translations
+menu.link_megamenuitem_single: Menu Item
+menu.link_megamenuitem: Menu Items
+menu.link_megamenutype_single: Type Menu Item
+menu.link_megamenutype: Type Menu Items
 #@GENERATE TRANSLATE FINISH
 

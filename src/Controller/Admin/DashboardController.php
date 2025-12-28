@@ -26,6 +26,16 @@ use App\Entity\RecipeStep;
 use App\Entity\Ingredient;
 use App\Entity\Component;
 use App\Entity\Unit;
+use App\Entity\Site;
+use App\Entity\Locale;
+use App\Entity\HeaderSetting;
+use App\Entity\HeaderTranslation;
+use App\Entity\SeoSetting;
+use App\Entity\SeoSettingsTranslation;
+use App\Entity\FooterSetting;
+use App\Entity\FooterTranslation;
+use App\Entity\MegaMenuItem;
+use App\Entity\MegaMenuType;
 // @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
@@ -99,6 +109,17 @@ yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'mess
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_ingredient', [], 'messages'), 'fas fa-list', Ingredient::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_component', [], 'messages'), 'fas fa-list', Component::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_unit', [], 'messages'), 'fas fa-list', Unit::class);
+        yield MenuItem::section($this->translator->trans('menu.group_setting', [], 'messages'));
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_site', [], 'messages'), 'fas fa-list', Site::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_locale', [], 'messages'), 'fas fa-list', Locale::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_headersetting', [], 'messages'), 'fas fa-list', Headersetting::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_headertranslation', [], 'messages'), 'fas fa-list', Headertranslation::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_seosetting', [], 'messages'), 'fas fa-list', Seosetting::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_seosettingstranslation', [], 'messages'), 'fas fa-list', Seosettingstranslation::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_footersetting', [], 'messages'), 'fas fa-list', Footersetting::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_footertranslation', [], 'messages'), 'fas fa-list', Footertranslation::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenuitem', [], 'messages'), 'fas fa-list', Megamenuitem::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenutype', [], 'messages'), 'fas fa-list', Megamenutype::class);
 // @GENERATE MENU FINISH
     }
     public function configureAssets(): \EasyCorp\Bundle\EasyAdminBundle\Config\Assets

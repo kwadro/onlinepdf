@@ -13,6 +13,26 @@ class {{ name }}Repository extends ServiceEntityRepository
    {
        parent::__construct($registry, {{ name }}::class);
    }
+   {%- if related %}
+
+   public function findOneBySiteAndLocale($site, $locale)
+   {
+   return $this->createQueryBuilder('s')
+               ->innerJoin('s.site', 'site')
+               ->innerJoin('s.translations', 't')
+               ->addSelect('t')
+               ->where('site = :site')
+               ->andWhere('t.locale = :locale')
+               ->setParameter('site', $site)
+               ->setParameter('locale', $locale)
+               ->setMaxResults(1)
+               ->getQuery()
+               ->getOneOrNullResult();
+   }
+
+   {%- endif %}
+
+
 }
     //    /**
     //     * @return {{ name }}[] Returns an array of {{ name }} objects

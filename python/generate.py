@@ -100,8 +100,12 @@ def generate_form_type(entities, entity, entity_name):
                         OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code
                     )
 
-def generate_repository(entity_name):
-    code = render_template("repository.php.j2", name=entity_name)
+def generate_repository(entity_name, entity):
+    related = False
+    if ('relatedSaleAndLocale' in entity):
+        related = entity['relatedSaleAndLocale']
+
+    code = render_template("repository.php.j2", name=entity_name,related=related)
     write_file(
         OUT / f"src/Repository/{entity_name}Repository.php", code
     )
@@ -188,11 +192,11 @@ def main():
         entities = group.get("entities", {})
 
         for entity_name, entity in entities.items():
-            print("Entity : " + entity_name)
+            print("Entity Name : " + entity_name)
             generate_entity(entity_name, entity)
             generate_controller(entity_name, entity)
             generate_form_type(entities, entity, entity_name)
-            generate_repository(entity_name)
+            generate_repository(entity_name, entity)
             generate_dashboard_link(groups)
             generate_export_script(groups)
             generate_import(entity_name, entity)

@@ -1,0 +1,31 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ recipe.name }}{% endblock %}
+{% block main %}
+    <div class="container">
+
+        <h1 class="mb-3">{{ recipe.name }}</h1>
+
+        {% if recipe.image %}
+            <img src="{{ asset(recipe.image) }}"
+                 class="img-fluid mb-4 rounded">
+        {% endif %}
+
+        <h3>Ingredients</h3>
+
+        <ul class="list-group mb-4">
+            {% for component in recipe.components %}
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>{{ component.name }}</span>
+                    <span class="fw-bold">
+                    {{ component.qty.name }} {{ component.unit.name }}
+                </span>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="{{ path('recipe_list') }}" class="btn btn-secondary">
+            Back to list
+        </a>
+
+    </div>
+{% endblock %}

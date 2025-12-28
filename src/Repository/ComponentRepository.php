@@ -13,6 +13,8 @@ class ComponentRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, Component::class);
    }
+
+
 }
     //    /**
     //     * @return Component[] Returns an array of Component objects

@@ -114,10 +114,21 @@ readonly class CsvEntityImporter
             'sale' => 'incrementid',
             'source' => 'name',
             'client' => 'phone',
+            'recipe'=>'name',
             'recipecategorys'=>'name',
             'components'=>'name',
             'recipesteps'=>'name',
-            'children'=>'name'
+            'children'=>'name',
+            'parent'=>'name',
+            'ingredient'=>'name',
+            'unit'=>'short_name',
+            'site'=>'domain',
+            'locale'=>'name',
+            'headersetting'=>'site',
+            'seosetting'=>'site',
+            'footersetting'=>'site',
+            'megamenutype'=>'name',
+            'megamenuitems'=>'name'
         ];
         $idIndex = array_search('id', $header);
         while (($row = fgetcsv($handle,null,';')) !== false) {
@@ -140,7 +151,20 @@ readonly class CsvEntityImporter
                     $assocRepo = $this->em->getRepository($assocClass);
                     if ($meta->isSingleValuedAssociation($column)) {
                         $fieldToSearch = $associationFieldMap[$column] ?? 'id';
+                        $meta2 = $this->em->getClassMetadata($assocClass);
+                        if($meta2->hasAssociation($fieldToSearch)){
+                            $assocClass2 = $meta2->getAssociationTargetClass($fieldToSearch);
+                            $assocRepo2 = $this->em->getRepository($assocClass2);
+                            $fieldToSearch2 = $associationFieldMap[$fieldToSearch] ?? 'id';
+                            $assocEntity2 = $assocRepo2->findOneBy([$fieldToSearch2 => $value]);
+                            $value = $assocEntity2->getId();
+                        }
                         $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $value]);
+
+                        echo $column . '-' . $fieldToSearch . '-' .$value . PHP_EOL;
+                        echo (($assocEntity) ? 'yes' : 'no'). PHP_EOL;
+                        echo ($assocClass) . PHP_EOL;;
+
                         if ($assocEntity) {
                             $setter = 'set' . ucfirst($column);
                             $entity->$setter($assocEntity);
@@ -151,8 +175,6 @@ readonly class CsvEntityImporter
                         foreach ($ids as $assocId) {
                             $fieldToSearch = $associationFieldMap[$column] ?? 'id';
                             $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $assocId]);
-                            echo $column. '-' .$fieldToSearch. '-' .$assocId.PHP_EOL;
-                            echo (($assocEntities)?$assocEntity->getName():'null').PHP_EOL;
                             if ($assocEntity) {
                                 $assocEntities[] = $assocEntity;
                             }

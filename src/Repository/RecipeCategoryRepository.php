@@ -13,6 +13,8 @@ class RecipeCategoryRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, RecipeCategory::class);
    }
+
+
 }
     //    /**
     //     * @return RecipeCategory[] Returns an array of RecipeCategory objects
