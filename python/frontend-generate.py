@@ -37,7 +37,7 @@ def get_connection():
         #     USER="kwadro_laravel"
         #     PASS="y22KN_t+u8"
         #     HOST="kwadro.mysql.tools"
-        #     PORT="3308"
+        #     PORT="3306"
         conn = pymysql.connect(
             host=HOST,
             port=PORT,
@@ -92,9 +92,14 @@ def write_file(path: Path, content: str):
     path.write_text(content, encoding="utf-8")
 
 def generate_template(file_name,setting):
+    path = Path(OUT / f"templates/{file_name}")
+    path.mkdir(parents=True, exist_ok=True)
+    template_name = f"frontend/index.html.twig.j2"
+    codeIndex = render_template(template_name, name=file_name)
+    write_file(OUT / f"templates/{file_name}/index.html.twig", codeIndex)
     template_name = f"frontend/{file_name}.html.twig.j2"
-    code = render_template(template_name, name=file_name,  setting=setting)
-    write_file(OUT / f"templates/{file_name}.html.twig", code)
+    code = render_template(template_name)
+    write_file(OUT / f"templates/{file_name}/{file_name}-content.html.twig", code)
 
 def insert_code_by_markers(file_path, generated, start_marker, end_marker):
     with open(file_path, "r", encoding="utf-8") as f:

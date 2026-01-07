@@ -7,10 +7,11 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\MenuItemsRepository;
+use App\Repository\MegaMenuTypeRepository;
+use App\Entity\MegaMenuTranslation;
 
-#[ORM\Entity(repositoryClass: MenuItemsRepository::class)]
-class MenuItems
+#[ORM\Entity(repositoryClass: MegaMenuTypeRepository::class)]
+class MegaMenuType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -20,12 +21,13 @@ class MenuItems
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $name;
-
-    #[ORM\Column(type:"string", nullable:true)]
-    private ?string $type;
-
-    #[ORM\Column(type:"string", nullable:true)]
-    private ?string $title;
+    #[ORM\OneToMany(
+        targetEntity: MegaMenuTranslation::class,
+        mappedBy: 'megamenutype',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $megamenutranslations;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -35,6 +37,7 @@ class MenuItems
 
     public function __construct()
     {
+        $this->megamenutranslations = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -82,25 +85,29 @@ class MenuItems
     {
         return $this->name;
     }
-    public function setType(?string $type): self
+
+    public function addMegaMenuTranslation(MegaMenuTranslation $megamenutranslation): self
     {
-        $this->type = $type;
+        if(!$this->megamenutranslations->contains($megamenutranslation)) {
+           $this->megamenutranslations[] = $megamenutranslation;
+           $megamenutranslation->setMegamenutype($this);
+        }
         return $this;
     }
 
-    public function getType(): ?string
+    public function removeMegaMenuTranslation(MegaMenuTranslation $megamenutranslation): self
     {
-        return $this->type;
-    }
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
+        if($this->megamenutranslations->removeElement($megamenutranslation)) {
+           if ($megamenutranslation->getMegamenutype() === $this) {
+               $megamenutranslation->setMegamenutype(null);
+           }
+        }
         return $this;
     }
 
-    public function getTitle(): ?string
+    public function getMegamenutranslations(): ?Collection
     {
-        return $this->title;
+        return $this->megamenutranslations;
     }
 
 }

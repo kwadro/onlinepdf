@@ -13,8 +13,6 @@ class SeoSettingsTranslationRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, SeoSettingsTranslation::class);
    }
-
-
 }
     //    /**
     //     * @return SeoSettingsTranslation[] Returns an array of SeoSettingsTranslation objects

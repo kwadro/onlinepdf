@@ -43,7 +43,7 @@ DOCTRINE_TYPE_MAP = {
     "date": "datetime",
     "float": "float",
     "boolean": "bool",
-    "text": "string",
+    "text": "text",
     "choice": "string",
     "image": "string",
     "relation": "relation",

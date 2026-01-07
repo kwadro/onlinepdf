@@ -13,8 +13,14 @@ class RecipeCategoryRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, RecipeCategory::class);
    }
-
-
+    public function findDefaultItem(): ?RecipeCategory
+        {
+            return $this->createQueryBuilder('t')
+                ->andWhere('t.parent IS NULL')
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        }
 }
     //    /**
     //     * @return RecipeCategory[] Returns an array of RecipeCategory objects

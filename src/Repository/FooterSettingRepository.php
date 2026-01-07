@@ -28,8 +28,6 @@ class FooterSettingRepository extends ServiceEntityRepository
                ->getQuery()
                ->getOneOrNullResult();
    }
-
-
 }
     //    /**
     //     * @return FooterSetting[] Returns an array of FooterSetting objects

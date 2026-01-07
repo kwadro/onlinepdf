@@ -297,8 +297,11 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: FooterSetting
                       mappedBy: site
-
-
+                    - name: megamenusites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: MegaMenuSetting
+                      mappedBy: site
             Locale:
                 translate:
                     link:
@@ -335,9 +338,13 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: SeoSettingsTranslation
                         mappedBy: locale
-
+                    -   name: megamenutranslatelocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: MegaMenuTranslation
+                        mappedBy: locale
             HeaderSetting:
-                relatedSaleAndLocale: true
+                relatedSaleAndLocale: single
                 translate:
                     link:
                         uk: Настройки Заголовків
@@ -392,7 +399,7 @@ groups:
                     - name: menu_json
                       type: string
             SeoSetting:
-                relatedSaleAndLocale: true
+                relatedSaleAndLocale: single
                 translate:
                     link:
                         uk: Seo Настройки
@@ -455,7 +462,7 @@ groups:
                     - name: gtm_code
                       type: string
             FooterSetting:
-                relatedSaleAndLocale: true
+                relatedSaleAndLocale: single
                 translate:
                     link:
                         uk: Настройки Футера
@@ -504,7 +511,31 @@ groups:
                         type: text
                         isHtml: true
                         numOfRows: 10
-            MegaMenuItem:
+            MegaMenuSetting:
+                relatedSaleAndLocale: multiple
+                translate:
+                    link:
+                        uk: Настройки Меню
+                        uk_single: Настройка Меню
+                        en: Menu Settings
+                        en_single: Menu Setting
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: site
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Site
+                        inversedBy: megamenusites
+                        isstring: true
+                    -   name: translations
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: MegaMenuTranslation
+                        mappedBy: megamenusetting
+
+            MegaMenuTranslation:
                 translate:
                     link:
                         uk: Пункти Меню
@@ -515,17 +546,35 @@ groups:
                     - name: id
                       type: integer
                       id: true
+                    - name: megamenusetting
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: MegaMenuSetting
+                      inversedBy: translations
+                    - name: locale
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Locale
+                      inversedBy: megamenutranslatelocales
                     - name: name
                       type: string
                       isrequire: true
                       isstring: true
+                    - name: status
+                      type: select
+                      typeInput: yesno
                     - name: megamenutype
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: MegaMenuType
-                      inversedBy: megamenuitems
+                      inversedBy: megamenutranslations
+                    - name: position
+                      type: integer
                     - name: url
                       type: string
+                    - name: content
+                      type: text
+                      numOfRows: 10
             MegaMenuType:
                 translate:
                     link:
@@ -541,10 +590,10 @@ groups:
                       type: string
                       isrequire: true
                       isstring: true
-                    - name: megamenuitems
+                    - name: megamenutranslations
                       type: relation
                       typeRelation: OneToMany
-                      objectRelation: MegaMenuItem
+                      objectRelation: MegaMenuTranslation
                       mappedBy: megamenutype
 
 

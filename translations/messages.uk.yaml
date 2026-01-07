@@ -47,6 +47,9 @@ This project aims to create a modern and user-friendly PDF editor. Users will be
 Register: Регістрація
 Login: Вхід
 Admin Panel: Панель Адміністратора
+Email: Email
+Message: Повідомлення
+catalog_recipe: "Каталог Рецептів"
 menu.projects: "Проекти"
 menu.servers: "Сервери"
 menu.git_user: "Git акаунт"
@@ -119,8 +122,10 @@ menu.link_footersetting_single: Настройка Футера
 menu.link_footersetting: Настройки Футера
 menu.link_footertranslation_single: Переклад Футера
 menu.link_footertranslation: Переклад Футера
-menu.link_megamenuitem_single: Пункт Меню
-menu.link_megamenuitem: Пункти Меню
+menu.link_megamenusetting_single: Настройка Меню
+menu.link_megamenusetting: Настройки Меню
+menu.link_megamenutranslation_single: Пункт Меню
+menu.link_megamenutranslation: Пункти Меню
 menu.link_megamenutype_single: Тип Пунктів Меню
 menu.link_megamenutype: Типи Пунктів Меню
 #@GENERATE TRANSLATE FINISH

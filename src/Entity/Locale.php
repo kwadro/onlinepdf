@@ -11,6 +11,7 @@ use App\Repository\LocaleRepository;
 use App\Entity\HeaderTranslation;
 use App\Entity\FooterTranslation;
 use App\Entity\SeoSettingsTranslation;
+use App\Entity\MegaMenuTranslation;
 
 #[ORM\Entity(repositoryClass: LocaleRepository::class)]
 class Locale
@@ -50,6 +51,13 @@ class Locale
         orphanRemoval: false,
     )]
         public ?Collection $seosettingtranslatelocales;
+    #[ORM\OneToMany(
+        targetEntity: MegaMenuTranslation::class,
+        mappedBy: 'locale',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $megamenutranslatelocales;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -62,6 +70,7 @@ class Locale
         $this->headertranslatelocales = new ArrayCollection();
         $this->footertranslatelocales = new ArrayCollection();
         $this->seosettingtranslatelocales = new ArrayCollection();
+        $this->megamenutranslatelocales = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -200,6 +209,30 @@ class Locale
     public function getSeosettingtranslatelocales(): ?Collection
     {
         return $this->seosettingtranslatelocales;
+    }
+
+    public function addMegaMenuTranslation(MegaMenuTranslation $megamenutranslation): self
+    {
+        if(!$this->megamenutranslatelocales->contains($megamenutranslation)) {
+           $this->megamenutranslatelocales[] = $megamenutranslation;
+           $megamenutranslation->setLocale($this);
+        }
+        return $this;
+    }
+
+    public function removeMegaMenuTranslation(MegaMenuTranslation $megamenutranslation): self
+    {
+        if($this->megamenutranslatelocales->removeElement($megamenutranslation)) {
+           if ($megamenutranslation->getLocale() === $this) {
+               $megamenutranslation->setLocale(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getMegamenutranslatelocales(): ?Collection
+    {
+        return $this->megamenutranslatelocales;
     }
 
 }

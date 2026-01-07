@@ -128,7 +128,7 @@ readonly class CsvEntityImporter
             'seosetting'=>'site',
             'footersetting'=>'site',
             'megamenutype'=>'name',
-            'megamenuitems'=>'name'
+            'megamenusetting'=>'site'
         ];
         $idIndex = array_search('id', $header);
         while (($row = fgetcsv($handle,null,';')) !== false) {

@@ -36,13 +36,13 @@ class Recipe
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $meta_title;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $meta_description;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $short_description;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $description;
 
     #[ORM\Column(type:"string", nullable:true)]
@@ -57,7 +57,7 @@ class Recipe
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $servings;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $notes;
 
     #[ORM\Column(type:"string", nullable:true)]

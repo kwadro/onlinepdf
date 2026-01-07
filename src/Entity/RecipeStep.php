@@ -31,10 +31,10 @@ class RecipeStep
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $position;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $question;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $answer;
 
     #[ORM\Column(type:"string", nullable:true)]

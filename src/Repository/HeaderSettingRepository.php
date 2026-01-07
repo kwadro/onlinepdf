@@ -28,8 +28,6 @@ class HeaderSettingRepository extends ServiceEntityRepository
                ->getQuery()
                ->getOneOrNullResult();
    }
-
-
 }
     //    /**
     //     * @return HeaderSetting[] Returns an array of HeaderSetting objects

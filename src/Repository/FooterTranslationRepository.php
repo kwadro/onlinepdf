@@ -13,8 +13,6 @@ class FooterTranslationRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, FooterTranslation::class);
    }
-
-
 }
     //    /**
     //     * @return FooterTranslation[] Returns an array of FooterTranslation objects

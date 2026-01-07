@@ -35,7 +35,7 @@ class SeoSettingsTranslation
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $meta_title;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $meta_description;
 
     #[ORM\Column(type:"string", nullable:true)]
@@ -47,7 +47,7 @@ class SeoSettingsTranslation
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $og_title;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $og_description;
 
     #[ORM\Column(type:"string", nullable:true)]

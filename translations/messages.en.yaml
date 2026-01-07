@@ -54,8 +54,11 @@ Servers : Servers
 Git User : Git User
 Services : Services
 Users : Users
+Email: Email
+Message: Message
 User Access : User Access
 Server Type : Server Type
+catalog_recipe: "Catalog of Recipes"
 menu.projects: "Projects"
 menu.servers: "Servers"
 menu.git_user: "Git User"
@@ -127,8 +130,10 @@ menu.link_footersetting_single: Footer Setting
 menu.link_footersetting: Footer Settings
 menu.link_footertranslation_single: Footer Translation
 menu.link_footertranslation: Footer Translations
-menu.link_megamenuitem_single: Menu Item
-menu.link_megamenuitem: Menu Items
+menu.link_megamenusetting_single: Menu Setting
+menu.link_megamenusetting: Menu Settings
+menu.link_megamenutranslation_single: Menu Item
+menu.link_megamenutranslation: Menu Items
 menu.link_megamenutype_single: Type Menu Item
 menu.link_megamenutype: Type Menu Items
 #@GENERATE TRANSLATE FINISH

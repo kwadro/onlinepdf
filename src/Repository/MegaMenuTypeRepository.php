@@ -13,8 +13,6 @@ class MegaMenuTypeRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, MegaMenuType::class);
    }
-
-
 }
     //    /**
     //     * @return MegaMenuType[] Returns an array of MegaMenuType objects

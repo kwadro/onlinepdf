@@ -13,8 +13,6 @@ class UnitRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, Unit::class);
    }
-
-
 }
     //    /**
     //     * @return Unit[] Returns an array of Unit objects

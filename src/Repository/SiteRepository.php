@@ -13,8 +13,6 @@ class SiteRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, Site::class);
    }
-
-
 }
     //    /**
     //     * @return Site[] Returns an array of Site objects

@@ -37,7 +37,7 @@ class RecipeCategory
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $meta_title;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $meta_description;
     #[ORM\ManyToOne(
             targetEntity: self::class,

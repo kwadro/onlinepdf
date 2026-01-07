@@ -28,8 +28,6 @@ class SeoSettingRepository extends ServiceEntityRepository
                ->getQuery()
                ->getOneOrNullResult();
    }
-
-
 }
     //    /**
     //     * @return SeoSetting[] Returns an array of SeoSetting objects

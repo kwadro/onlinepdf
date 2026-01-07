@@ -126,3 +126,131 @@ section h2 img {
     height: 40px;
 }
 
+@media (min-width: 992px) {
+    /* === Mega dropdown === */
+    .mega-dropdown {
+        position: static;
+    }
+
+    .mega-dropdown:hover .mega-menu {
+        display: block;
+    }
+
+    .dropdown-menu.mega-menu {
+        min-width: 30rem;
+    }
+
+    /* === Mega menu container === */
+    .mega-menu {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 100%;
+        width: 100%;
+        max-width: 100%;
+        display: none;
+        padding: 0;
+        margin-top: 0;
+        border: 0;
+        border-radius: 0;
+        background-color: #fff;
+        z-index: 1000;
+    }
+
+    /* Show on hover */
+    .mega-dropdown:hover .mega-menu {
+        display: block;
+    }
+
+    /* === Inner container === */
+    .mega-menu .container-fluid {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    /* Left column */
+    .mega-menu .mega-left {
+        background-color: #f8f9fa;
+        border-right: 1px solid #e9ecef;
+    }
+
+    /* Fix row margins */
+    .mega-menu .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    /* === Left column === */
+    .mega-menu .col-3 {
+        background-color: #fafafa;
+    }
+
+    /* === Left menu items === */
+    .mega-left-item {
+        cursor: pointer;
+        padding: 14px 18px;
+        border: 0;
+        background: transparent;
+        font-size: 15px;
+        transition: background-color .2s ease, color .2s ease;
+    }
+
+
+    .mega-left-item:hover a,
+    .mega-left-item.active a {
+        color: white;
+        background-color: #0d6efd;
+        text-decoration: none;
+    }
+
+    .list-group-item.mega-left-item {
+        padding: 0;
+    }
+
+    .mega-left-item a {
+        display: block;
+        height: 100%;
+        padding: 0.5rem 1rem;
+        text-decoration: none;
+        width: 100%;
+    }
+
+    /* === Right content === */
+    .mega-right-block a {
+        color: #212529;
+        text-decoration: none;
+    }
+
+    .mega-right-block a:hover {
+        color: #007bff;
+
+    }
+
+    /* Subcategory list */
+    .mega-right-block ul {
+        margin-top: 6px;
+    }
+
+    .mega-right-block ul li a {
+        font-size: 14px;
+        padding: 2px 0;
+        display: inline-block;
+        color: #6c757d;
+    }
+
+    .mega-right-block ul li a:hover {
+        color: #007bff;
+    }
+}
+
+/* === Responsive === */
+@media (max-width: 991px) {
+    .mega-menu {
+        position: static;
+        display: block;
+    }
+
+    .mega-menu .col-3 {
+        border-right: 0;
+    }
+}

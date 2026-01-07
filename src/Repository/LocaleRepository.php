@@ -13,8 +13,6 @@ class LocaleRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, Locale::class);
    }
-
-
 }
     //    /**
     //     * @return Locale[] Returns an array of Locale objects

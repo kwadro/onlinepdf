@@ -13,8 +13,6 @@ class HeaderTranslationRepository extends ServiceEntityRepository
    {
        parent::__construct($registry, HeaderTranslation::class);
    }
-
-
 }
     //    /**
     //     * @return HeaderTranslation[] Returns an array of HeaderTranslation objects

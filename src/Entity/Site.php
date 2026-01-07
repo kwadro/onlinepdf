@@ -11,6 +11,7 @@ use App\Repository\SiteRepository;
 use App\Entity\HeaderSetting;
 use App\Entity\SeoSetting;
 use App\Entity\FooterSetting;
+use App\Entity\MegaMenuSetting;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 class Site
@@ -47,6 +48,13 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $footersettingsites;
+    #[ORM\OneToMany(
+        targetEntity: MegaMenuSetting::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $megamenusites;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -59,6 +67,7 @@ class Site
         $this->headersettingsites = new ArrayCollection();
         $this->seosettingsites = new ArrayCollection();
         $this->footersettingsites = new ArrayCollection();
+        $this->megamenusites = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -187,6 +196,30 @@ class Site
     public function getFootersettingsites(): ?Collection
     {
         return $this->footersettingsites;
+    }
+
+    public function addMegaMenuSetting(MegaMenuSetting $megamenusetting): self
+    {
+        if(!$this->megamenusites->contains($megamenusetting)) {
+           $this->megamenusites[] = $megamenusetting;
+           $megamenusetting->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeMegaMenuSetting(MegaMenuSetting $megamenusetting): self
+    {
+        if($this->megamenusites->removeElement($megamenusetting)) {
+           if ($megamenusetting->getSite() === $this) {
+               $megamenusetting->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getMegamenusites(): ?Collection
+    {
+        return $this->megamenusites;
     }
 
 }

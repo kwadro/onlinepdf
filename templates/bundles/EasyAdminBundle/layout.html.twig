@@ -1,0 +1,7 @@
+{# templates/admin/layout.html.twig #}
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block body_javascript %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('admin') }}
+{% endblock %}

@@ -1,0 +1,66 @@
+
+<div class="dropdown-menu mega-menu shadow border-0">
+    <div class="container-fluid">
+        <div class="row no-gutters">
+            <div class="col-4 border-right bg-light">
+                <ul class="list-group list-group-flush">
+                    {% for category in content %}
+                        <li class="list-group-item mega-left-item
+                                        {% if loop.first %}active{% endif %}"
+                            data-target="mega-{{ loop.index }}">
+                            <a href="/{{ url_key }}/{{ category.slug }}">
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="col-8 p-4">
+                {% for category in content %}
+                    <div class="mega-right-block {% if not loop.first %}d-none{% endif %}"
+                         id="mega-{{ loop.index }}">
+                        <div class="row">
+                            {% for child in category.children %}
+                                <div class="col-md-6 mb-2">
+                                    <a href="/{{ url_key }}/{{ child.slug }}"
+                                       class="font-weight-bold d-block mb-1">
+                                        {{ child.name }}
+                                    </a>
+                                    {% if child.children is not empty %}
+                                        <ul class="list-unstyled pl-3">
+                                            {% for subchild in child.children %}
+                                                <li>
+                                                    <a href="/{{ url_key }}/{{ subchild.slug }}"
+                                                       class="text-muted small">
+                                                        {{ subchild.name }}
+                                                    </a>
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const leftItems = document.querySelectorAll('.mega-left-item');
+        const rightBlocks = document.querySelectorAll('.mega-right-block');
+
+        leftItems.forEach(item => {
+            item.addEventListener('mouseenter', function () {
+                leftItems.forEach(i => i.classList.remove('active'));
+                rightBlocks.forEach(b => b.classList.add('d-none'));
+
+                item.classList.add('active');
+                document.getElementById(item.dataset.target)
+                    .classList.remove('d-none');
+            });
+        });
+    });
+</script>

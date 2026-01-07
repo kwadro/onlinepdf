@@ -32,7 +32,7 @@ class FooterTranslation
     )]
         private ?Locale $locale;
 
-    #[ORM\Column(type:"string", nullable:true)]
+    #[ORM\Column(type:"text", nullable:true)]
     private ?string $content;
 
     #[ORM\Column(type:"date", nullable:true)]
