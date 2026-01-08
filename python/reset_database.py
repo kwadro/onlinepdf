@@ -6,17 +6,17 @@ import sys
 from pathlib import Path
 from typing import Optional
 #local
-NAME="symfony"
-USER="root"
-PASS="root"
-HOST="127.0.0.1"
-PORT="3308"
+# NAME="symfony"
+# USER="root"
+# PASS="root"
+# HOST="127.0.0.1"
+# PORT="3308"
 #live
-# NAME="kwadro_laravel"
-# USER="kwadro_laravel"
-# PASS="y22KN_t+u8"
-# HOST="kwadro.mysql.tools"
-# PORT="3306"
+NAME="kwadro_laravel"
+USER="kwadro_laravel"
+PASS="y22KN_t+u8"
+HOST="kwadro.mysql.tools"
+PORT="3306"
 
 def reset_database(
     db_name: str = NAME,
@@ -45,7 +45,7 @@ def reset_database(
         return
     PROJECT_ROOT = Path(__file__).parent.parent.resolve()
     SCRIPT_PATH_IMPORT = PROJECT_ROOT / "bash" / "import-entity.sh"
-    DROP = 1
+    DROP = 0
     # --------------------------
     # CLEAN CACHE
     # --------------------------
