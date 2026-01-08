@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class ContactFormType extends AbstractType
+class {{ entityClassName }} extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -20,7 +20,7 @@ class ContactFormType extends AbstractType
             ->add('name', TextType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(min: 2),
+                    new Length(['min' => 2]),
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -32,7 +32,7 @@ class ContactFormType extends AbstractType
             ->add('message', TextareaType::class, [
                 'constraints' => [
                     new NotBlank(),
-                    new Length(min: 10),
+                    new Length(['min' => 10]),
                 ],
             ]);
     }

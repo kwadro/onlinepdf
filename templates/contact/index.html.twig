@@ -1,4 +1,9 @@
+
+{% set setting = site_settings() %}
 {% extends "base.html.twig" %}
 {% block main %}
-    {% include "contact/contact-content.html.twig" %}
+       {% include "contact/contact-content.html.twig" with {
+           content: setting.menu_pages.contact.content,
+           entityClass:entityClass
+       } %}
 {% endblock %}

@@ -12,7 +12,7 @@
             <div class="container position-relative">
                 <ul class="nav nav-pills">
                     {% for item_menu in setting.menu %}
-                        {% if item_menu.megamenutype =='Link' %}
+                        {% if item_menu.megamenutype =='Link' or item_menu.megamenutype =='Form'  %}
                             <li class="nav-item">
                                 <a href="{{ absolute_url(path(item_menu.url)) }}"
                                    class="nav-link {% if item_menu.url in app.request.get('_route') %}active {% endif %}">

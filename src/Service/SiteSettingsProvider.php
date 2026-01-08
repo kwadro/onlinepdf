@@ -35,9 +35,23 @@ class SiteSettingsProvider
         $footerSetting = $this->footerRepo->findOneBySiteAndLocale($site->getId(), $localeObject->getId()) ?? [];
         $menuSettingRes = $this->menuRepo->findBySiteAndLocale($site->getId(), $localeObject->getId()) ?? [];
         $menuSetting = [];
+        $menuPages = [];
         $menuUrlKey = '';
         foreach ($menuSettingRes[0]->getTranslations() as $menuSettingItem) {
             $content = $menuSettingItem->getContent();
+            if ($menuSettingItem->getMegamenutype() == 'Link') {
+                $menuPages[$menuSettingItem->getUrl()] = [
+                    'content' => $menuSettingItem->getContent()
+                ];
+            }
+            if($menuSettingItem->getMegamenutype() == 'Form'){
+                $content = explode('"', $content)[1];
+                $entityClass = 'App\\Form\\' . ucfirst($content).'FormType';
+                $menuPages[$menuSettingItem->getUrl()] = [
+                    'content'=>$this->getFormContent($entityClass),
+                    'isForm'=>true,
+                ];
+            }
             if ($menuSettingItem->getMegamenutype() == 'Collection') {
                 $menuUrlKey = $menuSettingItem->getUrl();
                 $content = explode('"', $content)[1];
@@ -104,9 +118,40 @@ class SiteSettingsProvider
                 'id' => $footerSetting->getId(),
                 'content' => $footerSetting->getTranslations()[0]->getContent()
             ] : [],
+            'menu_pages'=>$menuPages?: [],
             'menu_url_key'=>$menuUrlKey,
             'menu' => $menuSetting ?: [],
         ];
+    }
+
+    private function getFormContent(string $entityClass)
+    {
+        return '<div class="container">
+    <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
+        <h1 class="w-100 mb-4">{{ \'Contact\'|trans }}</h1>
+    </section>
+    <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
+
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    {% for message in app.flashes(\'success\') %}
+                        <div class="alert alert-success">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+
+                    {{ form_start(' . $entityClass . ') }}
+                    {{ form_row(' . $entityClass . '.name , {\'attr\': {\'class\': \'mb-1 form-control name\'}}) }}
+                    {{ form_row(' . $entityClass . '.email, {\'attr\': {\'class\': \'mb-1 form-control email\'}}) }}
+                    {{ form_row(' . $entityClass . '.message,{\'attr\': {\'class\': \'mb-1 form-control message\'}}) }}
+                    <button type="submit" class="btn btn-primary">Send Message</button>
+                    {{ form_end(' . $entityClass . ') }}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>';
     }
 
 }

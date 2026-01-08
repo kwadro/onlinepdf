@@ -57,21 +57,18 @@ def load_data_v2( siteId, localeId):
     sql = """
     SELECT
         tr.locale_id,
-        tr.*,
-        e.favicon,
-        e.logo
-    FROM header_setting e
-    JOIN header_translation tr
-        ON tr.headersetting_id = e.id
-    WHERE e.site_id = %s
+        tr.*
+    FROM mega_menu_setting e
+    JOIN mega_menu_translation tr
+        ON tr.megamenusetting_id = e.id
+    WHERE e.site_id = %s and tr.status = %s and tr.locale_id = %s
     """
-    cur.execute(sql, (siteId, ))
+    cur.execute(sql, (siteId,'Yes', localeId))
     results = cur.fetchall()
-    rows = {}
-    for row in results:
-        rows[row['locale_id']] = dict(row)
 
-        return rows.get(locale_id, {})
+    count = len(results)
+    print(f"Number of results: {count}")
+    return results
 
 def load_data(entity):
     conn = get_connection()
@@ -91,74 +88,39 @@ def write_file(path: Path, content: str):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
 
-def generate_template(file_name,setting):
-    path = Path(OUT / f"templates/{file_name}")
+def generate_template(setting):
+    file_name = setting['url']
+    pathStr = f"{OUT}/templates/{file_name}"
+    print(f"pathStr : {pathStr}")
+    print(f"file_name : {file_name}")
+    print(f"megamenutype_id : {setting['megamenutype_id']}")
+    path = Path(pathStr)
     path.mkdir(parents=True, exist_ok=True)
-    template_name = f"frontend/index.html.twig.j2"
-    codeIndex = render_template(template_name, name=file_name)
-    write_file(OUT / f"templates/{file_name}/index.html.twig", codeIndex)
-    template_name = f"frontend/{file_name}.html.twig.j2"
-    code = render_template(template_name)
-    write_file(OUT / f"templates/{file_name}/{file_name}-content.html.twig", code)
+    if (setting['megamenutype_id']==1):
+        template_name = f"frontend/index-link.html.twig.j2"
+        codeIndex = render_template(template_name, name=file_name,setting=setting)
+        write_file(OUT / f"templates/{file_name}/index.html.twig", codeIndex)
+        template_name = f"frontend/content-link.html.twig.j2"
+        code = render_template(template_name,content = setting['content'])
+        write_file(OUT / f"templates/{file_name}/{file_name}-content.html.twig", code)
 
-def insert_code_by_markers(file_path, generated, start_marker, end_marker):
-    with open(file_path, "r", encoding="utf-8") as f:
-        original = f.read()
-    if start_marker not in original or end_marker not in original:
-        raise ValueError(f"Markers not found in {file_path}")
-    before = original.split(start_marker)[0]
-    after = original.split(end_marker)[1]
+    if (setting['megamenutype_id']==3):
+        content = setting['content']
+        entityClass = content.split('class="')[1].split('"')[0]
+        print(f"entityClass: {entityClass}")
+        template_name = f"frontend/index-form.html.twig.j2"
+        codeIndex = render_template(template_name, name = file_name, entityClass = entityClass, setting = setting)
+        write_file(OUT / f"templates/{file_name}/index.html.twig", codeIndex)
+        template_name = f"frontend/content-form.html.twig.j2"
+        code = render_template(template_name, entityClass = entityClass)
+        write_file(OUT / f"templates/{file_name}/{file_name}-content.html.twig", code)
 
-    new_content = (
-        before
-        + start_marker
-        + "\n"
-        + generated
-        + "\n"
-        + end_marker
-        + after
-    )
-    with open(file_path, "w", encoding="utf-8") as f:
-        f.write(new_content)
-    print(f"Updated: {file_path}")
-
-def generate_dashboard_link(groups):
-    ukTranslatePath = OUT / "translations/messages.uk.yaml"
-    code = render_template("translate.yaml.j2", groups=groups, lang_single='uk_single', lang='uk').strip()
-    insert_code_by_markers(
-           file_path = ukTranslatePath,
-           generated = code,
-           start_marker = '#@GENERATE TRANSLATE START',
-           end_marker = '#@GENERATE TRANSLATE FINISH',
-        )
-
-    enTranslatePath = OUT / "translations/messages.en.yaml"
-    code = render_template("translate.yaml.j2", groups=groups, lang_single='en_single', lang='en').strip()
-    insert_code_by_markers(
-           file_path = enTranslatePath,
-           generated = code,
-           start_marker = '#@GENERATE TRANSLATE START',
-           end_marker = '#@GENERATE TRANSLATE FINISH',
-        )
 
 def main():
-    settings = load_data('setting')
-    print(f"Settings: {settings}")
+    settings = load_data_v2(1,1)
+#     print(f"Settings: {settings}")
     for setting in settings:
-        print("Recipe : " + setting['name'])
-        generate_template('base-1',setting)
-
-    headers = load_data('header')
-
-    for header in headers:
-        print("Header : " + header['name'])
-        generate_template('header-1',header)
-
-    footers = load_data('footer')
-    print(f"Footer: {footers}")
-    for footer in footers:
-        print("Footer : " + footer['name'])
-        generate_template('footer-1',footer)
+            generate_template(setting)
 
 if __name__ == "__main__":
     main()

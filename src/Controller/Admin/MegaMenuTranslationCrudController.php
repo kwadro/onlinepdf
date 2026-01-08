@@ -40,10 +40,10 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
             TextField::new('url'),
 
             TextareaField::new('content')
-                ->setFormTypeOption('attr', [
-                    'class' => 'tinymce',
-                    'data-ea-richtext' => '1'
-                ])
+//                ->setFormTypeOption('attr', [
+//                    'class' => 'tinymce',
+//                    'data-ea-richtext' => '1'
+//                ])
                 ->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
         ];
     }

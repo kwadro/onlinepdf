@@ -1,0 +1,10 @@
+{%- raw %}
+{% set setting = site_settings() %}
+{% extends "base.html.twig" %}
+{% block main %}
+       {% include "{%- endraw %}{{ name }}/{{ name }}{%- raw %}-content.html.twig" with {
+           content: setting.menu_pages.{%- endraw %}{{ name }}{%- raw %}.content,
+           entityClass:entityClass
+       } %}
+{% endblock %}
+{%- endraw %}
