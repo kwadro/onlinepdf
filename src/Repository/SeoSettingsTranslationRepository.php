@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class SeoSettingsTranslationRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, SeoSettingsTranslation::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, SeoSettingsTranslation::class);
+    }
 }
     //    /**
     //     * @return SeoSettingsTranslation[] Returns an array of SeoSettingsTranslation objects

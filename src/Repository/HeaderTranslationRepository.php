@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class HeaderTranslationRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, HeaderTranslation::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, HeaderTranslation::class);
+    }
 }
     //    /**
     //     * @return HeaderTranslation[] Returns an array of HeaderTranslation objects

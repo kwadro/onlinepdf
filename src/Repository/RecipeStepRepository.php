@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class RecipeStepRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, RecipeStep::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, RecipeStep::class);
+    }
 }
     //    /**
     //     * @return RecipeStep[] Returns an array of RecipeStep objects

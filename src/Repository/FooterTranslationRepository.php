@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class FooterTranslationRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, FooterTranslation::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, FooterTranslation::class);
+    }
 }
     //    /**
     //     * @return FooterTranslation[] Returns an array of FooterTranslation objects

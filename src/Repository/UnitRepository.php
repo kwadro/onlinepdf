@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class UnitRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, Unit::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Unit::class);
+    }
 }
     //    /**
     //     * @return Unit[] Returns an array of Unit objects

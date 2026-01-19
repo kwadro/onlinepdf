@@ -38,13 +38,8 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
             ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
             ->setHelp('Enter a positive number only'),
             TextField::new('url'),
-
-            TextareaField::new('content')
-//                ->setFormTypeOption('attr', [
-//                    'class' => 'tinymce',
-//                    'data-ea-richtext' => '1'
-//                ])
-                ->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
+        
+            TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
         ];
     }
 

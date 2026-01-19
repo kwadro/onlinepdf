@@ -9,26 +9,60 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class {{ name }}Repository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, {{ name }}::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, {{ name }}::class);
+    }
    {%- if related=='single' %}
 
-   public function findOneBySiteAndLocale($site, $locale)
-   {
-   return $this->createQueryBuilder('s')
-               ->innerJoin('s.site', 'site')
-               ->innerJoin('s.translations', 't')
-               ->addSelect('t')
-               ->where('site = :site')
-               ->andWhere('t.locale = :locale')
-               ->setParameter('site', $site)
-               ->setParameter('locale', $locale)
+    public function findOneBySiteAndLocale($site, $locale)
+    {
+    return $this->createQueryBuilder('s')
+        ->innerJoin('s.site', 'site')
+        ->innerJoin('s.translations', 't')
+        ->addSelect('t')
+        ->where('site = :site')
+        ->andWhere('t.locale = :locale')
+        ->setParameter('site', $site)
+        ->setParameter('locale', $locale)
+        ->setMaxResults(1)
+        ->getQuery()
+        ->getOneOrNullResult();
+    }
+   {%- endif %}
+   {%- if related=='list' %}
+       public function findOneByUrlKey($urlKey): ?{{ name }}
+       {
+           return $this->createQueryBuilder('t')
+               ->andWhere('t.{{ slug }} = :slug')
+               ->setParameter('{{ slug }}', $urlKey)
+               ->orderBy('t.id', 'ASC')
                ->setMaxResults(1)
                ->getQuery()
                ->getOneOrNullResult();
-   }
+       }
+   {%- endif %}
+   {%- if  related=='catalog' %}
+    public function findByUrlKey($urlKey): array
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.{{ slug }} = :slug')
+            ->setParameter('{{ slug }}', $urlKey)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult();
+    }
+   {%- endif %}
+
+   {%- if related=='catalog' %}
+    public function findDefaultItem(): ?{{ name }}
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.{{ default }} IS NULL')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
    {%- endif %}
    {%- if related=='multiple' %}
           public function findBySiteAndLocale($site, $locale)
@@ -42,7 +76,7 @@ class {{ name }}Repository extends ServiceEntityRepository
                      ->andWhere('t.status = :status')
                      ->setParameter('site', $site)
                      ->setParameter('locale', $locale)
-                     ->setParameter('status', 1)
+                     ->setParameter('status', 'Yes')
                      ->addOrderBy('CASE WHEN t.position IS NULL THEN 1 ELSE 0 END', 'ASC')
                      ->addOrderBy('t.position', 'ASC')
                      ->setMaxResults(10)

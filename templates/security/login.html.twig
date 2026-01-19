@@ -7,7 +7,7 @@
         <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
             <div class="container">
                 <div class="row justify-content-center">
-                    <div class="col-lg-4">
+                    <div class="col-lg-4 col-md-6 col-sm-8">
                         <h2 class="w-100 mb-4">{{ 'Login'|trans }}</h2>
                         {% if error %}
                             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -15,11 +15,11 @@
                         {% if app.user %}
                             <div class="mb-3">
                                 You are logged in as {{ app.user.userIdentifier }}, <a
-                                    href="{{ path('app_logout') }}">Logout</a>
+                                    href="{{ path('app_logout') }}">{{ 'Logout'|trans }}</a>
                             </div>
                         {% else %}
                             <form method="post">
-                                <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+                                <h1 class="h3 mb-3 font-weight-normal">{{ 'Please sign in'|trans }}</h1>
                                 <label for="username">Email</label>
                                 <input type="email" value="{{ last_username }}" name="_username" id="username"
                                        class="mb-1 form-control" autocomplete="email" required autofocus>
@@ -31,18 +31,25 @@
 
                                 <div class="checkbox mb-3">
                                     <input type="checkbox" name="_remember_me" id="_remember_me">
-                                    <label for="_remember_me">Remember me</label>
+                                    <label for="_remember_me">{{ 'Remember me'|trans }}</label>
                                 </div>
 
                                 <button class="btn btn-lg btn-primary mb-3" type="submit">
-                                    Sign in
+                                   {{ 'Sign in'|trans }}
                                 </button>
                             </form>
 
+                            <div class="border-top my-3"></div>
+                            <a href="{{ path('app_register') }}" >
+                                <button class="btn mt-3 btn-lg btn-primary mb-3" type="submit">
+                                    {{ 'Registration'|trans }}
+                                </button>
+                            </a>
+                            <div class="border-top my-3"></div>
                             <a href="{{ path('login_google') }}" >
                                 <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 py-2">
-                                    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" class="me-2" width="24" height="24">
-                                    <span class="">Sign in with Google</span>
+                                    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="{{ 'Google Logo'|trans }}" class="me-2" width="24" height="24">
+                                    <span class="">{{ 'Sign in with Google'|trans }}</span>
                                 </button>
                             </a>
                         {% endif %}

@@ -9,18 +9,27 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class RecipeCategoryRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, RecipeCategory::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, RecipeCategory::class);
+    }
+    public function findOneByUrlKey($urlKey): ?RecipeCategory
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.slug = :slug')
+            ->setParameter('slug', $urlKey)
+            ->orderBy('t.id', 'ASC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
     public function findDefaultItem(): ?RecipeCategory
-        {
-            return $this->createQueryBuilder('t')
-                ->andWhere('t.parent IS NULL')
-                ->getQuery()
-                ->getOneOrNullResult()
-            ;
-        }
+    {
+        return $this->createQueryBuilder('t')
+            ->andWhere('t.parent IS NULL')
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }
     //    /**
     //     * @return RecipeCategory[] Returns an array of RecipeCategory objects

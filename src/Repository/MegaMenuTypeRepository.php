@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class MegaMenuTypeRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, MegaMenuType::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, MegaMenuType::class);
+    }
 }
     //    /**
     //     * @return MegaMenuType[] Returns an array of MegaMenuType objects

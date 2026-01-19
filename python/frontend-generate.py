@@ -33,11 +33,11 @@ def get_connection():
 #         HOST="127.0.0.1"
 #         PORT=3308
 #             live
-            DB_NAME="kwadro_laravel"
-            USER="kwadro_laravel"
-            PASS="y22KN_t+u8"
-            HOST="kwadro.mysql.tools"
-            PORT="3306"
+        DB_NAME="kwadro_laravel"
+        USER="kwadro_laravel"
+        PASS="y22KN_t+u8"
+        HOST="kwadro.mysql.tools"
+        PORT="3306"
         conn = pymysql.connect(
             host=HOST,
             port=PORT,
@@ -69,13 +69,6 @@ def load_data_v2( siteId, localeId):
     count = len(results)
     print(f"Number of results: {count}")
     return results
-
-def load_data(entity):
-    conn = get_connection()
-    cur = conn.cursor()
-    cur.execute("SELECT * FROM "+entity+" where id=1")
-    rows = cur.fetchall()
-    return rows
 
 def render_template(template_file, **ctx):
     tpl = Template(open(BASE / "templates" / template_file).read())

@@ -44,7 +44,7 @@ Optimized for: Оптимізовано для
 merge PDF files online, compress PDFs, edit PDF without software, secure PDF processing: об'єднування PDF-файли в Інтернеті, стискання PDF-файли, редагування PDF без програмного забезпечення, безпечного обробляння PDF-файлів
 Your fast and free online PDF editor.: Швидкий і безкоштовний онлайн-редактор PDF
 This project aims to create a modern and user-friendly PDF editor. Users will be able to add and edit text, insert images, draw shapes, sign documents, and save changes directly to PDF files in their browser.: 'Цей проєкт має на меті створення сучасного та інтуїтивно зрозумілого редактора PDF-файлів. Користувачі зможуть додавати, редагувати текст, вставляти зображення, форми, підписи та зберігати зміни у PDF-документі прямо у браузері.'
-Register: Регістрація
+Register: Зареєструвати
 Login: Вхід
 Admin Panel: Панель Адміністратора
 Email: Email
@@ -90,7 +90,7 @@ Components: Інградієнти
 Recipesteps: Кроки
 menu.link_recipecategory_single: Категорію
 menu.link_recipecategory: Категорії
-Name: Імя
+Name: Назва
 Slug: Лінк
 Position: Позиція
 Is Active: Активний?
@@ -129,4 +129,14 @@ menu.link_megamenutranslation: Пункти Меню
 menu.link_megamenutype_single: Тип Пунктів Меню
 menu.link_megamenutype: Типи Пунктів Меню
 #@GENERATE TRANSLATE FINISH
-
+Please sign in: 'Будь ласка увійдіть'
+Sign in with Google: 'Вхід з Google'
+Google Logo: 'Google лого'
+Sign in: 'Вхід'
+Remember me: 'Запамятати мене'
+Logout: 'Вихід'
+Registration: 'Регістрація'
+Recipes of category: 'Рецепти категорії'
+Preparation steps: 'Кроки приготування'
+View: 'Переглянути'
+Ingredients: 'Інградієнти'

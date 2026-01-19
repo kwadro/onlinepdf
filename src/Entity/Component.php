@@ -32,7 +32,7 @@ class Component
     #[ORM\ManyToOne(
             targetEntity: Unit::class,
             cascade: ['persist'],
-            inversedBy: ''
+            inversedBy: 'components'
     )]
         private ?Unit $unit;
 

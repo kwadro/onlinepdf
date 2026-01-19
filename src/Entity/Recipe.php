@@ -88,7 +88,8 @@ class Recipe
         cascade: ['persist'],
         orphanRemoval: false,
     )]
-        public ?Collection $recipesteps;
+    #[ORM\OrderBy(['position' => 'ASC'])]
+    public ?Collection $recipesteps;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;

@@ -31,6 +31,7 @@ class UnitCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('name')->setRequired(true),
             TextField::new('short_name'),
+            AssociationField::new('components')->setFormTypeOption('by_reference', false),
         ];
     }
 

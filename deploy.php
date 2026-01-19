@@ -10,7 +10,7 @@ set('git_tty', true);
 set('deploy_path', '/home/kwadro/kwadro.com.ua/recipe');
 set('writable_mode', 'chmod');
 set('shared_dirs', [
-    'var/log','public/build','public/images','public/uploads','config/jwt','export'
+    'var/log','public/build','public/bundles','public/lib','public/images','public/uploads','config/jwt','export'
 ]);
 
 // Hosts

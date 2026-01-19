@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class MegaMenuSettingRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, MegaMenuSetting::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, MegaMenuSetting::class);
+    }
           public function findBySiteAndLocale($site, $locale)
              {
                  $query = $this->createQueryBuilder('s')

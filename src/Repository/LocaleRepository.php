@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class LocaleRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, Locale::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Locale::class);
+    }
 }
     //    /**
     //     * @return Locale[] Returns an array of Locale objects

@@ -1,14 +1,14 @@
 
-<div class="dropdown-menu mega-menu shadow border-0">
-    <div class="container-fluid">
-        <div class="row no-gutters">
-            <div class="col-4 border-right bg-light">
+<div class="dropdown-menu mega-menu ">
+    <div class="container-fluid min-w-300">
+        <div class="row">
+            <div class="col-4 border-end p-0">
                 <ul class="list-group list-group-flush">
                     {% for category in content %}
-                        <li class="list-group-item mega-left-item
-                                        {% if loop.first %}active{% endif %}"
+                        <li class="list-group-item border-0 mx-1 mega-left-item
+                                        {% if loop.first %}active fw-semibold{% endif %}"
                             data-target="mega-{{ loop.index }}">
-                            <a href="/{{ url_key }}/{{ category.slug }}">
+                            <a class="d-block text-decoration-none text-dark py-1 px-2" href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ url_key ~ '/' ~ category.slug) }}">
                                 {{ category.name }}
                             </a>
                         </li>
@@ -22,16 +22,15 @@
                         <div class="row">
                             {% for child in category.children %}
                                 <div class="col-md-6 mb-2">
-                                    <a href="/{{ url_key }}/{{ child.slug }}"
-                                       class="font-weight-bold d-block mb-1">
+                                    <a class="d-block px-1 py-2 text-center rounded text-decoration-none text-dark border hover-shadow"   href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ url_key ~ '/' ~ child.slug) }}">
                                         {{ child.name }}
                                     </a>
+
                                     {% if child.children is not empty %}
                                         <ul class="list-unstyled pl-3">
                                             {% for subchild in child.children %}
-                                                <li>
-                                                    <a href="/{{ url_key }}/{{ subchild.slug }}"
-                                                       class="text-muted small">
+                                                <li >
+                                                    <a class="d-block px-1 py-2 rounded text-decoration-none text-dark  border hover-shadow" href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ url_key ~ '/' ~ subchild.slug) }}">
                                                         {{ subchild.name }}
                                                     </a>
                                                 </li>

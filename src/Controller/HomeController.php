@@ -30,7 +30,6 @@ class HomeController extends AbstractController
             $request->getLocale()
         );
 
-
         return $this->render('home/index.html.twig',['setting'=>$setting]);
     }
 

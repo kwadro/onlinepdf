@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class SiteRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, Site::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Site::class);
+    }
 }
     //    /**
     //     * @return Site[] Returns an array of Site objects

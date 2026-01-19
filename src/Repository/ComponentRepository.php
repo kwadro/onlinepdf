@@ -9,10 +9,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class ComponentRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, Component::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Component::class);
+    }
 }
     //    /**
     //     * @return Component[] Returns an array of Component objects

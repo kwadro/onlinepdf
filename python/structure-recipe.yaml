@@ -6,6 +6,8 @@ groups:
                 en: Catalog
         entities:
             Recipe:
+                relatedSaleAndLocale: list
+                url_key_field: slug
                 translate:
                     link:
                         uk: Рецепти
@@ -88,6 +90,9 @@ groups:
                       typeRelation: OneToMany
                       mappedBy: recipe
             RecipeCategory:
+                relatedSaleAndLocale: catalog
+                default_field: parent
+                url_key_field: slug
                 translate:
                     link:
                         uk: Категорії
@@ -230,6 +235,7 @@ groups:
                       type: relation
                       objectRelation: Unit
                       typeRelation: ManyToOne
+                      inversedBy: components
                     - name: quantity
                       type: integer
                     - name: recipes
@@ -258,6 +264,11 @@ groups:
                     - name: short_name
                       type: string
                       isstring: true
+                    - name: components
+                      type: relation
+                      objectRelation: Component
+                      typeRelation: OneToMany
+                      mappedBy: unit
     setting:
         translate:
             link:
