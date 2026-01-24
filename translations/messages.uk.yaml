@@ -65,6 +65,8 @@ register:
     invalid_credential_message: 'Недійсні облікові дані'
     success_login: 'Успішний вхід'
     success_register: 'Реєстрація успішна'
+    agree_terms: "Я погоджуюсь з умовами користування"
+    must_agree: "Ви повинні погодитися з умовами"
 grud.manage : 'Редагувати'
 grud.edit : 'Переглянути'
 grud.create_new : 'Створити'
@@ -140,3 +142,6 @@ Recipes of category: 'Рецепти категорії'
 Preparation steps: 'Кроки приготування'
 View: 'Переглянути'
 Ingredients: 'Інградієнти'
+Password: 'Пароль'
+Register with Google: 'Регістрація з Google'
+Agree terms : 'Я погоджуюсь з умовами користування'

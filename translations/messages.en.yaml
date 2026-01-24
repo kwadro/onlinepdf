@@ -74,6 +74,8 @@ register:
     invalid_credential_message: 'Invalid credentials'
     success_login: 'Login success'
     success_register: 'Register success'
+    agree_terms: "Agree terms and conditions"
+    must_agree: "You must agree to the terms and conditions"
 grud.manage : 'Manage'
 grud.edit : 'edit'
 grud.create_new : 'Create NEW'
@@ -148,3 +150,6 @@ Recipes of category: 'Recipes of category'
 Preparation steps: 'Preparation steps'
 Ingredients: 'Ingredients'
 View: 'View'
+Password: 'Password'
+Register with Google: 'Register with Google'
+Agree terms : 'Agree terms and conditions'

@@ -89,7 +89,7 @@ class Recipe
         orphanRemoval: false,
     )]
     #[ORM\OrderBy(['position' => 'ASC'])]
-    public ?Collection $recipesteps;
+        public ?Collection $recipesteps;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;

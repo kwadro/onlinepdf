@@ -34,24 +34,42 @@ class {{ name }}Repository extends ServiceEntityRepository
        public function findOneByUrlKey($urlKey): ?{{ name }}
        {
            return $this->createQueryBuilder('t')
-               ->andWhere('t.{{ slug }} = :slug')
-               ->setParameter('{{ slug }}', $urlKey)
+               ->andWhere('t.slug = :slug')
+               ->andWhere('t.is_active = :is_active')
+               ->setParameter('slug', $urlKey)
+               ->setParameter('is_active', 'Yes')
                ->orderBy('t.id', 'ASC')
                ->setMaxResults(1)
                ->getQuery()
                ->getOneOrNullResult();
        }
+       {%- if category_field %}
+       public function findByCategoryId($categoryId): array
+       {
+           return $this->createQueryBuilder('s')
+               ->innerJoin('s.{{ category_field }}', 'c')
+               ->andWhere('c.id = :recipeCategoryId')
+               ->andWhere('s.is_active = :is_active')
+               ->setParameter('recipeCategoryId', $categoryId)
+               ->setParameter('is_active', 'Yes')
+               ->orderBy('s.position', 'ASC')
+               ->setMaxResults(10)
+               ->getQuery()
+               ->getResult();
+       }
+       {%- endif %}
+
    {%- endif %}
    {%- if  related=='catalog' %}
-    public function findByUrlKey($urlKey): array
+    public function findOneByUrlKey($urlKey): ?{{ name }}
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.{{ slug }} = :slug')
             ->setParameter('{{ slug }}', $urlKey)
             ->orderBy('t.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(1)
             ->getQuery()
-            ->getResult();
+            ->getOneOrNullResult();
     }
    {%- endif %}
 

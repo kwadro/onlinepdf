@@ -8,6 +8,7 @@ groups:
             Recipe:
                 relatedSaleAndLocale: list
                 url_key_field: slug
+                category_field: recipecategorys
                 translate:
                     link:
                         uk: Рецепти
@@ -84,6 +85,8 @@ groups:
                       roleRelation: master
                       mappedBy: recipes
                     - name: recipesteps
+                      orderByField: position
+                      orderBy: ASC
                       name_uk: кроки
                       type: relation
                       objectRelation: RecipeStep

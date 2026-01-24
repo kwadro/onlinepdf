@@ -54,6 +54,10 @@ class {{ name }}
         {%- endif %}
     {%- endif %}
 
+        {%- if field.orderBy %}
+    #[ORM\OrderBy(['{{ field.orderByField }}' => '{{ field.orderBy }}'])]
+        {%- endif %}
+
     {%- if field.typeRelation =='ManyToMany' or field.typeRelation =='OneToMany' %}
         public ?Collection ${{ field.name }};
     {%- else %}

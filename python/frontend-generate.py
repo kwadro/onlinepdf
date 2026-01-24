@@ -27,17 +27,17 @@ def to_pascal_case(value):
     return ''.join(word.capitalize() for word in value.split('_'))
 def get_connection():
     #   local
-#         DB_NAME="symfony"
-#         USER="root"
-#         PASS="root"
-#         HOST="127.0.0.1"
-#         PORT=3308
+        DB_NAME="symfony"
+        USER="root"
+        PASS="root"
+        HOST="127.0.0.1"
+        PORT=3308
 #             live
-        DB_NAME="kwadro_laravel"
-        USER="kwadro_laravel"
-        PASS="y22KN_t+u8"
-        HOST="kwadro.mysql.tools"
-        PORT="3306"
+#         DB_NAME="kwadro_laravel"
+#         USER="kwadro_laravel"
+#         PASS="y22KN_t+u8"
+#         HOST="kwadro.mysql.tools"
+#         PORT="3306"
         conn = pymysql.connect(
             host=HOST,
             port=PORT,

@@ -20,10 +20,10 @@
                         {% else %}
                             <form method="post">
                                 <h1 class="h3 mb-3 font-weight-normal">{{ 'Please sign in'|trans }}</h1>
-                                <label for="username">Email</label>
+                                <label for="username">{{ 'Email'|trans }}</label>
                                 <input type="email" value="{{ last_username }}" name="_username" id="username"
                                        class="mb-1 form-control" autocomplete="email" required autofocus>
-                                <label for="password">Password</label>
+                                <label for="password">{{ 'Password'|trans }}</label>
                                 <input type="password" name="_password" id="password" class="mb-3 form-control"
                                        autocomplete="current-password" required>
                                 <input type="hidden" name="_csrf_token" data-controller="csrf-protection"

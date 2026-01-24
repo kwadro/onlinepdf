@@ -104,13 +104,20 @@ def generate_repository(entity_name, entity):
     related = False
     if ('relatedSaleAndLocale' in entity):
         related = entity['relatedSaleAndLocale']
+
     default_field = False
     if ('default_field' in entity):
             default_field = entity['default_field']
+
     url_key_field = False
     if ('url_key_field' in entity):
                 url_key_field = entity['url_key_field']
-    code = render_template("repository.php.j2", name=entity_name,related=related, default=default_field, slug=url_key_field)
+
+    category_field = False
+    if ('category_field' in entity):
+                category_field = entity['category_field']
+
+    code = render_template("repository.php.j2", name=entity_name,related=related, default=default_field, slug=url_key_field,category_field=category_field)
     write_file(
         OUT / f"src/Repository/{entity_name}Repository.php", code
     )
