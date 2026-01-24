@@ -77,19 +77,19 @@ Enter a positive number only: Введіть тільки додатне чис�
 Catalog Recipes: 'Каталог реептів'
 #@GENERATE TRANSLATE START
 menu.group_catalog: Каталог
-menu.link_recipe_single: Рецепт
-menu.link_recipe: Рецепти
+menu.link_recipetranslation_single: Рецепт (переклад)
+menu.link_recipetranslation: Рецепти (переклад)
 Short Description: Короткий Опис
 Description: Опис
 Cuisine: Кухня
+Components: Інградієнти
+Recipesteps: Кроки
+menu.link_recipe_single: Рецепт
+menu.link_recipe: Рецепти
 Prep Time Min: Час Підготовки
 Cook Time Min: Час Приготування
 Image: Картинка
-Image1: Картинка 1
-Image2: Картинка 2
 Recipecategorys: Категорії
-Components: Інградієнти
-Recipesteps: Кроки
 menu.link_recipecategory_single: Категорію
 menu.link_recipecategory: Категорії
 Name: Назва

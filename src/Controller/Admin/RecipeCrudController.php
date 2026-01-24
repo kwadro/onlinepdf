@@ -3,7 +3,6 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use App\Entity\Recipe;
 use App\Form\Type\RecipeCategoryType;
-use App\Form\Type\ComponentType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -31,20 +30,10 @@ class RecipeCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('name')->setRequired(true),
-            TextField::new('slug'),
+            AssociationField::new('site'),
             IntegerField::new('position')
             ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
             ->setHelp('Enter a positive number only'),
-            ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
-            TextField::new('meta_title'),
-        
-            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-        
-            TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-        
-            TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
-            TextField::new('cuisine'),
             IntegerField::new('prep_time_min')
             ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
             ->setHelp('Enter a positive number only'),
@@ -54,14 +43,9 @@ class RecipeCrudController extends AbstractCrudController
             IntegerField::new('servings')
             ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
             ->setHelp('Enter a positive number only'),
-        
-            TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
             ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
-            ImageField::new('image1')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
-            ImageField::new('image2')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
             AssociationField::new('recipecategorys')->setFormTypeOption('by_reference', false),
-            AssociationField::new('components')->setFormTypeOption('by_reference', false),
-            AssociationField::new('recipesteps')->setFormTypeOption('by_reference', false),
+            AssociationField::new('translations')->setFormTypeOption('by_reference', false),
         ];
     }
 

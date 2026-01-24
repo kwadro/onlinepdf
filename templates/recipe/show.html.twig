@@ -1,5 +1,5 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ recipe.name }}{% endblock %}
+{% block title %}{{ recipe.translations[0].name }}{% endblock %}
 {% block main %}
     {% include "recipe/breadcrumbs.html.twig" with {
         breadcrumbs: breadcrumbs
@@ -11,16 +11,16 @@
                 {% if recipe.image %}
                     <img src="/uploads/recipes/{{ recipe.image }}"
                          class="img-fluid rounded shadow-sm mb-3"
-                         alt="{{ recipe.name }}">
+                         alt="{{ recipe.translations[0].name }}">
                 {% endif %}
             </div>
 
             <!-- Content -->
             <div class="col-12 col-md-8 col-lg-9">
-                <h1 class="mb-3">{{ recipe.name }}</h1>
+                <h1 class="mb-3">{{ recipe.translations[0].name }}</h1>
 
                 <p class="text-muted mb-4">
-                    {{ recipe.description }}
+                    {{ recipe.translations[0].description }}
                 </p>
 
                 <h3 class="fw-bold mb-3">
@@ -28,7 +28,7 @@
                 </h3>
 
                     <ul class=" ingredients-grid ">
-                        {% for component in recipe.components %}
+                        {% for component in recipe.translations[0].components %}
                             <li class="list-group-item  d-flex justify-content-between align-items-center">
                                 <span>{{ component.name|split('|')[1] }}</span>
                                 <span class="fw-bold">
@@ -46,7 +46,7 @@
         </h3>
 
         <ul class="list-group mb-4">
-            {% for step in recipe.recipesteps %}
+            {% for step in recipe.translations[0].recipesteps %}
                 <li class="list-group-item">
                     <div class="d-flex flex-column flex-md-row gap-3">
                         <div class="flex-grow-1">

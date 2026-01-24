@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\RecipeStepRepository;
-use App\Entity\Recipe;
+use App\Entity\RecipeTranslation;
 
 #[ORM\Entity(repositoryClass: RecipeStepRepository::class)]
 class RecipeStep
@@ -22,11 +22,11 @@ class RecipeStep
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $name;
     #[ORM\ManyToOne(
-            targetEntity: Recipe::class,
+            targetEntity: RecipeTranslation::class,
             cascade: ['persist'],
             inversedBy: 'recipesteps'
     )]
-        private ?Recipe $recipe;
+        private ?RecipeTranslation $recipetranslation;
 
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $position;
@@ -96,13 +96,13 @@ class RecipeStep
         return $this->name;
     }
 
-    public function getRecipe(): ?Recipe
+    public function getRecipetranslation(): ?RecipeTranslation
     {
-        return $this->recipe;
+        return $this->recipetranslation;
     }
-    public function setRecipe(?Recipe $recipe): RecipeStep
+    public function setRecipetranslation(?RecipeTranslation $recipetranslation): RecipeStep
     {
-        $this->recipe = $recipe;
+        $this->recipetranslation = $recipetranslation;
         return $this;
     }
     public function setPosition(?int $position): self

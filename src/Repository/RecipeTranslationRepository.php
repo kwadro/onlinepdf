@@ -1,21 +1,21 @@
 <?php
 namespace App\Repository;
-use App\Entity\Setting;
+use App\Entity\RecipeTranslation;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Setting>
+ * @extends ServiceEntityRepository<RecipeTranslation>
 */
-class SettingRepository extends ServiceEntityRepository
+class RecipeTranslationRepository extends ServiceEntityRepository
 {
-   public function __construct(ManagerRegistry $registry)
-   {
-       parent::__construct($registry, Setting::class);
-   }
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, RecipeTranslation::class);
+    }
 }
     //    /**
-    //     * @return Setting[] Returns an array of Setting objects
+    //     * @return RecipeTranslation[] Returns an array of RecipeTranslation objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -28,7 +28,7 @@ class SettingRepository extends ServiceEntityRepository
     //            ->getResult()
     //        ;
     //    }
-    //    public function findOneBySomeField($value): ?Setting
+    //    public function findOneBySomeField($value): ?RecipeTranslation
     //    {
     //        return $this->createQueryBuilder('t')
     //            ->andWhere('t.exampleField = :val')

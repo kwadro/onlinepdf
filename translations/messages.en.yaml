@@ -85,19 +85,19 @@ menu.link_new: 'New'
 Catalog Recipes: 'Catalog Recipes'
 #@GENERATE TRANSLATE START
 menu.group_catalog: Catalog
-menu.link_recipe_single: Recipe
-menu.link_recipe: Recipes
+menu.link_recipetranslation_single: Recipe (translation)
+menu.link_recipetranslation: Recipes (translation)
 Short Description: Short Description
 Description: Description
 Cuisine: Cuisine
+Components: Components
+Recipesteps: Recipesteps
+menu.link_recipe_single: Recipe
+menu.link_recipe: Recipes
 Prep Time Min: Prep Time Min
 Cook Time Min: Cook Time Min
 Image: Image
-Image1: Image1
-Image2: Image2
 Recipecategorys: Recipecategorys
-Components: Components
-Recipesteps: Recipesteps
 menu.link_recipecategory_single: Category
 menu.link_recipecategory: Categories
 Name: Name

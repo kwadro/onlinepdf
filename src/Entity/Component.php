@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ComponentRepository;
 use App\Entity\Ingredient;
 use App\Entity\Unit;
-use App\Entity\Recipe;
+use App\Entity\RecipeTranslation;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
 class Component
@@ -38,13 +38,12 @@ class Component
 
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $quantity;
-    #[ORM\ManyToMany(
-          targetEntity: Recipe::class,
-            inversedBy: 'components',
+    #[ORM\ManyToOne(
+            targetEntity: RecipeTranslation::class,
             cascade: ['persist'],
-            orphanRemoval: false,
+            inversedBy: 'components'
     )]
-        public ?Collection $recipes;
+        private ?RecipeTranslation $recipetranslation;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -54,7 +53,6 @@ class Component
 
     public function __construct()
     {
-        $this->recipes = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -132,26 +130,15 @@ class Component
     {
         return $this->quantity;
     }
-    public function addRecipe(Recipe $recipe): self
-    {
-        if (!$this->recipes->contains($recipe)) {
-            $this->recipes->add($recipe);
-            $recipe->addComponent($this);
-        }
-        return $this;
-    }
 
-    public function removeRecipe(Recipe $recipe): self
+    public function getRecipetranslation(): ?RecipeTranslation
     {
-        if ($this->recipes->removeElement($recipe)) {
-            $recipe->removeComponent($this);
-        }
-        return $this;
+        return $this->recipetranslation;
     }
-
-    public function getRecipes(): ?Collection
+    public function setRecipetranslation(?RecipeTranslation $recipetranslation): Component
     {
-        return $this->recipes;
+        $this->recipetranslation = $recipetranslation;
+        return $this;
     }
 
 }

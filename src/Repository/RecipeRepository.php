@@ -13,30 +13,42 @@ class RecipeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recipe::class);
     }
-       public function findOneByUrlKey($urlKey): ?Recipe
+       public function findOneByUrlKey($urlKey, $site, $locale): ?Recipe
        {
-           return $this->createQueryBuilder('t')
-               ->andWhere('t.slug = :slug')
-               ->andWhere('t.is_active = :is_active')
-               ->setParameter('slug', $urlKey)
-               ->setParameter('is_active', 'Yes')
-               ->orderBy('t.id', 'ASC')
-               ->setMaxResults(1)
-               ->getQuery()
-               ->getOneOrNullResult();
+           $query = $this->createQueryBuilder('s')
+                ->innerJoin('s.translations', 't')
+                ->addSelect('t')
+                ->where('s.site = :site')
+                ->andWhere('t.locale = :locale')
+                ->andWhere('t.slug = :slug')
+                ->andWhere('t.is_active = :is_active')
+                ->setParameter('site', $site)
+                ->setParameter('locale', $locale)
+                ->setParameter('slug', $urlKey)
+                ->setParameter('is_active', 'Yes')
+                ->orderBy('s.id', 'ASC')
+                ->setMaxResults(1)
+                ->getQuery();
+           return $query->getOneOrNullResult();
        }
-       public function findByCategoryId($categoryId): array
+       public function findByCategoryId($categoryId, $site, $locale): array
        {
-           return $this->createQueryBuilder('s')
-               ->innerJoin('s.recipecategorys', 'c')
-               ->andWhere('c.id = :recipeCategoryId')
-               ->andWhere('s.is_active = :is_active')
-               ->setParameter('recipeCategoryId', $categoryId)
-               ->setParameter('is_active', 'Yes')
-               ->orderBy('s.position', 'ASC')
-               ->setMaxResults(10)
-               ->getQuery()
-               ->getResult();
+            $query = $this->createQueryBuilder('s')
+                ->innerJoin('s.translations', 't')
+                ->addSelect('t')
+                ->where('s.site = :site')
+                ->andWhere('t.locale = :locale')
+                ->innerJoin('s.recipecategorys', 'c')
+                ->andWhere('c.id = :recipeCategoryId')
+                ->andWhere('t.is_active = :is_active')
+                ->setParameter('site', $site)
+                ->setParameter('locale', $locale)
+                ->setParameter('recipeCategoryId', $categoryId)
+                ->setParameter('is_active', 'Yes')
+                ->orderBy('s.position', 'ASC')
+                ->setMaxResults(10)
+                ->getQuery();
+            return $query->getResult();
        }
 }
     //    /**

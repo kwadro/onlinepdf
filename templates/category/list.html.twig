@@ -19,8 +19,8 @@
             <ul class="list-group ">
             {% for recipe in recipes %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <span>{{ recipe.name }}</span>
-                    <a href="{{ path('catalog_show', {urlKey: recipe.slug}) }}" class="btn btn-sm btn-primary">
+                    <span>{{ recipe.translations[0].name }}</span>
+                    <a href="{{ path('catalog_show', {urlKey: recipe.translations[0].slug}) }}" class="btn btn-sm btn-primary">
                         {{ 'View'|trans }}
                     </a>
                 </li>

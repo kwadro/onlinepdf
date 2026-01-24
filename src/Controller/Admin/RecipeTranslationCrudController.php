@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use App\Entity\Component;
+use App\Entity\RecipeTranslation;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -17,25 +17,35 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ComponentCrudController extends AbstractCrudController
+class RecipeTranslationCrudController extends AbstractCrudController
 {
     public function __construct(
         private TranslatorInterface $translator
     ) {
     }
-    public static function getEntityFqcn(): string { return Component::class; }
+    public static function getEntityFqcn(): string { return RecipeTranslation::class; }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
+            AssociationField::new('locale'),
             TextField::new('name')->setRequired(true),
-            AssociationField::new('ingredient'),
-            AssociationField::new('unit'),
-            IntegerField::new('quantity')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
-            AssociationField::new('recipetranslation'),
+            TextField::new('slug'),
+            ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            TextField::new('meta_title'),
+        
+            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+        
+            TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+        
+            TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
+            TextField::new('cuisine'),
+        
+            TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            AssociationField::new('components')->setFormTypeOption('by_reference', false),
+            AssociationField::new('recipesteps')->setFormTypeOption('by_reference', false),
+            AssociationField::new('recipe'),
         ];
     }
 
@@ -45,7 +55,7 @@ class ComponentCrudController extends AbstractCrudController
          $manage = $this->translator->trans('grud.manage', [], 'messages');
          $edit = $this->translator->trans('grud.edit', [], 'messages');
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
-         $linkName = $this->translator->trans('menu.link_component_single', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_recipetranslation_single', [], 'messages');
          return $crud
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
@@ -56,17 +66,17 @@ class ComponentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'Component'])
+                      ->linkToRoute('admin_export_csv', ['entity' => 'RecipeTranslation'])
                       ->createAsGlobalAction()
                       ->addCssClass('btn btn-secondary')
                       ->setIcon('fa fa-file-csv');
           $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'Component'])
+                       ->linkToRoute('admin_import', ['entity' => 'RecipeTranslation'])
                        ->createAsGlobalAction()
                        ->addCssClass('btn btn-secondary')
                        ->setIcon('fa fa-upload');
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_component_single', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_recipetranslation_single', [], 'messages');
           return $actions
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)

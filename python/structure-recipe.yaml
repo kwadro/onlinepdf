@@ -5,31 +5,28 @@ groups:
                 uk: Каталог
                 en: Catalog
         entities:
-            Recipe:
-                relatedSaleAndLocale: list
-                url_key_field: slug
-                category_field: recipecategorys
+            RecipeTranslation:
                 translate:
                     link:
-                        uk: Рецепти
-                        uk_single: Рецепт
-                        en: Recipes
-                        en_single: Recipe
-                import:
-                    type: csv
-                    resource: recipes.csv
+                        uk: Рецепти (переклад)
+                        uk_single: Рецепт (переклад)
+                        en: Recipes (translation)
+                        en_single: Recipe (translation)
                 fields:
                     - name: id
                       type: integer
                       id: true
+                    - name: locale
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Locale
+                      inversedBy: recipelocales
                     - name: name
                       type: string
                       isrequire: true
                       isstring: true
                     - name: slug
                       type: string
-                    - name: position
-                      type: integer
                     - name: is_active
                       type: select
                       typeInput: yesno
@@ -47,6 +44,53 @@ groups:
                     - name: cuisine
                       name_uk: кухня
                       type: string
+                    - name: notes
+                      type: text
+                      numOfRows: 3
+                    - name: components
+                      name_uk: Інградієнти
+                      type: relation
+                      objectRelation: Component
+                      typeRelation: OneToMany
+                      mappedBy: recipetranslation
+                    - name: recipesteps
+                      orderByField: position
+                      orderBy: ASC
+                      name_uk: кроки
+                      type: relation
+                      objectRelation: RecipeStep
+                      typeRelation: OneToMany
+                      mappedBy: recipetranslation
+                    - name: recipe
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Recipe
+                      inversedBy: translations
+            Recipe:
+                relatedSaleAndLocale: list
+                url_key_field: slug
+                category_field: recipecategorys
+                translate:
+                    link:
+                        uk: Рецепти
+                        uk_single: Рецепт
+                        en: Recipes
+                        en_single: Recipe
+                import:
+                    type: csv
+                    resource: recipes.csv
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: site
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Site
+                      inversedBy: recipesites
+                      isstring: true
+                    - name: position
+                      type: integer
                     - name: prep_time_min
                       name_uk: час підготовки
                       type: integer
@@ -55,19 +99,8 @@ groups:
                       type: integer
                     - name: servings
                       type: integer
-                    - name: notes
-                      type: text
-                      numOfRows: 3
                     - name: image
                       name_uk: Картинка
-                      type: image
-                      uploadDir: recipes
-                    - name: image1
-                      name_uk: Картинка 1
-                      type: image
-                      uploadDir: recipes
-                    - name: image2
-                      name_uk: Картинка 2
                       type: image
                       uploadDir: recipes
                     - name: recipecategorys
@@ -77,20 +110,10 @@ groups:
                       typeRelation: ManyToMany
                       roleRelation: master
                       mappedBy: recipes
-                    - name: components
-                      name_uk: Інградієнти
+                    - name: translations
                       type: relation
-                      objectRelation: Component
-                      typeRelation: ManyToMany
-                      roleRelation: master
-                      mappedBy: recipes
-                    - name: recipesteps
-                      orderByField: position
-                      orderBy: ASC
-                      name_uk: кроки
-                      type: relation
-                      objectRelation: RecipeStep
                       typeRelation: OneToMany
+                      objectRelation: RecipeTranslation
                       mappedBy: recipe
             RecipeCategory:
                 relatedSaleAndLocale: catalog
@@ -168,10 +191,10 @@ groups:
                       type: string
                       isrequire: true
                       isstring: true
-                    - name: recipe
+                    - name: recipetranslation
                       type: relation
                       typeRelation: ManyToOne
-                      objectRelation: Recipe
+                      objectRelation: RecipeTranslation
                       inversedBy: recipesteps
                     - name: position
                       type: integer
@@ -241,11 +264,10 @@ groups:
                       inversedBy: components
                     - name: quantity
                       type: integer
-                    - name: recipes
+                    - name: recipetranslation
                       type: relation
-                      objectRelation: Recipe
-                      typeRelation: ManyToMany
-                      roleRelation: slave
+                      objectRelation: RecipeTranslation
+                      typeRelation: ManyToOne
                       inversedBy: components
             Unit:
                 translate:
