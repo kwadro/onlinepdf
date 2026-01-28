@@ -22,6 +22,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 class {{ name }}CrudController extends AbstractCrudController
 {
     public function __construct(
@@ -61,8 +63,8 @@ class {{ name }}CrudController extends AbstractCrudController
         {%- set configureField = configureField ~ "            ->setHelp('Enter a positive number only')" %}
 
     {%- elif field.php_type=='relation' %}
-        {%- if field.typeRelation=='ManyToMany1' or field.typeRelation=='OneToMany' %}
-           {%- if field.roleRelation=='master' %}
+        {%- if field.typeRelation=='ManyToMany' or field.typeRelation=='OneToMany' %}
+           {%- if field.isCollectionField %}
            {%- set configureField = configureField  ~ "CollectionField::new('" ~ field.name ~ "')" ~ "\n" %}
            {%- set configureField = configureField  ~ "            ->setEntryType(" ~ field.objectRelation ~ "Type::class)" ~ "\n" %}
            {%- set configureField = configureField  ~ "            ->setEntryIsComplex(true)" ~ "\n" %}

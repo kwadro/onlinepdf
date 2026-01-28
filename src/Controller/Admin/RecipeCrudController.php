@@ -3,6 +3,7 @@ namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use App\Entity\Recipe;
 use App\Form\Type\RecipeCategoryType;
+use App\Form\Type\RecipeTranslationType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -18,6 +19,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 class RecipeCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -32,20 +35,27 @@ class RecipeCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('site'),
             IntegerField::new('position')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             IntegerField::new('prep_time_min')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             IntegerField::new('cook_time_min')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             IntegerField::new('servings')
             ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
             ->setHelp('Enter a positive number only'),
             ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
             AssociationField::new('recipecategorys')->setFormTypeOption('by_reference', false),
-            AssociationField::new('translations')->setFormTypeOption('by_reference', false),
+            CollectionField::new('recipetranslations')
+                ->setEntryType(RecipeTranslationType::class)
+                ->setEntryIsComplex(true)
+                ->allowAdd()
+                ->allowDelete()
+                ->renderExpanded(false)
+                ->setFormTypeOption('by_reference', false)
+                ->onlyOnForms(),
         ];
     }
 
@@ -57,6 +67,10 @@ class RecipeCrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_recipe_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+                '@EasyAdmin/crud/form_theme.html.twig',
+                'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

@@ -20,6 +20,7 @@ groups:
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: Locale
+                      roleRelation: master
                       inversedBy: recipelocales
                     - name: name
                       type: string
@@ -66,10 +67,43 @@ groups:
                       typeRelation: ManyToOne
                       objectRelation: Recipe
                       inversedBy: translations
+                    - name: recipeauthor
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: RecipeAuthor
+                      roleRelation: master
+                      inversedBy: recipes
+
+            RecipeAuthor:
+                relatedSaleAndLocale: single
+                translate:
+                    link:
+                        uk: Автори Рецептів
+                        uk_single: Автор Рецепта
+                        en: Authors of Recipes
+                        en_single: Author of Recipe
+                import:
+                    type: csv
+                    resource: recipes.csv
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isstring: true
+                      isrequire: true
+                    - name: user
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: User
+                      inversedBy: authors
+
             Recipe:
                 relatedSaleAndLocale: list
                 url_key_field: slug
                 category_field: recipecategorys
+                author_field: author
                 translate:
                     link:
                         uk: Рецепти
@@ -79,6 +113,7 @@ groups:
                 import:
                     type: csv
                     resource: recipes.csv
+                stringfield: site|id
                 fields:
                     - name: id
                       type: integer
@@ -87,8 +122,8 @@ groups:
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: Site
+                      roleRelation: master
                       inversedBy: recipesites
-                      isstring: true
                     - name: position
                       type: integer
                     - name: prep_time_min
@@ -111,10 +146,13 @@ groups:
                       roleRelation: master
                       mappedBy: recipes
                     - name: translations
+                      isCollectionField: true
                       type: relation
                       typeRelation: OneToMany
                       objectRelation: RecipeTranslation
                       mappedBy: recipe
+                      roleRelation: master
+
             RecipeCategory:
                 relatedSaleAndLocale: catalog
                 default_field: parent
@@ -173,6 +211,7 @@ groups:
                       typeRelation: ManyToMany
                       roleRelation: slave
                       inversedBy: recipecategorys
+
             RecipeStep:
                 translate:
                     link:
@@ -195,6 +234,7 @@ groups:
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: RecipeTranslation
+                      roleRelation: master
                       inversedBy: recipesteps
                     - name: position
                       type: integer
@@ -205,6 +245,7 @@ groups:
                     - name: image
                       type: image
                       uploadDir: recipesteps
+
             Ingredient:
                 translate:
                     link:
@@ -234,6 +275,7 @@ groups:
                       objectRelation: Component
                       typeRelation: OneToMany
                       mappedBy: ingredient
+
             Component:
                 translate:
                     link:
@@ -256,11 +298,13 @@ groups:
                       type: relation
                       objectRelation: Ingredient
                       typeRelation: ManyToOne
+                      roleRelation: master
                       inversedBy: components
                     - name: unit
                       type: relation
                       objectRelation: Unit
                       typeRelation: ManyToOne
+                      roleRelation: master
                       inversedBy: components
                     - name: quantity
                       type: integer
@@ -269,6 +313,7 @@ groups:
                       objectRelation: RecipeTranslation
                       typeRelation: ManyToOne
                       inversedBy: components
+
             Unit:
                 translate:
                     link:
@@ -337,6 +382,11 @@ groups:
                       type: relation
                       typeRelation: OneToMany
                       objectRelation: MegaMenuSetting
+                      mappedBy: site
+                    - name: recipesites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: Recipe
                       mappedBy: site
             Locale:
                 translate:

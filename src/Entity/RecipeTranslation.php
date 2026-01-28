@@ -12,6 +12,7 @@ use App\Entity\Locale;
 use App\Entity\Component;
 use App\Entity\RecipeStep;
 use App\Entity\Recipe;
+use App\Entity\RecipeAuthor;
 
 #[ORM\Entity(repositoryClass: RecipeTranslationRepository::class)]
 class RecipeTranslation
@@ -75,6 +76,12 @@ class RecipeTranslation
             inversedBy: 'translations'
     )]
         private ?Recipe $recipe;
+    #[ORM\ManyToOne(
+            targetEntity: RecipeAuthor::class,
+            cascade: ['persist'],
+            inversedBy: 'recipes'
+    )]
+        private ?RecipeAuthor $recipeauthor;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -279,6 +286,16 @@ class RecipeTranslation
     public function setRecipe(?Recipe $recipe): RecipeTranslation
     {
         $this->recipe = $recipe;
+        return $this;
+    }
+
+    public function getRecipeauthor(): ?RecipeAuthor
+    {
+        return $this->recipeauthor;
+    }
+    public function setRecipeauthor(?RecipeAuthor $recipeauthor): RecipeTranslation
+    {
+        $this->recipeauthor = $recipeauthor;
         return $this;
     }
 

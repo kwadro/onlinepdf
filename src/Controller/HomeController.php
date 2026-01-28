@@ -30,13 +30,16 @@ class HomeController extends AbstractController
             $request->getLocale()
         );
 
-        return $this->render('home/index.html.twig',['setting'=>$setting]);
+        return $this->render('homepage/index.html.twig',['setting'=>$setting]);
     }
 
     #[Route('/', name: 'default', locale: 'en')]
-    public function default(): Response
+    public function default(Request $request): Response
     {
-
-        return $this->render('home/index.html.twig');
+        $setting = $this->provider->getSettings(
+            $request->getHost(),
+            $request->getLocale()
+        );
+        return $this->render('homepage/index.html.twig',['setting'=>$setting]);
     }
 }

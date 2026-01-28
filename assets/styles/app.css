@@ -104,7 +104,12 @@ header {
     border-color: color-mix(in srgb, var(--primary-background-color) 90%, black);
 }
 
-/* Footer styles */
+.children-category a:hover, .children-category a:focus{
+    background-color: var(--second-button-color);
+    border-radius: var(--primary-button-border-radius);
+}
+
+    /* Footer styles */
 footer {
     background-color: #f1f1f1;
     color: #555;

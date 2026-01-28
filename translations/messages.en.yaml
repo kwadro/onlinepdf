@@ -92,6 +92,8 @@ Description: Description
 Cuisine: Cuisine
 Components: Components
 Recipesteps: Recipesteps
+menu.link_recipeauthor_single: Author of Recipe
+menu.link_recipeauthor: Authors of Recipes
 menu.link_recipe_single: Recipe
 menu.link_recipe: Recipes
 Prep Time Min: Prep Time Min
@@ -153,3 +155,13 @@ View: 'View'
 Password: 'Password'
 Register with Google: 'Register with Google'
 Agree terms : 'Agree terms and conditions'
+List of recipes: 'List of recipes'
+Categories: 'Categories'
+We not found any recipe in this category: 'We not found any recipe in this category'
+Prepare time: 'Prepare time'
+Cook time: 'Cook time'
+Servings : 'Servings'
+minutes: 'min'
+Author: 'Author'
+Save: 'Save'
+Close: 'Close'

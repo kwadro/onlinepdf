@@ -1,16 +1,37 @@
 import { Controller } from '@hotwired/stimulus';
 
-/*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="hello" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- * hello_controller.js -> "hello"
- *
- * Delete this file or adapt it for your use!
+/**
+ * Простий SPA Router контролер для Symfony
  */
 export default class extends Controller {
+    static targets = ['link', 'content'];
+
     connect() {
-        this.element.textContent = 'Hello Stimulus! Edit me in assets/controllers/hello_controller.js';
+        console.log('Router controller connected');
+    }
+
+    /**
+     * Клік по посиланню
+     */
+    navigate(event) {
+        event.preventDefault();
+        const url = event.currentTarget.getAttribute('href');
+        if (!url) return;
+
+        fetch(url, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.text();
+            })
+            .then(html => {
+                // Підставляємо контент у наш container
+                this.contentTarget.innerHTML = html;
+
+                // Оновлюємо URL у браузері
+                window.history.pushState({}, '', url);
+            })
+            .catch(error => console.error('Fetch error:', error));
     }
 }

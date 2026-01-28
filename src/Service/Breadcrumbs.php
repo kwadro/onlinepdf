@@ -79,4 +79,24 @@ class Breadcrumbs
         array_unshift($breadCrumbs, $item);
         return $breadCrumbs;
     }
+
+    public function loadBreadCrumbsByAuthor($recipeAuthor): array
+    {
+        $breadCrumbs =[];
+
+        if ($recipeAuthor) {
+            $breadCrumbs[] = [
+                'link' => null,
+                'url' => $recipeAuthor->getTranslations()[0]->getSlug(),
+                'name' => $recipeAuthor->getTranslations()[0]->getName()
+            ];
+        }
+        $item = [
+            'link' => true,
+            'url' => 'home',
+            'name' => $this->translator->trans('Home', [], 'messages')
+        ];
+        array_unshift($breadCrumbs, $item);
+        return $breadCrumbs;
+    }
 }

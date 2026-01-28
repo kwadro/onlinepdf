@@ -84,6 +84,8 @@ Description: Опис
 Cuisine: Кухня
 Components: Інградієнти
 Recipesteps: Кроки
+menu.link_recipeauthor_single: Автор Рецепта
+menu.link_recipeauthor: Автори Рецептів
 menu.link_recipe_single: Рецепт
 menu.link_recipe: Рецепти
 Prep Time Min: Час Підготовки
@@ -145,3 +147,13 @@ Ingredients: 'Інградієнти'
 Password: 'Пароль'
 Register with Google: 'Регістрація з Google'
 Agree terms : 'Я погоджуюсь з умовами користування'
+List of recipes: 'Список рецептів'
+Categories: 'Категорії'
+We not found any recipe in this category: 'Немає рецептів в даній категорії'
+Prepare time: 'Час підготовки'
+Cook time: 'Час приготування'
+Servings : 'Порції'
+minutes: 'хв'
+Author: 'Автор'
+Save: 'Зберегти'
+Close: 'Закрити'

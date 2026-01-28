@@ -12,6 +12,7 @@ use App\Entity\HeaderSetting;
 use App\Entity\SeoSetting;
 use App\Entity\FooterSetting;
 use App\Entity\MegaMenuSetting;
+use App\Entity\Recipe;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 class Site
@@ -55,6 +56,13 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $megamenusites;
+    #[ORM\OneToMany(
+        targetEntity: Recipe::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $recipesites;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -68,6 +76,7 @@ class Site
         $this->seosettingsites = new ArrayCollection();
         $this->footersettingsites = new ArrayCollection();
         $this->megamenusites = new ArrayCollection();
+        $this->recipesites = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -220,6 +229,30 @@ class Site
     public function getMegamenusites(): ?Collection
     {
         return $this->megamenusites;
+    }
+
+    public function addRecipe(Recipe $recipe): self
+    {
+        if(!$this->recipesites->contains($recipe)) {
+           $this->recipesites[] = $recipe;
+           $recipe->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeRecipe(Recipe $recipe): self
+    {
+        if($this->recipesites->removeElement($recipe)) {
+           if ($recipe->getSite() === $this) {
+               $recipe->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getRecipesites(): ?Collection
+    {
+        return $this->recipesites;
     }
 
 }

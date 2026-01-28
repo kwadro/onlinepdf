@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 php bin/console app:import:csv RecipeTranslation scalar
+php bin/console app:import:csv RecipeAuthor scalar
 php bin/console app:import:csv Recipe scalar
 php bin/console app:import:csv RecipeCategory scalar
 php bin/console app:import:csv RecipeStep scalar
@@ -18,6 +19,7 @@ php bin/console app:import:csv MegaMenuSetting scalar
 php bin/console app:import:csv MegaMenuTranslation scalar
 php bin/console app:import:csv MegaMenuType scalar
 php bin/console app:import:csv RecipeTranslation association
+php bin/console app:import:csv RecipeAuthor association
 php bin/console app:import:csv Recipe association
 php bin/console app:import:csv RecipeCategory association
 php bin/console app:import:csv RecipeStep association

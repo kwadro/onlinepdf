@@ -1,0 +1,39 @@
+{% extends '@EasyAdmin/crud/form_theme.html.twig' %}
+{% block locale_with_add_widget %}
+    <div class="d-flex gap-2"
+         data-controller="locale"
+        >
+
+        {{ form_widget(form, {
+            attr: {
+                'data-locale-target': 'select'
+            }
+        }) }}
+        <div class="col position-relative" >
+            {# Button Add New #}
+            <a href="{{ path('admin_locale_new') }}"
+               class="btn btn-primary mb-2"
+               data-action="click->locale#open">
+                Add New
+            </a>
+            {# Modal window #}
+            <div data-locale-target="modal"
+                 class="d-none position-absolute top-2 start-0 bg-white shadow rounded-3 flex items-center justify-center z-150"
+                 style="min-width: 300px; max-width: 700px;"
+            >
+
+                <div class="bg-white border p-4  rounded w-1/2 relative">
+                    <div class="position-relative text-right">
+                        <span type="button"
+                            class="absolute top-2 right-2 text-gray-500"
+                            data-action="click->locale#close">✖</span>
+                    </div>
+                    {# Content load here #}
+                    <div  data-locale-target="content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% for field in form  %}
+    <div class="mb-3">
+        {% if 'hidden' not in field.vars.block_prefixes %}
+            {{ form_label(field, null, { label_attr: { class: 'form-label' } }) }}
+            {{ form_widget(field, { attr: { class: 'form-control' } }) }}
+            {{ form_errors(field) }}
+        {% else %}
+            {{ form_label(field, null, { label_attr: { class: 'form-label d-none' } }) }}
+            {{ form_widget(field, { attr: { class: 'form-control' } }) }}
+            {{ form_errors(field) }}
+        {% endif %}
+    </div>
+{% endfor %}
+
+<div class="d-flex justify-content-end gap-2 mt-3">
+    <button type="button" class="btn btn-success"
+            data-action="click->locale#submitForm"
+            data-href="{{ path('admin_locale_submitForm') }}"
+    >
+        {{ 'Save'|trans }}
+    </button>
+    <button type="button" class="btn btn-secondary"
+            data-action="click->locale#close">
+        {{ 'Close'|trans }}
+    </button>
+</div>
+
+
+
+
+

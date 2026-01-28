@@ -17,6 +17,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 class LocaleCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -80,4 +82,5 @@ class LocaleCrudController extends AbstractCrudController
     //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
+
 }

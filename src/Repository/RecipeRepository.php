@@ -50,6 +50,25 @@ class RecipeRepository extends ServiceEntityRepository
                 ->getQuery();
             return $query->getResult();
        }
+       public function findByAuthorId($authorId, $site, $locale): array
+              {
+                   $query = $this->createQueryBuilder('s')
+                       ->innerJoin('s.translations', 't')
+                       ->addSelect('t')
+                       ->where('s.site = :site')
+                       ->andWhere('t.locale = :locale')
+                       ->innerJoin('s.', 'c')
+                       ->andWhere('c.id = :authorId')
+                       ->andWhere('t.is_active = :is_active')
+                       ->setParameter('site', $site)
+                       ->setParameter('locale', $locale)
+                       ->setParameter('authorId', $authorId)
+                       ->setParameter('is_active', 'Yes')
+                       ->orderBy('s.position', 'ASC')
+                       ->setMaxResults(10)
+                       ->getQuery();
+                   return $query->getResult();
+              }
 }
     //    /**
     //     * @return Recipe[] Returns an array of Recipe objects

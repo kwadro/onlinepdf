@@ -77,7 +77,10 @@ def write_file(path: Path, content: str):
 
 def generate_entity(entity_name,entity):
     fields = normalize_fields(entity["fields"])
-    code = render_template("entity.php.j2", name=entity_name, fields=fields)
+    stringField = False
+    if ('stringfield' in entity):
+        stringField = entity['stringfield']
+    code = render_template("entity.php.j2", name=entity_name, fields=fields, stringField=stringField)
     write_file(OUT / f"src/Entity/{entity_name}.php", code)
 
 def generate_controller(entity_name,entity):
@@ -87,18 +90,23 @@ def generate_controller(entity_name,entity):
         OUT / f"src/Controller/Admin/{entity_name}CrudController.php", code
     )
 
-def generate_form_type(entities, entity, entity_name):
+def generate_form_type(entities, entity, entity_name,additionalEntities):
+
     fields = normalize_fields(entity["fields"])
     for field in fields:
         if (field.get('type')=='relation') :
-            if ((field.get('typeRelation')=='ManyToMany'  and field.get('roleRelation')=='master') or field.get('typeRelation')=='OneToMany') :
+            if ((field.get('typeRelation')=='ManyToOne'  and field.get('roleRelation')=='master') or (field.get('typeRelation')=='ManyToMany'  and field.get('roleRelation')=='master') or field.get('typeRelation')=='OneToMany') :
                 className=field.get('objectRelation')
+                print(f"className : " + className)
                 if(className!='self'):
-                    classFields=entities.get(className).get("fields")
+                    if className in entities:
+                       classEntity = entities.get(className)
+                    else:
+                       classEntity = additionalEntities.get(className)
+
+                    classFields = classEntity.get("fields")
                     code = render_template("form-type.php.j2", name=className, fields=classFields)
-                    write_file(
-                        OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code
-                    )
+                    write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
 
 def generate_repository(entity_name, entity):
     related = False
@@ -118,9 +126,7 @@ def generate_repository(entity_name, entity):
                 category_field = entity['category_field']
 
     code = render_template("repository.php.j2", name=entity_name,related=related, default=default_field, slug=url_key_field,category_field=category_field)
-    write_file(
-        OUT / f"src/Repository/{entity_name}Repository.php", code
-    )
+    write_file(OUT / f"src/Repository/{entity_name}Repository.php", code)
 
 def insert_code_by_markers(file_path, generated, start_marker, end_marker):
     with open(file_path, "r", encoding="utf-8") as f:
@@ -176,38 +182,42 @@ def generate_dashboard_link(groups):
            generated = code,
            start_marker = '#@GENERATE TRANSLATE START',
            end_marker = '#@GENERATE TRANSLATE FINISH',
-        )
+    )
 #     yaml_path = OUT / "config/packages/easy_admin.yaml"
 #     write_file(yaml_path, yaml.dump(data, allow_unicode=True))
 
 def generate_import(entity_name, entity):
     code = render_template("import/import-handler.php.j2", name=entity_name).strip()
-    write_file(
-        OUT / f"src/Import/Handler/{entity_name}ImportHandler.php", code
-    )
+    write_file(OUT / f"src/Import/Handler/{entity_name}ImportHandler.php", code)
 
 def generate_export_script(groups):
     code = render_template("export.sh.j2", groups=groups).strip()
-    write_file(
-            OUT / f"bash/export-entity.sh", code
-        )
+    write_file(OUT / f"bash/export-entity.sh", code)
     code = render_template("import.sh.j2", groups=groups).strip()
-    write_file(
-            OUT / f"bash/import-entity.sh", code
-        )
+    write_file(OUT / f"bash/import-entity.sh", code)
 
 def main():
     cfg = load_yaml()
     groups = cfg.get("groups", {})
     for group_name, group in groups.items():
+        if(group_name == 'catalog'):
+            catalogEntities = group.get("entities", {})
+
+        if(group_name == 'setting'):
+            settingEntities = group.get("entities", {})
+
+    for group_name, group in groups.items():
         print("Group : " + group_name)
         entities = group.get("entities", {})
-
         for entity_name, entity in entities.items():
             print("Entity Name : " + entity_name)
             generate_entity(entity_name, entity)
             generate_controller(entity_name, entity)
-            generate_form_type(entities, entity, entity_name)
+            if(group_name == 'catalog'):
+                generate_form_type(entities, entity, entity_name, settingEntities)
+            else:
+                generate_form_type(entities, entity, entity_name, catalogEntities)
+
             generate_repository(entity_name, entity)
             generate_dashboard_link(groups)
             generate_export_script(groups)

@@ -17,6 +17,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 class SiteCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -35,6 +37,7 @@ class SiteCrudController extends AbstractCrudController
             AssociationField::new('seosettingsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('footersettingsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('megamenusites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('recipesites')->setFormTypeOption('by_reference', false),
         ];
     }
 

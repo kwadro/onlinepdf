@@ -54,7 +54,7 @@ class Recipe
         cascade: ['persist'],
         orphanRemoval: false,
     )]
-        public ?Collection $translations;
+        public ?Collection $recipetranslations;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -65,7 +65,7 @@ class Recipe
     public function __construct()
     {
         $this->recipecategorys = new ArrayCollection();
-        $this->translations = new ArrayCollection();
+        $this->recipetranslations = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -108,10 +108,6 @@ class Recipe
     {
         $this->site = $site;
         return $this;
-    }
-    public function __toString(): string
-    {
-        return $this->site;
     }
     public function setPosition(?int $position): self
     {
@@ -187,8 +183,8 @@ class Recipe
 
     public function addRecipeTranslation(RecipeTranslation $recipetranslation): self
     {
-        if(!$this->translations->contains($recipetranslation)) {
-           $this->translations[] = $recipetranslation;
+        if(!$this->recipetranslations->contains($recipetranslation)) {
+           $this->recipetranslations[] = $recipetranslation;
            $recipetranslation->setRecipe($this);
         }
         return $this;
@@ -196,7 +192,7 @@ class Recipe
 
     public function removeRecipeTranslation(RecipeTranslation $recipetranslation): self
     {
-        if($this->translations->removeElement($recipetranslation)) {
+        if($this->recipetranslations->removeElement($recipetranslation)) {
            if ($recipetranslation->getRecipe() === $this) {
                $recipetranslation->setRecipe(null);
            }
@@ -204,9 +200,13 @@ class Recipe
         return $this;
     }
 
-    public function getTranslations(): ?Collection
+    public function getRecipeTranslations(): ?Collection
     {
-        return $this->translations;
+        return $this->recipetranslations;
+    }
+    public function __toString(): string
+    {
+       return $this->site . '|' . $this->id;
     }
 
 }

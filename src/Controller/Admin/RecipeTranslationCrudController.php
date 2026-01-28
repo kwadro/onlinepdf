@@ -17,6 +17,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Config\Actions;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+
+
 class RecipeTranslationCrudController extends AbstractCrudController
 {
     public function __construct(
@@ -34,22 +36,21 @@ class RecipeTranslationCrudController extends AbstractCrudController
             TextField::new('slug'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             TextField::new('meta_title'),
-        
+
             TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-        
+
             TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-        
+
             TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
             TextField::new('cuisine'),
-        
+
             TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
             AssociationField::new('components')->setFormTypeOption('by_reference', false),
             AssociationField::new('recipesteps')->setFormTypeOption('by_reference', false),
             AssociationField::new('recipe'),
+            AssociationField::new('recipeauthor'),
         ];
     }
-
-
     public function configureCrud(Crud $crud): Crud
     {
          $manage = $this->translator->trans('grud.manage', [], 'messages');

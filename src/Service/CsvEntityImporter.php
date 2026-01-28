@@ -114,7 +114,8 @@ readonly class CsvEntityImporter
             'sale' => 'incrementid',
             'source' => 'name',
             'client' => 'phone',
-            'recipe'=>'name',
+
+
             'recipecategorys'=>'name',
             'components'=>'name',
             'recipesteps'=>'name',
