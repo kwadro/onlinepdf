@@ -1,7 +1,7 @@
 import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
-    static targets = ['modal', 'content', 'select'];
+    static targets = ['modal', 'content', 'select','overlay'];
 
     connect() {
         console.log('AddNew controller connected');
@@ -9,11 +9,9 @@ export default class extends Controller {
 
     open(event) {
         event.preventDefault();
-        console.log('locale open', this.contentTarget)
         // open modal window
         this.modalTarget.classList.remove('d-none');
-
-        // if you need  AJAX, can load form
+        this.overlayTarget.classList.remove('d-none');
         const url = event.currentTarget.getAttribute('href');
         if (url) {
             fetch(url, {headers: {'X-Requested-With': 'XMLHttpRequest'}})
@@ -45,28 +43,39 @@ export default class extends Controller {
                 'X-Requested-With': 'XMLHttpRequest'
             }
         })
-            .then(response => response.json())
-            .then(json => {
-                if (json.errors) {
-                    console.log('json.errors', json.errors)
-                    this.showErrors(json.errors)
-                } else {
-                    if (json.html) {
-                        this.contentTarget.innerHTML = json.html
-                    }
-                    if (json.newLocale) {
-                        this.addOptionToSelect(json.newLocale)
-                    }
-                    if (json.success) {
-                        this.close(event)
-                    }
+        .then(response => response.json())
+        .then(json => {
+            if (json.errors) {
+                this.showErrors(json.errors)
+            } else {
+                if (json.html) {
+                    this.contentTarget.innerHTML = json.html
                 }
 
-            })
-            .catch(error => {
-                console.error('Submit error:', error)
-            })
+                if (json.newItem && json.isNew) {
+                    this.addOptionToSelect(json.newItem)
+                } else {
+                    this.selectOptionToSelect(json.newItem)
+                }
 
+                if (json.success) {
+                    this.close(event)
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Submit error:', error)
+        })
+    }
+
+    selectOptionToSelect(newLocale) {
+        const option = this.selectTarget.querySelector(
+            `option[value="${newLocale.id}"]`
+        )
+        if (option) {
+            option.selected = true
+            this.selectTarget.dispatchEvent(new Event('change'))
+        }
     }
 
     addOptionToSelect(newLocale) {
@@ -82,17 +91,12 @@ export default class extends Controller {
             const input = this.contentTarget.querySelector(
                 `[name$="[${field}]"]`
             )
-            console.log('message', message)
-            console.log('field', field)
-            console.log('input', input)
             if (!input) return
-
             input.classList.add('is-invalid')
 
             const error = document.createElement('div')
             error.classList.add('invalid-feedback')
             error.innerText = message
-
             input.closest('.mb-3')?.appendChild(error)
         })
     }
@@ -111,6 +115,7 @@ export default class extends Controller {
     close(event) {
         event.preventDefault();
         this.modalTarget.classList.add('d-none');
+        this.overlayTarget.classList.add('d-none');
     }
 }
 

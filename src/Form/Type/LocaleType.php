@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Locale;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -15,7 +16,6 @@ use App\Form\Type\HeaderTranslationType;
 use App\Form\Type\FooterTranslationType;
 use App\Form\Type\SeoSettingsTranslationType;
 use App\Form\Type\MegaMenuTranslationType;
-
 class LocaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -28,7 +28,8 @@ class LocaleType extends AbstractType
                     'Yes' => 'Yes',
                     'No' => 'No'
                 ]
-            ]);
+            ])
+         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

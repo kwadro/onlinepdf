@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Site;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -23,56 +24,6 @@ class SiteType extends AbstractType
         $builder
             ->add('code', TextType::class)
             ->add('domain', TextType::class)
-            ->add('headersettingsites', CollectionType::class, [
-                'entry_type' => HeaderSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('seosettingsites', CollectionType::class, [
-                'entry_type' => SeoSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('footersettingsites', CollectionType::class, [
-                'entry_type' => FooterSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('megamenusites', CollectionType::class, [
-                'entry_type' => MegaMenuSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('recipesites', CollectionType::class, [
-                'entry_type' => RecipeType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
          ;
     }
 
@@ -80,6 +31,9 @@ class SiteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Site::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'site_form',
         ]);
     }
 }

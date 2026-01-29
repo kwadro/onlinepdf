@@ -73,7 +73,7 @@ class RecipeTranslation
     #[ORM\ManyToOne(
             targetEntity: Recipe::class,
             cascade: ['persist'],
-            inversedBy: 'translations'
+            inversedBy: 'recipetranslations'
     )]
         private ?Recipe $recipe;
     #[ORM\ManyToOne(

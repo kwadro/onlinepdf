@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\RecipeCategory;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -28,16 +29,6 @@ class RecipeCategoryType extends AbstractType
             ])
             ->add('meta_title', TextType::class)
             ->add('meta_description', TextareaType::class)
-            ->add('recipes', CollectionType::class, [
-                'entry_type' => RecipeType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
          ;
     }
 
@@ -45,6 +36,9 @@ class RecipeCategoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => RecipeCategory::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'recipecategory_form',
         ]);
     }
 }

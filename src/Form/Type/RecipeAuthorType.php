@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\RecipeAuthor;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,16 +19,6 @@ class RecipeAuthorType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('user', CollectionType::class, [
-                'entry_type' => UserType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
          ;
     }
 
@@ -35,6 +26,9 @@ class RecipeAuthorType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => RecipeAuthor::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'recipeauthor_form',
         ]);
     }
 }

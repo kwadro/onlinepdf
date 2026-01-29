@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\HeaderTranslation;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,26 +19,6 @@ class HeaderTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('headersetting', CollectionType::class, [
-                'entry_type' => HeaderSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('locale', CollectionType::class, [
-                'entry_type' => LocaleType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
             ->add('title', TextType::class)
             ->add('menu_json', TextType::class)
          ;
@@ -47,6 +28,9 @@ class HeaderTranslationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => HeaderTranslation::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'headertranslation_form',
         ]);
     }
 }

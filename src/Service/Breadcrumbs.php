@@ -48,8 +48,8 @@ class Breadcrumbs
         if ($recipe) {
             $breadCrumbs[] = [
                 'link' => null,
-                'url' => $recipe->getTranslations()[0]->getSlug(),
-                'name' => $recipe->getTranslations()[0]->getName()
+                'url' => $recipe->getRecipeTranslations()[0]->getSlug(),
+                'name' => $recipe->getRecipeTranslations()[0]->getName()
             ];
             $categories = $recipe->getRecipecategorys();
             $category = $categories[0];
@@ -87,8 +87,8 @@ class Breadcrumbs
         if ($recipeAuthor) {
             $breadCrumbs[] = [
                 'link' => null,
-                'url' => $recipeAuthor->getTranslations()[0]->getSlug(),
-                'name' => $recipeAuthor->getTranslations()[0]->getName()
+                'url' => $recipeAuthor->getId(),
+                'name' => $recipeAuthor->getName()
             ];
         }
         $item = [

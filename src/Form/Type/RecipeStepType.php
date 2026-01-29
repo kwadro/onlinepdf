@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\RecipeStep;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,16 +19,6 @@ class RecipeStepType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
-            ->add('recipetranslation', CollectionType::class, [
-                'entry_type' => RecipeTranslationType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
             ->add('position', IntegerType::class)
             ->add('question', TextareaType::class)
             ->add('answer', TextareaType::class)
@@ -38,6 +29,9 @@ class RecipeStepType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => RecipeStep::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'recipestep_form',
         ]);
     }
 }

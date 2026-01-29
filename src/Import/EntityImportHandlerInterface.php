@@ -14,7 +14,8 @@ interface EntityImportHandlerInterface
         'sale' => 'incrementid',
         'source' => 'name',
         'client' => 'phone',
-        'recipecategorys'=>'name'
+        'recipecategorys'=>'name',
+        'recipe' => 'name|id',
     ];
 
     public function supports(string $entityClass): bool;

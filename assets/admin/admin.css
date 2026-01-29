@@ -1,0 +1,10 @@
+.ea-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.2);
+    z-index: 9998;
+}
+
+.admin-popup {
+    z-index: 9999;
+}

@@ -36,14 +36,14 @@ class RecipeTranslationCrudController extends AbstractCrudController
             TextField::new('slug'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             TextField::new('meta_title'),
-
+        
             TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-
+        
             TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-
+        
             TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
             TextField::new('cuisine'),
-
+        
             TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
             AssociationField::new('components')->setFormTypeOption('by_reference', false),
             AssociationField::new('recipesteps')->setFormTypeOption('by_reference', false),
@@ -51,6 +51,8 @@ class RecipeTranslationCrudController extends AbstractCrudController
             AssociationField::new('recipeauthor'),
         ];
     }
+
+
     public function configureCrud(Crud $crud): Crud
     {
          $manage = $this->translator->trans('grud.manage', [], 'messages');
@@ -58,6 +60,10 @@ class RecipeTranslationCrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_recipetranslation_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+               '@EasyAdmin/crud/form_theme.html.twig',
+               'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

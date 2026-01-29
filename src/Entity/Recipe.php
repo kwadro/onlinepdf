@@ -200,7 +200,7 @@ class Recipe
         return $this;
     }
 
-    public function getRecipeTranslations(): ?Collection
+    public function getRecipetranslations(): ?Collection
     {
         return $this->recipetranslations;
     }

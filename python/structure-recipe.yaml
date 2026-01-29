@@ -22,6 +22,8 @@ groups:
                       objectRelation: Locale
                       roleRelation: master
                       inversedBy: recipelocales
+                      typeInput: addNew
+                      formSetting: code|code,name
                     - name: name
                       type: string
                       isrequire: true
@@ -66,12 +68,14 @@ groups:
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: Recipe
-                      inversedBy: translations
+                      inversedBy: recipetranslations
                     - name: recipeauthor
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: RecipeAuthor
                       roleRelation: master
+                      typeInput: addNew
+                      formSetting: name|name
                       inversedBy: recipes
 
             RecipeAuthor:
@@ -145,7 +149,7 @@ groups:
                       typeRelation: ManyToMany
                       roleRelation: master
                       mappedBy: recipes
-                    - name: translations
+                    - name: recipetranslations
                       isCollectionField: true
                       type: relation
                       typeRelation: OneToMany

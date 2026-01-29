@@ -59,18 +59,20 @@ class {{ name }}CrudController extends AbstractCrudController
 
     {%- elif field.type=='integer'  %}
         {%- set configureField = configureField ~ "IntegerField::new('" ~ field.name ~ "')"  ~ "\n" %}
-        {%- set configureField = configureField ~ "            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])" ~ "\n" %}
-        {%- set configureField = configureField ~ "            ->setHelp('Enter a positive number only')" %}
+        {%- set configureField = configureField ~ "                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])" ~ "\n" %}
+        {%- set configureField = configureField ~ "                ->setHelp('Enter a positive number only')" %}
 
     {%- elif field.php_type=='relation' %}
         {%- if field.typeRelation=='ManyToMany' or field.typeRelation=='OneToMany' %}
            {%- if field.isCollectionField %}
            {%- set configureField = configureField  ~ "CollectionField::new('" ~ field.name ~ "')" ~ "\n" %}
-           {%- set configureField = configureField  ~ "            ->setEntryType(" ~ field.objectRelation ~ "Type::class)" ~ "\n" %}
-           {%- set configureField = configureField  ~ "            ->setEntryIsComplex(true)" ~ "\n" %}
-           {%- set configureField = configureField  ~ "            ->allowAdd()->allowDelete()->renderExpanded(false)" ~ "\n" %}
-           {%- set configureField = configureField  ~ "            ->setFormTypeOption('by_reference', false)" ~ "\n" %}
-           {%- set configureField = configureField  ~ "            ->onlyOnForms()"  %}
+           {%- set configureField = configureField  ~ "                ->setEntryType(" ~ field.objectRelation ~ "Type::class)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->setEntryIsComplex(true)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->allowAdd()" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->allowDelete()" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->renderExpanded(false)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->setFormTypeOption('by_reference', false)" ~ "\n" %}
+           {%- set configureField = configureField  ~ "                ->onlyOnForms()"  %}
            {%- else %}
            {%- set configureField = configureField  ~ "AssociationField::new('" ~ field.name ~ "')->setFormTypeOption('by_reference', false)" %}
            {%- endif %}
@@ -103,6 +105,10 @@ class {{ name }}CrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_{{ name| lower }}_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+               '@EasyAdmin/crud/form_theme.html.twig',
+               'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

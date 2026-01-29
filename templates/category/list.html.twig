@@ -40,7 +40,7 @@
                         <li class="list-group-item d-flex justify-content-between align-items-center">
                             <div class="col-10 text-start">
                                 <div class="row">
-                                    <p>{{ recipe.translations[0].name }}</p>
+                                    <p>{{ recipe.recipetranslations[0].name }}</p>
                                 </div>
                                 <div class="d-flex gap-2 text-muted flex-row small">
                                     <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
@@ -55,14 +55,14 @@
                                 </div>
                                 <div class="flex-row small">
                                     <span>{{ 'Author'|trans }}</span>
-                                    <a href="{{ path('author_list', {id: 1}) }}" class="btn btn-sm btn-secondary">
-                                        {{ recipe.translations[0].recipeauthor }}
+                                    <a href="{{ path('author_list', {id: recipe.recipetranslations[0].recipeauthor.id}) }}" class="btn btn-sm btn-secondary">
+                                        {{ recipe.recipetranslations[0].recipeauthor }}
                                     </a>
 
                                 </div>
                             </div>
                             <div class="col-2 text-end">
-                                <a href="{{ path('catalog_show', {urlKey: recipe.translations[0].slug}) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary">
                                     {{ 'View'|trans }}
                                 </a>
                             </div>

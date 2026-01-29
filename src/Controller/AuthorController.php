@@ -35,17 +35,17 @@ class AuthorController extends AbstractController
         $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
 
         if (!$site || !$localeObject) {
-            return $this->render('category/list.html.twig', [
+            return $this->render('author/list.html.twig', [
                 'recipes' => [],
-                'recipeCategory' => [],
+                'recipeAuthor' => [],
                 'breadCrumbs' => [],
             ]);
         }
 
         $recipeAuthor = $recipeAuthorRepository->findOneById($id);
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByAuthor($recipeAuthor);
-        $recipes = $this->recipeRepository->findByAuthorId($recipeAuthor->getId(), $site->getId(), $localeObject->getId());
 
+        $recipes = $this->recipeRepository->findByAuthorId($recipeAuthor->getId(), $site->getId(), $localeObject->getId());
         return $this->render('author/list.html.twig', [
             'recipes' => $recipes,
             'recipeAuthor' => $recipeAuthor,

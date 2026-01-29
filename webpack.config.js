@@ -29,6 +29,7 @@ Encore
             }
         ]
     }))
+    .addEntry('admin-css', './assets/admin/admin.css')
     .addEntry('admin', './assets/admin.js')
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()

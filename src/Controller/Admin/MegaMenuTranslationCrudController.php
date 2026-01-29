@@ -37,8 +37,8 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
             ChoiceField::new('status')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             AssociationField::new('megamenutype'),
             IntegerField::new('position')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             TextField::new('url'),
         
             TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
@@ -53,6 +53,10 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_megamenutranslation_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+               '@EasyAdmin/crud/form_theme.html.twig',
+               'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\MegaMenuSetting;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,26 +19,6 @@ class MegaMenuSettingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('site', CollectionType::class, [
-                'entry_type' => SiteType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('translations', CollectionType::class, [
-                'entry_type' => MegaMenuTranslationType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
          ;
     }
 
@@ -45,6 +26,9 @@ class MegaMenuSettingType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => MegaMenuSetting::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'megamenusetting_form',
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\Ingredient;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -20,16 +21,6 @@ class IngredientType extends AbstractType
             ->add('name', TextType::class)
             ->add('sku', TextType::class)
             ->add('url', TextType::class)
-            ->add('components', CollectionType::class, [
-                'entry_type' => ComponentType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
          ;
     }
 
@@ -37,6 +28,9 @@ class IngredientType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Ingredient::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'ingredient_form',
         ]);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\FooterTranslation;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,26 +19,6 @@ class FooterTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('footersetting', CollectionType::class, [
-                'entry_type' => FooterSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('locale', CollectionType::class, [
-                'entry_type' => LocaleType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
             ->add('content', TextareaType::class)
          ;
     }
@@ -46,6 +27,9 @@ class FooterTranslationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => FooterTranslation::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'footertranslation_form',
         ]);
     }
 }

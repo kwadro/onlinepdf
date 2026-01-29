@@ -4,6 +4,7 @@ namespace App\Form\Type;
 
 use App\Entity\SeoSettingsTranslation;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
@@ -18,26 +19,6 @@ class SeoSettingsTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('seosetting', CollectionType::class, [
-                'entry_type' => SeoSettingType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('locale', CollectionType::class, [
-                'entry_type' => LocaleType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
             ->add('meta_title', TextType::class)
             ->add('meta_description', TextareaType::class)
             ->add('meta_keywords', TextType::class)
@@ -53,6 +34,9 @@ class SeoSettingsTranslationType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => SeoSettingsTranslation::class,
+            'csrf_protection' => true,
+            'csrf_field_name' => '_token',
+            'csrf_token_id'   => 'seosettingstranslation_form',
         ]);
     }
 }

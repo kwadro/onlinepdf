@@ -114,9 +114,9 @@ readonly class CsvEntityImporter
             'sale' => 'incrementid',
             'source' => 'name',
             'client' => 'phone',
-
-
             'recipecategorys'=>'name',
+            'recipetranslations'=>'name',
+            'recipeauthor'=>'name',
             'components'=>'name',
             'recipesteps'=>'name',
             'children'=>'name',
@@ -161,11 +161,6 @@ readonly class CsvEntityImporter
                             $value = $assocEntity2->getId();
                         }
                         $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $value]);
-
-                        echo $column . '-' . $fieldToSearch . '-' .$value . PHP_EOL;
-                        echo (($assocEntity) ? 'yes' : 'no'). PHP_EOL;
-                        echo ($assocClass) . PHP_EOL;;
-
                         if ($assocEntity) {
                             $setter = 'set' . ucfirst($column);
                             $entity->$setter($assocEntity);
@@ -175,6 +170,7 @@ readonly class CsvEntityImporter
                         $assocEntities = [];
                         foreach ($ids as $assocId) {
                             $fieldToSearch = $associationFieldMap[$column] ?? 'id';
+                            //echo $assocClass . '-' . $column . '-' . $fieldToSearch . '-' .$value . PHP_EOL;
                             $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $assocId]);
                             if ($assocEntity) {
                                 $assocEntities[] = $assocEntity;

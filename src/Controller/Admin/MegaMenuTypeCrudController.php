@@ -44,6 +44,10 @@ class MegaMenuTypeCrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_megamenutype_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+               '@EasyAdmin/crud/form_theme.html.twig',
+               'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

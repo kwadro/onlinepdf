@@ -34,8 +34,8 @@ class RecipeCategoryCrudController extends AbstractCrudController
             TextField::new('name')->setRequired(true),
             TextField::new('slug'),
             IntegerField::new('position')
-            ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-            ->setHelp('Enter a positive number only'),
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
             TextField::new('meta_title'),
@@ -55,6 +55,10 @@ class RecipeCategoryCrudController extends AbstractCrudController
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
          $linkName = $this->translator->trans('menu.link_recipecategory_single', [], 'messages');
          return $crud
+            ->setFormThemes([
+               '@EasyAdmin/crud/form_theme.html.twig',
+               'admin/fields.html.twig'
+            ])
             ->setPageTitle('index', sprintf('%s %s',$manage,$linkName)) // For the list view
             ->setPageTitle('edit', sprintf('%s %s',$edit,$linkName).' id : %entity_id%') // For the edit form
             ->setPageTitle('new', sprintf('%s %s',$createNew,$linkName))

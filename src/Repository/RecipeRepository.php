@@ -16,7 +16,7 @@ class RecipeRepository extends ServiceEntityRepository
        public function findOneByUrlKey($urlKey, $site, $locale): ?Recipe
        {
            $query = $this->createQueryBuilder('s')
-                ->innerJoin('s.translations', 't')
+                ->innerJoin('s.recipetranslations', 't')
                 ->addSelect('t')
                 ->where('s.site = :site')
                 ->andWhere('t.locale = :locale')
@@ -34,7 +34,7 @@ class RecipeRepository extends ServiceEntityRepository
        public function findByCategoryId($categoryId, $site, $locale): array
        {
             $query = $this->createQueryBuilder('s')
-                ->innerJoin('s.translations', 't')
+                ->innerJoin('s.recipetranslations', 't')
                 ->addSelect('t')
                 ->where('s.site = :site')
                 ->andWhere('t.locale = :locale')
@@ -53,7 +53,7 @@ class RecipeRepository extends ServiceEntityRepository
        public function findByAuthorId($authorId, $site, $locale): array
               {
                    $query = $this->createQueryBuilder('s')
-                       ->innerJoin('s.translations', 't')
+                       ->innerJoin('s.recipetranslations', 't')
                        ->addSelect('t')
                        ->where('s.site = :site')
                        ->andWhere('t.locale = :locale')

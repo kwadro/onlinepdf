@@ -133,6 +133,7 @@ yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'mess
     public function configureAssets(): \EasyCorp\Bundle\EasyAdminBundle\Config\Assets
     {
         return Assets::new()
+            ->addCssFile('build/admin-css.css')
             ->addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css')
             ->addJsFile('https://cdn.jsdelivr.net/npm/flatpickr')
             ->addJsFile('lib/admin-datepicker.js');
