@@ -20,8 +20,8 @@ groups:
                       type: relation
                       typeRelation: ManyToOne
                       objectRelation: Locale
-                      roleRelation: master
                       inversedBy: recipelocales
+                      roleRelation: master
                       typeInput: addNew
                       formSetting: code|code,name
                     - name: name
@@ -51,12 +51,17 @@ groups:
                       type: text
                       numOfRows: 3
                     - name: components
+                      isCollectionField: true
+                      roleRelation: master
                       name_uk: Інградієнти
                       type: relation
                       objectRelation: Component
                       typeRelation: OneToMany
                       mappedBy: recipetranslation
+                      typeInput: addNews
                     - name: recipesteps
+                      isCollectionField: true
+                      roleRelation: master
                       orderByField: position
                       orderBy: ASC
                       name_uk: кроки
@@ -64,6 +69,7 @@ groups:
                       objectRelation: RecipeStep
                       typeRelation: OneToMany
                       mappedBy: recipetranslation
+                      typeInput: addNews
                     - name: recipe
                       type: relation
                       typeRelation: ManyToOne
@@ -304,12 +310,16 @@ groups:
                       typeRelation: ManyToOne
                       roleRelation: master
                       inversedBy: components
+                      typeInput: addNew
+                      formSetting: name|name,sku
                     - name: unit
                       type: relation
                       objectRelation: Unit
                       typeRelation: ManyToOne
                       roleRelation: master
                       inversedBy: components
+                      typeInput: addNew
+                      formSetting: name|name
                     - name: quantity
                       type: integer
                     - name: recipetranslation

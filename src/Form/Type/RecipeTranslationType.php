@@ -50,6 +50,26 @@ class RecipeTranslationType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('cuisine', TextType::class)
             ->add('notes', TextareaType::class)
+            ->add('components', CollectionType::class, [
+                'entry_type' => ComponentType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+            ])
+            ->add('recipesteps', CollectionType::class, [
+                'entry_type' => RecipeStepType::class,
+                'entry_options' => [
+                    'label' => false,
+                ],
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+                'prototype' => true,
+            ])
                  ->add('recipeauthor', CustomAddselectType::class, [
                      'class' => RecipeAuthor::class,
                      'choice_label' => 'name',

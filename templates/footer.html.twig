@@ -1,17 +1,5 @@
 {% set setting = site_settings() %}
 <!-- Footer -->
-<div data-controller="router">
-    {# Навігаційні посилання #}
-    <nav>
-        <a href="{{ path('homepage') }}" data-action="click->router#navigate">Home</a>
-        <a href="{{ path('about') }}" data-action="click->router#navigate">About</a>
-    </nav>
-
-    {# Контейнер для SPA-контенту #}
-    <div data-router-target="content" id="main">
-        {# Контент завантажується сюди #}
-    </div>
-</div>
 <footer class="mt-auto">
     <div class="container">
         {{ setting.footer.content|raw }}

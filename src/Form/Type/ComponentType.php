@@ -13,7 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\Type\IngredientType;
+use App\Entity\Ingredient;
 use App\Form\Type\UnitType;
+use App\Entity\Unit;
 use App\Form\Type\RecipeTranslationType;
 class ComponentType extends AbstractType
 {
@@ -21,6 +23,30 @@ class ComponentType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
+                 ->add('ingredient', CustomAddselectType::class, [
+                     'class' => Ingredient::class,
+                     'choice_label' => 'name',
+                     'placeholder' => 'Select ingredient',
+                     'required' => true,
+                     'attr' => [
+                         'data-entity' => 'Ingredient',
+                         'search-field'=>'name',
+                         'require-fields'=>'name,sku',
+                     ],
+
+                 ])
+                 ->add('unit', CustomAddselectType::class, [
+                     'class' => Unit::class,
+                     'choice_label' => 'name',
+                     'placeholder' => 'Select unit',
+                     'required' => true,
+                     'attr' => [
+                         'data-entity' => 'Unit',
+                         'search-field'=>'name',
+                         'require-fields'=>'name',
+                     ],
+
+                 ])
             ->add('quantity', IntegerType::class)
          ;
     }

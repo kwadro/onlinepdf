@@ -44,7 +44,7 @@ class {{ name }}Type extends AbstractType
             ])
             {%- endif %}
 
-            {%- if field.type == 'relation' and field.typeInput=='collection'  %}
+            {%- if field.type == 'relation' and field.typeInput=='addNews'  %}
             ->add('{{field.name}}', CollectionType::class, [
                 'entry_type' => {{field.objectRelation}}Type::class,
                 'entry_options' => [
@@ -56,19 +56,8 @@ class {{ name }}Type extends AbstractType
                 'prototype' => true,
             ])
             {%- endif %}
-            {%- if field.type == 'relation' and field.typeInput=='addNew1'  %}
-                 ->add('{{field.name}}', EntityType::class, [
-                     'class' => {{ field.objectRelation }}::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select {{ field.name|lower }}',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => '{{ field.objectRelation }}',
-                     ],
 
-                 ])
-            {%- endif %}
-                {%- if field.type == 'relation' and field.typeInput == 'addNew' %}
+            {%- if field.type == 'relation' and field.typeInput == 'addNew' %}
                 {%- set parts = field.formSetting.split('|') %}
                  ->add('{{field.name}}', CustomAddselectType::class, [
                      'class' => {{ field.objectRelation }}::class,
