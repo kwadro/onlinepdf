@@ -46,7 +46,7 @@ class RecipeCrudController extends AbstractCrudController
             IntegerField::new('servings')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
-            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
+            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->setRequired(false),
             AssociationField::new('recipecategorys')->setFormTypeOption('by_reference', false),
             CollectionField::new('recipetranslations')
                 ->setEntryType(RecipeTranslationType::class)

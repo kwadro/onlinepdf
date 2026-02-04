@@ -45,7 +45,7 @@ class {{ name }}CrudController extends AbstractCrudController
     {%- elif field.type=='money' %}
         {%- set configureField = configureField ~ "MoneyField::new('" ~ field.name ~ "')->setCurrency('USD')->setStoredAsCents(false)" %}
     {%- elif field.type=='image' %}
-        {%- set configureField = configureField ~ "ImageField::new('" ~ field.name ~ "')->setBasePath('/uploads/" ~ field.uploadDir | default('images') ~ "')->setUploadDir('public/uploads/" ~ field.uploadDir | default('images') ~ "')->onlyOnForms()" %}
+        {%- set configureField = configureField ~ "ImageField::new('" ~ field.name ~ "')->setBasePath('/uploads/" ~ field.uploadDir | default('images') ~ "')->setUploadDir('public/uploads/" ~ field.uploadDir | default('images') ~ "')->setRequired(false)" %}
     {%- elif field.type=='select' and field.typeInput=='yesno' %}
         {%- set configureField = configureField ~ "ChoiceField::new('" ~ field.name ~ "')->setChoices(['Yes' => 'Yes', 'No' => 'No'])" %}
     {%- elif field.php_type=='string' %}

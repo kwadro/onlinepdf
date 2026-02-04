@@ -2,12 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\ContactFormTypeRepository;
+use App\Repository\ContactFormRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ContactFormTypeRepository::class)]
-class ContactFormType
+#[ORM\Entity(repositoryClass: ContactFormRepository::class)]
+class ContactForm
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -41,3 +41,68 @@ function initTinyMce(context = document) {
         });
     });
 }
+// assets/admin/easyadmin-image-preview.js
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    document.addEventListener('change', function (e) {
+        const input = e.target;
+
+        if (!input.matches('input[type="file"]')) {
+            return;
+        }
+
+        if (!input.files || !input.files[0]) {
+            removePreview(input);
+            return;
+        }
+
+        const file = input.files[0];
+
+        if (!file.type.startsWith('image/')) {
+            removePreview(input);
+            return;
+        }
+
+        createPreview(input, file);
+    });
+
+    document.addEventListener('click', function (e) {
+        // EasyAdmin delete file button
+        if (e.target.closest('[data-action="delete"]')) {
+            const wrapper = e.target.closest('.form-group, .field-file');
+            if (!wrapper) return;
+
+            const input = wrapper.querySelector('input[type="file"]');
+            if (input) {
+                removePreview(input);
+            }
+        }
+    });
+});
+
+function createPreview(input, file) {
+    removePreview(input);
+
+    const img = document.createElement('img');
+    img.className = 'ea-image-preview';
+    img.style.maxWidth = '200px';
+    img.style.marginTop = '10px';
+    img.style.borderRadius = '6px';
+
+    img.src = URL.createObjectURL(file);
+
+    input.closest('.form-group, .field-file')?.appendChild(img);
+}
+
+function removePreview(input) {
+    const wrapper = input.closest('.form-group, .field-file');
+    if (!wrapper) return;
+
+    const preview = wrapper.querySelector('.ea-image-preview');
+    if (preview) {
+        preview.remove();
+    }
+}
+
+

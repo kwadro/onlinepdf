@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\ContactForm;
 use App\Entity\GitUser;
 use App\Entity\SamProject;
 use App\Entity\ServerData;
@@ -129,6 +130,8 @@ yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'mess
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenutranslation', [], 'messages'), 'fas fa-list', Megamenutranslation::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenutype', [], 'messages'), 'fas fa-list', Megamenutype::class);
 // @GENERATE MENU FINISH
+        yield MenuItem::section($this->translator->trans('menu.contact_form', [], 'messages'));
+        yield MenuItem::linkToCrud($this->translator->trans('menu.contact_form_items', [], 'messages'), 'fas fa-list', ContactForm::class);
     }
     public function configureAssets(): \EasyCorp\Bundle\EasyAdminBundle\Config\Assets
     {
