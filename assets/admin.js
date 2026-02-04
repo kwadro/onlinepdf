@@ -84,7 +84,8 @@ function initExistingPreviews() {
         const fileLabel = wrapper.querySelector('.custom-file-label');
         if (!fileLabel) return;
         const fileName = fileLabel.innerHTML;
-        const href = '/uploads/recipes/' + fileName;
+        const downloadPath = wrapper.querySelector('.download-path')
+        const href = `/${downloadPath.innerHTML}${fileName}`;
         if (!href) return;
         createPreview(wrapper, href, 'link');
     });
