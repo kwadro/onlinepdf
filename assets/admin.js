@@ -41,35 +41,32 @@ function initTinyMce(context = document) {
         });
     });
 }
-// assets/admin/easyadmin-image-preview.js
 
+// easyadmin-image-preview.js
+initExistingPreviews();
 document.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('change', function (e) {
         const input = e.target;
-
         if (!input.matches('input[type="file"]')) {
             return;
         }
-
         if (!input.files || !input.files[0]) {
             removePreview(input);
             return;
         }
 
         const file = input.files[0];
-
         if (!file.type.startsWith('image/')) {
             removePreview(input);
             return;
         }
-
         createPreview(input, file);
     });
 
     document.addEventListener('click', function (e) {
         // EasyAdmin delete file button
-        if (e.target.closest('[data-action="delete"]')) {
+        if (e.target.closest('.ea-fileupload-delete-btn')) {
             const wrapper = e.target.closest('.form-group, .field-file');
             if (!wrapper) return;
 
@@ -81,18 +78,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-function createPreview(input, file) {
+function initExistingPreviews() {
+
+    document.querySelectorAll('.field-file, .field-image').forEach(wrapper => {
+        const fileLabel = wrapper.querySelector('.custom-file-label');
+        if (!fileLabel) return;
+        const fileName = fileLabel.innerHTML;
+        const href = '/uploads/recipes/' + fileName;
+        if (!href) return;
+        createPreview(wrapper, href, 'link');
+    });
+}
+
+function createPreview(input, file, type = 'file') {
     removePreview(input);
+    const wrapper = input.closest('.form-group, .field-file');
+
+    const deleteBtn = wrapper.querySelector('.ea-fileupload-delete-btn');
+    deleteBtn?.classList.remove('d-none');
+    deleteBtn?.classList.add('d-block');
 
     const img = document.createElement('img');
     img.className = 'ea-image-preview';
-    img.style.maxWidth = '200px';
+    img.style.maxWidth = '100px';
     img.style.marginTop = '10px';
     img.style.borderRadius = '6px';
 
-    img.src = URL.createObjectURL(file);
+    if (type === 'file') {
+        img.src = URL.createObjectURL(file);
+    } else {
+        img.src = file;
+    }
 
-    input.closest('.form-group, .field-file')?.appendChild(img);
+    wrapper?.appendChild(img);
 }
 
 function removePreview(input) {

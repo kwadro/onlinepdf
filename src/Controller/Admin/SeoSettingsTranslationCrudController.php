@@ -42,7 +42,7 @@ class SeoSettingsTranslationCrudController extends AbstractCrudController
         
             TextareaField::new('og_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
             TextField::new('og_type'),
-            ImageField::new('og_image')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')->onlyOnForms(),
+            ImageField::new('og_image')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')->setRequired(false),
             TextField::new('gtm_code'),
         ];
     }

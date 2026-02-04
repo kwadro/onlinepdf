@@ -37,7 +37,7 @@ class RecipeCategoryCrudController extends AbstractCrudController
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
-            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->onlyOnForms(),
+            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->setRequired(false),
             TextField::new('meta_title'),
         
             TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),

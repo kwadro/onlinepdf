@@ -33,8 +33,8 @@ class HeaderSettingCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('site'),
             AssociationField::new('translations')->setFormTypeOption('by_reference', false),
-            ImageField::new('logo')->setBasePath('/uploads/logo')->setUploadDir('public/uploads/logo')->onlyOnForms(),
-            ImageField::new('favicon')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')->onlyOnForms(),
+            ImageField::new('logo')->setBasePath('/uploads/logo')->setUploadDir('public/uploads/logo')->setRequired(false),
+            ImageField::new('favicon')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')->setRequired(false),
         ];
     }
 
