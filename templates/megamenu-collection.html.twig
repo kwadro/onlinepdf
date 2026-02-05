@@ -1,12 +1,12 @@
 
-<div class="dropdown-menu mega-menu ">
+<div class="dropdown-menu mega-menu  ">
     <div class="container-fluid min-w-300">
         <div class="row">
             <div class="col-4 border-end p-0">
                 <ul class="list-group list-group-flush">
                     {% for category in content %}
-                        <li class="list-group-item border-0 mx-1 mega-left-item
-                                        {% if loop.first %}active fw-semibold{% endif %}"
+                        <li class="list-group-item  border-0 mx-1 mega-left-item
+                            {% if loop.first %}active fw-semibold{% endif %}"
                             data-target="mega-{{ loop.index }}">
                             <a class="d-block text-decoration-none text-dark py-1 px-2" href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ url_key ~ '/' ~ category.slug) }}">
                                 {{ category.name }}
