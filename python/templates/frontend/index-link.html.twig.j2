@@ -2,9 +2,11 @@
 {% set setting = site_settings() %}
 {% extends "base.html.twig" %}
 {% block main %}
+        {%- if ({%- endraw %}'{{ name }}'{%- raw %}!=='homepage') %}
        {% include "recipe/breadcrumbs.html.twig" with {
          breadCrumbs: breadcrumbs
        } %}
+        {%- endif %}
        {% include "{%- endraw %}{{ name }}/{{ name }}{%- raw %}-content.html.twig" with {
            content: setting.menu_pages.{%- endraw %}{{ name }}{%- raw %}.content
        } %}
