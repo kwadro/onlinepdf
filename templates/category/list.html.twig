@@ -1,10 +1,11 @@
+{% set setting = site_settings() %}
 {% extends "base.html.twig" %}
 {% block title %}Рецепти{% endblock %}
 {% block main %}
     {% include "recipe/breadcrumbs.html.twig" with {
         breadCrumbs: breadcrumbs
     } %}
-    {% set menu_url_key = setting.menu_url_key | default('catalog') %}
+    {% set menu_url_key = setting.menu_url_key | default('catalog1') %}
     <div class="container">
         {% if recipeCategory.children is not empty %}
             <div class="row my-3 children-category">
