@@ -1,8 +1,15 @@
 
 {% set setting = site_settings() %}
+
 {% extends "base.html.twig" %}
+
 {% block main %}
-       {% include "about/about-content.html.twig" with {
-           content: setting.menu_pages.about.content
-       } %}
+
+    {% include "recipe/breadcrumbs.html.twig" with {
+        breadCrumbs: breadcrumbs
+    } %}
+
+    {% include "about/about-content.html.twig" with {
+       content: setting.menu_pages.about.content
+    } %}
 {% endblock %}

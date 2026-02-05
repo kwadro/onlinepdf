@@ -1,11 +1,14 @@
 
-<div class="dropdown-menu mega-menu  ">
+<div class="dropdown-menu mega-menu  " >
     <div class="container-fluid min-w-300">
         <div class="row">
             <div class="col-4 border-end p-0">
-                <ul class="list-group list-group-flush">
+                <ul
+                    class="list-group list-group-flush mega-left-block"
+                    data-controller="submenu"
+                >
                     {% for category in content %}
-                        <li class="list-group-item  border-0 mx-1 mega-left-item
+                        <li  class="list-group-item  border-0 mx-1 mega-left-item
                             {% if loop.first %}active fw-semibold{% endif %}"
                             data-target="mega-{{ loop.index }}">
                             <a class="d-block text-decoration-none text-dark py-1 px-2" href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ url_key ~ '/' ~ category.slug) }}">
@@ -46,20 +49,4 @@
         </div>
     </div>
 </div>
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const leftItems = document.querySelectorAll('.mega-left-item');
-        const rightBlocks = document.querySelectorAll('.mega-right-block');
 
-        leftItems.forEach(item => {
-            item.addEventListener('mouseenter', function () {
-                leftItems.forEach(i => i.classList.remove('active'));
-                rightBlocks.forEach(b => b.classList.add('d-none'));
-
-                item.classList.add('active');
-                document.getElementById(item.dataset.target)
-                    .classList.remove('d-none');
-            });
-        });
-    });
-</script>

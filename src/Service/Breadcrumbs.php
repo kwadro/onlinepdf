@@ -99,4 +99,21 @@ class Breadcrumbs
         array_unshift($breadCrumbs, $item);
         return $breadCrumbs;
     }
+
+    public function loadBreadCrumbsByMenuItem($menuItem):array
+    {
+        $breadCrumbs = [];
+        $breadCrumbs[] = [
+            'link' => null,
+            'url' => $menuItem->getTranslations()[0]->getUrl(),
+            'name' => $menuItem->getTranslations()[0]->getName()
+        ];
+        $item = [
+            'link' => true,
+            'url' => 'home',
+            'name' => $this->translator->trans('Home', [], 'messages')
+        ];
+        array_unshift($breadCrumbs, $item);
+        return $breadCrumbs;
+    }
 }

@@ -2,6 +2,7 @@
 namespace App\Repository;
 use App\Entity\MegaMenuSetting;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -29,9 +30,29 @@ class MegaMenuSettingRepository extends ServiceEntityRepository
                      ->addOrderBy('t.position', 'ASC')
                      ->setMaxResults(10)
                      ->getQuery();
-
+                 $query->setHint(Query::HINT_REFRESH, true);
                  return $query->getResult();
              }
+
+    public function findBySiteAndLocaleAndSlug(string $slug, $site, $locale)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.site', 'site')
+            ->innerJoin('s.translations', 't')
+            ->addSelect('t')
+            ->where('site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.status = :status')
+            ->andWhere('t.url = :slug')
+            ->setParameter('slug', $slug)
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('status', 'Yes')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
 }
     //    /**
     //     * @return MegaMenuSetting[] Returns an array of MegaMenuSetting objects

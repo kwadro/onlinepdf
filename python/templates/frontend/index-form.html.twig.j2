@@ -4,7 +4,7 @@
 {% block main %}
        {% include "{%- endraw %}{{ name }}/{{ name }}{%- raw %}-content.html.twig" with {
            content: setting.menu_pages.{%- endraw %}{{ name }}{%- raw %}.content,
-           entityClass:entityClass
+           entityClass: setting.entityClass|default('empty')
        } %}
 {% endblock %}
 {%- endraw %}

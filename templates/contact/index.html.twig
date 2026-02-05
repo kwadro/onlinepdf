@@ -4,6 +4,6 @@
 {% block main %}
        {% include "contact/contact-content.html.twig" with {
            content: setting.menu_pages.contact.content,
-           entityClass:entityClass
+           entityClass:entityClass|default('empty')
        } %}
 {% endblock %}

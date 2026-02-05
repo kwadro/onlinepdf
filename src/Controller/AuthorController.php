@@ -38,7 +38,7 @@ class AuthorController extends AbstractController
             return $this->render('author/list.html.twig', [
                 'recipes' => [],
                 'recipeAuthor' => [],
-                'breadCrumbs' => [],
+                'breadcrumbs' => [],
             ]);
         }
 
@@ -49,7 +49,7 @@ class AuthorController extends AbstractController
         return $this->render('author/list.html.twig', [
             'recipes' => $recipes,
             'recipeAuthor' => $recipeAuthor,
-            'breadCrumbs' => $breadCrumbs,
+            'breadcrumbs' => $breadCrumbs,
         ]);
     }
     #[Route('/{_locale}/recipe/{urlKey}', name: 'catalog_show')]

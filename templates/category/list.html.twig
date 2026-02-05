@@ -2,8 +2,9 @@
 {% block title %}Рецепти{% endblock %}
 {% block main %}
     {% include "recipe/breadcrumbs.html.twig" with {
-        breadcrumbs: breadcrumbs
+        breadCrumbs: breadcrumbs
     } %}
+    {% set menu_url_key = setting.menu_url_key | default('catalog') %}
     <div class="container">
         {% if recipeCategory.children is not empty %}
             <div class="row my-3 children-category">
@@ -12,7 +13,7 @@
                     <div class="d-flex flex-wrap gap-2 align-center justify-content-center">
                         {% for child in recipeCategory.children %}
                             <a class="d-block px-3 py-2 text-center rounded text-decoration-none text-dark border hover-shadow"
-                               href="{{ absolute_url('/' ~ app.request.locale ~ '/catalog' ~ url_key ~ '/' ~ child.slug) }}">
+                               href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ menu_url_key ~ '/' ~ child.slug) }}">
                                 {{ child.name }}
                             </a>
                         {% endfor %}

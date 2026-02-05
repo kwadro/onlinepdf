@@ -26,7 +26,7 @@ class CatalogController extends AbstractController
     ) {
     }
     #[Route('/{_locale}/catalog/{slug}', name: 'catalog_list')]
-    public function list(Request $request, string $slug,RecipeRepository $recipeRepository,RecipeCategoryRepository $recipeCategoryRepository): Response
+    public function list(Request $request, string $slug, RecipeRepository $recipeRepository,RecipeCategoryRepository $recipeCategoryRepository): Response
     {
         $domain = $request->getHost();
         $requestLocale = $request->getLocale();
@@ -37,7 +37,7 @@ class CatalogController extends AbstractController
             return $this->render('category/list.html.twig', [
                 'recipes' => [],
                 'recipeCategory' => [],
-                'breadCrumbs' => [],
+                'breadcrumbs' => [],
             ]);
         }
 
@@ -48,7 +48,8 @@ class CatalogController extends AbstractController
         return $this->render('category/list.html.twig', [
             'recipes' => $recipes,
             'recipeCategory' => $recipeCategory,
-            'breadCrumbs' => $breadCrumbs,
+            'breadcrumbs' => $breadCrumbs
+
         ]);
     }
     #[Route('/{_locale}/recipe/{urlKey}', name: 'catalog_show')]
@@ -66,7 +67,7 @@ class CatalogController extends AbstractController
 
         return $this->render('recipe/show.html.twig', [
             'recipe' => $recipe,
-            'breadCrumbs' => $breadCrumbs,
+            'breadcrumbs' => $breadCrumbs,
         ]);
     }
 }

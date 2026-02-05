@@ -10,22 +10,24 @@
 
 /* Reset some default styles */
 body, h1, h2, p, ul, ol, li, a {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
+
 html {
     scrollbar-gutter: stable;
 }
+
 /* Base styles */
 body {
-    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
     background-color: #f9f9f9;
     color: #333;
-    line-height: 1.6;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
     font-size: 16px;
-    padding: 0;
+    line-height: 1.6;
     margin: 0;
+    padding: 0;
 }
 
 body .container__header {
@@ -104,24 +106,28 @@ header {
     border-radius: var(--primary-button-border-radius);
 }
 
+.container__header .navbar .nav-item .nav-link {
+    border-radius: var(--primary-button-border-radius);
+}
+
 /* Form styles */
 .form-control:focus {
-    box-shadow: 0 0 0 .25rem rgb(67, 176, 42, 20%);
     border-color: #c6d4c2;
+    box-shadow: 0 0 0 .25rem rgb(67, 176, 42, 20%);
 }
 
 .btn-primary {
-    color: #fff;
     background-color: var(--primary-background-color);
     border-color: var(--primary-background-color);
+    color: #fff;
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active:focus {
-    box-shadow: none;
     background-color: color-mix(in srgb, var(--primary-background-color) 90%, black);
     border-color: color-mix(in srgb, var(--primary-background-color) 90%, black);
+    box-shadow: none;
 }
 
 .children-category a:hover, .children-category a:focus {
@@ -132,27 +138,40 @@ header {
 .dropdown-popup {
     position: relative;
 }
-
-@media (max-width: 768px) {
+@media (min-width: 768px) and (max-width: 995px) {
+    .container__header header > a {
+        justify-content: center;
+        width: 100%;
+    }
+}
+@media (max-width: 767px) {
     .body-lock {
         overflow: hidden;
         position: fixed;
         width: 100%;
     }
+
+    .container__header .navbar .nav-item .nav-link {
+        border-radius: 0;
+    }
+
     .dropdown-popup {
         background-color: white;
-        width: 100%;
-        position: fixed;
-        padding: 0;
-        right: 0;
-        top: 64px;
         height: calc(100vh - 64px);
         overflow-y: auto;
+        padding: 0;
+        position: fixed;
+        right: 0;
+        top: 64px;
+        width: 100%;
+        z-index: 1;
     }
+
     .dropdown-popup-scroll {
         flex: 1 1 auto;
         overflow-y: auto;
     }
+
     .dropdown-popup .nav-item {
         border-bottom: 1px solid #f2f2f2;
     }
@@ -191,10 +210,10 @@ header {
 /* Footer styles */
 footer {
     background-color: #f1f1f1;
-    color: #555;
-    text-align: center;
-    padding: 20px;
-    font-size: 14px;
     border-top: 1px solid #ddd;
+    color: #555;
+    font-size: 14px;
+    padding: 20px;
+    text-align: center;
 }
 

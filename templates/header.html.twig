@@ -23,9 +23,17 @@
                     <div data-controller="navbar" class="collapse navbar-collapse dropdown-popup" id="mainNavbar">
                             <ul class="navbar-nav ms-auto">
                                 {% for item_menu in setting.menu %}
-                                    {% if item_menu.megamenutype =='Link' or item_menu.megamenutype =='Form'  %}
+                                    {% if  item_menu.megamenutype =='Form'  %}
                                         <li class="nav-item">
                                             <a href="{{ absolute_url(path(item_menu.url)) }}"
+                                               class="ps-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
+                                                {{ item_menu.name }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% if item_menu.megamenutype =='Link' %}
+                                        <li class="nav-item">
+                                            <a href="{{ absolute_url(path('static_page', {slug: item_menu.url})) }}"
                                                class="ps-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
                                                 {{ item_menu.name }}
                                             </a>
@@ -35,10 +43,11 @@
                                 {% for item_menu in setting.menu %}
                                     {% if item_menu.megamenutype =='Collection' %}
                                         <li class="nav-item dropdown mega-dropdown position-static">
-                                            <a class="nav-link ps-3 dropdown-toggle text-white text-decoration-none dropdown-toggle"
+                                            <a class="nav-link px-3 dropdown-toggle text-white text-decoration-none dropdown-toggle"
                                                href="#"
                                                role="button"
                                                data-bs-toggle="dropdown"
+                                               data-bs-auto-close="outside"
                                                aria-expanded="false">
                                                 {{ item_menu.name }}
                                             </a>
@@ -51,17 +60,17 @@
                                 {% endfor %}
                                 <li class="nav-item">
                                     {% if app.user %}
-                                        <a href="{{ path('app_logout') }}" class="ps-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_logout') }}" class="px-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Logout'|trans }}
                                         </a>
                                     {% else %}
-                                        <a href="{{ path('app_login') }}" class="ps-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_login') }}" class="px-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Login'|trans }}
                                         </a>
                                     {% endif %}
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="ps-3 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
+                                    <a class="px-3 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ app.request.locale|upper }}
                                     </a>
