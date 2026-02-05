@@ -14,7 +14,9 @@ body, h1, h2, p, ul, ol, li, a {
     padding: 0;
     box-sizing: border-box;
 }
-
+html {
+    scrollbar-gutter: stable;
+}
 /* Base styles */
 body {
     font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
@@ -84,8 +86,8 @@ header {
     border-radius: var(--primary-button-border-radius);
 }
 
-.container__header .nav-pills .nav-link.active,
-.container__header .nav-pills .show > .nav-link {
+.container__header .nav-link.active,
+.container__header .show > .nav-link {
     background-color: var(--primary-button-color);
 }
 
@@ -143,8 +145,8 @@ header {
         position: fixed;
         padding: 0;
         right: 0;
-        top: 65px;
-        height: calc(100vh - 65px);
+        top: 64px;
+        height: calc(100vh - 64px);
         overflow-y: auto;
     }
     .dropdown-popup-scroll {
@@ -177,6 +179,12 @@ header {
 
     .fs-desktop-4 {
         font-size: 1rem !important;
+    }
+}
+
+@media (max-width: 360px) {
+    .fs-desktop-4 {
+        font-size: 0.8rem !important;
     }
 }
 

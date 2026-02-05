@@ -24,9 +24,9 @@
                             <ul class="navbar-nav ms-auto">
                                 {% for item_menu in setting.menu %}
                                     {% if item_menu.megamenutype =='Link' or item_menu.megamenutype =='Form'  %}
-                                        <li class="nav-item ps-3 ps-md-0">
+                                        <li class="nav-item ">
                                             <a href="{{ absolute_url(path(item_menu.url)) }}"
-                                               class="lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
+                                               class="ps-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
                                                 {{ item_menu.name }}
                                             </a>
                                         </li>
@@ -35,7 +35,7 @@
                                 {% for item_menu in setting.menu %}
                                     {% if item_menu.megamenutype =='Collection' %}
                                         <li class="nav-item  dropdown mega-dropdown position-static">
-                                            <a class="nav-link ps-3 ps-md-0 dropdown-toggle text-white text-decoration-none dropdown-toggle"
+                                            <a class="nav-link ps-3  dropdown-toggle text-white text-decoration-none dropdown-toggle"
                                                href="#"
                                                role="button"
                                                data-bs-toggle="dropdown"
@@ -51,17 +51,17 @@
                                 {% endfor %}
                                 <li class="nav-item">
                                     {% if app.user %}
-                                        <a href="{{ path('app_logout') }}" class="ps-3 ps-md-0 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_logout') }}" class="ps-3 ps-md-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Logout'|trans }}
                                         </a>
                                     {% else %}
-                                        <a href="{{ path('app_login') }}" class="ps-3 ps-md-0 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_login') }}" class="ps-3 ps-md-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Login'|trans }}
                                         </a>
                                     {% endif %}
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="ps-3 ps-md-0 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
+                                    <a class="ps-3 ps-md-3 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ app.request.locale|upper }}
                                     </a>
