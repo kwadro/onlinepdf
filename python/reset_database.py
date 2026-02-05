@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional
 from connect_database import connect_database
 
-NAME,USER,PASS,HOST,PORT = connect_database('prod')
+NAME,USER,PASS,HOST,PORT = connect_database('stage')
 
 def reset_database(
     db_name: str = NAME,
