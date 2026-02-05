@@ -5,7 +5,7 @@ import inflect
 
 from jinja2 import Template
 from pathlib import Path
-
+from connect_database import connect_database
 
 p = inflect.engine()
 # singularize для collection
@@ -22,28 +22,20 @@ def capitalize(word):
 BASE = Path(__file__).resolve().parent
 OUT = BASE.parent
 
+NAME,USER,PASS,HOST,PORT = connect_database('prod')
+
 # add service function for getter and setter in template
 def to_pascal_case(value):
     return ''.join(word.capitalize() for word in value.split('_'))
+
 def get_connection():
-    #   local
-        DB_NAME="symfony"
-        USER="root"
-        PASS="root"
-        HOST="127.0.0.1"
-        PORT=3308
-#             live
-#         DB_NAME="kwadro_laravel"
-#         USER="kwadro_laravel"
-#         PASS="y22KN_t+u8"
-#         HOST="kwadro.mysql.tools"
-#         PORT="3306"
+
         conn = pymysql.connect(
             host=HOST,
             port=PORT,
             user=USER,
             password=PASS,
-            database=DB_NAME,
+            database=NAME,
             charset="utf8mb4",
             cursorclass=pymysql.cursors.DictCursor
         )
