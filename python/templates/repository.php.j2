@@ -2,6 +2,9 @@
 namespace App\Repository;
 use App\Entity\{{ name }};
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+{%- if  related=='multiplemenu' %}
+use Doctrine\ORM\Query;
+{%- endif %}
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -13,7 +16,15 @@ class {{ name }}Repository extends ServiceEntityRepository
     {
         parent::__construct($registry, {{ name }}::class);
     }
-   {%- if related=='single' %}
+   {%- if  related=='singleall'  %}
+       public function  findAllBySiteAndLocale($site, $locale){
+           return $this->createQueryBuilder('s')
+               ->setMaxResults(6)
+               ->getQuery()
+               ->getResult();
+       }
+   {%- endif %}
+   {%- if related=='single'  %}
 
     public function findOneBySiteAndLocale($site, $locale)
     {
@@ -30,7 +41,51 @@ class {{ name }}Repository extends ServiceEntityRepository
         ->getOneOrNullResult();
     }
    {%- endif %}
+
+   {%- if related=='singleall' %}
+       public function findOneBySiteAndLocale($site, $locale)
+       {
+       return $this->createQueryBuilder('s')
+           ->setMaxResults(1)
+           ->getQuery()
+           ->getOneOrNullResult();
+       }
+   {%- endif %}
+
    {%- if related=='list' %}
+
+    public function findByCategoryAndAuthor($categoryIds, $authorIds, $site, $locale): array
+    {
+        $categoryIdsStr = $categoryIds ? implode(',', $categoryIds) : null;
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale');
+        if ($categoryIds !== null) {
+            $query->innerJoin('s.recipecategorys', 'c')
+                ->andWhere('c.id IN (:recipeCategoryIds)')
+                ->setParameter('recipeCategoryIds', $categoryIdsStr);
+        }
+        if ($authorIds !== null) {
+            $query->innerJoin('t.recipeauthor', 'w')
+                ->andWhere('w.id IN (:recipeAuthorIds)')
+                ->setParameter('recipeAuthorIds', $authorIds);
+        }
+
+        $query->andWhere('t.is_active = :is_active')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->orderBy('s.position', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery();
+        $query->setHint(Query::HINT_REFRESH, true);
+        $query = $query->getQuery();
+
+        return $query->getResult();
+    }
+
        public function findOneByUrlKey($urlKey, $site, $locale): ?{{ name }}
        {
            $query = $this->createQueryBuilder('s')
@@ -57,16 +112,20 @@ class {{ name }}Repository extends ServiceEntityRepository
                 ->addSelect('t')
                 ->where('s.site = :site')
                 ->andWhere('t.locale = :locale')
-                ->innerJoin('s.{{ category_field }}', 'c')
-                ->andWhere('c.id = :recipeCategoryId')
-                ->andWhere('t.is_active = :is_active')
+                ->innerJoin('s.{{ category_field }}', 'c');
+                if ($categoryId) {
+                    $query->innerJoin('s.recipecategorys', 'c')
+                        ->andWhere('c.id = :recipeCategoryId')
+                        ->setParameter('recipeCategoryId', $categoryId);
+                }
+                $query->andWhere('t.is_active = :is_active')
                 ->setParameter('site', $site)
                 ->setParameter('locale', $locale)
-                ->setParameter('recipeCategoryId', $categoryId)
                 ->setParameter('is_active', 'Yes')
                 ->orderBy('s.position', 'ASC')
                 ->setMaxResults(10)
                 ->getQuery();
+                $query = $query->getQuery();
             return $query->getResult();
        }
        public function findByAuthorId($authorId, $site, $locale): array
@@ -102,9 +161,7 @@ class {{ name }}Repository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
-   {%- endif %}
 
-   {%- if related=='catalog' %}
     public function findDefaultItem(): ?{{ name }}
     {
         return $this->createQueryBuilder('t')
@@ -112,8 +169,16 @@ class {{ name }}Repository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+    public function  findAllBySiteAndLocale($site, $locale){
+        return $this->createQueryBuilder('s')
+            ->orderBy('s.created_at', 'DESC')
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult();
+    }
    {%- endif %}
-   {%- if related=='multiple' %}
+
+   {%- if related=='multiple' or related=='multiplemenu' %}
           public function findBySiteAndLocale($site, $locale)
              {
                  $query = $this->createQueryBuilder('s')
@@ -130,9 +195,32 @@ class {{ name }}Repository extends ServiceEntityRepository
                      ->addOrderBy('t.position', 'ASC')
                      ->setMaxResults(10)
                      ->getQuery();
-
+                     {%- if  related=='multiplemenu' %}
+                     $query->setHint(Query::HINT_REFRESH, true);
+                     {%- endif %}
                  return $query->getResult();
              }
+   {%- endif %}
+   {%- if  related=='multiplemenu' %}
+    public function findBySiteAndLocaleAndSlug(string $slug, $site, $locale)
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.site', 'site')
+            ->innerJoin('s.translations', 't')
+            ->addSelect('t')
+            ->where('site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.status = :status')
+            ->andWhere('t.url = :slug')
+            ->setParameter('slug', $slug)
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('status', 'Yes')
+            ->setMaxResults(1)
+            ->getQuery();
+
+        return $query->getOneOrNullResult();
+    }
    {%- endif %}
 }
     //    /**

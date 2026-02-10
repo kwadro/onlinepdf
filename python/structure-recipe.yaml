@@ -85,7 +85,7 @@ groups:
                       inversedBy: recipes
 
             RecipeAuthor:
-                relatedSaleAndLocale: single
+                relatedSaleAndLocale: singleall
                 translate:
                     link:
                         uk: Автори Рецептів
@@ -612,7 +612,7 @@ groups:
                         isHtml: true
                         numOfRows: 10
             MegaMenuSetting:
-                relatedSaleAndLocale: multiple
+                relatedSaleAndLocale: multiplemenu
                 translate:
                     link:
                         uk: Настройки Меню

@@ -27,16 +27,17 @@
             <div class="col">
                 <h3 class="my-1 text-center card-title">{{ recipeCategory.name }}</h3>
                 {% if recipeCategory.image %}
-                    <img src="/uploads/recipes/{{recipeCategory.image }}"
+                    <img src="/uploads/recipes/{{ recipeCategory.image }}"
                         class="card-img-top"
-                        style=" object-fit:cover;">
+                        alt="{{ recipeCategory.image }}"
+                        style="object-fit:cover;"
+                        >
                 {% endif %}
             </div>
 
             <div class="col">
                 {% if recipes is not empty %}
                     <h3 class="text-center">{{ 'List of recipes'|trans }}</h3>
-
                     <ul class="list-group ">
                     {% for recipe in recipes %}
                         <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -60,7 +61,6 @@
                                     <a href="{{ path('author_list', {id: recipe.recipetranslations[0].recipeauthor.id}) }}" class="btn btn-sm btn-secondary">
                                         {{ recipe.recipetranslations[0].recipeauthor }}
                                     </a>
-
                                 </div>
                             </div>
                             <div class="col-2 text-end">

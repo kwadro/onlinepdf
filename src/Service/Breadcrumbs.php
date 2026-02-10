@@ -116,4 +116,22 @@ class Breadcrumbs
         array_unshift($breadCrumbs, $item);
         return $breadCrumbs;
     }
+
+    public function loadBreadCrumbsByCatalog()
+    {
+        $breadCrumbs = [];
+        $breadCrumbs[] = [
+            'link' => null,
+            'url' => null,
+            'name' => $this->translator->trans('Catalog', [], 'messages')
+        ];
+        $item = [
+            'link' => true,
+            'url' => 'home',
+            'name' => $this->translator->trans('Home', [], 'messages')
+        ];
+        array_unshift($breadCrumbs, $item);
+        return $breadCrumbs;
+
+    }
 }

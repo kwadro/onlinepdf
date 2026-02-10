@@ -23,12 +23,22 @@ class RecipeCategoryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getOneOrNullResult();
     }
+
     public function findDefaultItem(): ?RecipeCategory
     {
         return $this->createQueryBuilder('t')
             ->andWhere('t.parent IS NULL')
             ->getQuery()
             ->getOneOrNullResult();
+    }
+    public function  findAllBySiteAndLocale($site, $locale){
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.parent = :parent')
+            ->setParameter('parent', 1)
+            ->orderBy('s.id', 'ASC')
+            ->setMaxResults(12)
+            ->getQuery()
+            ->getResult();
     }
 }
     //    /**

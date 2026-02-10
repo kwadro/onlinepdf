@@ -30,10 +30,9 @@ class MegaMenuSettingRepository extends ServiceEntityRepository
                      ->addOrderBy('t.position', 'ASC')
                      ->setMaxResults(10)
                      ->getQuery();
-                 $query->setHint(Query::HINT_REFRESH, true);
+                     $query->setHint(Query::HINT_REFRESH, true);
                  return $query->getResult();
              }
-
     public function findBySiteAndLocaleAndSlug(string $slug, $site, $locale)
     {
         $query = $this->createQueryBuilder('s')

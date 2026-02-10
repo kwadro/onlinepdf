@@ -13,21 +13,19 @@ class RecipeAuthorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecipeAuthor::class);
     }
-
-    public function findOneBySiteAndLocale($site, $locale)
-    {
-    return $this->createQueryBuilder('s')
-        ->innerJoin('s.site', 'site')
-        ->innerJoin('s.translations', 't')
-        ->addSelect('t')
-        ->where('site = :site')
-        ->andWhere('t.locale = :locale')
-        ->setParameter('site', $site)
-        ->setParameter('locale', $locale)
-        ->setMaxResults(1)
-        ->getQuery()
-        ->getOneOrNullResult();
-    }
+       public function  findAllBySiteAndLocale($site, $locale){
+           return $this->createQueryBuilder('s')
+               ->setMaxResults(6)
+               ->getQuery()
+               ->getResult();
+       }
+       public function findOneBySiteAndLocale($site, $locale)
+       {
+       return $this->createQueryBuilder('s')
+           ->setMaxResults(1)
+           ->getQuery()
+           ->getOneOrNullResult();
+       }
 }
     //    /**
     //     * @return RecipeAuthor[] Returns an array of RecipeAuthor objects
