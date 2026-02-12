@@ -1,0 +1,11 @@
+{% if recipes is not empty %}
+<div class="d-flex justify-content-between align-items-center m-3">
+    <h4 class="fw-bold mb-0">{{'Recently viewed'|trans}}</h4>
+</div>
+    {% include "homepage/recipe-grid.html.twig" with {
+        'recipes': recipes
+    } %}
+{% else %}
+    <h5 class="text-center">{{ 'We not found any recipe '|trans }}</h5>
+{% endif %}
+

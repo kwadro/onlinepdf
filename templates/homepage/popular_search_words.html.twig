@@ -1,0 +1,21 @@
+{% if popularSearchWords is not empty %}
+     <div class="d-flex justify-content-between align-items-center m-3">
+         <h5 class="fw-bold mb-0">{{'Popular search terms'|trans}}</h5>
+         <small class="text-muted">{{'Updated'|trans}} 23:35</small>
+     </div>
+     <div class="row g-3">
+         {% for popularSearch in popularSearchWords %}
+             {% if popularSearch.image %}
+                 {% set popularSearchImage = '/uploads/recipes/' ~ popularSearch.image %}
+             {% else %}
+                 {% set popularSearchImage = 'https://placehold.in/200' %}
+             {% endif %}
+             <div class="col-6 col-md-3 ">
+                 <a href="#" class="keyword-card d-block">
+                     <img src="{{ popularSearchImage }}" width="230" class="img-fluid" alt="">
+                     <span class="keyword-title">{{ popularSearch.name }}</span>
+                 </a>
+             </div>
+         {% endfor %}
+     </div>
+{% endif %}

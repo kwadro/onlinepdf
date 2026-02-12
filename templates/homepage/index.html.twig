@@ -2,8 +2,10 @@
 
 {% extends "base.html.twig" %}
 {% block main %}
-
-
        {% include "homepage/homepage-content.html.twig" with {
+           'popularSearchWords': popularSearchWords,
+           'recipes': recipes,
+           'content': setting.menu_pages.homepage.content
        } %}
+
 {% endblock %}

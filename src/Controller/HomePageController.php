@@ -46,8 +46,6 @@ class HomePageController extends AbstractController
     public function index(
         Request $request,
         RecipeRepository $recipeRepository,
-        RecipeCategoryRepository $recipeCategoryRepository,
-        RecipeAuthorRepository $recipeAuthorRepository,
         PopularsearchRepository $popularSearchRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
@@ -57,30 +55,25 @@ class HomePageController extends AbstractController
         $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
 
         if (!$site || !$localeObject) {
-            return $this->render('catalog/list.html.twig', [
+            return $this->render('homepage/index.html.twig', [
                 'recipes' => [],
                 'breadcrumbs' => [],
             ]);
         }
-        $recipeCategories = $recipeCategoryRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
 
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
         $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
-        $recipeAuthors = $recipeAuthorRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
 
-        $filterAjaxUrl = $this->generateUrl('filter_ajax_data');
 
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
 
-        $token = $csrfTokenManager->getToken('filter_form')->getValue();
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
-        $popularSearchWords = $popularSearchRepository->findBySiteAndLocale($site->getId(), $localeObject->getId());
+        $popularSearchWords = $popularSearchRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
 
         return $this->render('homepage/index.html.twig', [
             'recipes' => $recipes,
             'popularSearchWords' => $popularSearchWords,
             'breadcrumbs' => $breadCrumbs,
-            'recipeAuthors' => $recipeAuthors,
             'searchAjaxUrl' => $searchAjaxUrl,
             'csrf_token_search' => $tokenSearch,
         ]);
