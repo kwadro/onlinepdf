@@ -13,12 +13,12 @@ class RecipeAuthorRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, RecipeAuthor::class);
     }
-       public function  findAllBySiteAndLocale($site, $locale){
-           return $this->createQueryBuilder('s')
-               ->setMaxResults(6)
-               ->getQuery()
-               ->getResult();
-       }
+           public function  findAllBySiteAndLocale($site, $locale){
+               return $this->createQueryBuilder('s')
+                   ->setMaxResults(6)
+                   ->getQuery()
+                   ->getResult();
+           }
        public function findOneBySiteAndLocale($site, $locale)
        {
        return $this->createQueryBuilder('s')

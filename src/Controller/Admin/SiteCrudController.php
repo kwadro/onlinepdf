@@ -38,6 +38,7 @@ class SiteCrudController extends AbstractCrudController
             AssociationField::new('footersettingsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('megamenusites')->setFormTypeOption('by_reference', false),
             AssociationField::new('recipesites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('popularsearchsites')->setFormTypeOption('by_reference', false),
         ];
     }
 

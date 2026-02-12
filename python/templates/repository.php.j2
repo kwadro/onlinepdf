@@ -2,7 +2,7 @@
 namespace App\Repository;
 use App\Entity\{{ name }};
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-{%- if  related=='multiplemenu' %}
+{%- if  related=='multiplemenu' or related=='list' %}
 use Doctrine\ORM\Query;
 {%- endif %}
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,10 +16,22 @@ class {{ name }}Repository extends ServiceEntityRepository
     {
         parent::__construct($registry, {{ name }}::class);
     }
-   {%- if  related=='singleall'  %}
+    {%- if  related=='singleall'  %}
+           public function  findAllBySiteAndLocale($site, $locale){
+               return $this->createQueryBuilder('s')
+                   ->setMaxResults(6)
+                   ->getQuery()
+                   ->getResult();
+           }
+       {%- endif %}
+   {%- if  related=='singletwo'  %}
        public function  findAllBySiteAndLocale($site, $locale){
            return $this->createQueryBuilder('s')
-               ->setMaxResults(6)
+               ->andWhere('s.locale = :locale')
+               ->andWhere('s.site = :site')
+               ->setParameter('site', $site)
+               ->setParameter('locale', $locale)
+               ->setMaxResults(8)
                ->getQuery()
                ->getResult();
        }
@@ -80,12 +92,12 @@ class {{ name }}Repository extends ServiceEntityRepository
             ->where('s.site = :site')
             ->andWhere('t.locale = :locale');
         if ($categoryIds !== null) {
-            $query->innerJoin('s.recipecategorys', 'c')
+            $query->innerJoin('s.{{ category_field }}', 'c')
                 ->andWhere('c.id IN (:recipeCategoryIds)')
                 ->setParameter('recipeCategoryIds', $categoryIdsStr);
         }
         if ($authorIds !== null) {
-            $query->innerJoin('t.recipeauthor', 'w')
+            $query->innerJoin('t.{{ author_field }}', 'w')
                 ->andWhere('w.id IN (:recipeAuthorIds)')
                 ->setParameter('recipeAuthorIds', $authorIds);
         }
@@ -128,10 +140,9 @@ class {{ name }}Repository extends ServiceEntityRepository
                 ->innerJoin('s.{{ name |lower }}translations', 't')
                 ->addSelect('t')
                 ->where('s.site = :site')
-                ->andWhere('t.locale = :locale')
-                ->innerJoin('s.{{ category_field }}', 'c');
+                ->andWhere('t.locale = :locale');
                 if ($categoryId) {
-                    $query->innerJoin('s.recipecategorys', 'c')
+                    $query->innerJoin('s.{{ category_field }}', 'c')
                         ->andWhere('c.id = :recipeCategoryId')
                         ->setParameter('recipeCategoryId', $categoryId);
                 }
@@ -152,7 +163,7 @@ class {{ name }}Repository extends ServiceEntityRepository
                        ->addSelect('t')
                        ->where('s.site = :site')
                        ->andWhere('t.locale = :locale')
-                       ->innerJoin('s.{{ author_field }}', 'c')
+                       ->innerJoin('t.{{ author_field }}', 'c')
                        ->andWhere('c.id = :authorId')
                        ->andWhere('t.is_active = :is_active')
                        ->setParameter('site', $site)
@@ -188,13 +199,14 @@ class {{ name }}Repository extends ServiceEntityRepository
     }
     public function  findAllBySiteAndLocale($site, $locale){
         return $this->createQueryBuilder('s')
-            ->orderBy('s.created_at', 'DESC')
+            ->andWhere('s.parent = :parent')
+            ->setParameter('parent', 1)
+            ->orderBy('s.id', 'ASC')
             ->setMaxResults(12)
             ->getQuery()
             ->getResult();
     }
    {%- endif %}
-
    {%- if related=='multiple' or related=='multiplemenu' %}
           public function findBySiteAndLocale($site, $locale)
              {

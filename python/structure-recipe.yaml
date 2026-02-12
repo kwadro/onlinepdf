@@ -113,7 +113,7 @@ groups:
                 relatedSaleAndLocale: list
                 url_key_field: slug
                 category_field: recipecategorys
-                author_field: author
+                author_field: recipeauthor
                 translate:
                     link:
                         uk: Рецепти
@@ -254,7 +254,7 @@ groups:
                       type: text
                     - name: image
                       type: image
-                      uploadDir: recipesteps
+                      uploadDir: recipes
 
             Ingredient:
                 translate:
@@ -402,6 +402,11 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: Recipe
                       mappedBy: site
+                    - name: popularsearchsites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: Popularsearch
+                      mappedBy: site
             Locale:
                 translate:
                     link:
@@ -443,6 +448,12 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: MegaMenuTranslation
                         mappedBy: locale
+                    -   name: popularsearchlocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: Popularsearch
+                        mappedBy: locale
+
             HeaderSetting:
                 relatedSaleAndLocale: single
                 translate:
@@ -695,12 +706,12 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: MegaMenuTranslation
                       mappedBy: megamenutype
-            PopularSearchWorlds:
-                relatedSaleAndLocale: singleall
+            Popularsearch:
+                relatedSaleAndLocale: singletwo
                 translate:
                     link:
                         uk: Популярні пошукові слова
-                        uk_single: Популярне пошукові слово
+                        uk_single: Популярне пошукове слово
                         en: Popular search terms
                         en_single: Popular search term
                 fields:
@@ -711,5 +722,17 @@ groups:
                       type: string
                       isrequire: true
                       isstring: true
-
-
+                    - name: image
+                      type: image
+                      uploadDir: recipes
+                    - name: site
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Site
+                      roleRelation: master
+                      inversedBy: popularsearchsites
+                    - name: locale
+                      type: relation
+                      typeRelation: ManyToOne
+                      objectRelation: Locale
+                      inversedBy: Popularsearchlocales

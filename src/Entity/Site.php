@@ -13,6 +13,7 @@ use App\Entity\SeoSetting;
 use App\Entity\FooterSetting;
 use App\Entity\MegaMenuSetting;
 use App\Entity\Recipe;
+use App\Entity\Popularsearch;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 class Site
@@ -63,6 +64,13 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $recipesites;
+    #[ORM\OneToMany(
+        targetEntity: Popularsearch::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $popularsearchsites;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -77,6 +85,7 @@ class Site
         $this->footersettingsites = new ArrayCollection();
         $this->megamenusites = new ArrayCollection();
         $this->recipesites = new ArrayCollection();
+        $this->popularsearchsites = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -253,6 +262,30 @@ class Site
     public function getRecipesites(): ?Collection
     {
         return $this->recipesites;
+    }
+
+    public function addPopularsearch(Popularsearch $popularsearch): self
+    {
+        if(!$this->popularsearchsites->contains($popularsearch)) {
+           $this->popularsearchsites[] = $popularsearch;
+           $popularsearch->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removePopularsearch(Popularsearch $popularsearch): self
+    {
+        if($this->popularsearchsites->removeElement($popularsearch)) {
+           if ($popularsearch->getSite() === $this) {
+               $popularsearch->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getPopularsearchsites(): ?Collection
+    {
+        return $this->popularsearchsites;
     }
 
 }

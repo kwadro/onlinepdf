@@ -40,7 +40,7 @@ class RecipeStepCrudController extends AbstractCrudController
             TextareaField::new('question')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
         
             TextareaField::new('answer')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-            ImageField::new('image')->setBasePath('/uploads/recipesteps')->setUploadDir('public/uploads/recipesteps')->setRequired(false),
+            ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->setRequired(false),
         ];
     }
 

@@ -18,6 +18,7 @@ php bin/console app:import:csv FooterTranslation scalar
 php bin/console app:import:csv MegaMenuSetting scalar
 php bin/console app:import:csv MegaMenuTranslation scalar
 php bin/console app:import:csv MegaMenuType scalar
+php bin/console app:import:csv Popularsearch scalar
 php bin/console app:import:csv RecipeTranslation association
 php bin/console app:import:csv RecipeAuthor association
 php bin/console app:import:csv Recipe association
@@ -37,3 +38,4 @@ php bin/console app:import:csv FooterTranslation association
 php bin/console app:import:csv MegaMenuSetting association
 php bin/console app:import:csv MegaMenuTranslation association
 php bin/console app:import:csv MegaMenuType association
+php bin/console app:import:csv Popularsearch association

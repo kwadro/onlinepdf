@@ -17,6 +17,7 @@ use App\Form\Type\SeoSettingType;
 use App\Form\Type\FooterSettingType;
 use App\Form\Type\MegaMenuSettingType;
 use App\Form\Type\RecipeType;
+use App\Form\Type\PopularsearchType;
 class SiteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

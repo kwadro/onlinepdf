@@ -12,6 +12,7 @@ use App\Entity\HeaderTranslation;
 use App\Entity\FooterTranslation;
 use App\Entity\SeoSettingsTranslation;
 use App\Entity\MegaMenuTranslation;
+use App\Entity\Popularsearch;
 
 #[ORM\Entity(repositoryClass: LocaleRepository::class)]
 class Locale
@@ -58,6 +59,13 @@ class Locale
         orphanRemoval: false,
     )]
         public ?Collection $megamenutranslatelocales;
+    #[ORM\OneToMany(
+        targetEntity: Popularsearch::class,
+        mappedBy: 'locale',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $popularsearchlocales;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -71,6 +79,7 @@ class Locale
         $this->footertranslatelocales = new ArrayCollection();
         $this->seosettingtranslatelocales = new ArrayCollection();
         $this->megamenutranslatelocales = new ArrayCollection();
+        $this->popularsearchlocales = new ArrayCollection();
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
@@ -233,6 +242,30 @@ class Locale
     public function getMegamenutranslatelocales(): ?Collection
     {
         return $this->megamenutranslatelocales;
+    }
+
+    public function addPopularsearch(Popularsearch $popularsearch): self
+    {
+        if(!$this->popularsearchlocales->contains($popularsearch)) {
+           $this->popularsearchlocales[] = $popularsearch;
+           $popularsearch->setLocale($this);
+        }
+        return $this;
+    }
+
+    public function removePopularsearch(Popularsearch $popularsearch): self
+    {
+        if($this->popularsearchlocales->removeElement($popularsearch)) {
+           if ($popularsearch->getLocale() === $this) {
+               $popularsearch->setLocale(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getPopularsearchlocales(): ?Collection
+    {
+        return $this->popularsearchlocales;
     }
 
 }

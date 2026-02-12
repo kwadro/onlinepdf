@@ -140,6 +140,8 @@ menu.link_megamenutranslation_single: Menu Item
 menu.link_megamenutranslation: Menu Items
 menu.link_megamenutype_single: Type Menu Item
 menu.link_megamenutype: Type Menu Items
+menu.link_popularsearch_single: Popular search term
+menu.link_popularsearch: Popular search terms
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Please sign in'
 Sign in with Google: 'Sign in with Google'

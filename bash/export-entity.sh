@@ -18,3 +18,4 @@ php bin/console app:export:csv FooterTranslation
 php bin/console app:export:csv MegaMenuSetting
 php bin/console app:export:csv MegaMenuTranslation
 php bin/console app:export:csv MegaMenuType
+php bin/console app:export:csv Popularsearch
