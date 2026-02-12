@@ -22,7 +22,7 @@ def capitalize(word):
 BASE = Path(__file__).resolve().parent
 OUT = BASE.parent
 
-NAME,USER,PASS,HOST,PORT = connect_database('prod')
+NAME,USER,PASS,HOST,PORT = connect_database('local')
 
 # add service function for getter and setter in template
 def to_pascal_case(value):

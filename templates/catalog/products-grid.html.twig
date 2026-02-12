@@ -19,14 +19,13 @@
                             </button>
                         </div>
                         <div class="p-3">
-
                             {% if recipes is not empty %}
                                 {% for category in recipe.recipecategorys %}
                                     <span class="category-badge mb-2 d-inline-block">{{ category.name }}</span>
                                 {% endfor %}
                             {% endif %}
                             <h6 class="mb-1">{{ recipe.recipetranslations[0].name }}</h6>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="my-2 d-flex justify-content-start gap-2 align-items-center">
                                             <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
                                                 <i class="me-1 bi bi-clock"></i>{{ recipe.prepTimeMin }} {{ 'minutes'|trans }}
                                             </span>
@@ -38,14 +37,14 @@
                                             </span>
 
                             </div>
-                            <div class="d-flex justify-content-between align-items-center">
+                            <div class="d-flex flex-column gap-2 justify-content-between align-items-start">
                                 <div class="flex-row small">
                                     <span>{{ 'Author'|trans }}</span>
                                     <a href="{{ path('author_list', {id: recipe.recipetranslations[0].recipeauthor.id}) }}" class="btn btn-sm btn-secondary">
                                         {{ recipe.recipetranslations[0].recipeauthor }}
                                     </a>
                                 </div>
-                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary">
+                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary w-100">
                                     {{ 'View'|trans }}
                                 </a>
                             </div>

@@ -352,3 +352,22 @@ body {
     transform: translateY(-2px);
 }
 
+/*SEARCH BLOCK*/
+.search-box {
+    max-width: 700px;
+}
+
+.search-box .form-control {
+    box-shadow: none;
+}
+
+.search-box .btn {
+    background-color: -v;
+    border-radius: 0 12px 12px 0;
+    font-weight: 500;
+}
+
+.search-box .input-group-text {
+    border-radius: 12px 0 0 12px;
+    font-size: 18px;
+}

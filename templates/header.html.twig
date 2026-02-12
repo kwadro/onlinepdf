@@ -45,10 +45,18 @@
                                     {% endif %}
                                 {% endfor %}
                                 {% for item_menu in setting.menu %}
+                                    {% if item_menu.megamenutype =='Catalog'%}
+                                        <li class="nav-item">
+                                            <a href="{{ absolute_url(path('catalog_list')) }}" class="px-3 nav-link text-white text-decoration-none
+                                               {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
+                                                {{ item_menu.name }}
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                     {% if item_menu.megamenutype =='Collection' %}
                                         <li class="nav-item dropdown mega-dropdown position-static">
                                             {% set isActive =
-                                                app.request.attributes.get('_route') == 'catalog_list'
+                                                app.request.attributes.get('_route') == 'collection_list'
                                             %}
                                             <a class="nav-link px-3 dropdown-toggle text-white text-decoration-none dropdown-toggle {% if isActive %} active {% endif %}"
                                                href="#"

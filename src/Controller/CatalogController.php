@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Entity\RecipeCategory;
 use App\Repository\LocaleRepository;
+use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\SiteRepository;
@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CatalogController extends AbstractController
@@ -25,49 +26,45 @@ class CatalogController extends AbstractController
         private SiteRepository $siteRepo
     ) {
     }
-    #[Route('/{_locale}/catalog/{slug}', name: 'catalog_list')]
-    public function list(Request $request, string $slug, RecipeRepository $recipeRepository,RecipeCategoryRepository $recipeCategoryRepository): Response
-    {
+
+    #[Route('/{_locale}/catalog', name: 'catalog_list')]
+    public function list(
+        Request $request,
+        RecipeRepository $recipeRepository,
+        RecipeCategoryRepository $recipeCategoryRepository,
+        RecipeAuthorRepository $recipeAuthorRepository,
+        CsrfTokenManagerInterface $csrfTokenManager
+    ): Response {
         $domain = $request->getHost();
         $requestLocale = $request->getLocale();
         $site = $this->siteRepo->findOneBy(['domain' => $domain]);
         $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
 
         if (!$site || !$localeObject) {
-            return $this->render('category/list.html.twig', [
+            return $this->render('catalog/list.html.twig', [
                 'recipes' => [],
-                'recipeCategory' => [],
                 'breadcrumbs' => [],
             ]);
         }
+        $recipeCategories = $recipeCategoryRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
 
-        $recipeCategory = $recipeCategoryRepository->findOneByUrlKey($slug);
-        $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCategory($recipeCategory);
-        $recipes = $recipeRepository->findByCategoryId($recipeCategory->getId(), $site->getId(), $localeObject->getId());
+        $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
+        $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
+        $recipeAuthors = $recipeAuthorRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
+        $filterAjaxUrl = $this->generateUrl('filter_ajax_data');
+        $searchAjaxUrl = $this->generateUrl('search_ajax_data');
+        $token = $csrfTokenManager->getToken('filter_form')->getValue();
+        $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
 
-        return $this->render('category/list.html.twig', [
+        return $this->render('catalog/list.html.twig', [
             'recipes' => $recipes,
-            'recipeCategory' => $recipeCategory,
-            'breadcrumbs' => $breadCrumbs
-
-        ]);
-    }
-    #[Route('/{_locale}/recipe/{urlKey}', name: 'catalog_show')]
-    public function show(Request $request, string $urlKey, RecipeRepository $recipeRepository): Response
-    {
-        $domain = $request->getHost();
-        $requestLocale = $request->getLocale();
-        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
-        $recipe = $recipeRepository->findOneByUrlKey($urlKey, $site->getId(), $localeObject->getId());
-        if (!$recipe) {
-            throw $this->createNotFoundException();
-        }
-        $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByRecipe($recipe);
-
-        return $this->render('recipe/show.html.twig', [
-            'recipe' => $recipe,
             'breadcrumbs' => $breadCrumbs,
+            'recipeCategories' => $recipeCategories,
+            'recipeAuthors' => $recipeAuthors,
+            'filterAjaxUrl' => $filterAjaxUrl,
+            'searchAjaxUrl' => $searchAjaxUrl,
+            'csrf_token' => $token,
+            'csrf_token_search' => $tokenSearch,
         ]);
     }
 }

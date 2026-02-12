@@ -34,7 +34,10 @@ class ExportEntityToCsvCommand extends Command
         $io = new SymfonyStyle($input, $output);
 
         $entity = $input->getArgument('entity');
-        mkdir('./export', 0775, true);
+        if(!is_dir('./export')){
+            mkdir('./export', 0775, true);
+        }
+
         $file   = $input->getArgument('file')
             ?? './export/'.strtolower($entity) . '.csv';
 

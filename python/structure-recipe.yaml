@@ -695,5 +695,21 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: MegaMenuTranslation
                       mappedBy: megamenutype
+            PopularSearchWorlds:
+                relatedSaleAndLocale: singleall
+                translate:
+                    link:
+                        uk: Популярні пошукові слова
+                        uk_single: Популярне пошукові слово
+                        en: Popular search terms
+                        en_single: Popular search term
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
 
 

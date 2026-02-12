@@ -87,8 +87,8 @@ class Breadcrumbs
         if ($recipeAuthor) {
             $breadCrumbs[] = [
                 'link' => null,
-                'url' => $recipeAuthor->getId(),
-                'name' => $recipeAuthor->getName()
+                'url' => null,
+                'name' => 'all of '.$recipeAuthor->getName()
             ];
         }
         $item = [

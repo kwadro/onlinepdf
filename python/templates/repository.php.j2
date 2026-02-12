@@ -53,6 +53,23 @@ class {{ name }}Repository extends ServiceEntityRepository
    {%- endif %}
 
    {%- if related=='list' %}
+    public function findBySearchQuery($query, $site, $locale): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.name LIKE :query')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('query', '%' . $query . '%')
+            ->setMaxResults(10)
+            ->getQuery();
+            $query->setHint(Query::HINT_REFRESH, true);
+
+            return $query->getResult();
+    }
 
     public function findByCategoryAndAuthor($categoryIds, $authorIds, $site, $locale): array
     {

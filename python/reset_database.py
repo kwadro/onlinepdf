@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Optional
 from connect_database import connect_database
 
-NAME,USER,PASS,HOST,PORT = connect_database('prod')
+NAME,USER,PASS,HOST,PORT = connect_database('local')
 
 def reset_database(
     db_name: str = NAME,
@@ -36,7 +36,7 @@ def reset_database(
         return
     PROJECT_ROOT = Path(__file__).parent.parent.resolve()
     SCRIPT_PATH_IMPORT = PROJECT_ROOT / "bash" / "import-entity.sh"
-    DROP = 0
+    DROP = 1
     # --------------------------
     # CLEAN CACHE
     # --------------------------

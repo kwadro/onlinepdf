@@ -1,13 +1,9 @@
 
-{% set setting = site_settings() %}
+
 {% extends "base.html.twig" %}
 {% block main %}
-        {%- if ('homepage'!=='homepage') %}
-       {% include "recipe/breadcrumbs.html.twig" with {
-         breadCrumbs: breadcrumbs
-       } %}
-        {%- endif %}
+
+
        {% include "homepage/homepage-content.html.twig" with {
-           content: setting.menu_pages.homepage.content
        } %}
 {% endblock %}
