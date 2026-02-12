@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Repository\LocaleRepository;
+use App\Repository\PopularsearchRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
@@ -31,12 +32,23 @@ class HomePageController extends AbstractController
     )
     {
     }
+
+    /**
+     * @param Request $request
+     * @param RecipeRepository $recipeRepository
+     * @param RecipeCategoryRepository $recipeCategoryRepository
+     * @param RecipeAuthorRepository $recipeAuthorRepository
+     * @param PopularsearchRepository $popularSearchRepository
+     * @param CsrfTokenManagerInterface $csrfTokenManager
+     * @return Response
+     */
     #[Route('/{_locale}/', name: 'homepage')]
     public function index(
         Request $request,
         RecipeRepository $recipeRepository,
         RecipeCategoryRepository $recipeCategoryRepository,
         RecipeAuthorRepository $recipeAuthorRepository,
+        PopularsearchRepository $popularSearchRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
         $domain = $request->getHost();
@@ -55,17 +67,21 @@ class HomePageController extends AbstractController
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
         $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
         $recipeAuthors = $recipeAuthorRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
+
         $filterAjaxUrl = $this->generateUrl('filter_ajax_data');
+
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
+
         $token = $csrfTokenManager->getToken('filter_form')->getValue();
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
+        $popularSearchWords = $popularSearchRepository->findBySiteAndLocale($site->getId(), $localeObject->getId());
 
         return $this->render('homepage/index.html.twig', [
             'recipes' => $recipes,
+            'popularSearchWords' => $popularSearchWords,
             'breadcrumbs' => $breadCrumbs,
             'recipeAuthors' => $recipeAuthors,
             'searchAjaxUrl' => $searchAjaxUrl,
-            'csrf_token' => $token,
             'csrf_token_search' => $tokenSearch,
         ]);
     }
