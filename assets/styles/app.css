@@ -143,9 +143,8 @@ a:hover {
     position: relative;
 }
 @media (min-width: 768px) and (max-width: 995px) {
-    .container__header header > a {
-        justify-content: center;
-        width: 100%;
+    .container__header .container {
+        max-width: 100%;
     }
 }
 @media (max-width: 767px) {
@@ -295,7 +294,13 @@ body {
 .rating-stars {
     color: #fbbf24;
 }
-
+.recipe-name{
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+.recipe-info span{
+    font-size: 0.8rem;
+}
 .category-badge {
     background: #e5e7eb;
     color: #4b5563;
@@ -374,11 +379,24 @@ body {
     border-radius: 0 12px 12px 0;
     font-weight: 500;
 }
-
-.search-box .input-group-text {
-    border-radius: 12px 0 0 12px;
+.search-box input {
+    border: none;
+    margin-right: 10px;
+    min-width: 270px;
+}
+.search-box .input-group{
     font-size: 18px;
 }
+.search-box i{
+    padding-left: 20px;
+}
+.search-box .input-search-text {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+    border-radius: 12px 0 0 12px;
+}
+
 /** Popular Search terms **/
 .keyword-card {
     border-radius: 12px;
@@ -399,12 +417,6 @@ body {
     height: 160px;
     object-fit: cover;
     transition: transform 0.3s ease;
-}
-
-.keyword-card .overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0.1));
 }
 
 .keyword-title {
@@ -457,6 +469,30 @@ body {
     left: 0;
     right: 0;
 }
+@media (max-width: 991px) {
+    .column-left {
+        display: none;
+    }
+    .column-right {
+        left: 10px;
+        width: calc( 100% - 20px);
+    }
+}
+@media (max-width: 575px) {
+    .search-box{
+        flex-direction: row;
+        gap: 5px;
+        justify-content: center;
+    }
+    .search-box .input-search-text{
+        border-radius: 12px !important;
+    }
+    .search-box .btn{
+        border-radius: 12px !important;
+    }
+}
+
+
 
 .row {
     overflow: visible;

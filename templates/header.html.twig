@@ -26,7 +26,7 @@
                                     {% if  item_menu.megamenutype =='Form'   %}
                                         <li class="nav-item">
                                             <a href="{{ absolute_url(path(item_menu.url)) }}"
-                                               class="px-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
+                                               class="px-2 px-lg-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
                                                 {{ item_menu.name }}
                                             </a>
                                         </li>
@@ -38,7 +38,7 @@
                                                 and app.request.attributes.get('slug') == item_menu.url
                                             %}
                                             <a href="{{ absolute_url(path('static_page', {slug: item_menu.url})) }}"
-                                               class="px-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if isActive %} active {% endif %}">
+                                               class="px-2 px-lg-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if isActive %} active {% endif %}">
                                                 {{ item_menu.name }}
                                             </a>
                                         </li>
@@ -47,7 +47,7 @@
                                 {% for item_menu in setting.menu %}
                                     {% if item_menu.megamenutype =='Catalog'%}
                                         <li class="nav-item">
-                                            <a href="{{ absolute_url(path('catalog_list')) }}" class="px-3 nav-link text-white text-decoration-none
+                                            <a href="{{ absolute_url(path('catalog_list')) }}" class="px-2 px-lg-3 nav-link text-white text-decoration-none
                                                {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
                                                 {{ item_menu.name }}
                                             </a>
@@ -58,7 +58,7 @@
                                             {% set isActive =
                                                 app.request.attributes.get('_route') == 'collection_list'
                                             %}
-                                            <a class="nav-link px-3 dropdown-toggle text-white text-decoration-none dropdown-toggle {% if isActive %} active {% endif %}"
+                                            <a class="nav-link px-2 px-lg-3 dropdown-toggle text-white text-decoration-none dropdown-toggle {% if isActive %} active {% endif %}"
                                                href="#"
                                                role="button"
                                                data-bs-toggle="dropdown"
@@ -75,17 +75,17 @@
                                 {% endfor %}
                                 <li class="nav-item">
                                     {% if app.user %}
-                                        <a href="{{ path('app_logout') }}" class="px-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_logout') }}" class="px-2 px-lg-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Logout'|trans }}
                                         </a>
                                     {% else %}
-                                        <a href="{{ path('app_login') }}" class="px-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
+                                        <a href="{{ path('app_login') }}" class="px-2 px-lg-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
                                             {{ 'Login'|trans }}
                                         </a>
                                     {% endif %}
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="px-3 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
+                                    <a class="px-2 px-lg-3 nav-link text-white text-decoration-none dropdown-toggle" href="#" id="dropdown-language" role="button"
                                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         {{ app.request.locale|upper }}
                                     </a>
