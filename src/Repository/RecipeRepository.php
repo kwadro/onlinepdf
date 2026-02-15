@@ -14,6 +14,16 @@ class RecipeRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Recipe::class);
     }
+    public function findPopularValues($site, $locale): array
+    {
+        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
+    }
+
+    public function findRecentlyValues($site, $locale): array
+    {
+        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
+    }
+
     public function findBySearchQuery($query, $site, $locale): array
     {
         $query = $this->createQueryBuilder('s')
@@ -123,14 +133,4 @@ class RecipeRepository extends ServiceEntityRepository
                        ->getQuery();
                    return $query->getResult();
               }
-
-    public function findPopularValues($site, $locale): array
-    {
-        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
-    }
-
-    public function findRecentlyValues($site, $locale): array
-    {
-        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
-    }
 }

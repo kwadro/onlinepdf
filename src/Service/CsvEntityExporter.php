@@ -72,8 +72,10 @@ readonly class CsvEntityExporter
         if (is_scalar($value)) {
             return (string) $value;
         }
-
-        if (method_exists($value, '__toString')) {
+        if (is_array($value)) {
+            return json_encode($value);
+        }
+        if ( method_exists($value, '__toString')) {
             return (string) $value;
         }
 

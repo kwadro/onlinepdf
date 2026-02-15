@@ -13,16 +13,14 @@ class PopularsearchRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Popularsearch::class);
     }
-       public function  findAllBySiteAndLocale( $site, $locale){
-           $query = $this->createQueryBuilder('s')
+       public function  findAllBySiteAndLocale($site, $locale){
+           return $this->createQueryBuilder('s')
                ->andWhere('s.locale = :locale')
                ->andWhere('s.site = :site')
                ->setParameter('site', $site)
                ->setParameter('locale', $locale)
                ->setMaxResults(8)
-               ->getQuery();
-
-           return $query->getResult();
-
+               ->getQuery()
+               ->getResult();
        }
 }

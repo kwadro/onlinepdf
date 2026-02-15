@@ -76,11 +76,13 @@ readonly class CsvEntityImporter
             $type = $meta->getTypeOfField($column);
 
             return match ($type) {
+                'datetime_immutable' => new \DateTimeImmutable($value),
                 'datetime', 'datetimetz' => new \DateTime($value),
                 'date'                  => new \DateTime($value),
                 'integer', 'smallint'   => (int) $value,
                 'boolean'               => filter_var($value, FILTER_VALIDATE_BOOLEAN),
                 'float', 'decimal'      => (float) $value,
+                'json'                 => json_decode($value,true),
                 default                 => $value,
             };
         }
