@@ -23,7 +23,7 @@
                     <div data-controller="navbar" class="collapse navbar-collapse dropdown-popup" id="mainNavbar">
                             <ul class="navbar-nav ms-auto">
                                 {% for item_menu in setting.menu %}
-                                    {% if  item_menu.megamenutype =='Form' or item_menu.url == 'homepage'  %}
+                                    {% if  item_menu.megamenutype =='Form'   %}
                                         <li class="nav-item">
                                             <a href="{{ absolute_url(path(item_menu.url)) }}"
                                                class="px-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">

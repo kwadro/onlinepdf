@@ -204,8 +204,12 @@ def generate_import(entity_name, entity):
 def generate_export_script(groups):
     code = render_template("export.sh.j2", groups=groups).strip()
     write_file(OUT / f"bash/export-entity.sh", code)
+    with open(OUT / "bash/export-entity.sh", "a", encoding="utf-8") as f:
+      f.write("\n php bin/console app:export:csv User")
     code = render_template("import.sh.j2", groups=groups).strip()
     write_file(OUT / f"bash/import-entity.sh", code)
+    with open(OUT / "bash/import-entity.sh", "a", encoding="utf-8") as f:
+        f.write("\n php bin/console app:import:csv User")
 
 def main():
     cfg = load_yaml()

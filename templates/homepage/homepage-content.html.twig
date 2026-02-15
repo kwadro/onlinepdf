@@ -1,49 +1,30 @@
-<div class="container my-4"
-     data-controller="search"
-     data-ajaxurl="{{ searchAjaxUrl|default('empty') }}"
->
-    <div class="row gx-4">
-        <div class="col-3">
-            <div class="column-left">
-                {% include "homepage/sidebar.html.twig" with {
-
-                } %}
-            </div>
-        </div>
-        <div class="col-9">
-            <div class="column-right">
-                <div class="d-flex justify-content-center pb-3">
-                    <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
-                    <div class="input-group search-box">
-                        <input
-                            id="search-input"
-                            type="text"
-                            class="form-control"
-                            placeholder="{{ 'search_placeholder'|trans }}"
-                        >
-                        <button
-                            class="btn btn-primary px-4"
-                            data-action="click->search#open"
-                            type="button">
-                            {{ 'Find a recipe'|trans }}
-                        </button>
-                    </div>
-                </div>
-                {% include "homepage/popular_search_words.html.twig" with {
-                    'popularSearchWords': popularSearchWords
-                } %}
-                {% include "homepage/popular_recipes.html.twig" with {
-                    'recipes': recipes
-                } %}
-                {% include "homepage/recently_recipes.html.twig" with {
-                    'recipes': recipes
-                } %}
-                <div class="m-3">
-                    {{ content|raw }}
-                </div>
-            </div>
+    <div class="d-flex justify-content-center mt-3 p-3">
+        <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
+        <div class="input-group search-box">
+            <input
+                id="search-input"
+                type="text"
+                class="form-control"
+                data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
+                placeholder="{{ 'search_placeholder'|trans }}"
+            >
+            <button
+                class="btn btn-primary px-4"
+                data-action="click->search#open"
+                type="button">
+                {{ 'Find a recipe'|trans }}
+            </button>
         </div>
     </div>
-</div>
-
-
+    {% include "homepage/popular_search_words.html.twig" with {
+        'popularSearchWords': popularSearchWords
+    } %}
+    {% include "homepage/popular_recipes.html.twig" with {
+        'recipes': recipes
+    } %}
+    {% include "homepage/recently_recipes.html.twig" with {
+        'recipes': recipes
+    } %}
+    <div class="m-3">
+        {{ content|raw }}
+    </div>

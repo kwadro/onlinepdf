@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Register{% endblock %}
+
 {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
+
 {% block main %}
-    <div class="container">
-        <section class="d-flex flex-wrap justify-content-left py-3 mb-4 border-bottom">
+        <section class="d-flex flex-wrap justify-content-left py-3 my-4">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-4">
@@ -33,22 +34,22 @@
                             {{ 'Register'|trans }}
                         </button>
                         {{ form_end(registrationForm) }}
-                        <div class="border-top my-3"></div>
-                        <a href="{{ path('app_login') }}" >
-                            <button class="btn mt-3 btn-lg btn-primary mb-3" type="submit">
-                                {{ 'Sign in'|trans }}
-                            </button>
-                        </a>
-                        <div class="border-top my-3"></div>
+                        {% include "service/horisontal-text.html.twig" %}
                         <a href="{{ path('login_google') }}" >
-                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 py-2">
+                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
                                 <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" class="me-2" width="24" height="24">
                                 <span class="">{{ 'Register with Google'|trans }}</span>
+                            </button>
+                        </a>
+                        {% include "service/horisontal-text.html.twig" with {'content':'If you have an account?'} %}
+
+                        <a href="{{ path('app_login') }}" >
+                            <button class="btn my-1 btn-lg btn-primary" type="submit">
+                                {{ 'Sign in'|trans }}
                             </button>
                         </a>
                     </div>
                 </div>
             </div>
         </section>
-    </div>
 {% endblock %}

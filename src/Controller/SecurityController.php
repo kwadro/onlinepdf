@@ -68,7 +68,7 @@ class SecurityController extends AbstractController
             'error' => $error,
             'translation_domain' => 'admin',
             'csrf_token_intention' => 'authenticate',
-            'target_path' => $this->generateUrl('admin'),
+            'target_path' => $this->generateUrl('admin')
         ]);
     }
 

@@ -123,4 +123,14 @@ class RecipeRepository extends ServiceEntityRepository
                        ->getQuery();
                    return $query->getResult();
               }
+
+    public function findPopularValues($site, $locale): array
+    {
+        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
+    }
+
+    public function findRecentlyValues($site, $locale): array
+    {
+        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
+    }
 }

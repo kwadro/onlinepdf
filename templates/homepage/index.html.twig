@@ -1,11 +1,40 @@
-
-
 {% extends "base.html.twig" %}
 {% block main %}
-       {% include "homepage/homepage-content.html.twig" with {
-           'popularSearchWords': popularSearchWords,
-           'recipes': recipes,
-           'content': setting.menu_pages.homepage.content
-       } %}
+            {% if typePage == 'searchResult' %}
+                {% include "homepage/search-result-page.html.twig" with {
+                   'recipes': recipes,
+                   'recentlyRecipes': recentlyRecipes,
+                   'content': setting.menu_pages.homepage.content,
+                   'keyword': keyword|default('')
+                } %}
+            {% endif %}
 
+            {% if typePage == 'homepage' %}
+                {% include "homepage/homepage-content.html.twig" with {
+                   'popularSearchWords': popularSearchWords,
+                   'recipes': recipes,
+                   'content': setting.menu_pages.homepage.content
+                } %}
+            {% endif %}
+
+            {% if typePage == 'yourRecipes' %}
+                {% include "homepage/your-recipes.html.twig" with {
+                    'recipes': recipes,
+                } %}
+            {% endif %}
+
+            {% if typePage == 'register' %}
+                {% include "registration/register.html.twig" with {
+                    'registrationForm': registrationForm,
+                } %}
+            {% endif %}
+            {% if typePage == 'login' %}
+                {% include "security/login.html.twig" with {
+                    'last_username': last_username,
+                    'error': error,
+                    'translation_domain': translation_domain,
+                    'csrf_token_intention': csrf_token_intention,
+                    'target_path': target_path,
+                } %}
+            {% endif %}
 {% endblock %}

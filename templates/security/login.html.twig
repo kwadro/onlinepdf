@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %} {{'Log in!'|trans}} {% endblock %}
 
 {% block main %}
     <div class="container">
@@ -39,19 +39,20 @@
                                 </button>
                             </form>
 
-                            <div class="border-top my-3"></div>
+                            {% include "service/horisontal-text.html.twig" %}
+                            <a href="{{ path('login_google') }}" >
+                                <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
+                                    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="{{ 'Google Logo'|trans }}" class="me-2" width="24" height="24">
+                                    <span class="">{{ 'Sign in with Google'|trans }}</span>
+                                </button>
+                            </a>
+                            {% include "service/horisontal-text.html.twig" with {'content':"If you haven't an account?"} %}
                             <a href="{{ path('app_register') }}" >
                                 <button class="btn mt-3 btn-lg btn-primary mb-3" type="submit">
                                     {{ 'Registration'|trans }}
                                 </button>
                             </a>
-                            <div class="border-top my-3"></div>
-                            <a href="{{ path('login_google') }}" >
-                                <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 py-2">
-                                    <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="{{ 'Google Logo'|trans }}" class="me-2" width="24" height="24">
-                                    <span class="">{{ 'Sign in with Google'|trans }}</span>
-                                </button>
-                            </a>
+
                         {% endif %}
                     </div>
                 </div>

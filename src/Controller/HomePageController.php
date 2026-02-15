@@ -11,10 +11,8 @@ use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\SiteRepository;
 use App\Service\Breadcrumbs;
-use App\Service\SiteSettingsProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
@@ -29,8 +27,58 @@ class HomePageController extends AbstractController
         private Breadcrumbs $breadcrumbs,
         private LocaleRepository $localeRepo,
         private SiteRepository $siteRepo
-    )
+    ) {
+    }
+
+    #[Route('/{_locale}/your-recipes', name: 'your-recipes')]
+    public function getCustomerRecipes(Request $request): Response
     {
+        $recipes = [];
+
+        return $this->render('homepage/index.html.twig', [
+            'recipes' => $recipes,
+            'isLogin' => (bool)$this->getUser(),
+            'typePage' => 'yourRecipes'
+        ]);
+    }
+
+    #[Route('/{_locale}/search_page/{keyword}', name: 'search_page')]
+    public function searchRecipes(
+        Request $request,
+        string $keyword,
+        RecipeRepository $recipeRepository,
+        CsrfTokenManagerInterface $csrfTokenManager
+    ): Response {
+        $domain = $request->getHost();
+        $requestLocale = $request->getLocale();
+        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
+        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+
+        if (!$site || !$localeObject) {
+            return $this->render('homepage/index.html.twig', [
+                'recipes' => [],
+                'breadcrumbs' => [],
+            ]);
+        }
+        $recipes = $recipeRepository->findBySearchQuery(
+            $keyword,
+            $site->getId(),
+            $localeObject->getId()
+        );
+        $popularRecipes = $recipeRepository->findPopularValues($site->getId(), $localeObject->getId());
+        $recentlyRecipes = $recipeRepository->findRecentlyValues($site->getId(), $localeObject->getId());
+
+        $searchAjaxUrl = $this->generateUrl('search_ajax_data');
+        $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
+        return $this->render('homepage/index.html.twig', [
+            'recipes' => $recipes,
+            'popularRecipes' => $popularRecipes,
+            'recentlyRecipes' => $recentlyRecipes,
+            'searchAjaxUrl' => $searchAjaxUrl,
+            'keyword' => $keyword,
+            'csrf_token_search' => $tokenSearch,
+            'typePage' => 'searchResult',
+        ]);
     }
 
     /**
@@ -63,10 +111,7 @@ class HomePageController extends AbstractController
 
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
         $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
-
-
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
-
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
         $popularSearchWords = $popularSearchRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
 
@@ -76,15 +121,13 @@ class HomePageController extends AbstractController
             'breadcrumbs' => $breadCrumbs,
             'searchAjaxUrl' => $searchAjaxUrl,
             'csrf_token_search' => $tokenSearch,
+            'typePage' => 'homepage'
         ]);
     }
-//    #[Route('/', name: 'default', locale: 'en')]
-//    public function default(Request $request): Response
-//    {
-//        $setting = $this->provider->getSettings(
-//            $request->getHost(),
-//            $request->getLocale()
-//        );
-//        return $this->render('homepage/index.html.twig',['setting'=>$setting]);
-//    }
+
+    #[Route('/', name: 'default', locale: 'en')]
+    public function default(Request $request): Response
+    {
+        return $this->redirectToRoute('homepage');
+    }
 }

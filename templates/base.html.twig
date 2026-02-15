@@ -41,11 +41,11 @@
     {% block javascripts %}
         {{ encore_entry_script_tags('app') }}
     {% endblock %}
-{#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"#}
-{#            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
-{#            crossorigin="anonymous"></script>#}
+    {#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"#}
+    {#            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+    {#            crossorigin="anonymous"></script>#}
 </head>
-<body class="d-flex flex-column min-vh-100">
+<body class="d-flex flex-column ">
 <!-- Google Tag Manager (noscript) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id='{{setting.seo.gtm_code}}'"
@@ -55,8 +55,24 @@
 {% block header %}
     {% include "header.html.twig" %}
 {% endblock %}
-{% block main %}
-{% endblock %}
+<div class="container-fluid my-4 homepage-content.html.twig"
+     data-controller="search"
+     data-ajaxurl="{{ searchAjaxUrl|default('empty') }}"
+     style="margin-top: 95px"
+>
+    <div class="row gx-4">
+        <div class="column-left">
+            {% include "homepage/sidebar.html.twig" with {} %}
+        </div>
+        <div class="column-right" >
+            <div class="content" id="rightContent">
+                {% block main %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% block footer %}
     {% include "footer.html.twig" %}
 {% endblock %}

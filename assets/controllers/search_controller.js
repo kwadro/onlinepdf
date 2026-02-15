@@ -9,10 +9,29 @@ export default class extends Controller {
         };
     }
     connect() {
+        const baseSearchAjaxUrl = this.element.dataset.ajaxurl;
+        console.log('search_controller.js baseSearchAjaxUrl ',baseSearchAjaxUrl)
+        /** scroll content in right column*/
+        const rightContent = document.getElementById('rightContent');
+        const heightContent = rightContent.offsetHeight;
+        console.log('heightContent',heightContent)
+        document.body.style.height = (heightContent + 180)+'px';
+
+        function updateRightContent() {
+            const scrollY = window.scrollY;
+            rightContent.style.transform = `translateY(-${scrollY}px)`;
+        }
+
+        window.addEventListener('scroll', updateRightContent);
+        window.addEventListener('resize', updateRightContent);
+        updateRightContent();
+    }
+    connectOld() {
         const input = document.getElementById('search-input');
         const searchFormToken = document.getElementById('search_form').value;
         const gridElement = document.querySelector('.product-grid');
         const baseSearchAjaxUrl = this.element.dataset.ajaxurl;
+
         console.log('search_controller.js baseSearchAjaxUrl ',baseSearchAjaxUrl)
 
         const search = this.debounce(function () {
@@ -39,16 +58,25 @@ export default class extends Controller {
                     if (json.errors) {
                         console.log('errors', json.errors)
                     } else {
-                        gridElement.innerHTML = json.gridHtml;
+                        if(gridElement){
+                            gridElement.innerHTML = json.gridHtml;
+                        }
                         const selectedFilterElement = document.querySelector('.selected-filter');
-                        selectedFilterElement.innerHTML = json.filterHtml;
+                        if(selectedFilterElement){
+                            selectedFilterElement.innerHTML = json.filterHtml;
+                        }
                     }
                 })
                 .catch(error => {
                     console.error('Submit error:', error)
                 })
         }, 300);
-
         input.addEventListener('input', search)
+    }
+    open(){
+        const input = document.getElementById('search-input');
+        const redirectUrl = input.dataset.baseurl.replace('/keyword', `/${input.value}`);
+        console.log('redirect url ', redirectUrl)
+        window.location.href = redirectUrl;
     }
 }

@@ -63,7 +63,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
-            'registrationForm' => $form,
+            'registrationForm' => $form
         ]);
     }
 
@@ -77,6 +77,7 @@ class RegistrationController extends AbstractController
             /** @var User $user */
             $user = $this->getUser();
 
+
             $this->emailVerifier->handleEmailConfirmation($request, $user);
         } catch (VerifyEmailExceptionInterface $exception) {
             $this->addFlash('verify_email_error', $translator->trans($exception->getReason(), [], 'VerifyEmailBundle'));
@@ -85,6 +86,6 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
-        return $this->redirectToRoute('admin');
+        return $this->redirectToRoute('homepage');
     }
 }

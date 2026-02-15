@@ -1,0 +1,39 @@
+    <div class="d-flex justify-content-center mt-3 p-3">
+        <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
+        <div class="input-group search-box">
+            <input
+                id="search-input"
+                value="{{ keyword}}"
+                type="text"
+                class="form-control"
+                data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
+                placeholder="{{ 'search_placeholder'|trans }}"
+            >
+            <button
+                class="btn btn-primary px-4"
+                data-action="click->search#open"
+                type="button">
+                {{ 'Find a recipe'|trans }}
+            </button>
+        </div>
+    </div>
+    <div class="width-search d-flex justify-content-between align-items-center">
+        <h4 class="fw-bold ms-2 my-3">{{'Search result for request'|trans}} "{{ keyword}}" ( {{ recipes|length }} )</h4>
+    </div>
+    <div class="product-grid">
+        {% if recipes is not empty %}
+            <!-- Recipe Grid -->
+            {% include "homepage/recipe-grid.html.twig" with {
+                'recipes': recipes,
+                'countRepeat': 1
+            } %}
+        {% else %}
+            <h5 class="text-center">{{ 'We not found any recipe'|trans }}</h5>
+        {% endif %}
+    </div>
+    {% if recentlyRecipes is not empty %}
+        {% include "homepage/recently_recipes.html.twig" with {
+            'recipes': recentlyRecipes
+        } %}
+    {% endif %}
+
