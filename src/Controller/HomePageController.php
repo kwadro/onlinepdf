@@ -70,14 +70,13 @@ class HomePageController extends AbstractController
 
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
-        return $this->render('homepage/index.html.twig', [
+        return $this->render('homepage/search-result-page.html.twig', [
             'recipes' => $recipes,
             'popularRecipes' => $popularRecipes,
             'recentlyRecipes' => $recentlyRecipes,
             'searchAjaxUrl' => $searchAjaxUrl,
             'keyword' => $keyword,
-            'csrf_token_search' => $tokenSearch,
-            'typePage' => 'searchResult',
+            'csrf_token_search' => $tokenSearch
         ]);
     }
 

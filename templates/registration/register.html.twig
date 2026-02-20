@@ -34,14 +34,14 @@
                             {{ 'Register'|trans }}
                         </button>
                         {{ form_end(registrationForm) }}
-                        {% include "service/horisontal-text.html.twig" %}
+                        {% include "service/horisontal-text.html.twig" with {'content':"OR"}%}
                         <a href="{{ path('login_google') }}" >
                             <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
                                 <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" class="me-2" width="24" height="24">
                                 <span class="">{{ 'Register with Google'|trans }}</span>
                             </button>
                         </a>
-                        {% include "service/horisontal-text.html.twig" with {'content':'If you have an account?'} %}
+                        {% include "service/horisontal-text.html.twig" with {'content':'If you have an account?'|trans } %}
 
                         <a href="{{ path('app_login') }}" >
                             <button class="btn my-1 btn-lg btn-primary" type="submit">

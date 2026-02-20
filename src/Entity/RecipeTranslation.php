@@ -39,6 +39,9 @@ class RecipeTranslation
     private ?string $is_active;
 
     #[ORM\Column(type:"string", nullable:true)]
+    private ?string $is_popular;
+
+    #[ORM\Column(type:"string", nullable:true)]
     private ?string $meta_title;
 
     #[ORM\Column(type:"text", nullable:true)]
@@ -169,6 +172,16 @@ class RecipeTranslation
     public function getIsActive(): ?string
     {
         return $this->is_active;
+    }
+    public function setIsPopular(?string $is_popular): self
+    {
+        $this->is_popular = $is_popular;
+        return $this;
+    }
+
+    public function getIsPopular(): ?string
+    {
+        return $this->is_popular;
     }
     public function setMetaTitle(?string $meta_title): self
     {

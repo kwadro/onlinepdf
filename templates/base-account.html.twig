@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% set setting = site_settings() %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{setting.seo.meta_title}}{% endblock %}</title>
+    <meta name="robots" content="index,follow"/>
+    <meta name="description" content="{{setting.seo.meta_description}}"/>
+    <meta name="keywords" content="{{setting.seo.meta_keywords}}"/>
+    <meta name="author" content="{{setting.seo.author}}"/>
+    <meta property="og:title" content="{{setting.seo.og_title}}"/>
+    <meta property="og:description" content="{{setting.seo.og_description}}"/>
+    <meta property="og:type" content="{{setting.seo.og_type}}"/>
+
+    <meta property="og:url" content="{{ absolute_url(path('homepage')) }}"/>
+    <meta property="og:image" content="{{ absolute_url(asset('uploads/images/' ~ setting.seo.og_image)) }}"/>
+    <link rel="canonical" href="{{ absolute_url(path('homepage')) }}/"/>
+    <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('uploads/images/' ~ setting.header.favicon)) }}"/>
+
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+            f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', '{{setting.seo.gtm_code}}');</script>
+    <!-- End Google Tag Manager -->
+
+    {% block stylesheets %}
+        {{ encore_entry_link_tags('app') }}
+
+    {% endblock %}
+
+    {% block javascripts %}
+        {{ encore_entry_script_tags('app') }}
+    {% endblock %}
+    {#    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"#}
+    {#            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
+    {#            crossorigin="anonymous"></script>#}
+</head>
+<body class="d-flex flex-column ">
+<!-- Google Tag Manager (noscript) -->
+<noscript>
+    <iframe src="https://www.googletagmanager.com/ns.html?id='{{setting.seo.gtm_code}}'"
+            height="0" width="0" style="display:none;visibility:hidden"></iframe>
+</noscript>
+<!-- End Google Tag Manager (noscript) -->
+{% block header %}
+    {% include "header.html.twig" %}
+{% endblock %}
+<div class="container-fluid my-4 homepage-content.html.twig"
+     data-controller="search"
+     data-ajaxurl="{{ searchAjaxUrl|default('empty') }}"
+     style="margin-top: 95px"
+>
+    <div class="row gx-4">
+        <div class="column-left sidebar-section">
+            {% include "security/sidebar-account.html.twig" with {} %}
+        </div>
+        <div class="column-right" >
+            <div class="content" id="rightContent">
+                {% block main %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block footer %}
+    {% include "footer.html.twig" %}
+{% endblock %}
+</body>
+</html>

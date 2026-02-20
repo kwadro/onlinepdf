@@ -67,7 +67,19 @@ class {{ name }}Repository extends ServiceEntityRepository
    {%- if related=='list' %}
     public function findPopularValues($site, $locale): array
     {
-        return $this->findByCategoryAndAuthor(null,null,$site, $locale);
+         $query = $this->createQueryBuilder('s')
+                    ->innerJoin('s.recipetranslations', 't')
+                    ->addSelect('t')
+                    ->where('s.site = :site')
+                    ->andWhere('t.locale = :locale')
+                    ->andWhere('t.is_popular LIKE :is_popular')
+                    ->setParameter('site', $site)
+                    ->setParameter('locale', $locale)
+                    ->setParameter('is_popular', 'Yes')
+                    ->setMaxResults(10)
+                    ->getQuery();
+                $query->setHint(Query::HINT_REFRESH, true);
+                return $query->getResult();
     }
 
     public function findRecentlyValues($site, $locale): array

@@ -33,6 +33,9 @@ groups:
                     - name: is_active
                       type: select
                       typeInput: yesno
+                    - name: is_popular
+                      type: select
+                      typeInput: yesno
                     - name: meta_title
                       type: string
                     - name: meta_description

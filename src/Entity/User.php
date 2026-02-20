@@ -66,11 +66,47 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
-
-    public function __construct()
+    #[ORM\OneToMany(
+        targetEntity: RecipeView::class,
+        mappedBy: 'user',
+        cascade: ['persist', 'remove'],
+        orphanRemoval: true,
+    )]
+    private Collection $recently_viewed_recipes;
+     public function __construct()
     {
         $this->accesses = new ArrayCollection();
+        $this->recently_viewed_recipes = new ArrayCollection();
     }
+    public function getRecentlyViewedRecipes(): Collection
+    {
+        return $this->recently_viewed_recipes;
+    }
+
+    public function addRecentlyViewedRecipes(RecipeView $recipeView): static
+    {
+        if (!$this->recently_viewed_recipes->contains($recipeView)) {
+            $this->recently_viewed_recipes->add($recipeView);
+            $recipeView->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecentlyViewedRecipes(RecipeView $recipeView): static
+    {
+        if ($this->accesses->removeElement($recipeView)) {
+            // set the owning side to null (unless already changed)
+            if ($recipeView->getUser() === $this) {
+                $recipeView->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
     {

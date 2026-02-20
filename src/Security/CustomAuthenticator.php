@@ -181,7 +181,7 @@ class CustomAuthenticator extends AbstractAuthenticator
         TokenInterface $token,
         string $firewallName
     ): RedirectResponse {
-        return new RedirectResponse($this->router->generate('admin'));
+        return new RedirectResponse($this->router->generate('homepage'));
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response

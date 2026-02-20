@@ -44,6 +44,12 @@ class RecipeTranslationType extends AbstractType
                     'No' => 'No'
                 ]
             ])
+            ->add('is_popular', ChoiceType::class,[
+                'choices' => [
+                    'Yes' => 'Yes',
+                    'No' => 'No'
+                ]
+            ])
             ->add('meta_title', TextType::class)
             ->add('meta_description', TextareaType::class)
             ->add('short_description', TextareaType::class)

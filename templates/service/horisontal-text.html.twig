@@ -1,6 +1,7 @@
-{%  set content = content|default('OR') %}
+{%  set content = content|default('') %}
+{% set contentClass = content is not empty ? 'px-3' : 'px-0' %}
 <div class="d-flex align-items-center my-2">
     <div class="flex-grow-1 border-top"></div>
-    <span class="px-3 text-muted fw-semibold">{{ content|trans }}</span>
+    <span class="{{ contentClass }} text-muted fw-semibold">{{ content|trans }}</span>
     <div class="flex-grow-1 border-top"></div>
 </div>

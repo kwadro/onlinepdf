@@ -1,21 +1,11 @@
+{% extends "base.html.twig" %}
+{% block main %}
+
     <div class="d-flex justify-content-center mt-3 p-3">
-        <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
-        <div class="input-group search-box">
-            <input
-                id="search-input"
-                value="{{ keyword}}"
-                type="text"
-                class="form-control"
-                data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
-                placeholder="{{ 'search_placeholder'|trans }}"
-            >
-            <button
-                class="btn btn-primary px-4"
-                data-action="click->search#open"
-                type="button">
-                {{ 'Find a recipe'|trans }}
-            </button>
-        </div>
+        {% include "homepage/input-search.html.twig" with {
+            'csrf_token_search': csrf_token_search,
+            'keyword': keyword|default('')
+        } %}
     </div>
     <div class="width-search d-flex justify-content-between align-items-center">
         <h4 class="fw-bold ms-2 my-3">{{'Search result for request'|trans}} "{{ keyword}}" ( {{ recipes|length }} )</h4>
@@ -36,4 +26,4 @@
             'recipes': recentlyRecipes
         } %}
     {% endif %}
-
+{% endblock %}
