@@ -67,45 +67,39 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updated_at = null;
     #[ORM\OneToMany(
-        targetEntity: RecipeView::class,
+        targetEntity: RecipeTranslation::class,
         mappedBy: 'user',
-        cascade: ['persist', 'remove'],
-        orphanRemoval: true,
+        cascade: ['persist'],
+        orphanRemoval: false,
     )]
-    private Collection $recently_viewed_recipes;
+    private ?Collection $recipes;
      public function __construct()
     {
         $this->accesses = new ArrayCollection();
-        $this->recently_viewed_recipes = new ArrayCollection();
     }
-    public function getRecentlyViewedRecipes(): Collection
+    public function addRecipes(RecipeTranslation $recipeTranslation): self
     {
-        return $this->recently_viewed_recipes;
-    }
-
-    public function addRecentlyViewedRecipes(RecipeView $recipeView): static
-    {
-        if (!$this->recently_viewed_recipes->contains($recipeView)) {
-            $this->recently_viewed_recipes->add($recipeView);
-            $recipeView->setUser($this);
+        if(!$this->recipes->contains($recipeTranslation)) {
+            $this->recipes[] = $recipeTranslation;
+            $recipeTranslation->setUser($this);
         }
-
         return $this;
     }
 
-    public function removeRecentlyViewedRecipes(RecipeView $recipeView): static
+    public function removeRecipes(RecipeTranslation $recipeTranslation): self
     {
-        if ($this->accesses->removeElement($recipeView)) {
-            // set the owning side to null (unless already changed)
-            if ($recipeView->getUser() === $this) {
-                $recipeView->setUser(null);
+        if($this->recipes->removeElement($recipeTranslation)) {
+            if ($recipeTranslation->getUser() === $this) {
+                $recipeTranslation->setUser(null);
             }
         }
-
         return $this;
     }
 
-
+    public function getRecipes(): ?Collection
+    {
+        return $this->recipes;
+    }
 
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void

@@ -17,8 +17,8 @@ use App\Entity\Locale;
 use App\Form\Type\ComponentType;
 use App\Form\Type\RecipeStepType;
 use App\Form\Type\RecipeType;
-use App\Form\Type\RecipeAuthorType;
-use App\Entity\RecipeAuthor;
+use App\Form\Type\UserType;
+use App\Entity\User;
 class RecipeTranslationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -76,13 +76,13 @@ class RecipeTranslationType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
             ])
-                 ->add('recipeauthor', CustomAddselectType::class, [
-                     'class' => RecipeAuthor::class,
+                 ->add('user', CustomAddselectType::class, [
+                     'class' => User::class,
                      'choice_label' => 'name',
-                     'placeholder' => 'Select recipeauthor',
+                     'placeholder' => 'Select user',
                      'required' => true,
                      'attr' => [
-                         'data-entity' => 'RecipeAuthor',
+                         'data-entity' => 'User',
                          'search-field'=>'name',
                          'require-fields'=>'name',
                      ],

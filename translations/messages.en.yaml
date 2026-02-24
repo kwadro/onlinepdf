@@ -92,8 +92,6 @@ Description: Description
 Cuisine: Cuisine
 Components: Components
 Recipesteps: Recipesteps
-menu.link_recipeauthor_single: Author of Recipe
-menu.link_recipeauthor: Authors of Recipes
 menu.link_recipe_single: Recipe
 menu.link_recipe: Recipes
 Prep Time Min: Prep Time Min
@@ -191,3 +189,7 @@ If you have an account?: 'If you have an account?'
 If you haven't an account?: "If you haven't an account?"
 registered: 'register'
 sign in: 'sign in'
+You don't have any recipes yet: "You don't have any recipes yet"
+Add new recipe: 'Add new recipe'
+You haven’t viewed any recipes yet.: 'You haven’t viewed any recipes yet.'
+Edit: 'Edit'

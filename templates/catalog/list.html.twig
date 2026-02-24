@@ -11,11 +11,7 @@
                 <div class="col-12 col-md-3">
                     <h4 class="mb-0 text-center">{{ 'Recipes Collection'|trans }}</h4>
                 </div>
-                <div class="col-12 col-md-9">
-                    {% include "catalog/search.html.twig" with {
-                        lastSearch: []
-                    } %}
-                </div>
+
         </div>
         <div class="selected-filter d-flex justify-content-between align-items-center mb-3"
              data-controller="filter"
@@ -75,7 +71,7 @@
                             <div class="form-check mb-2">
                                 <input name="author[]" class="form-check-input" type="checkbox" id="author-{{ recipeAuthor.id }}">
                                 <label class="form-check-label" for="author-{{ recipeAuthor.id }}">
-                                    {{ recipeAuthor.name }}
+                                    @cook-{{ recipeAuthor.id }}
                                 </label>
                             </div>
                         {% endfor %}

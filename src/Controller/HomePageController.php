@@ -4,12 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\LocaleRepository;
 use App\Repository\PopularsearchRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
-use App\Repository\SiteRepository;
 use App\Service\Breadcrumbs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,16 +15,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsController]
 class HomePageController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private Breadcrumbs $breadcrumbs,
-        private LocaleRepository $localeRepo,
-        private SiteRepository $siteRepo
+        private Breadcrumbs $breadcrumbs
     ) {
     }
 
@@ -49,10 +43,9 @@ class HomePageController extends AbstractController
         RecipeRepository $recipeRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
-        $domain = $request->getHost();
-        $requestLocale = $request->getLocale();
-        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+
+        $site = $request->attributes->get('site');
+        $localeObject = $request->attributes->get('localeObject');
 
         if (!$site || !$localeObject) {
             return $this->render('homepage/index.html.twig', [
@@ -83,8 +76,6 @@ class HomePageController extends AbstractController
     /**
      * @param Request $request
      * @param RecipeRepository $recipeRepository
-     * @param RecipeCategoryRepository $recipeCategoryRepository
-     * @param RecipeAuthorRepository $recipeAuthorRepository
      * @param PopularsearchRepository $popularSearchRepository
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @return Response
@@ -96,10 +87,8 @@ class HomePageController extends AbstractController
         PopularsearchRepository $popularSearchRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
-        $domain = $request->getHost();
-        $requestLocale = $request->getLocale();
-        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+        $site = $request->attributes->get('site');
+        $localeObject = $request->attributes->get('localeObject');
 
         if (!$site || !$localeObject) {
             return $this->render('homepage/index.html.twig', [

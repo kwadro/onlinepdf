@@ -4,70 +4,127 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\LocaleRepository;
-use App\Repository\PopularsearchRepository;
-use App\Repository\RecipeAuthorRepository;
-use App\Repository\RecipeCategoryRepository;
-use App\Repository\RecipeRepository;
-use App\Repository\SiteRepository;
+use App\Repository\RecipeServiceRepository;
+use App\Repository\RecipeViewRepository;
 use App\Repository\UserRepository;
-use App\Service\Breadcrumbs;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[AsController]
 class AccountController extends AbstractController
 {
-    public function __construct(
-        private TranslatorInterface $translator,
-        private Breadcrumbs $breadcrumbs,
-        private LocaleRepository $localeRepo,
-        private SiteRepository $siteRepo
+    #[Route('/{_locale}/account-update', name: 'user_update')]
+    public function accountUpdate(
+        Request $request,
+        EntityManagerInterface $entityManager
     ) {
+        $result = [];
+        if ($request->isXmlHttpRequest()) {
+            if ($user = $this->getUser()) {
+
+                $result['success'] = true;
+                $formCode = $request->get('form_code');
+                if($formCode==='user-name'){
+                    $user->setFirstName($request->get('first_name') ?? '');
+                    $user->setLastName($request->get('last_name') ?? '');
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $result['message'] = 'Save name success';
+                }
+                if($formCode === 'user-image'){
+                    $file =  $request->files->get('avatar_file');
+                    if (!$file) {
+                        return $this->json(['error' => 'No file uploaded'], 400);
+                    }
+
+                    //  Validate mime type
+                    if (!str_starts_with($file->getMimeType(), 'image/')) {
+                        return $this->json(['error' => 'Invalid file type'], 400);
+                    }
+
+                    //  Generate safe filename
+                    $newFilename = uniqid().'.'.$file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('app.avatar_upload_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        return new JsonResponse(['error' => 'Upload failed'], 500);
+                    }
+                    $avatarUrl = str_replace('/uploads/avatars/','',$newFilename);
+                    $user->setAvatarUrl($newFilename);
+                    $entityManager->persist($user);
+                    $entityManager->flush();
+                    $result['message'] = 'Save image success';
+                    $result['avatarUrl'] = $avatarUrl;
+                }
+                return $this->json($result);
+            }
+        }
+        $result['status'] = false;
+        return $this->json($result);
     }
 
     #[Route('/{_locale}/account/recently-viewed', name: 'account_recently_viewed')]
     public function getRecentlyViewedSetting(
         Request $request,
-        RecipeRepository $recipeRepository,
-        UserRepository $userRepository
-    ): Response
-    {
-        if($user = $this->getUser()){
-
-            $recentlyRecipes = $user->getRecentlyViewedRecipes();
+        RecipeServiceRepository $recipeServiceRepository,
+        RecipeViewRepository $recipeViewRepository,
+    ): Response {
+        if ($user = $this->getUser()) {
+            $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+            $recentlyRecipes = $recipeServiceRepository->loadItemsByIds(
+                $recentlyRecipesIds,
+                $site->getId(),
+                $localeObject->getId()
+            );
             return $this->render('security/account/recently-viewed.html.twig', [
-                'isLogin' => $user,
-                'recentlyRecipes' => $recentlyRecipes,
+                'recipes' => $recentlyRecipes,
             ]);
         }
         return $this->redirectToRoute('app_login');
     }
 
     #[Route('/{_locale}/account/setting', name: 'account_setting')]
-    public function getAccountSetting(Request $request): Response
-    {
-        if($this->getUser()) {
+    public function getAccountSetting(
+        Request $request,
+        UserRepository $userRepository
+    ): Response {
+        if ($user = $this->getUser()) {
+            $userObject = $userRepository->find($user->getId());
+            $ajaxUrl = $this->generateUrl('user_update');
             return $this->render('security/account/setting.html.twig', [
-                'isLogin' => (bool)$this->getUser()
+                'recipeUser' => $userObject,
+                'ajaxUrl' => $ajaxUrl
             ]);
         }
-
         return $this->redirectToRoute('app_login');
-
     }
 
     #[Route('/{_locale}/account/my-recipes', name: 'account_my_recipes')]
-    public function getMyRecipesSetting(Request $request): Response
-    {
-        if($this->getUser()) {
+    public function getMyRecipesSetting(
+        Request $request,
+        RecipeServiceRepository $recipeServiceRepository,
+    ): Response {
+        if ($user = $this->getUser()) {
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+            $userRecipes = $recipeServiceRepository->findByAuthorId(
+                $user->getId(),
+                $site->getId(),
+                $localeObject->getId()
+            );
             return $this->render('security/account/my-recipes.html.twig', [
-                'isLogin' => (bool)$this->getUser()
+                'recipes' => $userRecipes
             ]);
         }
 

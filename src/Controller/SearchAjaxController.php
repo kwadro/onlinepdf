@@ -2,11 +2,9 @@
 
 namespace App\Controller;
 
-use App\Repository\LocaleRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
-use App\Repository\SiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,12 +16,6 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 #[AsController]
 class SearchAjaxController extends AbstractController
 {
-    public function __construct(
-        private readonly LocaleRepository $localeRepo,
-        private readonly SiteRepository $siteRepo
-    ) {
-    }
-
     #[Route('/{_locale}/search-category', name: 'search_ajax_data')]
     public function filter(
         Request $request,
@@ -33,13 +25,11 @@ class SearchAjaxController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
         if ($request->isXmlHttpRequest()) {
-            $domain = $request->getHost();
-            $requestLocale = $request->getLocale();
-            $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-            $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
             $params = $request->request->all();
 
-            $token = $params['_token']??'';
+            $token = $params['_token'] ?? '';
             unset($params['_token']);
             $csrfTokenId = 'search_form';
             if (!$csrfTokenManager->isTokenValid(new CsrfToken($csrfTokenId, $token))) {

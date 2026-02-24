@@ -82,7 +82,18 @@
                                             data-bs-toggle="dropdown"
                                             aria-haspopup="true"
                                             aria-expanded="false">
+                                            {% if app.user.avatarUrl %}
+                                                <img id="user-header-image"
+                                                     class="header-avatar rounded-circle border border-secondary"
+                                                     src="/uploads/avatars/{{app.user.avatarUrl}}"
+                                                     alt = "{{ 'Account'|trans }}"
+                                                     title = "{{ 'Account'|trans }}"
+                                                     width="25"
+                                                 />
+                                                {% else %}
                                                 {{ 'Account'|trans }}
+                                            {% endif %}
+
                                         </a>
                                         {% include "security/account-menu.html.twig" %}
                                     {% else %}

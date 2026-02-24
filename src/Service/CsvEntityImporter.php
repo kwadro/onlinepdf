@@ -5,6 +5,7 @@ namespace App\Service;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Symfony\Component\String\Inflector\EnglishInflector;
+
 readonly class CsvEntityImporter
 {
     public function __construct(
@@ -131,7 +132,8 @@ readonly class CsvEntityImporter
             'seosetting'=>'site',
             'footersetting'=>'site',
             'megamenutype'=>'name',
-            'megamenusetting'=>'site'
+            'megamenusetting'=>'site',
+            'user'=>'email',
         ];
         $idIndex = array_search('id', $header);
         while (($row = fgetcsv($handle,null,';')) !== false) {
@@ -154,6 +156,7 @@ readonly class CsvEntityImporter
                     $assocRepo = $this->em->getRepository($assocClass);
                     if ($meta->isSingleValuedAssociation($column)) {
                         $fieldToSearch = $associationFieldMap[$column] ?? 'id';
+
                         $meta2 = $this->em->getClassMetadata($assocClass);
                         if($meta2->hasAssociation($fieldToSearch)){
                             $assocClass2 = $meta2->getAssociationTargetClass($fieldToSearch);
@@ -162,11 +165,15 @@ readonly class CsvEntityImporter
                             $assocEntity2 = $assocRepo2->findOneBy([$fieldToSearch2 => $value]);
                             $value = $assocEntity2->getId();
                         }
+                        echo get_class($assocRepo) . ' - ' . $column . ' - ' . $fieldToSearch . ' - ' . $value  . PHP_EOL;
                         $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $value]);
+                        echo $assocEntity?->getId() ?? 'empty' . PHP_EOL;
+                        echo get_class($entity) . PHP_EOL;
                         if ($assocEntity) {
                             $setter = 'set' . ucfirst($column);
                             $entity->$setter($assocEntity);
                         }
+
                     } elseif ($meta->isCollectionValuedAssociation($column)) {
                         $ids = explode(', ', $value);
                         $assocEntities = [];

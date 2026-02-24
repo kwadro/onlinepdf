@@ -45,7 +45,7 @@
     {#            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"#}
     {#            crossorigin="anonymous"></script>#}
 </head>
-<body class="d-flex flex-column ">
+<body class="d-flex flex-column " data-controller="popup avatar editing">
 <!-- Google Tag Manager (noscript) -->
 <noscript>
     <iframe src="https://www.googletagmanager.com/ns.html?id='{{setting.seo.gtm_code}}'"
@@ -55,6 +55,15 @@
 {% block header %}
     {% include "header.html.twig" %}
 {% endblock %}
+<div data-popup-target="overlay"
+     data-action="click->popup#closeOnOverlay"
+     class="overlay"
+     id = "overlayPopup"
+>
+    <div id="popup" class="popup" data-popup-target="content">
+        <button class="close-btn" id="closePopup">×</button>
+    </div>
+</div>
 <div class="container-fluid my-4 homepage-content.html.twig"
      data-controller="search"
      data-ajaxurl="{{ searchAjaxUrl|default('empty') }}"
@@ -68,6 +77,7 @@
             <div class="content" id="rightContent">
                 {% block main %}
                 {% endblock %}
+
             </div>
         </div>
     </div>

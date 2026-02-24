@@ -27,6 +27,7 @@ class SiteSettingsProvider
     {
         $site = $this->siteRepo->findOneBy(['domain' => $domain]);
         $localeObject = $this->localeRepo->findOneBy(['code' => $locale]);
+
         if (!$site || !$localeObject) {
             return [];
         }

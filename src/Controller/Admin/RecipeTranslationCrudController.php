@@ -65,7 +65,7 @@ class RecipeTranslationCrudController extends AbstractCrudController
                 ->setFormTypeOption('by_reference', false)
                 ->onlyOnForms(),
             AssociationField::new('recipe'),
-            AssociationField::new('recipeauthor'),
+            AssociationField::new('user'),
         ];
     }
 

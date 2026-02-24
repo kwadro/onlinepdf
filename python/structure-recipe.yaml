@@ -78,45 +78,20 @@ groups:
                       typeRelation: ManyToOne
                       objectRelation: Recipe
                       inversedBy: recipetranslations
-                    - name: recipeauthor
+                    - name: user
                       type: relation
                       typeRelation: ManyToOne
-                      objectRelation: RecipeAuthor
+                      objectRelation: User
                       roleRelation: master
                       typeInput: addNew
                       formSetting: name|name
                       inversedBy: recipes
 
-            RecipeAuthor:
-                relatedSaleAndLocale: singleall
-                translate:
-                    link:
-                        uk: Автори Рецептів
-                        uk_single: Автор Рецепта
-                        en: Authors of Recipes
-                        en_single: Author of Recipe
-                import:
-                    type: csv
-                    resource: recipes.csv
-                fields:
-                    - name: id
-                      type: integer
-                      id: true
-                    - name: name
-                      type: string
-                      isstring: true
-                      isrequire: true
-                    - name: user
-                      type: relation
-                      typeRelation: ManyToOne
-                      objectRelation: User
-                      inversedBy: authors
-
             Recipe:
                 relatedSaleAndLocale: list
                 url_key_field: slug
                 category_field: recipecategorys
-                author_field: recipeauthor
+                author_field: user
                 translate:
                     link:
                         uk: Рецепти
@@ -165,7 +140,6 @@ groups:
                       objectRelation: RecipeTranslation
                       mappedBy: recipe
                       roleRelation: master
-
             RecipeCategory:
                 relatedSaleAndLocale: catalog
                 default_field: parent
@@ -224,7 +198,6 @@ groups:
                       typeRelation: ManyToMany
                       roleRelation: slave
                       inversedBy: recipecategorys
-
             RecipeStep:
                 translate:
                     link:
@@ -258,7 +231,6 @@ groups:
                     - name: image
                       type: image
                       uploadDir: recipes
-
             Ingredient:
                 translate:
                     link:
@@ -288,7 +260,6 @@ groups:
                       objectRelation: Component
                       typeRelation: OneToMany
                       mappedBy: ingredient
-
             Component:
                 translate:
                     link:
@@ -330,7 +301,6 @@ groups:
                       objectRelation: RecipeTranslation
                       typeRelation: ManyToOne
                       inversedBy: components
-
             Unit:
                 translate:
                     link:
@@ -456,7 +426,6 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: Popularsearch
                         mappedBy: locale
-
             HeaderSetting:
                 relatedSaleAndLocale: single
                 translate:
@@ -485,7 +454,6 @@ groups:
                         uploadDir: logo
                     -   name: favicon
                         type: image
-
             HeaderTranslation:
                 translate:
                     link:
@@ -598,7 +566,6 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: FooterTranslation
                         mappedBy: footersetting
-
             FooterTranslation:
                 translate:
                     link:
@@ -648,7 +615,6 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: MegaMenuTranslation
                         mappedBy: megamenusetting
-
             MegaMenuTranslation:
                 translate:
                     link:

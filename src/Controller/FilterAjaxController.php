@@ -2,11 +2,10 @@
 
 namespace App\Controller;
 
-use App\Repository\LocaleRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
-use App\Repository\SiteRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,25 +17,17 @@ use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 #[AsController]
 class FilterAjaxController extends AbstractController
 {
-    public function __construct(
-        private readonly LocaleRepository $localeRepo,
-        private readonly SiteRepository $siteRepo
-    ) {
-    }
-
     #[Route('/{_locale}/filter-category', name: 'filter_ajax_data')]
     public function filter(
         Request $request,
         RecipeRepository $recipeRepository,
         RecipeCategoryRepository $recipeCategoryRepository,
-        RecipeAuthorRepository $recipeAuthorRepository,
+        UserRepository $userRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
         if ($request->isXmlHttpRequest()) {
-            $domain = $request->getHost();
-            $requestLocale = $request->getLocale();
-            $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-            $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
             $params = $request->request->all();
             $token = $params['_token'];
             unset($params['_token']);
@@ -48,9 +39,9 @@ class FilterAjaxController extends AbstractController
                     'errors' => ['_token' => ['CSRF token is invalid.']]
                 ], 403);
             }
-            $categoryIds = $params['category_ids']??[];
-            $authorIds = $params['author_ids']??[];
-            $categoryIdsArr=$authorIdsArr=[];
+            $categoryIds = $params['category_ids'] ?? [];
+            $authorIds = $params['author_ids'] ?? [];
+            $categoryIdsArr = $authorIdsArr = [];
             if (!empty($categoryIds)) {
                 $categoryIdsArr = explode(',', $categoryIds);
                 $filteredCategories = $recipeCategoryRepository->findBy(['id' => $categoryIdsArr]);
@@ -61,7 +52,7 @@ class FilterAjaxController extends AbstractController
 
             if (!empty($authorIds)) {
                 $authorIdsArr = explode(',', $authorIds);
-                $filteredAuthors = $recipeAuthorRepository->findBy(['id' => $authorIdsArr]);
+                $filteredAuthors = $userRepository->findBy(['id' => $authorIdsArr]);
             } else {
                 $filteredAuthors = [];
                 $authorIds = null;

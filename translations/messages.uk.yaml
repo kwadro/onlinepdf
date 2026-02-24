@@ -84,8 +84,6 @@ Description: Опис
 Cuisine: Кухня
 Components: Інградієнти
 Recipesteps: Кроки
-menu.link_recipeauthor_single: Автор Рецепта
-menu.link_recipeauthor: Автори Рецептів
 menu.link_recipe_single: Рецепт
 menu.link_recipe: Рецепти
 Prep Time Min: Час Підготовки
@@ -187,3 +185,7 @@ If you have an account?: 'Якщо маєте акаунт?'
 If you haven't an account?: "Якщо не маєте акаунта?"
 registered: 'зареєструтесь'
 sign in: 'увійдіть'
+You don't have any recipes yet: "Ви ще не маєте рецептів."
+Add new recipe: 'Добавити новий рецепт'
+You haven’t viewed any recipes yet.: 'Ви не переглянули жодного рецепту.'
+Edit: 'Змінити'

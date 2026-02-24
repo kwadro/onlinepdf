@@ -4,26 +4,21 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Repository\LocaleRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
-use App\Repository\SiteRepository;
+use App\Repository\UserRepository;
 use App\Service\Breadcrumbs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CatalogController extends AbstractController
 {
     public function __construct(
-        private TranslatorInterface $translator,
-        private Breadcrumbs $breadcrumbs,
-        private LocaleRepository $localeRepo,
-        private SiteRepository $siteRepo
+        private Breadcrumbs $breadcrumbs
     ) {
     }
 
@@ -32,13 +27,11 @@ class CatalogController extends AbstractController
         Request $request,
         RecipeRepository $recipeRepository,
         RecipeCategoryRepository $recipeCategoryRepository,
-        RecipeAuthorRepository $recipeAuthorRepository,
+        UserRepository $userRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
-        $domain = $request->getHost();
-        $requestLocale = $request->getLocale();
-        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+        $site = $request->attributes->get('site');
+        $localeObject = $request->attributes->get('localeObject');
 
         if (!$site || !$localeObject) {
             return $this->render('catalog/list.html.twig', [
@@ -50,7 +43,7 @@ class CatalogController extends AbstractController
 
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
         $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
-        $recipeAuthors = $recipeAuthorRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
+        $recipeAuthors = $userRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
         $filterAjaxUrl = $this->generateUrl('filter_ajax_data');
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
         $token = $csrfTokenManager->getToken('filter_form')->getValue();

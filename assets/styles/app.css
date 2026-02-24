@@ -3,6 +3,8 @@
     --second-button-color: rgba(67, 176, 42, 0.1);
     --primary-button-color: #3b9c25;
     --primary-button-border-radius: 5px;
+    --popup-button-border-radius: 10px;
+    --popup-button-border-color: grey;
     --primary-text-color: #101010;
 
 }
@@ -101,12 +103,6 @@ a:hover {
 .container__header .dropdown-item:active {
     background-color: var(--primary-button-color);
     border-color: var(--primary-button-color);
-    border-radius: var(--primary-button-border-radius);
-}
-
-.container__header .dropdown-item:hover {
-    background-color: var(--second-button-color);
-    border-color: var(--second-button-color);
     border-radius: var(--primary-button-border-radius);
 }
 
@@ -492,7 +488,72 @@ body {
     }
 }
 
+/*PROFILE*/
 
+.profile-image {
+    border-radius: 50%;
+    border: 1px solid grey;
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+}
+.setting-page{
+    align-items: center;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.6);
+    display: none;
+    z-index: 9999;
+}
+
+.overlay.active {
+    display: block;
+}
+
+.popup {
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.2);
+    min-width: 500px;
+    max-width: 500px;
+    padding: 20px;
+    position: absolute;
+}
+
+.close-btn{
+    border: none;
+    background: inherit;
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    user-select: none;
+}
+
+.save-popup{
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    border: none;
+    border-radius: 5px;
+    user-select: none;
+}
+.save-popup:focus,.save-popup:focus:active{
+    box-shadow: none;
+}
+.popup .profile-image{
+    width: 300px;
+    height: 300px;
+    border: 1px solid grey;
+
+}
+.cropper-view-box,
+.cropper-face {
+    border-radius: 50%;
+}
 
 .row {
     overflow: visible;

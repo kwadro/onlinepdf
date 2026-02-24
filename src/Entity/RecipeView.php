@@ -4,17 +4,19 @@ namespace App\Entity;
 use App\Repository\RecipeViewRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+
 #[ORM\Entity(repositoryClass: RecipeViewRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class RecipeView
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $id = null;
-    #[ORM\ManyToOne(
-        targetEntity: User::class,
-        cascade: ['persist'],
-        inversedBy: 'recently_viewed_recipes'
-    )]
-    private ?User $user;
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $user_id = null;
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $recipe_id = null ;
     #[ORM\Column(nullable: true)]
     private ?DateTimeImmutable $created_at = null;
 
@@ -23,6 +25,15 @@ class RecipeView
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function getRecipeId(): ?int
+    {
+        return $this->recipe_id;
+    }
+    public function setRecipeId($recipe_id): static
+    {
+        $this->recipe_id = $recipe_id;
+        return $this;
     }
     #[ORM\PrePersist]
     public function setCreatedAtValue(): void
@@ -37,7 +48,6 @@ class RecipeView
         $this->updated_at = new DateTimeImmutable();
     }
 
-
     public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->created_at;
@@ -47,14 +57,14 @@ class RecipeView
     {
         return $this->updated_at;
     }
-    public function getUser(): ?User
+    public function getUserId(): ?int
     {
-        return $this->user;
+        return $this->user_id;
     }
 
-    public function setUser(?User $user): static
+    public function setUserId(?int $user_id): static
     {
-        $this->user = $user;
+        $this->user_id = $user_id;
 
         return $this;
     }

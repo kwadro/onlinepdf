@@ -80,15 +80,15 @@ class Breadcrumbs
         return $breadCrumbs;
     }
 
-    public function loadBreadCrumbsByAuthor($recipeAuthor): array
+    public function loadBreadCrumbsByAuthor($user): array
     {
         $breadCrumbs =[];
 
-        if ($recipeAuthor) {
+        if ($user) {
             $breadCrumbs[] = [
                 'link' => null,
                 'url' => null,
-                'name' => 'all of '.$recipeAuthor->getName()
+                'name' => 'all of  @cook-'.$user->getId()
             ];
         }
         $item = [

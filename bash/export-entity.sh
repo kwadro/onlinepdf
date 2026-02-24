@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 php bin/console app:export:csv RecipeTranslation
-php bin/console app:export:csv RecipeAuthor
 php bin/console app:export:csv Recipe
 php bin/console app:export:csv RecipeCategory
 php bin/console app:export:csv RecipeStep

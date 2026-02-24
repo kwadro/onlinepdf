@@ -22,6 +22,8 @@
                         {{ form_errors(registrationForm) }}
 
                         {{ form_start(registrationForm) }}
+                        {{ form_row(registrationForm.first_name, {'attr': {'class': 'mb-1 form-control first_name'}}) }}
+                        {{ form_row(registrationForm.last_name, {'attr': {'class': 'mb-1 form-control last_name'}}) }}
                         {{ form_row(registrationForm.email, {'attr': {'class': 'mb-1 form-control email'}}) }}
                         {{ form_row(registrationForm.plainPassword, {'label':'Password','attr': {'class': 'mb-1 form-control password'}}) }}
                         {{ form_row(registrationForm.agreeTerms, {

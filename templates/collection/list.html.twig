@@ -58,8 +58,8 @@
                                 </div>
                                 <div class="flex-row small">
                                     <span>{{ 'Author'|trans }}</span>
-                                    <a href="{{ path('author_list', {id: recipe.recipetranslations[0].recipeauthor.id}) }}" class="btn btn-sm btn-secondary">
-                                        {{ recipe.recipetranslations[0].recipeauthor }}
+                                    <a href="{{ path('author_list', {id: recipe.recipetranslations[0].user.id}) }}" class="btn btn-sm btn-secondary">
+                                        @cook-{{ recipe.recipetranslations[0].user.id }}
                                     </a>
                                 </div>
                             </div>

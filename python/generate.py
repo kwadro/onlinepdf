@@ -103,10 +103,10 @@ def generate_form_type(entities, entity, entity_name,additionalEntities):
                        classEntity = entities.get(className)
                     else:
                        classEntity = additionalEntities.get(className)
-
-                    classFields = classEntity.get("fields")
-                    code = render_template("form-type.php.j2", name=className, fields=classFields)
-                    write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
+                    if classEntity is not None:
+                       classFields = classEntity.get("fields")
+                       code = render_template("form-type.php.j2", name=className, fields=classFields)
+                       write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
 
 def generate_repository(entity_name, entity):
     related = False
@@ -115,19 +115,19 @@ def generate_repository(entity_name, entity):
 
     default_field = False
     if ('default_field' in entity):
-            default_field = entity['default_field']
+        default_field = entity['default_field']
 
     url_key_field = False
     if ('url_key_field' in entity):
-                url_key_field = entity['url_key_field']
+        url_key_field = entity['url_key_field']
 
     category_field = False
     if ('category_field' in entity):
-                category_field = entity['category_field']
+        category_field = entity['category_field']
 
     author_field = False
     if ('category_field' in entity):
-                author_field = entity['author_field']
+        author_field = entity['author_field']
 
     code = render_template("repository.php.j2",
         name=entity_name,
@@ -171,28 +171,28 @@ def generate_dashboard_link(groups):
     )
     code = render_template("dashboard-menu.php.j2", groups=groups).strip()
     insert_code_by_markers(
-           file_path = dashboardPath,
-           generated = code,
-           start_marker = '// @GENERATE MENU START',
-           end_marker = '// @GENERATE MENU FINISH',
-        )
+       file_path = dashboardPath,
+       generated = code,
+       start_marker = '// @GENERATE MENU START',
+       end_marker = '// @GENERATE MENU FINISH',
+    )
 
     ukTranslatePath = OUT / "translations/messages.uk.yaml"
     code = render_template("translate.yaml.j2", groups=groups, lang_single='uk_single', lang='uk').strip()
     insert_code_by_markers(
-           file_path = ukTranslatePath,
-           generated = code,
-           start_marker = '#@GENERATE TRANSLATE START',
-           end_marker = '#@GENERATE TRANSLATE FINISH',
-        )
+       file_path = ukTranslatePath,
+       generated = code,
+       start_marker = '#@GENERATE TRANSLATE START',
+       end_marker = '#@GENERATE TRANSLATE FINISH',
+    )
 
     enTranslatePath = OUT / "translations/messages.en.yaml"
     code = render_template("translate.yaml.j2", groups=groups, lang_single='en_single', lang='en').strip()
     insert_code_by_markers(
-           file_path = enTranslatePath,
-           generated = code,
-           start_marker = '#@GENERATE TRANSLATE START',
-           end_marker = '#@GENERATE TRANSLATE FINISH',
+       file_path = enTranslatePath,
+       generated = code,
+       start_marker = '#@GENERATE TRANSLATE START',
+       end_marker = '#@GENERATE TRANSLATE FINISH',
     )
 #     yaml_path = OUT / "config/packages/easy_admin.yaml"
 #     write_file(yaml_path, yaml.dump(data, allow_unicode=True))
@@ -208,8 +208,7 @@ def generate_export_script(groups):
       f.write("\nphp bin/console app:export:csv User")
     code = render_template("import.sh.j2", groups=groups).strip()
     write_file(OUT / f"bash/import-entity.sh", code)
-    with open(OUT / "bash/import-entity.sh", "a", encoding="utf-8") as f:
-        f.write("\nphp bin/console app:import:csv User scalar")
+
 
 def main():
     cfg = load_yaml()

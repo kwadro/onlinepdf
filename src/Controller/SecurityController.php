@@ -38,7 +38,6 @@ class SecurityController extends AbstractController
             'prompt' => 'select_account',
         ];
 
-
         $url = CustomAuthenticator::GOOGLE_OAUTH_BASE_URL . '?' . http_build_query($params);
         return $this->redirect($url);
     }

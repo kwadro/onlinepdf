@@ -11,8 +11,10 @@
         "chart.js": "^3.4.1 || ^4.0",
         "copy-webpack-plugin": "^13.0.1",
         "core-js": "^3.38.0",
+        "css-loader": "^7.1.4",
         "file-loader": "^6.2.0",
         "regenerator-runtime": "^0.13.9",
+        "style-loader": "^4.0.0",
         "webpack": "^5.74.0",
         "webpack-cli": "^5.1.0"
     },
@@ -28,6 +30,7 @@
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.0.2",
         "bootstrap-icons": "^1.13.1",
+        "cropperjs": "^1.6.2",
         "jquery": "^3.7.1",
         "select2": "^4.1.0-rc.0",
         "tinymce": "^8.3.1"

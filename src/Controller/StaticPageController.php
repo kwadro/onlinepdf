@@ -17,18 +17,13 @@ class StaticPageController extends AbstractController
 {
     public function __construct(
         private Breadcrumbs $breadcrumbs,
-        private LocaleRepository $localeRepo,
-        private SiteRepository $siteRepo
     ){
-
     }
     #[Route('/{_locale}/static/{slug}', name: 'static_page')]
     public function index(Request $request, string $slug, MegaMenuSettingRepository $megaMenuSettingRepository): Response
     {
-        $domain = $request->getHost();
-        $requestLocale = $request->getLocale();
-        $site = $this->siteRepo->findOneBy(['domain' => $domain]);
-        $localeObject = $this->localeRepo->findOneBy(['code' => $requestLocale]);
+        $site = $request->attributes->get('site');
+        $localeObject = $request->attributes->get('localeObject');
         $menuItem = $megaMenuSettingRepository->findBySiteAndLocaleAndSlug($slug,$site->getId(), $localeObject->getId());
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByMenuItem($menuItem);
         return $this->render($slug.'/index.html.twig',['breadcrumbs'=>$breadCrumbs]);

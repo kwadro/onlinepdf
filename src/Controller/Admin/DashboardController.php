@@ -23,7 +23,6 @@ use Symfony\UX\Chartjs\Model\Chart;
 
 // @GENERATE USE START
 use App\Entity\RecipeTranslation;
-use App\Entity\RecipeAuthor;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
 use App\Entity\RecipeStep;
@@ -111,7 +110,6 @@ class DashboardController extends AbstractDashboardController
 // @GENERATE MENU START
 yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipetranslation', [], 'messages'), 'fas fa-list', Recipetranslation::class);
-        yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipeauthor', [], 'messages'), 'fas fa-list', Recipeauthor::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipe', [], 'messages'), 'fas fa-list', Recipe::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipecategory', [], 'messages'), 'fas fa-list', Recipecategory::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipestep', [], 'messages'), 'fas fa-list', Recipestep::class);

@@ -57,4 +57,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     //            ->getOneOrNullResult()
     //        ;
     //    }
+    public function findAllBySiteAndLocale($site, $locale)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.recipes', 't')
+            ->innerJoin('t.recipe', 'r')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('r.site = :site')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->groupBy('a.id')
+            ->getQuery()
+            ->getResult();
+    }
 }
