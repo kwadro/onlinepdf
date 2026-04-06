@@ -3,9 +3,9 @@
 {% extends "base.html.twig" %}
 {% block main %}
     <div class="width-search d-flex justify-content-between align-items-center">
-        <button class="my-3 btn btn-sm btn-primary text-center">
+        <a  href="{{ absolute_url(path('recipe_edit',{id:1})) }}" class="my-3 btn btn-sm btn-primary text-center">
             {{ 'Add new recipe'|trans }}
-        </button>
+        </a>
     </div>
 
     {% if recipes is not empty %}

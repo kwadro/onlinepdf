@@ -4,7 +4,14 @@ export class EditorClass {
         this.version = version;
         this.AVAILABLE_INPUT_PARAMS = ['value', 'name', 'id','src','innerText'];
     }
-
+    showElement(element) {
+        element.classList.remove('d-none')
+        element.classList.add('d-block')
+    }
+    hideElement(element) {
+        element.classList.add('d-none')
+        element.classList.remove('d-block')
+    }
     addFieldsToPopup(fieldParams, runParams) {
         const typeData = runParams.type;
         const editElements = [];

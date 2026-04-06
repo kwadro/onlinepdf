@@ -34,6 +34,23 @@ class RecipeServiceRepository extends ServiceEntityRepository
         $query->setHint(Query::HINT_REFRESH, true);
         return $query->getResult();
     }
+    public function findByRecipeId($recipeId, $site, $locale): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.entity_id = :entity_id')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.is_active = :is_active')
+            ->setParameter('site', $site)
+            ->setParameter('entity_id', $recipeId)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->orderBy('s.position', 'ASC')
+            ->getQuery();
+        return $query->getOneOrNullResult();
+    }
     public function findByAuthorId($authorId, $site, $locale): array
     {
         $query = $this->createQueryBuilder('s')
@@ -52,8 +69,5 @@ class RecipeServiceRepository extends ServiceEntityRepository
             ->setMaxResults(10)
             ->getQuery();
         return $query->getResult();
-    }
-    public function loadItemsByUserId($getId, $getId1, $getId2)
-    {
     }
 }

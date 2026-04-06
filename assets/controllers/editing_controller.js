@@ -71,7 +71,7 @@ export default class extends Controller {
                         'ajaxurl': event.target.dataset.ajaxurl,
                         'value': userImageValue,
                         'type': 'image',
-                        'class': 'me-1,w-100'
+                        'class': 'me-1,w-100,user-select-none'
                     }
                 },
             ], {'type': 'Image'}

@@ -6,9 +6,8 @@
         <h4 class="fw-bold ms-2 my-3">{{'Profile'|trans}}</h4>
     </div>
 
-<div class="width-search setting-page row g-4" >
-    <div class="col-4 d-flex flex-column justify-content-center align-items-center" >
-
+    <div class="width-search setting-page row g-4" >
+        <div class="col-4 d-flex flex-column justify-content-center align-items-center user-select-none" >
 
         {% set image_button = 'Add image'|trans %}
         {% set full_name = '' %}
@@ -30,45 +29,48 @@
             {% set user_class = 'ms-3' %}
         {% endif %}
 
-        <img id="user-image"
-             src="{{ avatarimage }}"
-             class="profile-image"
-             alt="{{ full_name }}"
-             data-editing-target="userImage"
-        />
+            <img id="user-image"
+                src="{{ avatarimage }}"
+                class="profile-image"
+                alt="{{ full_name }}"
+                data-editing-target="userImage"
+            />
 
-        <button
-            id="button-open-image"
-            class="my-3 btn btn-sm btn-primary text-center"
-            data-ajaxurl="{{ ajaxUrl }}"
-            data-formcode="user-image"
-            data-action="click->popup#open click->editing#openImage"
-        >
-            {{ image_button }}
-        </button>
-    </div>
-    <div class="col-4">
-        <div class="col d-flex flex-row justify-content-start align-items-center">
-            <div id="user-full-name"
-                 class="editing-field"
-                 data-editing-target="fullName"
-            >
-                {{ full_name }}
-            </div>
             <button
-                id="button-open-name"
-                class="{{ user_class }} btn btn-sm btn-primary text-center"
+                id="button-open-image"
+                class="my-3 btn btn-sm btn-primary text-center"
                 data-ajaxurl="{{ ajaxUrl }}"
-                data-formcode="user-name"
-                data-baselabel="{{ user_button }}"
-                data-action="click->popup#open click->editing#openName"
+                data-formcode="user-image"
+                data-action="click->popup#open click->editing#openImage"
             >
-                {{ user_button }}
+                {{ image_button }}
             </button>
-        </div>
-        <div class="col my-3 d-flex flex-row justify-content-start align-items-center">
-            {{ account_name }}
-        </div>
     </div>
-</div>
+        <div class="col-4">
+            <div class="col d-flex flex-row justify-content-start align-items-center">
+                <div id="user-full-name"
+                    class="editing-field"
+                    data-editing-target="fullName"
+                >
+                {{ full_name }}
+                </div>
+                <button
+                    id="button-open-name"
+                    class="{{ user_class }} btn btn-sm btn-primary text-center"
+                    data-ajaxurl="{{ ajaxUrl }}"
+                    data-formcode="user-name"
+                    data-baselabel="{{ user_button }}"
+                    data-action="click->popup#open click->editing#openName"
+                >
+                    {{ user_button }}
+                </button>
+            </div>
+            <div class="col my-3 d-flex flex-row justify-content-start align-items-center">
+                {{ account_name }}
+            </div>
+        </div>
+
+    </div>
+
+    {% include "security/account/add-first-recipe.html.twig" %}
 {% endblock %}

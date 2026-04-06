@@ -9,22 +9,7 @@ export default class extends Controller {
         };
     }
     connect() {
-        const baseSearchAjaxUrl = this.element.dataset.ajaxurl;
-        console.log('search_controller.js baseSearchAjaxUrl ',baseSearchAjaxUrl)
-        /** scroll content in right column*/
-        const rightContent = document.getElementById('rightContent');
-        const heightContent = rightContent.offsetHeight;
-        console.log('heightContent',heightContent)
-        document.body.style.height = (heightContent + 180)+'px';
 
-        function updateRightContent() {
-            const scrollY = window.scrollY;
-            rightContent.style.transform = `translateY(-${scrollY}px)`;
-        }
-
-        window.addEventListener('scroll', updateRightContent);
-        window.addEventListener('resize', updateRightContent);
-        updateRightContent();
     }
     connectOld() {
         const input = document.getElementById('search-input');
