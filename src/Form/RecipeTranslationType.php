@@ -28,8 +28,9 @@ class RecipeTranslationType extends AbstractType
                     'data-smarttextarea-autosave-url-value' => '/'.$localeCode.'/recipe/autosave',
                     'class' => 'form-control text-lg',
                     'maxlength' => 50,
-                    'field' => 'recipetranslations-name',
-                    'locale' => $localeCode
+                    'field' => 'recipe_translations-name',
+                    'locale' => $localeCode,
+                    'rows' => '1'
                 ]]
             )
             ->add(
@@ -39,8 +40,9 @@ class RecipeTranslationType extends AbstractType
                     'data-smarttextarea-autosave-url-value' => '/'.$localeCode.'/recipe/autosave',
                     'class' => 'form-control text-sm',
                     'maxlength' => 150,
-                    'field' => 'recipetranslations-short_description',
-                    'locale' => $localeCode
+                    'field' => 'recipe_translations-short_description',
+                    'locale' => $localeCode,
+                    'rows' => '1'
                 ]]
             )
             ->add(
@@ -50,8 +52,9 @@ class RecipeTranslationType extends AbstractType
                     'data-smarttextarea-autosave-url-value' => '/'.$localeCode.'/recipe/autosave',
                     'class' => 'form-control text-sm',
                     'maxlength' => 150,
-                    'field' => 'recipetranslations-description',
-                    'locale' => $localeCode
+                    'field' => 'recipe_translations-description',
+                    'locale' => $localeCode,
+                    'rows' => '1'
                 ]]
             )
 
@@ -61,8 +64,9 @@ class RecipeTranslationType extends AbstractType
                     'data-smarttextarea-autosave-url-value' => '/'.$localeCode.'/recipe/autosave',
                     'class' => 'form-control text-sm',
                     'maxlength' => 1000,
-                    'field' => 'recipetranslations-notes',
-                    'locale' => $localeCode
+                    'field' => 'recipe_translations-notes',
+                    'locale' => $localeCode,
+                    'rows' => '1'
                 ]]
             )
             ->add('components', CollectionType::class, [

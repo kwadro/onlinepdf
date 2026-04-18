@@ -56,7 +56,8 @@ class RecipeStepType extends AbstractType
                         'class' => 'mb-1 form-control text-sm answer',
                         'maxlength' => 1000,
                         'field' => 'recipe_translations-recipe_steps-answer',
-                        'locale' => $localeCode
+                        'locale' => $localeCode,
+                        'rows' => '1'
                     ]
                 ]
             );

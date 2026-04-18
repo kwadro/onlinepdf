@@ -143,15 +143,61 @@ class AccountController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->flush();
             }
-
+            $ajaxUrl = $this->generateUrl('recipe_image_update');
             return $this->render('security/account/edit-recipe.html.twig', [
                 'form' => $form->createView(),
-                'user' => $user->getUserIdentifier(),
+                'user' => $user,
+                'recipe' => $recipes[0],
+                'ajaxUrl' => $ajaxUrl,
+
             ]);
         }
         return $this->redirectToRoute('app_login');
     }
+    #[Route('/{_locale}/recipe-image-update', name: 'recipe_image_update')]
+    public function recipeImageUpdate(
+        Request $request,
+        EntityManagerInterface $entityManager
+    ) {
+        $result = [];
+        if ($request->isXmlHttpRequest()) {
+            if ($this->getUser()) {
+                $result['success'] = true;
+                $formCode = $request->get('form_code');
 
+                if ($formCode === 'recipe-image') {
+                    $file = $request->files->get('recipe_file');
+                    if (!$file) {
+                        return $this->json(['error' => 'No file uploaded'], 400);
+                    }
+                    //  Validate mime type
+                    if (!str_starts_with($file->getMimeType(), 'image/')) {
+                        return $this->json(['error' => 'Invalid file type'], 400);
+                    }
+                    //  Generate safe filename
+                    $newFilename = uniqid() . '.' . $file->guessExtension();
+                    try {
+                        $file->move(
+                            $this->getParameter('app.recipe_upload_directory'),
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        return new JsonResponse(['error' => 'Upload failed'], 500);
+                    }
+                    $recipeImageUrl = str_replace('/uploads/recipes/', '', $newFilename);
+                    $recipe = $entityManager->getRepository(Recipe::class)->find($request->get('recipe_id'));
+                    $recipe->setImage($newFilename);
+                    $entityManager->persist($recipe);
+                    $entityManager->flush();
+                    $result['message'] = 'Save recipe success';
+                    $result['imageUrl'] = $recipeImageUrl;
+                }
+                return $this->json($result);
+            }
+        }
+        $result['status'] = false;
+        return $this->json($result);
+    }
     #[Route('/{_locale}/recipe/autosave', name: 'recipe_autosave')]
     public function autosaveRecipe(
         Request $request,
@@ -176,15 +222,16 @@ class AccountController extends AbstractController
                 $subField = $temp[1];
             }
 
+            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
             if ($fieldType === 'recipe_translations') {
                 $translations = $recipe->getRecipetranslations();
                 foreach ($translations as $translation) {
                     if ($translation->getLocale()->getCode() === $localeCode) {
-                        $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+
                         $elements = null;
                         switch ($subField) {
                             case 'recipe_components':
-                                //$elements = $translation->getComponents();
+                                $elements = $translation->getComponents();
                                 break;
                             case 'recipe_steps':
                                 $elements = $translation->getRecipesteps();
@@ -221,7 +268,7 @@ class AccountController extends AbstractController
                     }
                 }
             } else {
-                $recipe->setData($field, $value);
+                $recipe->$method( $value);
                 $entityManager->persist($recipe);
             }
             $entityManager->flush();
@@ -271,8 +318,8 @@ class AccountController extends AbstractController
                     $entityManager->flush();
                     $result['message'] = 'Save name success';
                 }
-                if ($formCode === 'user-image') {
-                    $file = $request->files->get('avatar_file');
+                if ($formCode === 'avatar-image') {
+                    $file = $request->files->get('image_file');
                     if (!$file) {
                         return $this->json(['error' => 'No file uploaded'], 400);
                     }

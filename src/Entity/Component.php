@@ -21,6 +21,9 @@ class Component
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $id;
 
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $position;
+
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $name;
     #[ORM\ManyToOne(
@@ -85,6 +88,16 @@ class Component
     public function getId(): ?int
     {
         return $this->id;
+    }
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
     }
     public function setName(?string $name): self
     {

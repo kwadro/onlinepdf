@@ -15,13 +15,20 @@ export default class extends Controller {
         this.overlayTarget.classList.add("active");
         document.body.style.overflow = "hidden";
 
+        const topPx =`${rect.bottom}px`;
+        console.log('parseInt(window.scrollY) : ', (window.scrollY))
+        console.log('parseInt(rect.bottom) : ', parseInt(rect.bottom))
+        console.log('topPx : ', topPx)
+        console.log('topPx-old : ',rect.bottom + window.scrollY + 'px');
+
+        this.contentTarget.style.left = rect.left  + 'px';
+
         // position under clicked button
-        this.contentTarget.style.top =
-            rect.bottom + window.scrollY + "px";
-
-        this.contentTarget.style.left =
-            rect.left + window.scrollX + "px";
-
+        this.contentTarget.style.top = topPx;
+        const leftPx =`${(parseInt(rect.left) + parseInt(window.scrollX))}px`;
+        console.log('left :', leftPx)
+        console.log('left-old :', leftPx)
+        this.contentTarget.style.left = leftPx;
         document.addEventListener("keydown", this.handleEscape);
     }
 

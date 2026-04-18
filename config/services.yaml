@@ -8,6 +8,7 @@ parameters:
     languages: [ en, ua ]
     app.zip_upload_directory: '%kernel.project_dir%/public/uploads/files'
     app.avatar_upload_directory: '%kernel.project_dir%/public/uploads/avatars'
+    app.recipe_upload_directory: '%kernel.project_dir%/public/uploads/recipes'
 services:
     # default configuration for services in *this* file
     _defaults:

@@ -46,7 +46,51 @@ export default class extends Controller {
         // auto upload
         //this.upload(file);
     }
-    save() {
+    saveRecipe() {
+        console.log('saveRecipe  start',this.cropper)
+        if (!this.cropper) return;
+
+        const canvas = this.cropper.getCroppedCanvas({
+            width: 300,
+            height: 300,
+        });
+
+        canvas.toBlob((blob) => {
+            const recipeId = document.getElementById('recipe_id').value;
+            console.log('saveRecipe recipeId',recipeId)
+            console.log('saveRecipe blob',blob)
+            try{
+                const formData = new FormData();
+                formData.append('recipe_file', blob,'recipe.png');
+                formData.append('form_code', 'recipe-image');
+                formData.append('recipe_id', recipeId);
+                console.log('saveRecipe formData : ',formData)
+                const baseAjaxUrl = this.inputTarget.dataset.ajaxurl;
+
+                console.log('saveRecipe baseAjaxUrl',baseAjaxUrl)
+
+
+                fetch(baseAjaxUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) throw new Error('Upload failed');
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Upload success', data.imageUrl);
+                        document.getElementById('recipe-image').src = '/uploads/recipes/' + data.imageUrl;
+                    })
+            }catch (e){
+                console.log('error',e)
+            }
+        });
+    }
+    saveAvatar() {
         console.log('save avatar  start',this.cropper)
         if (!this.cropper) return;
 
@@ -57,8 +101,8 @@ export default class extends Controller {
 
         canvas.toBlob((blob) => {
             const formData = new FormData();
-            formData.append('avatar_file', blob,'avatar.png');
-            formData.append('form_code', 'user-image');
+            formData.append('image_file', blob,'avatar.png');
+            formData.append('form_code', 'avatar-image');
             const baseSearchAjaxUrl = this.inputTarget.dataset.ajaxurl;
             console.log('baseSearchAjaxUrl',baseSearchAjaxUrl)
             console.log('formData',formData)

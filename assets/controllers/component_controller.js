@@ -6,79 +6,62 @@ export default class extends Controller {
         autosaveUrl: String
     };
     static targets = ['container'];
+
     connect() {
-        this.index = this.containerTarget.querySelectorAll('.recipe-step-item').length;
+        this.index = this.containerTarget.querySelectorAll('.recipe-component-item').length;
+
         this.sortable = new Sortable(this.containerTarget, {
             animation: 150,
             onEnd: () => this.updatePositions()
         });
-        this.startHeight = document.getElementById('rightContent').offsetHeight;
-        console.log('start connect : ',this.startHeight)
     }
+
     add(event) {
-        var self = this;
         event.preventDefault();
         const prototype = this.containerTarget.dataset.prototype;
         const newForm = prototype.replace(/__name__/g, this.index);
 
         const div = document.createElement('div');
-        div.classList.add('container-recipe-step-item');
+        div.classList.add('container-recipe-component-item');
         div.innerHTML = newForm;
-        div.querySelector('input[name*="[position]"]').value = this.index+1;
+        div.querySelector('input[name*="[position]"]').value = this.index + 1;
 
         // remove button
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
         removeBtn.className = 'remove-step';
         removeBtn.innerHTML = 'X';
-
-        removeBtn.addEventListener('click', () => {
-            div.remove();
-            self.correctHeight();
-        });
-
+        removeBtn.addEventListener('click', () => div.remove());
         div.appendChild(removeBtn);
-
         this.containerTarget.appendChild(div);
-
         this.index++;
-        const currentHeight = document.getElementById('rightContent').offsetHeight;
-        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 245) + 'px';
+        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 255) + 'px';
     }
+
     remove(event) {
-        console.log('remove clicked')
         event.preventDefault();
-        event.target.closest('.container-recipe-step-item').remove();
+        event.target.closest('.container-recipe-component-item').remove();
         this.autoSubmit();
-        this.correctHeight();
+        document.body.style.height = (document.getElementById('rightContent').offsetHeight - 255) + 'px';
     }
-    correctHeight(){
-        const currentHeight = document.getElementById('rightContent').offsetHeight;
 
-        console.log('start: ',this.startHeight);
-        console.log('current: ',currentHeight);
-
-        if ((currentHeight - this.startHeight) > 0){
-            console.log('less height');
-            document.body.style.height = (currentHeight - 245) + 'px';
-        }
-    }
     disconnect() {
 
     }
 
     init() {
-        this.startHeight = document.getElementById('rightContent').offsetHeight;
-        console.log('start init : ',this.startHeight)
+
     }
 
     updatePositions() {
-        this.element.querySelectorAll('.recipe-step-item')
+        this.element.querySelectorAll('.recipe-component-item')
             .forEach((item, index) => {
                 const input = item.querySelector('input[name*="[position]"]');
                 if (input) input.value = index + 1;
             });
-        this.autoSavePosition().then(r =>{console.log('response : ',r)});
+        this.autoSavePosition().then(r => {
+            console.log('response : ', r)
+        });
         this.autoSubmit();
     }
 
@@ -89,7 +72,7 @@ export default class extends Controller {
 
     autoSubmit() {
         const form = document.querySelector('form');
-        console.log('form ',form)
+        console.log('form ', form)
         const formData = new FormData(form);
 
         fetch(form.action, {

@@ -22,6 +22,7 @@ class ComponentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('position', IntegerType::class)
             ->add('name', TextType::class)
                  ->add('ingredient', CustomAddselectType::class, [
                      'class' => Ingredient::class,

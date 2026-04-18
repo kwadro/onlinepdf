@@ -32,15 +32,17 @@
             <img id="user-image"
                 src="{{ avatarimage }}"
                 class="profile-image"
+
                 alt="{{ full_name }}"
-                data-editing-target="userImage"
+                data-editing-target="resourceImage"
             />
 
             <button
                 id="button-open-image"
                 class="my-3 btn btn-sm btn-primary text-center"
                 data-ajaxurl="{{ ajaxUrl }}"
-                data-formcode="user-image"
+                data-formcode="avatar-image"
+                data-entity="Avatar"
                 data-action="click->popup#open click->editing#openImage"
             >
                 {{ image_button }}

@@ -62,12 +62,12 @@ class RecipeRepository extends ServiceEntityRepository
             ->addSelect('t')
             ->where('s.site = :site')
             ->andWhere('t.locale = :locale');
-        if ($categoryIds) {
+        if ($categoryIds !== null) {
             $query->innerJoin('s.recipecategorys', 'c')
                 ->andWhere('c.id IN (:recipeCategoryIds)')
                 ->setParameter('recipeCategoryIds', $categoryIdsStr);
         }
-        if ($authorIds) {
+        if ($authorIds !== null) {
             $query->innerJoin('t.user', 'w')
                 ->andWhere('w.id IN (:recipeAuthorIds)')
                 ->setParameter('recipeAuthorIds', $authorIds);

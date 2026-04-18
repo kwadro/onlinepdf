@@ -4,15 +4,48 @@
     {{ form_start(form) }}
     <div class="mt-3">
         <button type="submit" class="btn btn-success">
-            💾 Save order
+            {{'Save Recipe'|trans}}
+        </button>
+        <button type="submit" class="btn btn-warning">
+            {{'Save Recipe and Close'|trans}}
+        </button>
+        <button type="submit" class="btn btn-secondary">
+            {{'Exit'|trans}}
         </button>
     </div>
 
     <div class="recipe-edit-page row">
-        {{ form_row(form.id) }}
         <div class="row">
             <div class="col-3 mb-3">
-                IMAGE WILL HERE
+                <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-center user-select-none" >
+
+                    {% set image_button = 'Add image'|trans %}
+                    {% set full_name = '' %}
+
+                    {% if user.avatarurl %}
+                        {% set avatarimage = '/uploads/recipes/' ~ recipe.image %}
+                        {% set image_button = 'Edit image'|trans %}
+                    {% else %}
+                        {% set avatarimage = 'https://placehold.in/200' %}
+                    {% endif %}
+                    <img id="recipe-image"
+                         src="{{ avatarimage }}"
+                         class="recipe-image"
+                         alt="{{ recipe.id }}"
+                         data-editing-target="resourceImage"
+                    />
+
+                    <button
+                        id="button-open-image"
+                        class="my-3 btn btn-sm btn-primary text-center"
+                        data-ajaxurl="{{ ajaxUrl }}"
+                        data-entity="Recipe"
+                        data-formcode="recipe-image"
+                        data-action="click->popup#open click->editing#openImage"
+                    >
+                        {{ image_button }}
+                    </button>
+                </div>
             </div>
             <div class="col-9 mb-3">
                 {{ form_row(form.recipetranslations[0].name) }}
@@ -27,13 +60,24 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3 mb-3">
+            <div class="col-3 mb-3" data-controller="component">
                 <h4 class="fw-bold ms-2 my-3">{{'Time'|trans}}</h4>
                 {{ form_row(form.prep_time_min) }}
                 {{ form_row(form.cook_time_min) }}
                 {{ form_row(form.servings) }}
                 <h4 class="fw-bold ms-2 my-3">{{'Ingredients'|trans}}</h4>
-                {{ form_row(form.recipetranslations[0].components,{'attr': {'class': 'mt-3 mb-1 form-control components'}}) }}
+                <div id="recipe-components" class="recipecomponents"
+                     data-component-target="container"
+                     data-prototype="{{ form_widget(form.recipetranslations[0].components.vars.prototype)|e('html_attr') }}">
+                    {% for componentForm in form.recipetranslations[0].components %}
+                        <div class="container-recipe-component-item">
+                            {{ form_widget(componentForm) }}
+                            <button type="button" class="remove-step"
+                                data-action="click->component#remove">X</button>
+                        </div>
+                    {% endfor %}
+                </div>
+                <button type="button" id="add-component" class="add-component" data-action="click->component#add">Add</button>
             </div>
             <div class="col-9 mb-3" data-controller="sortable">
                 <h4 class="fw-bold ms-2 my-3">{{'Steps'|trans}}</h4>
@@ -49,11 +93,10 @@
                         </div>
                     {% endfor %}
                 </div>
-                <button type="button" id="add-step" class="add-step" data-action="click->sortable#add">➕ Add</button>
+                <button type="button" id="add-step" class="add-step" data-action="click->sortable#add">Add</button>
             </div>
         </div>
     </div>
-
     {{ form_end(form) }}
 {% endblock %}
 

@@ -245,8 +245,7 @@ groups:
                     - name: id
                       type: integer
                       id: true
-                    - name: position
-                      type: integer
+
                     - name: name
                       type: string
                       isrequire: true
@@ -276,6 +275,8 @@ groups:
                     - name: id
                       type: integer
                       id: true
+                    - name: position
+                      type: integer
                     - name: name
                       type: string
                       isrequire: true

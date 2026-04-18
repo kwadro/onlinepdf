@@ -2,11 +2,10 @@ import {Controller} from '@hotwired/stimulus';
 import {EditorClass} from '../js/editor';
 
 export default class extends Controller {
-    static targets = ['container', 'fullName', 'userImage']
+    static targets = ['container', 'fullName', 'resourceImage']
 
     connect() {
         console.log('connect editing_controller.js')
-
     }
 
     saveName(event) {
@@ -60,21 +59,25 @@ export default class extends Controller {
     }
 
     openImage(event) {
-        const userImageValue = this.userImageTarget.src;
+        let imageValue = this.resourceImageTarget.src ;
 
-        console.log('userImageValue ', userImageValue);
+        console.log('imageValue ', imageValue);
+        console.log('ajaxurl ', event.target.dataset.ajaxurl);
+        console.log('entity ', event.target.dataset.entity);
+        const entity = event.target.dataset.entity;
+
         const instance = new EditorClass();
         instance.addFieldsToPopup(
             [
                 {
-                    'avatar_file': {
+                    'image_file': {
                         'ajaxurl': event.target.dataset.ajaxurl,
-                        'value': userImageValue,
+                        'value': imageValue,
                         'type': 'image',
                         'class': 'me-1,w-100,user-select-none'
                     }
                 },
-            ], {'type': 'Image'}
+            ], {'type': 'Image','entity': entity}
         );
     }
 }

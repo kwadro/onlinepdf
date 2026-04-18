@@ -31,6 +31,9 @@ class ComponentCrudController extends AbstractCrudController
     {
         return [
             IdField::new('id')->hideOnForm(),
+            IntegerField::new('position')
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             TextField::new('name')->setRequired(true),
             AssociationField::new('ingredient'),
             AssociationField::new('unit'),

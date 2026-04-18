@@ -26,11 +26,16 @@ class ComponentType extends AbstractType
                     'class' => 'drag-handle component'
                 ]
             ])
-            ->add('name', HiddenType::class, [
-                'attr' => [
-                    'class' => 'mb-1 form-control name'
+            ->add(
+                'position',
+                HiddenType::class,
+                [
+                    'attr' => [
+                        'class' => 'mb-1 form-control position'
+                    ]
                 ]
-            ])
+            )
+
             ->add('ingredient', CustomAddselectType::class, [
                 'class' => Ingredient::class,
                 'choice_label' => 'name',

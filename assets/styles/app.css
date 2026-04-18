@@ -233,6 +233,9 @@ body {
     top: 20px;
 }
 
+.product-card-list .product-image {
+     border-radius: 0;
+}
 .product-card {
     background: white;
     border-radius: 12px;
@@ -520,7 +523,7 @@ body {
     width: 150px;
 }
 
-.profile-image.small{
+.profile-image.small {
     height: 40px;
     width: 40px;
 }
@@ -593,9 +596,11 @@ body {
 .w-16 {
     width: 4rem;
 }
-.w-50{
+
+.w-50 {
     width: 50% !important;
 }
+
 .pointer-events-none {
     pointer-events: none;
 }
@@ -728,19 +733,33 @@ textarea.field-edit.text-sm {
 body {
     background: #f5f5f5;
 }
-/*RECIPE EDIT PAGE*/
 
+/*RECIPE EDIT PAGE*/
+.recipe-image{
+    width: 80%;
+    height: auto;
+}
 .recipe-edit-page {
     padding: 20px;
 }
 
-.container-recipe-step-item{
+.container-recipe-step-item,
+.container-recipe-component-item {
     position: relative;
 }
-.add-step{
+
+.add-step, .add-component {
+    border-width: 1px;
+    border-radius: 5px;
+    background-color: lightgrey;
     margin-left: 40px;
 }
-.remove-step{
+
+.add-component {
+    margin-left: 25px;
+}
+
+.remove-step, .remove-component {
     border-width: 1px;
     border-color: lightgray;
     font-size: 12px;
@@ -749,16 +768,18 @@ body {
     top: 5px;
     z-index: 1000;
 }
-.recipesteps ,
-.components{
+
+.recipesteps,
+.recipecomponents {
     display: flex;
     flex-direction: column;
     row-gap: 20px;
     padding: 20px 20px 20px 40px;
     position: relative;
 }
-.recipe-step-item ,
-.recipe-component-item{
+
+.recipe-step-item,
+.recipe-component-item {
     border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 15px 15px 15px 15px;
@@ -776,3 +797,7 @@ button:not(:disabled).drag-handle {
     top: 0;
     z-index: 1000;
 }
+.recipe-edit-page label{
+    font-size: 12px;
+}
+

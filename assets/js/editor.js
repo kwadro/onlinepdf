@@ -14,6 +14,7 @@ export class EditorClass {
     }
     addFieldsToPopup(fieldParams, runParams) {
         const typeData = runParams.type;
+        const entityData = runParams.entity;
         const editElements = [];
         fieldParams.forEach(fieldParam => {
             for (const fieldName in fieldParam) {
@@ -90,9 +91,9 @@ export class EditorClass {
         })
         let saveAction='';
         if (typeData==='Image'){
-            saveAction+='click->avatar#save '
+            saveAction+='click->avatar#save'+ entityData;
         }
-         saveAction += 'click->popup#save' + typeData;
+         saveAction += ' click->popup#save' + typeData;
 
 
         const divParams = {
@@ -116,6 +117,8 @@ export class EditorClass {
             ]
         }
         const divElement = this.generateElement(divParams)
+        console.log('divElement', divElement)
+        console.log('editElements', editElements)
         editElements.forEach((editElement) => {
             divElement.append(editElement)
         })
