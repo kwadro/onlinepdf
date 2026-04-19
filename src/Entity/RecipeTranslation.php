@@ -39,6 +39,9 @@ class RecipeTranslation
     private ?string $is_active;
 
     #[ORM\Column(type:"string", nullable:true)]
+    private ?string $publish;
+
+    #[ORM\Column(type:"string", nullable:true)]
     private ?string $is_popular;
 
     #[ORM\Column(type:"string", nullable:true)]
@@ -172,6 +175,16 @@ class RecipeTranslation
     public function getIsActive(): ?string
     {
         return $this->is_active;
+    }
+    public function setPublish(?string $publish): self
+    {
+        $this->publish = $publish;
+        return $this;
+    }
+
+    public function getPublish(): ?string
+    {
+        return $this->publish;
     }
     public function setIsPopular(?string $is_popular): self
     {

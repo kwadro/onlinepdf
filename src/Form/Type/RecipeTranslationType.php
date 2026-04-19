@@ -44,6 +44,12 @@ class RecipeTranslationType extends AbstractType
                     'No' => 'No'
                 ]
             ])
+            ->add('publish', ChoiceType::class,[
+                'choices' => [
+                    'Yes' => 'Yes',
+                    'No' => 'No'
+                ]
+            ])
             ->add('is_popular', ChoiceType::class,[
                 'choices' => [
                     'Yes' => 'Yes',
@@ -76,18 +82,18 @@ class RecipeTranslationType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
             ])
-                 ->add('user', CustomAddselectType::class, [
-                     'class' => User::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select user',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'User',
-                         'search-field'=>'name',
-                         'require-fields'=>'name',
-                     ],
+            ->add('user', CustomAddselectType::class, [
+                'class' => User::class,
+                'choice_label' => 'email',
+                'placeholder' => 'Select user',
+                'required' => true,
+                'attr' => [
+                    'data-entity' => 'User',
+                    'search-field' => 'email',
+                    'require-fields' => 'email',
+                ],
 
-                 ])
+            ])
          ;
     }
 

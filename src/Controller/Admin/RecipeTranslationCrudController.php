@@ -37,6 +37,7 @@ class RecipeTranslationCrudController extends AbstractCrudController
             TextField::new('name')->setRequired(true),
             TextField::new('slug'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            ChoiceField::new('publish')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             ChoiceField::new('is_popular')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             TextField::new('meta_title'),
         
