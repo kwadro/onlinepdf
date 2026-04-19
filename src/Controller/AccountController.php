@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Entity\Recipe;
 use App\Entity\RecipeTranslation;
+use App\Entity\User;
 use App\Form\RecipeType;
 use App\Repository\RecipeRepository;
 use App\Repository\RecipeServiceRepository;
@@ -39,7 +40,8 @@ class AccountController extends AbstractController
             }
             $site = $request->attributes->get('site');
             $localeObject = $request->attributes->get('localeObject');
-            $recipe = $entityManager->getRepository(Recipe::class)->find($recipeId);
+            $recipes = $recipeServiceRepository->findByRecipeId($recipeId, $site->getId(), $localeObject->getId());
+            $recipe = $recipes[0];
             if ($action === 'save_close' || $action === 'save') {
                 $params = $request->request->all();
                 $recipe->setCookTimeMin((int)$params['timeprepare']);
@@ -97,22 +99,40 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
-    #[Route('/{_locale}/publish-recipe', name: 'publish_recipe')]
+    #[Route('/{_locale}/{id}/publish-recipe', name: 'publish_recipe')]
     public function publishRecipe(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        $id,
+        RecipeServiceRepository $recipeServiceRepository
     ): RedirectResponse|Response {
         if ($user = $this->getUser()) {
-            return $this->render('security/account/add-recipe.html.twig', [
-                'user' => $user,
-            ]);
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+
+            $recipes = $recipeServiceRepository->findByRecipeId((int)$id, $site->getId(), $localeObject->getId());
+            if (!$recipes) {
+                return $this->redirectToRoute('account_my_recipes');
+            }
+
+            $recipe = $recipes[0];
+
+            $recipeUserId = $recipe->getRecipetranslations()[0]->getUser()->getId();
+            if($recipeUserId === $user->getId()){
+                $newPublish = ($recipe->getRecipetranslations()[0]->getPublish() === 'Yes') ? 'No' : 'Yes';
+
+                $recipe->getRecipetranslations()[0]->setPublish($newPublish);
+                $entityManager->persist($recipe);
+                $entityManager->flush();
+            }
+
+            return $this->redirectToRoute('account_my_recipes');
         }
         return $this->redirectToRoute('app_login');
     }
 
-    #[Route('/recipe/{id}/edit', name: 'recipe_edit')]
+    #[Route('/recipe-editor/{id}/edit', name: 'recipe_edit')]
     public function edit(
-        RecipeTranslation $recipe,
         Request $request,
         EntityManagerInterface $em,
         RecipeServiceRepository $recipeServiceRepository,
@@ -285,18 +305,27 @@ class AccountController extends AbstractController
     ): RedirectResponse|Response {
         if ($user = $this->getUser()) {
             $site = $request->attributes->get('site');
-            $recipesIds = [1];
             $localeObject = $request->attributes->get('localeObject');
-            $recipes = $recipeServiceRepository->loadItemsByIds(
-                $recipesIds,
-                $site->getId(),
-                $localeObject->getId()
-            );
-            return $this->render('security/account/add-recipe.html.twig', [
-                'user' => $user,
-                'recipe' => $recipes[0],
 
-            ]);
+            $recipe = new Recipe();
+            $recipe->setSite($site);
+            $recipe->setPosition(1);
+
+            $translation = new RecipeTranslation();
+            $translation->setLocale($localeObject);
+            $translation->setRecipe($recipe);
+            $translation->setIsActive('Yes');
+            $translation->setName('New Recipe');
+
+            $userObject = $entityManager->getRepository(User::class)->find($user->getId());
+            $translation->setUser($userObject);
+            $translation->setSlug('recipe-'.uniqid());
+
+            $recipe->addRecipeTranslation($translation);
+            $entityManager->persist($recipe);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('recipe_edit',['id' => $recipe->getId()]);
         }
         return $this->redirectToRoute('app_login');
     }

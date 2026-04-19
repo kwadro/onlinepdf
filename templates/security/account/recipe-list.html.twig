@@ -3,7 +3,10 @@
     {% if recipes is not empty %}
         {% for i in 1..countRepeatVal %}
             {% for recipe in recipes %}
-                <div class="row border border-1 border-success d-flex justify-content-start align-items-center">
+                {% set publishVal = (recipe.recipetranslations[0].publish === 'Yes') ? 'Publish' :'Private'  %}
+                {% set publishButtonLabel = (recipe.recipetranslations[0].publish==='Yes') ? 'UnPublish' :'Publish'  %}
+                {% set recipeSlug = recipe.recipetranslations[0].slug %}
+                <div class="row mb-2 border border-1 border-success d-flex justify-content-start align-items-center">
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 product-card-list shadow-sm">
                         <div class="position-relative">
                             {% if recipe.image %}
@@ -16,7 +19,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-3">
+                    <div class="col-2">
                         {% if recipes is not empty %}
                             {% for category in recipe.recipecategorys %}
                                 <span class="category-badge mb-2 d-inline-block">{{ category.name }}</span>
@@ -25,6 +28,8 @@
                     </div>
                     <div class="col-2">
                         <h6 class="recipe-name mb-1">{{ recipe.recipetranslations[0].name }}</h6>
+                    </div>
+                    <div class="col-2">
                         <div class="recipe-info my-2 d-flex justify-content-start gap-2 align-items-center">
                             <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
                                 <i class="me-1 bi bi-clock"></i>{{ recipe.prepTimeMin }} {{ 'minutes'|trans }}
@@ -38,21 +43,23 @@
                         </div>
                     </div>
 
-
-                    <div class="col-23">
+                    <div class="col-1">
                         <a href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
+                            {{ 'Edit Recipe'|trans }}
+                        </a>
+                    </div>
+                    <div class="col-2">
+                        <a href="{{ path('publish_recipe', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
+                            {{ publishButtonLabel|trans }}
+                        </a>
+                    </div>
+                    <div class="col-1">
+                        <a href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100">
                             {{ 'View'|trans }}
                         </a>
                     </div>
-                    <div class="col-2">
-                        <a href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
-                            {{ 'Publish'|trans }}
-                        </a>
-                    </div>
-                    <div class="col-2">
-                        <a href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
-                            {{ recipe.status|trans }}
-                        </a>
+                    <div class="col-1">
+                            {{ publishVal }}
                     </div>
                 </div>
             {% endfor %}
