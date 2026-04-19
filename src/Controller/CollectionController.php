@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\RecipeServiceRepository;
 use App\Service\Breadcrumbs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -44,14 +45,19 @@ class CollectionController extends AbstractController
         ]);
     }
     #[Route('/{_locale}/recipe/{urlKey}', name: 'catalog_show')]
-    public function show(Request $request, string $urlKey, RecipeRepository $recipeRepository): Response
+    public function show(
+        Request $request,
+        string $urlKey,
+        RecipeServiceRepository $recipeRepository
+    ): Response
     {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
-        $recipe = $recipeRepository->findOneByUrlKey($urlKey, $site->getId(), $localeObject->getId());
-        if (!$recipe) {
+        $recipes = $recipeRepository->findByRecipeSlug($urlKey, $site->getId(), $localeObject->getId());
+        if (!$recipes) {
             throw $this->createNotFoundException();
         }
+        $recipe = $recipes[0];
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByRecipe($recipe);
 
         return $this->render('recipe/show.html.twig', [

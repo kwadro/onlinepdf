@@ -52,23 +52,24 @@ class Breadcrumbs
                 'name' => $recipe->getRecipeTranslations()[0]->getName()
             ];
             $categories = $recipe->getRecipecategorys();
-            $category = $categories[0];
-            $item = [
-                'link' => true,
-                'url' => $category->getSlug(),
-                'name' => $category->getName()
-            ];
-            array_unshift($breadCrumbs, $item);
-
-            $parentCategory = $category->getParent();
-            while ($parentCategory->getId() !== 1) {
+            if($categories->count() > 0){
+                $category = $categories[0];
                 $item = [
                     'link' => true,
-                    'url' => $parentCategory->getSlug(),
-                    'name' => $parentCategory->getName()
+                    'url' => $category->getSlug(),
+                    'name' => $category->getName()
                 ];
                 array_unshift($breadCrumbs, $item);
-                $parentCategory = $parentCategory->getParent();
+                $parentCategory = $category->getParent();
+                while ($parentCategory->getId() !== 1) {
+                    $item = [
+                        'link' => true,
+                        'url' => $parentCategory->getSlug(),
+                        'name' => $parentCategory->getName()
+                    ];
+                    array_unshift($breadCrumbs, $item);
+                    $parentCategory = $parentCategory->getParent();
+                }
             }
         }
         $item = [

@@ -278,12 +278,9 @@ groups:
                     - name: id
                       type: integer
                       id: true
+                      isstring: true
                     - name: position
                       type: integer
-                    - name: name
-                      type: string
-                      isrequire: true
-                      isstring: true
                     - name: ingredient
                       type: relation
                       objectRelation: Ingredient
