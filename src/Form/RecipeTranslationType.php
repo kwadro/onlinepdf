@@ -51,7 +51,7 @@ class RecipeTranslationType extends AbstractType
                     'data-controller' => 'smarttextarea',
                     'data-smarttextarea-autosave-url-value' => '/'.$localeCode.'/recipe/autosave',
                     'class' => 'form-control text-sm',
-                    'maxlength' => 150,
+                    'maxlength' => 350,
                     'field' => 'recipe_translations-description',
                     'locale' => $localeCode,
                     'rows' => '1'

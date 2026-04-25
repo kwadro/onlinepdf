@@ -23,9 +23,6 @@ class Component
 
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $position;
-
-    #[ORM\Column(type:"string", nullable:true)]
-    private ?string $name;
     #[ORM\ManyToOne(
             targetEntity: Ingredient::class,
             cascade: ['persist'],
@@ -89,6 +86,10 @@ class Component
     {
         return $this->id;
     }
+    public function __toString(): string
+    {
+        return $this->id;
+    }
     public function setPosition(?int $position): self
     {
         $this->position = $position;
@@ -98,20 +99,6 @@ class Component
     public function getPosition(): ?int
     {
         return $this->position;
-    }
-    public function setName(?string $name): self
-    {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-    public function __toString(): string
-    {
-        return $this->name;
     }
 
     public function getIngredient(): ?Ingredient

@@ -46,4 +46,9 @@ export default class extends Controller {
         window.removeEventListener('scroll', this.updateRightContent);
         window.removeEventListener('resize', this.updateRightContent);
     }
+    addRecipe(e){
+        console.log('click add button')
+        window.location.href = event.currentTarget.getAttribute('data-add-url');
+        this.updateRightContent()
+    }
 }

@@ -1,12 +1,14 @@
-<div class="width-search container-fluid">
+<div class="width-search container-fluid mb-3">
     {% set countRepeatVal = countRepeat|default('4') %}
     {% if recipes is not empty %}
         {% for i in 1..countRepeatVal %}
             {% for recipe in recipes %}
-                {% set publishVal = (recipe.recipetranslations[0].publish === 'Yes') ? 'Publish' :'Private'  %}
-                {% set publishButtonLabel = (recipe.recipetranslations[0].publish==='Yes') ? 'UnPublish' :'Publish'  %}
+                {% set publishVal = (recipe.recipetranslations[0].publish === 'Yes') ? '<i class="bi bi-check-circle text-success"></i>' :'<i class="bi bi-lock"></i>'  %}
+                {% set publishValTitle = (recipe.recipetranslations[0].publish === 'Yes') ? 'Publish' :'Private'  %}
+                {% set publishButtonLabel = (recipe.recipetranslations[0].publish==='Yes') ? '<i class="bi bi-eye-slash"></i>' :'<i class="bi bi-send"></i>'  %}
+                {% set publishButtonLabelTitle = (recipe.recipetranslations[0].publish==='Yes') ? 'UnPublish' :'Publish'  %}
                 {% set recipeSlug = recipe.recipetranslations[0].slug %}
-                <div class="row mb-2 border border-1 border-success d-flex justify-content-start align-items-center">
+                <div class="row mb-2 rounded-3 p-2 border border-1 border-success d-flex justify-content-start align-items-center">
                     <div class="col-xl-1 col-lg-1 col-md-1 col-sm-1 product-card-list shadow-sm">
                         <div class="position-relative">
                             {% if recipe.image %}
@@ -44,22 +46,22 @@
                     </div>
 
                     <div class="col-1">
-                        <a href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
-                            {{ 'Edit Recipe'|trans }}
-                        </a>
-                    </div>
-                    <div class="col-2">
-                        <a href="{{ path('publish_recipe', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100">
-                            {{ publishButtonLabel|trans }}
+                        <a title="{{ 'Edit Recipe'|trans }}" href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100 d-flex align-items-center justify-content-center" >
+                            <i class="bi bi-pencil"></i>
                         </a>
                     </div>
                     <div class="col-1">
-                        <a href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100">
-                            {{ 'View'|trans }}
+                        <a title="{{ publishButtonLabelTitle|trans }}" href="{{ path('publish_recipe', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100  d-flex align-items-center justify-content-center">
+                            {{ publishButtonLabel|raw }}
                         </a>
                     </div>
                     <div class="col-1">
-                            {{ publishVal }}
+                        <a title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 11px;">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                    </div>
+                    <div title="{{ publishValTitle|trans }}" class="col-1">
+                            {{ publishVal|raw }}
                     </div>
                 </div>
             {% endfor %}

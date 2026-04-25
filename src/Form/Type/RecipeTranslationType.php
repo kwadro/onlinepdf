@@ -82,18 +82,18 @@ class RecipeTranslationType extends AbstractType
                 'by_reference' => false,
                 'prototype' => true,
             ])
-            ->add('user', CustomAddselectType::class, [
-                'class' => User::class,
-                'choice_label' => 'email',
-                'placeholder' => 'Select user',
-                'required' => true,
-                'attr' => [
-                    'data-entity' => 'User',
-                    'search-field' => 'email',
-                    'require-fields' => 'email',
-                ],
+                 ->add('user', CustomAddselectType::class, [
+                     'class' => User::class,
+                     'choice_label' => 'name',
+                     'placeholder' => 'Select user',
+                     'required' => true,
+                     'attr' => [
+                         'data-entity' => 'User',
+                         'search-field'=>'name',
+                         'require-fields'=>'name',
+                     ],
 
-            ])
+                 ])
          ;
     }
 

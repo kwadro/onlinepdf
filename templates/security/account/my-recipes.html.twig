@@ -3,9 +3,13 @@
 {% extends "base.html.twig" %}
 {% block main %}
     <div class="width-search d-flex justify-content-between align-items-center">
-        <a  href="{{ absolute_url(path('add_recipe')) }}" class="my-3 btn btn-sm btn-primary text-center">
+        <button type="button"
+                data-add-url="{{path('add_recipe', {_locale: app.request.locale})}}"
+                data-action="click->scroll#addRecipe"
+                class="my-3 btn btn-sm btn-primary text-center"
+        >
             {{ 'Add new recipe'|trans }}
-        </a>
+        </button>
     </div>
 
     {% if recipes is not empty %}

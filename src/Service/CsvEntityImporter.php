@@ -120,7 +120,7 @@ readonly class CsvEntityImporter
             'recipecategorys'=>'name',
             'recipetranslations'=>'name',
             'recipeauthor'=>'name',
-            'components'=>'name',
+            'components'=>'id',
             'recipesteps'=>'name',
             'children'=>'name',
             'parent'=>'name',

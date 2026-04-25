@@ -23,7 +23,6 @@ class ComponentType extends AbstractType
     {
         $builder
             ->add('position', IntegerType::class)
-            ->add('name', TextType::class)
                  ->add('ingredient', CustomAddselectType::class, [
                      'class' => Ingredient::class,
                      'choice_label' => 'name',

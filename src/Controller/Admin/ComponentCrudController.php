@@ -34,7 +34,6 @@ class ComponentCrudController extends AbstractCrudController
             IntegerField::new('position')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
-            TextField::new('name')->setRequired(true),
             AssociationField::new('ingredient'),
             AssociationField::new('unit'),
             IntegerField::new('quantity')

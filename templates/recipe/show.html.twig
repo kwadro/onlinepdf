@@ -9,10 +9,37 @@
             <!-- Image -->
             <div class="col-12 col-md-4 col-lg-3 text-center">
                 {% if recipe.image %}
-                    <img src="/uploads/recipes/{{ recipe.image }}"
-                         class="img-fluid rounded shadow-sm mb-3"
-                         alt="{{ recipe.recipetranslations[0].name }}">
+                    {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
+                {% else %}
+                    {% set recipeimage = 'https://placehold.in/200' %}
                 {% endif %}
+                <img src="{{ recipeimage }}"
+                    class="img-fluid rounded shadow-sm mb-3"
+                    alt="{{ recipe.recipetranslations[0].name }}"
+                    title="{{ recipe.recipetranslations[0].name }}"
+                >
+                <h3 class="fw-bold mb-3">
+                    {{ 'Ingredients'|trans }}
+                </h3>
+                {% if recipe.recipetranslations[0].components %}
+                    <ul class=" ingredients-grid ">
+                        {% for component in recipe.recipetranslations[0].components %}
+                            <li class="list-group-item  d-flex justify-content-between align-items-center">
+                                {% if component.ingredient %}
+                                    <span>{{ component.ingredient.name }}</span>
+                                {% endif %}
+                                <span class="fw-bold">
+                                {% if component.unit.id !== 5 %}
+                                     {{ component.quantity }} {{ component.unit }}
+                                {% else %}
+                                    {{ component.unit }}
+                                {% endif %}
+                                </span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
             </div>
 
             <!-- Content -->
@@ -22,59 +49,41 @@
                 <p class="text-muted mb-4">
                     {{ recipe.recipetranslations[0].description }}
                 </p>
-
-                <h3 class="fw-bold mb-3">
-                    {{ 'Ingredients'|trans }}
+                <!-- Preparation steps -->
+                <h3 class="text-center fw-bold my-4">
+                    {{ 'Preparation steps'|trans }}
                 </h3>
-                {% if recipe.recipetranslations[0].components %}
-                    <ul class=" ingredients-grid ">
-                        {% for component in recipe.recipetranslations[0].components %}
-                            <li class="list-group-item  d-flex justify-content-between align-items-center">
-                                {% if '|' in component.name %}
-                                    <span>{{ component.name|split('|')[1] }}</span>
-                                {% else %}
-                                    <span>{{ component.ingredient.name }}</span>
-                                {% endif %}
-                                <span class="fw-bold">
-                                   {{ component.quantity }} {{ component.unit }}
-                                </span>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                {% endif %}
+
+                <ul class="list-group mb-4">
+                    {% for step in recipe.recipetranslations[0].recipesteps %}
+                        <li class="list-group-item">
+                            <div class="d-flex flex-column flex-md-row gap-3">
+                                <div class="flex-grow-1">
+                                    <h5 class="fw-bold mb-1">
+                                        {{ step.name }}
+                                    </h5>
+
+                                    {% if step.question %}
+                                        <p class="mb-1 text-muted">
+                                            {{ step.question|nl2br  }}
+                                        </p>
+                                    {% endif %}
+
+                                    {% if step.answer %}
+                                        <p class="mb-0">
+                                            {{ step.answer|nl2br  }}
+                                        </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+
             </div>
         </div>
 
-        <!-- Preparation steps -->
-        <h3 class="text-center fw-bold my-4">
-            {{ 'Preparation steps'|trans }}
-        </h3>
 
-        <ul class="list-group mb-4">
-            {% for step in recipe.recipetranslations[0].recipesteps %}
-                <li class="list-group-item">
-                    <div class="d-flex flex-column flex-md-row gap-3">
-                        <div class="flex-grow-1">
-                            <h5 class="fw-bold mb-1">
-                                {{ step.name }}
-                            </h5>
-
-                            {% if step.question %}
-                                <p class="mb-1 text-muted">
-                                    {{ step.question }}
-                                </p>
-                            {% endif %}
-
-                            {% if step.answer %}
-                                <p class="mb-0">
-                                    {{ step.answer }}
-                                </p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </li>
-            {% endfor %}
-        </ul>
     </div>
 
 {% endblock %}
