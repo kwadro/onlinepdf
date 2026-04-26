@@ -56,12 +56,12 @@ groups:
                     - name: notes
                       type: text
                       numOfRows: 3
-                    - name: components
+                    - name: groupcomponents
                       isCollectionField: true
                       roleRelation: master
-                      name_uk: Інградієнти
+                      name_uk: Групи Компонентів
                       type: relation
-                      objectRelation: Component
+                      objectRelation: GroupComponent
                       typeRelation: OneToMany
                       mappedBy: recipetranslation
                       typeInput: addNews
@@ -143,6 +143,7 @@ groups:
                       objectRelation: RecipeTranslation
                       mappedBy: recipe
                       roleRelation: master
+
             RecipeCategory:
                 relatedSaleAndLocale: catalog
                 default_field: parent
@@ -201,6 +202,7 @@ groups:
                       typeRelation: ManyToMany
                       roleRelation: slave
                       inversedBy: recipecategorys
+
             RecipeStep:
                 translate:
                     link:
@@ -234,6 +236,7 @@ groups:
                     - name: image
                       type: image
                       uploadDir: recipes
+
             Ingredient:
                 translate:
                     link:
@@ -264,6 +267,7 @@ groups:
                       objectRelation: Component
                       typeRelation: OneToMany
                       mappedBy: ingredient
+
             Component:
                 translate:
                     link:
@@ -274,11 +278,11 @@ groups:
                 import:
                     type: json
                     resource: recipe_categories.json
+                stringfield: ingredient->getName()|quantity|unit->getName()
                 fields:
                     - name: id
                       type: integer
                       id: true
-                      isstring: true
                     - name: position
                       type: integer
                     - name: ingredient
@@ -299,11 +303,43 @@ groups:
                       formSetting: name|name
                     - name: quantity
                       type: integer
+                    - name: groupcomponent
+                      type: relation
+                      objectRelation: GroupComponent
+                      typeRelation: ManyToOne
+                      roleRelation: master
+                      inversedBy: components
+
+            GroupComponent:
+                translate:
+                    link:
+                        uk: Групи Компонентів
+                        uk_single: Група Компонентів
+                        en: Groups of Components
+                        en_single: Group of Components
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: name
+                      type: string
+                      isrequire: true
+                      isstring: true
+
                     - name: recipetranslation
                       type: relation
                       objectRelation: RecipeTranslation
                       typeRelation: ManyToOne
-                      inversedBy: components
+                      inversedBy: groupcomponents
+
+                    - name: components
+                      type: relation
+                      objectRelation: Component
+                      typeRelation: OneToMany
+                      mappedBy: groupcomponent
+                      typeInput: addNews
+                      formSetting: id|name
+
             Unit:
                 translate:
                     link:

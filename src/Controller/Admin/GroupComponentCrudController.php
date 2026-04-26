@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use App\Entity\Component;
+use App\Entity\GroupComponent;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -19,27 +19,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 
-class ComponentCrudController extends AbstractCrudController
+class GroupComponentCrudController extends AbstractCrudController
 {
     public function __construct(
         private TranslatorInterface $translator
     ) {
     }
-    public static function getEntityFqcn(): string { return Component::class; }
+    public static function getEntityFqcn(): string { return GroupComponent::class; }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            IntegerField::new('position')
-                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-                ->setHelp('Enter a positive number only'),
-            AssociationField::new('ingredient'),
-            AssociationField::new('unit'),
-            IntegerField::new('quantity')
-                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-                ->setHelp('Enter a positive number only'),
-            AssociationField::new('groupcomponent'),
+            TextField::new('name')->setRequired(true),
+            AssociationField::new('recipetranslation'),
+            AssociationField::new('components')->setFormTypeOption('by_reference', false),
         ];
     }
 
@@ -49,7 +43,7 @@ class ComponentCrudController extends AbstractCrudController
          $manage = $this->translator->trans('grud.manage', [], 'messages');
          $edit = $this->translator->trans('grud.edit', [], 'messages');
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
-         $linkName = $this->translator->trans('menu.link_component_single', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_groupcomponent_single', [], 'messages');
          return $crud
             ->setFormThemes([
                '@EasyAdmin/crud/form_theme.html.twig',
@@ -64,17 +58,17 @@ class ComponentCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'Component'])
+                      ->linkToRoute('admin_export_csv', ['entity' => 'GroupComponent'])
                       ->createAsGlobalAction()
                       ->addCssClass('btn btn-secondary')
                       ->setIcon('fa fa-file-csv');
           $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'Component'])
+                       ->linkToRoute('admin_import', ['entity' => 'GroupComponent'])
                        ->createAsGlobalAction()
                        ->addCssClass('btn btn-secondary')
                        ->setIcon('fa fa-upload');
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_component_single', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_groupcomponent_single', [], 'messages');
           return $actions
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)

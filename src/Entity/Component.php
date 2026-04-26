@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ComponentRepository;
 use App\Entity\Ingredient;
 use App\Entity\Unit;
-use App\Entity\RecipeTranslation;
+use App\Entity\GroupComponent;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
 class Component
@@ -39,11 +39,11 @@ class Component
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $quantity;
     #[ORM\ManyToOne(
-            targetEntity: RecipeTranslation::class,
+            targetEntity: GroupComponent::class,
             cascade: ['persist'],
             inversedBy: 'components'
     )]
-        private ?RecipeTranslation $recipetranslation;
+        private ?GroupComponent $groupcomponent;
 
     #[ORM\Column(type:"date", nullable:true)]
     private ?\DateTimeInterface $updated_at;
@@ -83,10 +83,6 @@ class Component
     }
 
     public function getId(): ?int
-    {
-        return $this->id;
-    }
-    public function __toString(): string
     {
         return $this->id;
     }
@@ -131,14 +127,30 @@ class Component
         return $this->quantity;
     }
 
-    public function getRecipetranslation(): ?RecipeTranslation
+    public function getGroupcomponent(): ?GroupComponent
     {
-        return $this->recipetranslation;
+        return $this->groupcomponent;
     }
-    public function setRecipetranslation(?RecipeTranslation $recipetranslation): Component
+    public function setGroupcomponent(?GroupComponent $groupcomponent): Component
     {
-        $this->recipetranslation = $recipetranslation;
+        $this->groupcomponent = $groupcomponent;
         return $this;
     }
+
+    public function __toString(): string
+    {
+      return
+          $this->ingredient->getName() . '|' . 
+          $this->quantity . '|' . 
+          $this->unit->getName();
+
+    }
+        public function getName(): string
+        {
+            return
+                      $this->ingredient->getName() . '|' . 
+                      $this->quantity . '|' . 
+                      $this->unit->getName();
+        }
 
 }

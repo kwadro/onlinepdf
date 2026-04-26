@@ -14,7 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\Type\LocaleType;
 use App\Entity\Locale;
-use App\Form\Type\ComponentType;
+use App\Form\Type\GroupComponentType;
 use App\Form\Type\RecipeStepType;
 use App\Form\Type\RecipeType;
 use App\Form\Type\UserType;
@@ -62,8 +62,8 @@ class RecipeTranslationType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('cuisine', TextType::class)
             ->add('notes', TextareaType::class)
-            ->add('components', CollectionType::class, [
-                'entry_type' => ComponentType::class,
+            ->add('groupcomponents', CollectionType::class, [
+                'entry_type' => GroupComponentType::class,
                 'entry_options' => [
                     'label' => false,
                 ],

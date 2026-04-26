@@ -2,7 +2,7 @@
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use App\Entity\RecipeTranslation;
-use App\Form\Type\ComponentType;
+use App\Form\Type\GroupComponentType;
 use App\Form\Type\RecipeStepType;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
@@ -49,8 +49,8 @@ class RecipeTranslationCrudController extends AbstractCrudController
             TextField::new('cuisine'),
         
             TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-            CollectionField::new('components')
-                ->setEntryType(ComponentType::class)
+            CollectionField::new('groupcomponents')
+                ->setEntryType(GroupComponentType::class)
                 ->setEntryIsComplex(true)
                 ->allowAdd()
                 ->allowDelete()

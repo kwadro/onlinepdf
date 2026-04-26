@@ -106,7 +106,6 @@ class AccountController extends AbstractController
                 }
                 if ($form->isValid()) {
                     if ($form->get('close')->isClicked()) {
-                        $form->initialize();
                         return $this->redirectToRoute('account_my_recipes');
                     }
                     if ($form->get('save_close')->isClicked()) {

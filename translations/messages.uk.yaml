@@ -82,7 +82,7 @@ menu.link_recipetranslation: Рецепти (переклад)
 Short Description: Короткий Опис
 Description: Опис
 Cuisine: Кухня
-Components: Інградієнти
+Groupcomponents: Групи Компонентів
 Recipesteps: Кроки
 menu.link_recipe_single: Рецепт
 menu.link_recipe: Рецепти
@@ -105,6 +105,8 @@ menu.link_ingredient_single: Інградієнт
 menu.link_ingredient: Інградієнти
 menu.link_component_single: Компонент Рецепта
 menu.link_component: Компоненти Рецепта
+menu.link_groupcomponent_single: Група Компонентів
+menu.link_groupcomponent: Групи Компонентів
 menu.link_unit_single: Одиниця
 menu.link_unit: Одиниці
 menu.group_setting: Настройки Сайта

@@ -220,17 +220,26 @@ class {{ name }}
 
 {%- if stringField %}
 
-{%- set parts = stringField.split('|', 1) %}
-{%- set first = parts[0] %}
-{%- set second = parts[1] if parts|length > 1 else None %}
+{%- set parts = stringField.split('|') %}
+
     public function __toString(): string
     {
-       {%- if second is none %}
-       return $this->{{first}};
-       {%- else %}
-       return $this->{{first}} . '|' . $this->{{second}};
-       {%- endif %}
+      return
+      {%- for part in parts %}
+          {{ "$this->" ~ part }}{% if not loop.last %} . '|' . {% endif %}
+      {%- endfor %};
+
     }
+    {%- if fields | selectattr('name', 'equalto', 'name') | list | length == 0 %}
+        public function getName(): string
+        {
+            return
+                  {%- for part in parts %}
+                      {{ "$this->" ~ part }}{% if not loop.last %} . '|' . {% endif %}
+                  {%- endfor %};
+        }
+    {%- endif %}
+
 {%- endif %}
 
 }

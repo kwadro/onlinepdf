@@ -2,11 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Locale;
-use App\Form\Type\LocaleType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\AsController;
@@ -29,7 +26,7 @@ class AddSelectAjaxController extends AbstractController
             $entityName = ucfirst($params['_entityName']);
             unset($params['_entityName']);
 
-            $csrfTokenId = strtolower($entityName).'_form';
+            $csrfTokenId = strtolower($entityName) . '_form';
             unset($params['_csrf_token_id']);
 
             $token = $params['_token'];
@@ -38,7 +35,7 @@ class AddSelectAjaxController extends AbstractController
             $searchField = $params['_searchField'];
             unset($params['_searchField']);
 
-            $requireFields = explode(',',$params['_requireFields']);
+            $requireFields = explode(',', $params['_requireFields']);
             unset($params['_requireFields']);
 
             if (!$csrfTokenManager->isTokenValid(new CsrfToken($csrfTokenId, $token))) {
@@ -51,7 +48,7 @@ class AddSelectAjaxController extends AbstractController
             $errors = [];
             foreach ($requireFields as $field) {
                 if (!array_key_exists($field, $params) || empty($params[$field])) {
-                    $errors[$field] = ucfirst($field) .' field is required';
+                    $errors[$field] = ucfirst($field) . ' field is required';
                 }
             }
 
@@ -64,7 +61,7 @@ class AddSelectAjaxController extends AbstractController
 
             $searchValue = strtolower(trim($request->request->get($searchField)));
 
-            $entityClassName = '\\App\\Entity\\'.$entityName;
+            $entityClassName = '\\App\\Entity\\' . $entityName;
             $existing = $em->getRepository($entityClassName)
                 ->findOneBy([$searchField => $searchValue]);
 
@@ -73,23 +70,38 @@ class AddSelectAjaxController extends AbstractController
             } else {
                 $addLocale = new $entityClassName();
                 $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $searchField)));
+
+                if ($searchField === 'id') {
+                    $searchValue = (int)$searchValue;
+                }
+
                 $addLocale->$setter($searchValue);
             }
 
-            foreach ($params as $key=>$value) {
+            foreach ($params as $key => $value) {
                 $setter = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $key)));
-                $addLocale->$setter( $value);
+                if ($key === 'ingredient' || $key === 'unit') {
+                    $entityName = ucfirst($key);
+                    $entityClassName = '\\App\\Entity\\' . $entityName;
+                    $existing = $em->getRepository($entityClassName)
+                        ->findOneBy(['id' => $value]);
+                    if($existing){
+                        $value = $existing;
+                    }
+
+                }
+                $addLocale->$setter($value);
             }
 
             $em->persist($addLocale);
             $em->flush();
-
+            $getterSearch = 'get' . str_replace(' ', '', ucwords(str_replace('_', ' ', $searchField)));
             return $this->json([
                 'success' => true,
                 'isNew' => !$existing,
                 'newItem' => [
                     'id' => $addLocale->getId(),
-                    'name' => $addLocale->getName(),
+                    'name' => $addLocale->$getterSearch(),
                 ],
             ]);
         }
@@ -103,7 +115,7 @@ class AddSelectAjaxController extends AbstractController
         $requireFields = trim($request->query->get('require-fields'));
 
         $dataEntity = trim($request->query->get('data-entity'));
-        $className  = '\\App\\Form\\Type\\'.$dataEntity.'Type';
+        $className = '\\App\\Form\\Type\\' . $dataEntity . 'Type';
 
         $form = $this->createForm($className);
 

@@ -16,7 +16,7 @@ use App\Form\Type\IngredientType;
 use App\Entity\Ingredient;
 use App\Form\Type\UnitType;
 use App\Entity\Unit;
-use App\Form\Type\RecipeTranslationType;
+use App\Form\Type\GroupComponentType;
 class ComponentType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

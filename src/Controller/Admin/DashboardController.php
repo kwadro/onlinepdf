@@ -28,6 +28,7 @@ use App\Entity\RecipeCategory;
 use App\Entity\RecipeStep;
 use App\Entity\Ingredient;
 use App\Entity\Component;
+use App\Entity\GroupComponent;
 use App\Entity\Unit;
 use App\Entity\Site;
 use App\Entity\Locale;
@@ -115,6 +116,7 @@ yield MenuItem::section($this->translator->trans('menu.group_catalog', [], 'mess
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipestep', [], 'messages'), 'fas fa-list', Recipestep::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_ingredient', [], 'messages'), 'fas fa-list', Ingredient::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_component', [], 'messages'), 'fas fa-list', Component::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_groupcomponent', [], 'messages'), 'fas fa-list', Groupcomponent::class);
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_unit', [], 'messages'), 'fas fa-list', Unit::class);
         yield MenuItem::section($this->translator->trans('menu.group_setting', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_site', [], 'messages'), 'fas fa-list', Site::class);

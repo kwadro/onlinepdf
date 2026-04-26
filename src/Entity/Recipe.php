@@ -204,9 +204,19 @@ class Recipe
     {
         return $this->recipetranslations;
     }
+
     public function __toString(): string
     {
-       return $this->site . '|' . $this->id;
+      return
+          $this->site . '|' . 
+          $this->id;
+
     }
+        public function getName(): string
+        {
+            return
+                      $this->site . '|' . 
+                      $this->id;
+        }
 
 }

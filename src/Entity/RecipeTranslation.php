@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\RecipeTranslationRepository;
 use App\Entity\Locale;
-use App\Entity\Component;
+use App\Entity\GroupComponent;
 use App\Entity\RecipeStep;
 use App\Entity\Recipe;
 use App\Entity\User;
@@ -62,12 +62,12 @@ class RecipeTranslation
     #[ORM\Column(type:"text", nullable:true)]
     private ?string $notes;
     #[ORM\OneToMany(
-        targetEntity: Component::class,
+        targetEntity: GroupComponent::class,
         mappedBy: 'recipetranslation',
         cascade: ['persist'],
         orphanRemoval: false,
     )]
-        public ?Collection $components;
+        public ?Collection $groupcomponents;
     #[ORM\OneToMany(
         targetEntity: RecipeStep::class,
         mappedBy: 'recipetranslation',
@@ -97,7 +97,7 @@ class RecipeTranslation
 
     public function __construct()
     {
-        $this->components = new ArrayCollection();
+        $this->groupcomponents = new ArrayCollection();
         $this->recipesteps = new ArrayCollection();
     }
 
@@ -257,28 +257,28 @@ class RecipeTranslation
         return $this->notes;
     }
 
-    public function addComponent(Component $component): self
+    public function addGroupComponent(GroupComponent $groupcomponent): self
     {
-        if(!$this->components->contains($component)) {
-           $this->components[] = $component;
-           $component->setRecipetranslation($this);
+        if(!$this->groupcomponents->contains($groupcomponent)) {
+           $this->groupcomponents[] = $groupcomponent;
+           $groupcomponent->setRecipetranslation($this);
         }
         return $this;
     }
 
-    public function removeComponent(Component $component): self
+    public function removeGroupComponent(GroupComponent $groupcomponent): self
     {
-        if($this->components->removeElement($component)) {
-           if ($component->getRecipetranslation() === $this) {
-               $component->setRecipetranslation(null);
+        if($this->groupcomponents->removeElement($groupcomponent)) {
+           if ($groupcomponent->getRecipetranslation() === $this) {
+               $groupcomponent->setRecipetranslation(null);
            }
         }
         return $this;
     }
 
-    public function getComponents(): ?Collection
+    public function getGroupcomponents(): ?Collection
     {
-        return $this->components;
+        return $this->groupcomponents;
     }
 
     public function addRecipeStep(RecipeStep $recipestep): self
