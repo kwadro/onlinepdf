@@ -197,4 +197,6 @@ Save Recipe: 'Зберегти'
 Save Recipe and Close: 'Зберегти і Вийти'
 Exit: 'Вийти'
 Edit Recipe: 'Редагувати'
-
+form:
+    groupname: 'Назва групи'
+    components: 'Компоненти'

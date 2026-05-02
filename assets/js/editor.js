@@ -15,6 +15,7 @@ export class EditorClass {
     addFieldsToPopup(fieldParams, runParams) {
         const typeData = runParams.type;
         const entityData = runParams.entity;
+
         const editElements = [];
         fieldParams.forEach(fieldParam => {
             for (const fieldName in fieldParam) {
@@ -117,12 +118,20 @@ export class EditorClass {
             ]
         }
         const divElement = this.generateElement(divParams)
+
         console.log('divElement', divElement)
         console.log('editElements', editElements)
+
         editElements.forEach((editElement) => {
             divElement.append(editElement)
         })
         const popupContentElement = document.getElementById('popup');
+        const classes = [entityData.toLowerCase()].filter(Boolean);
+
+        if (classes.length) {
+            popupContentElement.classList.add(...classes);
+        }
+
         popupContentElement.innerHTML = '';
         popupContentElement.appendChild(divElement);
     }

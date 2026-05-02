@@ -523,6 +523,7 @@ body {
     width: 150px;
 }
 
+
 .profile-image.small {
     height: 40px;
     width: 40px;
@@ -553,6 +554,8 @@ body {
     max-width: 500px;
     padding: 20px;
     position: absolute;
+    top: 65px !important;
+    left: 709px !important;
 }
 
 .close-btn {
@@ -583,9 +586,16 @@ body {
     width: 300px;
 }
 
-.cropper-view-box,
-.cropper-face {
+.popup .cropper-view-box,
+.popup .cropper-face {
     border-radius: 50%;
+}
+.popup.recipe .cropper-view-box,
+.popup.recipe .cropper-face {
+    border-radius: 0;
+}
+.popup.recipe .profile-image {
+    border-radius: 0;
 }
 
 /*ADD RECIPE FORM*/
@@ -755,7 +765,7 @@ body {
     margin-left: 40px;
 }
 
-.add-component {
+.add-group-component {
     margin-left: 25px;
 }
 
@@ -779,7 +789,9 @@ body {
 }
 
 .recipe-step-item,
-.recipe-component-item {
+.recipe-component-item
+
+{
     border: 1px solid #ced4da;
     border-radius: 5px;
     padding: 15px 15px 15px 15px;
@@ -800,4 +812,15 @@ button:not(:disabled).drag-handle {
 .recipe-edit-page label{
     font-size: 12px;
 }
-
+.recipegroupcomponents{
+    display: flex;
+    flex-direction: column;
+    row-gap: 10px;
+    margin-bottom: 20px;
+}
+.container-recipe-group-component-item{
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 10px 10px 10px 10px;
+    position: relative;
+}

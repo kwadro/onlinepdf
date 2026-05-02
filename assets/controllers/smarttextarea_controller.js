@@ -121,7 +121,7 @@ export default class extends Controller {
                 body: JSON.stringify({
                     value: this.textarea.value,
                     field: this.textarea.getAttribute('field'),
-                    recipe_id: recipeId,
+                    id: recipeId,
                     position_id: positionId,
                     locale_code: this.textarea.getAttribute('locale')
                 })

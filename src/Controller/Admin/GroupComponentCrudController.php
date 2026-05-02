@@ -32,6 +32,9 @@ class GroupComponentCrudController extends AbstractCrudController
         return [
             IdField::new('id')->hideOnForm(),
             TextField::new('name')->setRequired(true),
+            IntegerField::new('position')
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only'),
             AssociationField::new('recipetranslation'),
             AssociationField::new('components')->setFormTypeOption('by_reference', false),
         ];

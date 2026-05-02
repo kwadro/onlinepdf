@@ -50,7 +50,7 @@ export default class extends Controller {
                 body: JSON.stringify({
                     value: this.text.value,
                     field: this.text.getAttribute('field'),
-                    recipe_id: recipeId,
+                    id: recipeId,
                     position_id: positionId,
                     locale_code: this.text.getAttribute('locale')
                 })

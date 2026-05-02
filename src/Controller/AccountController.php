@@ -165,7 +165,7 @@ class AccountController extends AbstractController
                         return new JsonResponse(['error' => 'Upload failed'], 500);
                     }
                     $recipeImageUrl = str_replace('/uploads/recipes/', '', $newFilename);
-                    $recipe = $entityManager->getRepository(Recipe::class)->find($request->get('recipe_id'));
+                    $recipe = $entityManager->getRepository(Recipe::class)->find($request->get('id'));
                     $recipe->setImage($newFilename);
                     $entityManager->persist($recipe);
                     $entityManager->flush();
@@ -186,7 +186,7 @@ class AccountController extends AbstractController
     ) {
         if ($this->getUser()) {
             $data = $request->getPayload()->all();
-            $recipeId = (int)$data['recipe_id'];
+            $recipeId = (int)$data['id'];
             $recipe = $entityManager->getRepository(Recipe::class)->find($recipeId);
             $field = $data['field'];
             $positionId = $data['position_id'] ?? null;
@@ -211,7 +211,7 @@ class AccountController extends AbstractController
                         $elements = null;
                         switch ($subField) {
                             case 'recipe_components':
-                                $elements = $translation->getComponents();
+                                $elements = $translation->getGroupComponents();
                                 break;
                             case 'recipe_steps':
                                 $elements = $translation->getRecipesteps();
@@ -289,7 +289,9 @@ class AccountController extends AbstractController
             $em->persist($recipe);
             $em->persist($translation);
             $em->flush();
-
+            $translation->setSlug('recipe-' . $recipe->getId());
+            $em->persist($translation);
+            $em->flush();
             return $this->redirectToRoute('recipe_edit', ['id' => $recipe->getId()]);
         }
         return $this->redirectToRoute('app_login');

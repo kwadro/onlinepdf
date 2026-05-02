@@ -22,6 +22,9 @@ class GroupComponent
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $name;
+
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $position;
     #[ORM\ManyToOne(
             targetEntity: RecipeTranslation::class,
             cascade: ['persist'],
@@ -91,6 +94,16 @@ class GroupComponent
     public function __toString(): string
     {
         return $this->name;
+    }
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
     }
 
     public function getRecipetranslation(): ?RecipeTranslation

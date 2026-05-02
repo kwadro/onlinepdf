@@ -24,12 +24,11 @@ export default class extends Controller {
 
         console.log('heightContent', this.heightContent);
 
-        document.body.style.height = (this.heightContent + 180) + 'px';
+        document.body.style.height = (this.heightContent + 220) + 'px';
     }
 
     updateRightContent() {
         const scrollY = window.scrollY;
-
         requestAnimationFrame(() => {
             this.rightContent.style.transform = `translateY(-${scrollY}px)`;
         });

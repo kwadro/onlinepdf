@@ -199,3 +199,6 @@ Publish: 'Publish'
 Save Recipe: 'Save Recipe'
 Save Recipe and Close: 'Save Recipe and Close'
 Exit: 'Exit'
+form:
+    groupname: 'Group Name'
+    components: 'Сomponents'

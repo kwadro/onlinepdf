@@ -2,11 +2,21 @@
 {% extends "base.html.twig" %}
 {% block main %}
     {{ form_start(form) }}
-    <div class="mt-3 d-flex justify-content-start gap-2">
+    {{ form_row(form.id) }}
+    {{ form_widget(form._token) }}
+    <div class="px-2 mt-3 d-flex justify-content-start gap-2">
         {{ form_row(form.save,{'attr': {'class': 'mb-1 fs-6 btn btn-success'}}) }}
         {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
         {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
         {{ form_row(form.delete,{'attr': {'class': 'mb-1 btn  text-danger'}}) }}
+        {% if recipe.id %}
+            {% set recipeSlug = recipe.recipetranslations[0].slug %}
+            <div class="ms-auto">
+                <a target="_blank" title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
+                    <i class="bi bi-eye"></i>
+                </a>
+            </div>
+        {% endif %}
     </div>
 
     <div class="recipe-edit-page row">
@@ -55,24 +65,47 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-3 mb-3" data-controller="component">
+            <div class="col-3 mb-3" data-controller="groupcomponent">
                 <h4 class="fw-bold ms-2 my-3">{{'Time'|trans}}</h4>
                 {{ form_row(form.prep_time_min) }}
                 {{ form_row(form.cook_time_min) }}
                 {{ form_row(form.servings) }}
                 <h4 class="fw-bold ms-2 my-3">{{'Ingredients'|trans}}</h4>
-                <div id="recipe-components" class="recipecomponents"
-                     data-component-target="container"
-                     data-prototype="{{ form_widget(form.recipetranslations[0].components.vars.prototype)|e('html_attr') }}">
-                    {% for componentForm in form.recipetranslations[0].components %}
-                        <div class="container-recipe-component-item">
-                            {{ form_widget(componentForm) }}
-                            <button type="button" class="remove-step"
-                                data-action="click->component#remove">X</button>
+                <div id="recipe-group-components" class="recipegroupcomponents"
+                     data-groupcomponent-target="container"
+                     data-prototype="{{ form_widget(form.recipetranslations[0].groupcomponents.vars.prototype)|e('html_attr') }}">
+
+                    {% for groupComponentForm in form.recipetranslations[0].groupcomponents %}
+
+                        <div class="container-recipe-group-component-item"  data-controller="component">
+                               {{ form_row(groupComponentForm.name) }}
+
+                            <div id="recipe-components" class="recipecomponents"
+                                 data-sotable-target="container"
+                                 data-component-target="container"
+                                 data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}">
+
+                                  {% for componenForm in groupComponentForm.components %}
+                                     <div class="container-recipe-component-item">
+
+                                         {{ form_row(componenForm.drag) }}
+                                         {{ form_row(componenForm.position) }}
+                                         {{ form_row(componenForm.ingredient) }}
+                                         {{ form_row(componenForm.quantity) }}
+                                         {{ form_row(componenForm.unit) }}
+
+                                        <button type="button" class="remove-step" title="{{'Remove component'|trans}}"
+                                                data-action="click->component#remove">X</button>
+                                     </div>
+                                  {% endfor %}
+
+                               </div>
+                               <button type="button" class="remove-step" data-action="click->groupcomponent#remove" title="{{'Remove Group'|trans}}">X</button>
+                               <button type="button" id="add-component" class="add-component" data-action="click->component#add" title="{{'Add Component'|trans}}">+</button>
                         </div>
                     {% endfor %}
                 </div>
-                <button type="button" id="add-component" class="add-component" data-action="click->component#add">Add</button>
+                <button type="button" id="add-group-component" class="add-group-component" data-action="click->groupcomponent#add" title="{{'Add Group'|trans}}">{{'Add Group'|trans}}</button>
             </div>
             <div class="col-9 mb-3" data-controller="sortable">
                 <h4 class="fw-bold ms-2 my-3">{{'Steps'|trans}}</h4>
@@ -82,7 +115,7 @@
 
                     {% for stepForm in form.recipetranslations[0].recipesteps %}
                         <div class="container-recipe-step-item">
-                            {{ form_widget(stepForm) }}
+                            {{ form_row(stepForm) }}
                             <button type="button" class="remove-step"
                                     data-action="click->sortable#remove">X</button>
                         </div>
@@ -92,6 +125,6 @@
             </div>
         </div>
     </div>
-    {{ form_end(form) }}
+    {{ form_end(form,{ render_rest: false }) }}
 {% endblock %}
 

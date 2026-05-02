@@ -325,7 +325,8 @@ groups:
                       type: string
                       isrequire: true
                       isstring: true
-
+                    - name: position
+                      type: integer
                     - name: recipetranslation
                       type: relation
                       objectRelation: RecipeTranslation

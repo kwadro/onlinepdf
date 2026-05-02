@@ -63,7 +63,7 @@ export default class extends Controller {
                 const formData = new FormData();
                 formData.append('recipe_file', blob,'recipe.png');
                 formData.append('form_code', 'recipe-image');
-                formData.append('recipe_id', recipeId);
+                formData.append('id', recipeId);
                 console.log('saveRecipe formData : ',formData)
                 const baseAjaxUrl = this.inputTarget.dataset.ajaxurl;
 

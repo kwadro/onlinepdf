@@ -20,6 +20,7 @@ class GroupComponentType extends AbstractType
     {
         $builder
             ->add('name', TextType::class)
+            ->add('position', IntegerType::class)
             ->add('components', CollectionType::class, [
                 'entry_type' => ComponentType::class,
                 'entry_options' => [

@@ -59,11 +59,13 @@ export default class extends Controller {
     }
 
     openImage(event) {
+        event.preventDefault();
         let imageValue = this.resourceImageTarget.src ;
 
         console.log('imageValue ', imageValue);
         console.log('ajaxurl ', event.target.dataset.ajaxurl);
         console.log('entity ', event.target.dataset.entity);
+
         const entity = event.target.dataset.entity;
 
         const instance = new EditorClass();

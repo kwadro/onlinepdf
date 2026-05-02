@@ -6,6 +6,7 @@ use App\Entity\Locale;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
 use App\Form\Type\CustomAddselectType;
+
 use App\Form\Type\UserType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -69,12 +70,12 @@ class RecipeTranslationType extends AbstractType
                     'rows' => '1'
                 ]]
             )
-            ->add('components', CollectionType::class, [
-                'entry_type' => ComponentType::class,
+            ->add('groupcomponents', CollectionType::class, [
+                'entry_type' => GroupComponentType::class,
                 'entry_options' => [
                     'label' => false,
                     'attr' => [
-                        'class' => 'collection recipe-component-item'
+                        'class' => 'collection recipe-group-component-item'
                     ],
                     'locale' => $localeCode
                 ],
