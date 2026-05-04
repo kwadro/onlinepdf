@@ -109,6 +109,8 @@ menu.link_groupcomponent_single: Група Компонентів
 menu.link_groupcomponent: Групи Компонентів
 menu.link_unit_single: Одиниця
 menu.link_unit: Одиниці
+menu.link_favoritelist_single: Улюблений рецепт
+menu.link_favoritelist: Улюблені рецепти
 menu.group_setting: Настройки Сайта
 menu.link_site_single: Сайт
 menu.link_site: Сайти
@@ -200,3 +202,5 @@ Edit Recipe: 'Редагувати'
 form:
     groupname: 'Назва групи'
     components: 'Компоненти'
+Favorite List: 'Список улюблених'
+We not found any favorite recipe: 'Ми не знайшли жодного улюбленого рецепта'

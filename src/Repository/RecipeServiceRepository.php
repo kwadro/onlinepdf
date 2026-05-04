@@ -17,6 +17,73 @@ class RecipeServiceRepository extends ServiceEntityRepository
         parent::__construct($registry, Recipe::class);
     }
 
+    public function findByCategoryId($categoryId, $site, $locale): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale');
+        if ($categoryId) {
+            $query->innerJoin('s.recipecategorys', 'c')
+                ->andWhere('c.id = :recipeCategoryId')
+                ->setParameter('recipeCategoryId', $categoryId);
+        }
+        $query->andWhere('t.is_active = :is_active')
+            ->andWhere('t.publish = :publish')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->setParameter('publish', 'Yes')
+            ->orderBy('s.position', 'ASC')
+            ->setMaxResults(10)
+            ->getQuery();
+        $query = $query->getQuery();
+        return $query->getResult();
+    }
+
+    public function findPopularValues($site, $locale): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.is_popular = :is_popular')
+            ->andWhere('t.is_active = :is_active')
+            ->andWhere('t.publish = :publish')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->setParameter('publish', 'Yes')
+            ->setParameter('is_popular', 'Yes')
+            ->setMaxResults(10)
+            ->getQuery();
+        $query->setHint(Query::HINT_REFRESH, true);
+        return $query->getResult();
+    }
+
+    public function findBySearchQuery($query, $site, $locale): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')
+            ->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.name LIKE :query')
+            ->andWhere('t.is_active = :is_active')
+            ->andWhere('t.publish = :publish')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->setParameter('publish', 'Yes')
+            ->setParameter('query', '%' . $query . '%')
+            ->setMaxResults(10)
+            ->getQuery();
+        $query->setHint(Query::HINT_REFRESH, true);
+
+        return $query->getResult();
+    }
     public function loadItemsByIds(array $recentlyRecipesIds, $site, $locale)
     {
         $query = $this->createQueryBuilder('s')

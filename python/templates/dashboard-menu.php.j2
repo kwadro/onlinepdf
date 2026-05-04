@@ -1,6 +1,8 @@
 {%- for group_name, group in groups.items() %}
         yield MenuItem::section($this->translator->trans('menu.group_{{ group_name|lower }}', [], 'messages'));
     {%- for field_name, field in group.entities.items() %}
-        yield MenuItem::linkToCrud($this->translator->trans('menu.link_{{ field_name|lower }}', [], 'messages'), 'fas fa-list', {{ field_name|pascal }}::class);
+        {%- if not field.disable_admin %}
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_{{ field_name|lower }}', [], 'messages'), 'fas fa-list', {{ field_name|pascal }}::class);
+        {%- endif %}
     {%- endfor %}
 {%- endfor %}

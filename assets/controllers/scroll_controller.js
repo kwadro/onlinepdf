@@ -46,8 +46,48 @@ export default class extends Controller {
         window.removeEventListener('resize', this.updateRightContent);
     }
     addRecipe(e){
-        console.log('click add button')
+
         window.location.href = event.currentTarget.getAttribute('data-add-url');
         this.updateRightContent()
     }
+    addFavoriteItem(e){
+        e.preventDefault()
+        console.log('click add favorite')
+        const buttonElement = e.currentTarget;
+        let ajaxUrl = null;
+        if (buttonElement.classList.contains('selected')) {
+             ajaxUrl = buttonElement.dataset.remove
+        }else{
+            ajaxUrl = buttonElement.dataset.add;
+        }
+        console.log('ajaxUrl ',ajaxUrl)
+        const formData = new FormData();
+        formData.append('id', buttonElement.dataset.id);
+
+
+        fetch(ajaxUrl, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            },
+            credentials: 'include'
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.errors) {
+                    console.log('errors', json.errors)
+                } else {
+                    if (json.success) {
+                        buttonElement.classList.toggle('selected');
+                    }else{
+                        console.log('error message : ', json.message)
+                    }
+                }
+            })
+            .catch(error => {
+                console.error('Submit error:', error)
+            })
+    }
+
 }

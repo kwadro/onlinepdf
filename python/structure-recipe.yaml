@@ -87,7 +87,7 @@ groups:
                       objectRelation: User
                       roleRelation: master
                       typeInput: addNew
-                      formSetting: name|name
+                      formSetting: email|email
                       inversedBy: recipes
 
             Recipe:
@@ -366,6 +366,30 @@ groups:
                       objectRelation: Component
                       typeRelation: OneToMany
                       mappedBy: unit
+
+            FavoriteList:
+                disable_admin: true
+                translate:
+                    link:
+                        uk: Улюблені рецепти
+                        uk_single: Улюблений рецепт
+                        en: Favorite Recipes
+                        en_single: Favorite Recipe
+                import:
+                    type: json
+                    resource: recipe_favorite.json
+                fields:
+                    - name: id
+                      type: integer
+                      id: true
+                    - name: user_id
+                      type: integer
+                    - name: recipe_id
+                      type: integer
+                    - name: site_id
+                      type: integer
+                    - name: locale_id
+                      type: integer
     setting:
         translate:
             link:

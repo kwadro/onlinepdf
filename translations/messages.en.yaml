@@ -117,6 +117,8 @@ menu.link_groupcomponent_single: Group of Components
 menu.link_groupcomponent: Groups of Components
 menu.link_unit_single: Unit
 menu.link_unit: Units
+menu.link_favoritelist_single: Favorite Recipe
+menu.link_favoritelist: Favorite Recipes
 menu.group_setting: Setting Site
 menu.link_site_single: Site
 menu.link_site: Sites
@@ -202,3 +204,5 @@ Exit: 'Exit'
 form:
     groupname: 'Group Name'
     components: 'Сomponents'
+Favorite List: 'Favorite List'
+We not found any favorite recipe: 'We not found any favorite recipe'

@@ -89,8 +89,8 @@ class RecipeTranslationType extends AbstractType
                      'required' => true,
                      'attr' => [
                          'data-entity' => 'User',
-                         'search-field'=>'name',
-                         'require-fields'=>'name',
+                         'search-field'=>'email',
+                         'require-fields'=>'email',
                      ],
 
                  ])

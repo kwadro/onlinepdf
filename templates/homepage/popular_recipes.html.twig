@@ -3,7 +3,8 @@
     <h4 class="fw-bold ms-2 my-3">{{'Popular recipes'|trans}}</h4>
 </div>
     {% include "homepage/recipe-grid.html.twig" with {
-        'recipes': recipes
+        'recipes': recipes,
+        'favoriteIds': favoriteIds
     } %}
 {% else %}
     <h5 class="text-center">{{ 'We not found any recipe'|trans }}</h5>

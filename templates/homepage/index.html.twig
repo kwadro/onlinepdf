@@ -4,6 +4,8 @@
                 {% include "homepage/search-result-page.html.twig" with {
                    'recipes': recipes,
                    'recentlyRecipes': recentlyRecipes,
+                   'popularRecipes': popularRecipes,
+                   'favoriteIds': favoriteIds,
                    'content': setting.menu_pages.homepage.content,
                    'keyword': keyword|default('')
                 } %}
@@ -13,6 +15,9 @@
                 {% include "homepage/homepage-content.html.twig" with {
                    'popularSearchWords': popularSearchWords,
                    'recipes': recipes,
+                   'recentlyRecipes': recentlyRecipes,
+                   'popularRecipes': popularRecipes,
+                   'favoriteIds': favoriteIds,
                    'content': setting.menu_pages.homepage.content
                 } %}
             {% endif %}
@@ -20,6 +25,7 @@
             {% if typePage == 'yourRecipes' %}
                 {% include "homepage/your-recipes.html.twig" with {
                     'recipes': recipes,
+                    'locale': locale,
                 } %}
             {% endif %}
 

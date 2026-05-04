@@ -271,7 +271,7 @@ body {
     top: 10px;
 }
 
-.wishlist-btn {
+.favorite-btn {
     align-items: center;
     background: white;
     border: none;
@@ -287,9 +287,18 @@ body {
     width: 32px;
 }
 
-.wishlist-btn:hover {
+.favorite-btn i {
+    margin-top: 3px;
+}
+
+.favorite-btn:hover {
     background: #fee2e2;
     color: #dc2626;
+}
+
+.favorite-btn.selected {
+    background: #dc2626 ;
+    color: #fee2e2;
 }
 
 .rating-stars {

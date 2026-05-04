@@ -84,31 +84,35 @@ def generate_entity(entity_name,entity):
     write_file(OUT / f"src/Entity/{entity_name}.php", code)
 
 def generate_controller(entity_name,entity):
-    fields = normalize_fields(entity["fields"])
-    code = render_template("controller.php.j2", name=entity_name, fields=fields)
-    write_file(
-        OUT / f"src/Controller/Admin/{entity_name}CrudController.php", code
-    )
+    if ('disable_admin' not in entity ):
+        fields = normalize_fields(entity["fields"])
+        code = render_template("controller.php.j2", name=entity_name, fields=fields)
+        write_file(
+            OUT / f"src/Controller/Admin/{entity_name}CrudController.php", code
+        )
 
 def generate_form_type(entities, entity, entity_name,additionalEntities):
-
-    fields = normalize_fields(entity["fields"])
-    for field in fields:
-        if (field.get('type')=='relation') :
-            if ((field.get('typeRelation')=='ManyToOne'  and field.get('roleRelation')=='master') or (field.get('typeRelation')=='ManyToMany'  and field.get('roleRelation')=='master') or field.get('typeRelation')=='OneToMany') :
-                className=field.get('objectRelation')
-                print(f"className : " + className)
-                if(className!='self'):
-                    if className in entities:
-                       classEntity = entities.get(className)
-                    else:
-                       classEntity = additionalEntities.get(className)
-                    if classEntity is not None:
-                       classFields = classEntity.get("fields")
-                       code = render_template("form-type.php.j2", name=className, fields=classFields)
-                       write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
+    if ('disable_admin' not in entity ):
+        fields = normalize_fields(entity["fields"])
+        for field in fields:
+            if (field.get('type')=='relation') :
+                if ((field.get('typeRelation')=='ManyToOne'  and field.get('roleRelation')=='master') or (field.get('typeRelation')=='ManyToMany'  and field.get('roleRelation')=='master') or field.get('typeRelation')=='OneToMany') :
+                    className=field.get('objectRelation')
+                    print(f"className : " + className)
+                    if(className!='self'):
+                        if className in entities:
+                            classEntity = entities.get(className)
+                        else:
+                            classEntity = additionalEntities.get(className)
+                        if classEntity is not None:
+                            classFields = classEntity.get("fields")
+                            code = render_template("form-type.php.j2", name=className, fields=classFields)
+                            write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
 
 def generate_repository(entity_name, entity):
+    if ('disable_admin' not in entity ):
+        return
+
     related = False
     if ('relatedSaleAndLocale' in entity):
         related = entity['relatedSaleAndLocale']
@@ -226,6 +230,7 @@ def main():
         for entity_name, entity in entities.items():
             print("Entity Name : " + entity_name)
             generate_entity(entity_name, entity)
+
             generate_controller(entity_name, entity)
             if(group_name == 'catalog'):
                 generate_form_type(entities, entity, entity_name, settingEntities)

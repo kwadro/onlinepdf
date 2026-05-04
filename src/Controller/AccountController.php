@@ -8,6 +8,7 @@ use App\Entity\Recipe;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
 use App\Form\RecipeType;
+use App\Repository\FavoriteListRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\RecipeServiceRepository;
 use App\Repository\RecipeViewRepository;
@@ -354,6 +355,7 @@ class AccountController extends AbstractController
         Request $request,
         RecipeServiceRepository $recipeServiceRepository,
         RecipeViewRepository $recipeViewRepository,
+        FavoriteListRepository $favoriteListRepository
     ): Response {
         if ($user = $this->getUser()) {
             $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
@@ -364,8 +366,23 @@ class AccountController extends AbstractController
                 $site->getId(),
                 $localeObject->getId()
             );
+            $map = array_flip($recentlyRecipesIds);
+            usort($recentlyRecipes, function ($a, $b) use ($map) {
+                return $map[$a->getId()] <=> $map[$b->getId()];
+            });
+
+            $favoriteRecipesIds = [];
+            if($user = $this->getUser()) {
+                $favoriteRecipesIds = $favoriteListRepository->loadFavoriteRecipeIds(
+                    $user->getId(),
+                    $site->getId(),
+                    $localeObject->getId()
+                );
+            }
+
             return $this->render('security/account/recently-viewed.html.twig', [
                 'recipes' => $recentlyRecipes,
+                'favoriteIds'=>$favoriteRecipesIds
             ]);
         }
         return $this->redirectToRoute('app_login');

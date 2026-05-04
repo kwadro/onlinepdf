@@ -4,10 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Repository\FavoriteListRepository;
 use App\Repository\PopularsearchRepository;
 use App\Repository\RecipeAuthorRepository;
 use App\Repository\RecipeCategoryRepository;
 use App\Repository\RecipeRepository;
+use App\Repository\RecipeServiceRepository;
+use App\Repository\RecipeViewRepository;
 use App\Service\Breadcrumbs;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,24 +27,14 @@ class HomePageController extends AbstractController
     ) {
     }
 
-    #[Route('/{_locale}/your-recipes', name: 'your-recipes')]
-    public function getCustomerRecipes(Request $request): Response
-    {
-        $recipes = [];
-
-        return $this->render('homepage/index.html.twig', [
-            'recipes' => $recipes,
-            'isLogin' => (bool)$this->getUser(),
-            'typePage' => 'yourRecipes'
-        ]);
-    }
-
     #[Route('/{_locale}/search_page/{keyword}', name: 'search_page')]
     public function searchRecipes(
         Request $request,
         string $keyword,
-        RecipeRepository $recipeRepository,
-        CsrfTokenManagerInterface $csrfTokenManager
+        RecipeViewRepository $recipeViewRepository,
+        RecipeServiceRepository $recipeServiceRepository,
+        CsrfTokenManagerInterface $csrfTokenManager,
+        FavoriteListRepository $favoriteListRepository
     ): Response {
 
         $site = $request->attributes->get('site');
@@ -53,20 +46,38 @@ class HomePageController extends AbstractController
                 'breadcrumbs' => [],
             ]);
         }
-        $recipes = $recipeRepository->findBySearchQuery(
+        $recipes = $recipeServiceRepository->findBySearchQuery(
             $keyword,
             $site->getId(),
             $localeObject->getId()
         );
-        $popularRecipes = $recipeRepository->findPopularValues($site->getId(), $localeObject->getId());
-        $recentlyRecipes = $recipeRepository->findRecentlyValues($site->getId(), $localeObject->getId());
-
+        $popularRecipes = $recipeServiceRepository->findPopularValues($site->getId(), $localeObject->getId());
+        $recentlyRecipes = [];
+        if($user = $this->getUser()) {
+            $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+            $recentlyRecipes = $recipeServiceRepository->loadItemsByIds(
+                $recentlyRecipesIds,
+                $site->getId(),
+                $localeObject->getId()
+            );
+        }
+        $favoriteRecipeIds = [];
+        if($user = $this->getUser()) {
+            $favoriteRecipeIds = $favoriteListRepository->loadFavoriteRecipeIds(
+                $user->getId(),
+                $site->getId(),
+                $localeObject->getId()
+            );
+        }
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
         return $this->render('homepage/search-result-page.html.twig', [
             'recipes' => $recipes,
             'popularRecipes' => $popularRecipes,
             'recentlyRecipes' => $recentlyRecipes,
+            'favoriteIds'=>$favoriteRecipeIds,
             'searchAjaxUrl' => $searchAjaxUrl,
             'keyword' => $keyword,
             'csrf_token_search' => $tokenSearch
@@ -75,7 +86,9 @@ class HomePageController extends AbstractController
 
     /**
      * @param Request $request
-     * @param RecipeRepository $recipeRepository
+     * @param RecipeViewRepository $recipeViewRepository
+     * @param RecipeServiceRepository $recipeServiceRepository
+     * @param FavoriteListRepository $favoriteListRepository
      * @param PopularsearchRepository $popularSearchRepository
      * @param CsrfTokenManagerInterface $csrfTokenManager
      * @return Response
@@ -83,7 +96,9 @@ class HomePageController extends AbstractController
     #[Route('/{_locale}/', name: 'homepage')]
     public function index(
         Request $request,
-        RecipeRepository $recipeRepository,
+        RecipeViewRepository $recipeViewRepository,
+        RecipeserviceRepository $recipeServiceRepository,
+        FavoriteListRepository $favoriteListRepository,
         PopularsearchRepository $popularSearchRepository,
         CsrfTokenManagerInterface $csrfTokenManager
     ): Response {
@@ -98,13 +113,42 @@ class HomePageController extends AbstractController
         }
 
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCatalog();
-        $recipes = $recipeRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
+        $recipes = $recipeServiceRepository->findByCategoryId(null, $site->getId(), $localeObject->getId());
+        $popularRecipes = $recipeServiceRepository->findPopularValues($site->getId(), $localeObject->getId());
+
+        $recentlyRecipes = [];
+        $recentlyRecipesIds = [];
+        if($user = $this->getUser()) {
+            $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
+            $recentlyRecipes = $recipeServiceRepository->loadItemsByIds(
+                $recentlyRecipesIds,
+                $site->getId(),
+                $localeObject->getId()
+            );
+            $map = array_flip($recentlyRecipesIds);
+            usort($recentlyRecipes, function ($a, $b) use ($map) {
+                return $map[$a->getId()] <=> $map[$b->getId()];
+            });
+
+        }
+
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
         $popularSearchWords = $popularSearchRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
-
+        $favoriteRecipeIds = [];
+        if($user = $this->getUser()) {
+            $favoriteRecipeIds = $favoriteListRepository->loadFavoriteRecipeIds(
+                $user->getId(),
+                $site->getId(),
+                $localeObject->getId()
+            );
+        }
         return $this->render('homepage/index.html.twig', [
             'recipes' => $recipes,
+            'popularRecipes' => $popularRecipes,
+            'recentlyRecipesIds' => $recentlyRecipesIds,
+            'recentlyRecipes' => $recentlyRecipes,
+            'favoriteIds'=>$favoriteRecipeIds,
             'popularSearchWords' => $popularSearchWords,
             'breadcrumbs' => $breadCrumbs,
             'searchAjaxUrl' => $searchAjaxUrl,

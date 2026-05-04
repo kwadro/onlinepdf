@@ -9,6 +9,7 @@ php bin/console app:import:csv Ingredient scalar
 php bin/console app:import:csv Component scalar
 php bin/console app:import:csv GroupComponent scalar
 php bin/console app:import:csv Unit scalar
+php bin/console app:import:csv FavoriteList scalar
 php bin/console app:import:csv Site scalar
 php bin/console app:import:csv Locale scalar
 php bin/console app:import:csv HeaderSetting scalar
@@ -29,6 +30,7 @@ php bin/console app:import:csv Ingredient association
 php bin/console app:import:csv Component association
 php bin/console app:import:csv GroupComponent association
 php bin/console app:import:csv Unit association
+php bin/console app:import:csv FavoriteList association
 php bin/console app:import:csv Site association
 php bin/console app:import:csv Locale association
 php bin/console app:import:csv HeaderSetting association
