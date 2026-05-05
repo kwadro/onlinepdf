@@ -20,13 +20,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserCrudController extends AbstractCrudController
 {
-    private UploaderHelper $uploaderHelper;
-
-    public function __construct(
-        UploaderHelper $uploaderHelper
-    ) {
-        $this->uploaderHelper = $uploaderHelper;
-    }
     public static function getEntityFqcn(): string
     {
         return User::class;
@@ -37,20 +30,7 @@ class UserCrudController extends AbstractCrudController
         parent::persistEntity($entityManager, $entityInstance);
     }
 
-    private function handleFileUpload($entityInstance): void
-    {
-        $request = $this->getContext()->getRequest();
-        $uploadedFile = $request->files->get('User')['avatar_upload']['file'];
 
-        if ($uploadedFile instanceof UploadedFile) {
-            try {
-                $this->uploaderHelper->uploadAvatar($uploadedFile, $entityInstance);
-            } catch (FileException $e) {
-                echo "Error: " . $e->getMessage();
-                exit;
-            }
-        }
-    }
 
     public function updateEntity(EntityManagerInterface $entityManager, $entityInstance): void
     {
@@ -61,39 +41,12 @@ class UserCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         $entity = $this->getContext()?->getEntity()?->getInstance();
-        $help = 'empty';
-        if ($entity instanceof User && $entity->getAvatarUrl()) {
-            $help = '<img id="avatar-preview" src="/uploads/avatars/'.$entity->getAvatarUrl().'" style="max-height:100px;" />';
-            $help .= "<script>
-                        document.addEventListener('DOMContentLoaded', function() {
-                            const fileInput = document.getElementById('User_avatar_url_file');
-                            const preview = document.getElementById('avatar-preview');
-                            if (!fileInput || !preview) return;
 
-                            fileInput.addEventListener('change', function(e) {
-                                const file = e.target.files[0];
-                                if (!file) return;
-
-                                const reader = new FileReader();
-                                reader.onload = function(event) {
-                                    preview.src = event.target.result;
-                                };
-                                reader.readAsDataURL(file);
-                            });
-                        });
-                      </script>";
-        }
         return [
             IdField::new('id')->onlyOnForms(),
             BooleanField::new('isVerified')->setRequired(false),
             TextField::new('first_name')->setLabel('First Name'),
             TextField::new('last_name')->setLabel('Last Name'),
-            ImageField::new('avatar_url', 'Avatar')
-                ->setBasePath('/uploads/avatars')
-                ->setUploadDir('public/uploads/avatars')
-                ->setUploadedFileNamePattern('[slug]-[timestamp].[extension]')
-                ->setRequired(false)
-                ->setHelp($help),
             EmailField::new('email'),
             ChoiceField::new('roles')
                 ->setChoices([

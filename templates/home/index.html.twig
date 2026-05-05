@@ -1,8 +1,0 @@
-
-{% set setting = site_settings() %}
-{% extends "base.html.twig" %}
-{% block main %}
-       {% include "home/home-content.html.twig" with {
-           content: setting.menu_pages.home.content
-       } %}
-{% endblock %}

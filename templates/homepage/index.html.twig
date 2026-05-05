@@ -1,46 +1,4 @@
 {% extends "base.html.twig" %}
 {% block main %}
-            {% if typePage == 'searchResult' %}
-                {% include "homepage/search-result-page.html.twig" with {
-                   'recipes': recipes,
-                   'recentlyRecipes': recentlyRecipes,
-                   'popularRecipes': popularRecipes,
-                   'favoriteIds': favoriteIds,
-                   'content': setting.menu_pages.homepage.content,
-                   'keyword': keyword|default('')
-                } %}
-            {% endif %}
-
-            {% if typePage == 'homepage' %}
-                {% include "homepage/homepage-content.html.twig" with {
-                   'popularSearchWords': popularSearchWords,
-                   'recipes': recipes,
-                   'recentlyRecipes': recentlyRecipes,
-                   'popularRecipes': popularRecipes,
-                   'favoriteIds': favoriteIds,
-                   'content': setting.menu_pages.homepage.content
-                } %}
-            {% endif %}
-
-            {% if typePage == 'yourRecipes' %}
-                {% include "homepage/your-recipes.html.twig" with {
-                    'recipes': recipes,
-                    'locale': locale,
-                } %}
-            {% endif %}
-
-            {% if typePage == 'register' %}
-                {% include "registration/register.html.twig" with {
-                    'registrationForm': registrationForm,
-                } %}
-            {% endif %}
-            {% if typePage == 'login' %}
-                {% include "security/login.html.twig" with {
-                    'last_username': last_username,
-                    'error': error,
-                    'translation_domain': translation_domain,
-                    'csrf_token_intention': csrf_token_intention,
-                    'target_path': target_path,
-                } %}
-            {% endif %}
+    index.html.twig
 {% endblock %}

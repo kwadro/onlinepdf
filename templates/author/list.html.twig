@@ -1,7 +1,0 @@
-{% extends "base.html.twig" %}
-{% block title %} {{ 'Recipe of author'|trans }} @cook-{{ recipeAuthor.id }} {% endblock %}
-{% block main %}
-    {% include "recipe/breadcrumbs.html.twig" with {
-        breadCrumbs: breadcrumbs
-    } %}
-{% endblock %}
