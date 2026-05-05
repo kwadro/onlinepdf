@@ -67,10 +67,12 @@ class RecipeServiceRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('s')
             ->innerJoin('s.recipetranslations', 't')
+            ->innerJoin('s.recipecategorys', 'c')
             ->addSelect('t')
             ->where('s.site = :site')
             ->andWhere('t.locale = :locale')
             ->andWhere('t.name LIKE :query')
+            ->orWhere('c.name LIKE :query')
             ->andWhere('t.is_active = :is_active')
             ->andWhere('t.publish = :publish')
             ->setParameter('site', $site)
