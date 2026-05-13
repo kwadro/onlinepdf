@@ -40,7 +40,7 @@ class GroupComponentType extends AbstractType
                         'data-smarttextarea-autosave-url-value' => '/' . $localeCode . '/recipe/autosave',
                         'class' => 'form-control text-lg',
                         'maxlength' => 50,
-                        'field' => 'recipe_translations-name',
+                        'field' => 'recipe_translations-group_components-name',
                         'locale' => $localeCode,
                         'rows' => '1'
                     ]

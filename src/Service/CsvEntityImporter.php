@@ -119,8 +119,11 @@ readonly class CsvEntityImporter
             'client' => 'phone',
             'recipecategorys'=>'name',
             'recipetranslations'=>'name',
+            'recipetranslation'=>'name',
             'recipeauthor'=>'name',
             'components'=>'id',
+            'groupcomponents'=>'name',
+            'groupcomponent'=>'name',
             'recipesteps'=>'name',
             'children'=>'name',
             'parent'=>'name',
@@ -156,7 +159,6 @@ readonly class CsvEntityImporter
                     $assocRepo = $this->em->getRepository($assocClass);
                     if ($meta->isSingleValuedAssociation($column)) {
                         $fieldToSearch = $associationFieldMap[$column] ?? 'id';
-
                         $meta2 = $this->em->getClassMetadata($assocClass);
                         if($meta2->hasAssociation($fieldToSearch)){
                             $assocClass2 = $meta2->getAssociationTargetClass($fieldToSearch);
@@ -179,7 +181,7 @@ readonly class CsvEntityImporter
                         $assocEntities = [];
                         foreach ($ids as $assocId) {
                             $fieldToSearch = $associationFieldMap[$column] ?? 'id';
-                            //echo $assocClass . '-' . $column . '-' . $fieldToSearch . '-' .$value . PHP_EOL;
+                            echo $assocClass . '-' . $column . '-' . $fieldToSearch . '-' .$value . PHP_EOL;
                             $assocEntity = $assocRepo->findOneBy([$fieldToSearch => $assocId]);
                             if ($assocEntity) {
                                 $assocEntities[] = $assocEntity;
@@ -187,17 +189,14 @@ readonly class CsvEntityImporter
                         }
                         // Todo: need change singular from plural
                         $adder = 'add' . $this->singularize($column);
-
                         foreach ($assocEntities as $assocEntity) {
                             $entity->$adder($assocEntity);
                         }
                     }
                 }
             }
-
             $this->em->persist($entity);
         }
-
         $this->em->flush();
         $this->em->clear();
         fclose($handle);

@@ -210,19 +210,23 @@ class AccountController extends AbstractController
                 foreach ($translations as $translation) {
                     if ($translation->getLocale()->getCode() === $localeCode) {
                         $elements = null;
+                        $hasSubField = false;
                         switch ($subField) {
-                            case 'recipe_components':
+                            case 'group_components':
                                 $elements = $translation->getGroupComponents();
+                                $hasSubField = true;
                                 break;
                             case 'recipe_steps':
+                                $hasSubField = true;
                                 $elements = $translation->getRecipesteps();
                         }
+                        $subClassName = str_replace(
+                            ' ',
+                            '',
+                            ucwords(str_replace('_', ' ', substr($subField, 0, -1)))
+                        );
+
                         if ($elements) {
-                            $subClassName = str_replace(
-                                ' ',
-                                '',
-                                ucwords(str_replace('_', ' ', substr($subField, 0, -1)))
-                            );
                             $added = false;
                             $currentPosition = 0;
                             foreach ($elements as $element) {
@@ -243,8 +247,19 @@ class AccountController extends AbstractController
                                 $entityManager->persist($translation);
                             }
                         } else {
-                            $translation->$method($value);
-                            $entityManager->persist($translation);
+                            if($hasSubField){
+                                $subFullClassName = 'App\Entity\\' . $subClassName;
+                                $newElement = new $subFullClassName();
+                                $newElement->setPosition(1);
+                                $newElement->$method($value);
+                                $methodAdd = 'add' . $subClassName;
+                                $translation->$methodAdd($newElement);
+                                $entityManager->persist($translation);
+                            }else{
+                                $translation->$method($value);
+                                $entityManager->persist($translation);
+                            }
+
                         }
                     }
                 }

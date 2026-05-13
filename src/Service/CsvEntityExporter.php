@@ -53,6 +53,12 @@ readonly class CsvEntityExporter
             }
 
             fputcsv($handle, $row,';');
+            if(trim($entityClass) === 'App\Entity\Component'){
+//                var_dump($filePath);
+////                var_dump($row);
+////                var_dump($headers);
+//                exit;
+             }
             $this->em->clear();
         }
 
@@ -72,9 +78,11 @@ readonly class CsvEntityExporter
         if (is_scalar($value)) {
             return (string) $value;
         }
+
         if (is_array($value)) {
             return json_encode($value);
         }
+
         if ( method_exists($value, '__toString')) {
             return (string) $value;
         }
@@ -97,15 +105,15 @@ readonly class CsvEntityExporter
             return implode(', ', $items);
         }
 
-
         // toOne
         if (is_object($value)) {
+            if(get_class($value) == 'Proxies\__CG__\App\Entity\GroupComponent'){
+                //return (string) $value->getId();
+            }
             return method_exists($value, '__toString')
                 ? (string) $value
                 : (string) $value->getId();
         }
-
-
 
         return '';
     }
