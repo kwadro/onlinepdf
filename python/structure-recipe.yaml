@@ -339,6 +339,7 @@ groups:
                       typeRelation: ManyToOne
                       roleRelation: master
                       inversedBy: components
+
             Unit:
                 translate:
                     link:
@@ -365,34 +366,12 @@ groups:
                       typeRelation: OneToMany
                       mappedBy: unit
 
-            FavoriteList:
-                disable_admin: true
-                translate:
-                    link:
-                        uk: Улюблені рецепти
-                        uk_single: Улюблений рецепт
-                        en: Favorite Recipes
-                        en_single: Favorite Recipe
-                import:
-                    type: json
-                    resource: recipe_favorite.json
-                fields:
-                    - name: id
-                      type: integer
-                      id: true
-                    - name: user_id
-                      type: integer
-                    - name: recipe_id
-                      type: integer
-                    - name: site_id
-                      type: integer
-                    - name: locale_id
-                      type: integer
     setting:
         translate:
             link:
                 uk: Настройки Сайта
                 en: Setting Site
+
         entities:
             Site:
                 translate:
@@ -442,6 +421,7 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: Popularsearch
                       mappedBy: site
+
             Locale:
                 translate:
                     link:
@@ -488,6 +468,7 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: Popularsearch
                         mappedBy: locale
+
             HeaderSetting:
                 relatedSaleAndLocale: single
                 translate:
@@ -516,6 +497,7 @@ groups:
                         uploadDir: logo
                     -   name: favicon
                         type: image
+
             HeaderTranslation:
                 translate:
                     link:
@@ -542,6 +524,7 @@ groups:
                       type: string
                     - name: menu_json
                       type: string
+
             SeoSetting:
                 relatedSaleAndLocale: single
                 translate:
@@ -565,6 +548,7 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: SeoSettingsTranslation
                       mappedBy: seosetting
+
             SeoSettingsTranslation:
                 translate:
                     link:
@@ -605,6 +589,7 @@ groups:
                       type: image
                     - name: gtm_code
                       type: string
+
             FooterSetting:
                 relatedSaleAndLocale: single
                 translate:
@@ -628,6 +613,7 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: FooterTranslation
                         mappedBy: footersetting
+
             FooterTranslation:
                 translate:
                     link:
@@ -654,6 +640,7 @@ groups:
                         type: text
                         isHtml: true
                         numOfRows: 10
+
             MegaMenuSetting:
                 relatedSaleAndLocale: multiplemenu
                 translate:
@@ -677,6 +664,7 @@ groups:
                         typeRelation: OneToMany
                         objectRelation: MegaMenuTranslation
                         mappedBy: megamenusetting
+
             MegaMenuTranslation:
                 translate:
                     link:
@@ -717,6 +705,7 @@ groups:
                     - name: content
                       type: text
                       numOfRows: 10
+
             MegaMenuType:
                 translate:
                     link:
@@ -737,6 +726,7 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: MegaMenuTranslation
                       mappedBy: megamenutype
+
             Popularsearch:
                 relatedSaleAndLocale: singletwo
                 translate:

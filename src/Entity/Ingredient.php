@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
+use App\Entity\Traits\TimeStampAbleTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,8 +12,10 @@ use App\Repository\IngredientRepository;
 use App\Entity\Component;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Ingredient
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
 
@@ -38,37 +41,9 @@ class Ingredient
     )]
         public ?Collection $components;
 
-    #[ORM\Column(type:"date", nullable:true)]
-    private ?\DateTimeInterface $updated_at;
-
-    #[ORM\Column(type:"date", nullable:true)]
-    private ?\DateTimeInterface $created_at;
-
     public function __construct()
     {
         $this->components = new ArrayCollection();
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(?\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-        return $this;
     }
     public function setId(?int $id): self
     {

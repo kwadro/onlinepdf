@@ -53,12 +53,6 @@ readonly class CsvEntityExporter
             }
 
             fputcsv($handle, $row,';');
-            if(trim($entityClass) === 'App\Entity\Component'){
-//                var_dump($filePath);
-////                var_dump($row);
-////                var_dump($headers);
-//                exit;
-             }
             $this->em->clear();
         }
 

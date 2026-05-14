@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use DateTimeImmutable;
+use App\Entity\Traits\TimeStampAbleTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,8 +14,10 @@ use App\Entity\Unit;
 use App\Entity\GroupComponent;
 
 #[ORM\Entity(repositoryClass: ComponentRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Component
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
 
@@ -45,36 +48,8 @@ class Component
     )]
         private ?GroupComponent $groupcomponent;
 
-    #[ORM\Column(type:"date", nullable:true)]
-    private ?\DateTimeInterface $updated_at;
-
-    #[ORM\Column(type:"date", nullable:true)]
-    private ?\DateTimeInterface $created_at;
-
     public function __construct()
     {
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(?\DateTimeInterface $created_at): self
-    {
-        $this->created_at = $created_at;
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeInterface $updated_at): self
-    {
-        $this->updated_at = $updated_at;
-        return $this;
     }
     public function setId(?int $id): self
     {

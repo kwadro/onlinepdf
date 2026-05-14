@@ -35,13 +35,13 @@ trait TimeStampAbleTrait
         return $this->updated_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): self
     {
         $this->created_at = $createdAt;
         return $this;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self
     {
         $this->updated_at = $updatedAt;
         return $this;
