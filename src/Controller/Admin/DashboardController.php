@@ -45,7 +45,7 @@ use App\Entity\Popularsearch;
 // @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
-//#[IsGranted('ROLE_SUPER_ADMIN')]
+#[IsGranted('ROLE_SUPER_ADMIN')]
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
