@@ -75,6 +75,7 @@
                                 {% endfor %}
                                 <li class="nav-item">
                                     {% if app.user %}
+
                                         <a class="dropdown-toggle px-2 px-lg-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}"
                                             href="#"
                                             id="dropdown-account"
@@ -83,9 +84,15 @@
                                             aria-haspopup="true"
                                             aria-expanded="false">
                                             {% if app.user.avatarUrl %}
+                                                {% set avatarSrc = '' %}
+                                                {% if 'http' in app.user.avatarUrl  %}
+                                                    {% set avatarSrc = app.user.avatarUrl %}
+                                                {% else %}
+                                                    {% set avatarSrc = "/uploads/avatars/" ~ app.user.avatarUrl %}
+                                                {% endif %}
                                                 <img id="user-header-image"
                                                      class="header-avatar rounded-circle border border-secondary"
-                                                     src="/uploads/avatars/{{app.user.avatarUrl}}"
+                                                     src="{{avatarSrc}}"
                                                      alt = "{{ 'Account'|trans }}"
                                                      title = "{{ 'Account'|trans }}"
                                                      width="25"
