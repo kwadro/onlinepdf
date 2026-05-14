@@ -50,6 +50,12 @@ class RecipeTranslationType extends AbstractType
                     'No' => 'No'
                 ]
             ])
+            ->add('confirmation', ChoiceType::class,[
+                'choices' => [
+                    'Yes' => 'Yes',
+                    'No' => 'No'
+                ]
+            ])
             ->add('is_popular', ChoiceType::class,[
                 'choices' => [
                     'Yes' => 'Yes',

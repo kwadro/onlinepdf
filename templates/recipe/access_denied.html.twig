@@ -1,0 +1,9 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ recipe.recipetranslations[0].name }}{% endblock %}
+{% block main %}
+    <div class="px-2 mt-3 d-flex justify-content-start gap-2">
+        <div class="alert alert-warning w-100" role="alert">
+           {{message|trans}}
+        </div>
+    </div>
+{% endblock %}

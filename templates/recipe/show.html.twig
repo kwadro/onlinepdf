@@ -1,9 +1,16 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ recipe.recipetranslations[0].name }}{% endblock %}
 {% block main %}
-    {% include "recipe/breadcrumbs.html.twig" with {
-        breadCrumbs: breadcrumbs
-    } %}
+{#    {% include "recipe/breadcrumbs.html.twig" with {#}
+{#        breadCrumbs: breadcrumbs#}
+{#    } %}#}
+    {% if message is not empty %}
+        <div class="px-2 mt-3 d-flex justify-content-start gap-2">
+            <div class="alert alert-warning w-100" role="alert">
+                {{message|trans}}
+            </div>
+        </div>
+    {% endif %}
     <div class="container my-4">
         <div class="row g-4">
             <!-- Image -->

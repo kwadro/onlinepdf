@@ -45,6 +45,9 @@ class RecipeTranslation
     private ?string $publish;
 
     #[ORM\Column(type:"string", nullable:true)]
+    private ?string $confirmation;
+
+    #[ORM\Column(type:"string", nullable:true)]
     private ?string $is_popular;
 
     #[ORM\Column(type:"string", nullable:true)]
@@ -160,6 +163,16 @@ class RecipeTranslation
     public function getPublish(): ?string
     {
         return $this->publish;
+    }
+    public function setConfirmation(?string $confirmation): self
+    {
+        $this->confirmation = $confirmation;
+        return $this;
+    }
+
+    public function getConfirmation(): ?string
+    {
+        return $this->confirmation;
     }
     public function setIsPopular(?string $is_popular): self
     {

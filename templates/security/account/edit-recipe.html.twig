@@ -1,130 +1,138 @@
 {% set setting = site_settings() %}
 {% extends "base.html.twig" %}
 {% block main %}
-    {{ form_start(form) }}
-    {{ form_row(form.id) }}
-    {{ form_widget(form._token) }}
-    <div class="px-2 mt-3 d-flex justify-content-start gap-2">
-        {{ form_row(form.save,{'attr': {'class': 'mb-1 fs-6 btn btn-success'}}) }}
-        {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
-        {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
-        {{ form_row(form.delete,{'attr': {'class': 'mb-1 btn  text-danger'}}) }}
-        {% if recipe.id %}
-            {% set recipeSlug = recipe.recipetranslations[0].slug %}
-            <div class="ms-auto">
-                <a target="_blank" title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
-                    <i class="bi bi-eye"></i>
-                </a>
-            </div>
-        {% endif %}
-    </div>
-
-    <div class="recipe-edit-page row">
-        <div class="row">
-            <div class="col-3 mb-3">
-                <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-center user-select-none" >
-
-                    {% set image_button = 'Add image'|trans %}
-                    {% set full_name = '' %}
-
-                    {% if recipe.id and recipe.image  %}
-                        {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
-                        {% set image_button = 'Edit image'|trans %}
-                    {% else %}
-                        {% set recipeimage = 'https://placehold.in/200' %}
-                    {% endif %}
-                    <img id="recipe-image"
-                         src="{{ recipeimage }}"
-                         class="recipe-image"
-                         alt="{{ recipe.id }}"
-                         data-editing-target="resourceImage"
-                    />
-
-                    <button
-                        id="button-open-image"
-                        class="my-3 btn btn-sm btn-primary text-center"
-                        data-ajaxurl="{{ ajaxUrl }}"
-                        data-entity="Recipe"
-                        data-formcode="recipe-image"
-                        data-action="click->popup#open click->editing#openImage"
-                    >
-                        {{ image_button }}
-                    </button>
-                </div>
-            </div>
-            <div class="col-9 mb-3">
-                {{ form_row(form.recipetranslations[0].name) }}
-                {{ form_row(form.recipetranslations[0].short_description) }}
-                {{ form_row(form.recipetranslations[0].description) }}
-
+    {% if recipe.recipetranslations[0].confirmation ==='Yes' %}
+        <div class="px-2 mt-3 d-flex justify-content-start gap-2 w-100">
+            <div class="alert alert-warning" role="alert">
+                 {{'This recipe has been published. We can not editing it.'|trans}}
             </div>
         </div>
-        <div class="row mt-3 mb-3">
-            <div class="col-12">
-                {{ form_row(form.recipetranslations[0].notes,{'attr': {'class': 'mb-1 form-control notes'}}) }}
+    {% else %}
+        {{ form_start(form) }}
+        {{ form_row(form.id) }}
+        {{ form_widget(form._token) }}
+        <div class="px-2 mt-3 d-flex justify-content-start gap-2">
+            {{ form_row(form.save,{'attr': {'class': 'mb-1 fs-6 btn btn-success'}}) }}
+            {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
+            {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
+            {{ form_row(form.delete,{'attr': {'class': 'mb-1 btn  text-danger'}}) }}
+
+            {% if recipe.id %}
+                {% set recipeSlug = recipe.recipetranslations[0].slug %}
+                <div class="ms-auto">
+                    <a target="_blank" title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
+                        <i class="bi bi-eye"></i>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="recipe-edit-page row">
+            <div class="row">
+                <div class="col-3 mb-3">
+                    <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-center user-select-none" >
+
+                        {% set image_button = 'Add image'|trans %}
+                        {% set full_name = '' %}
+
+                        {% if recipe.id and recipe.image  %}
+                            {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
+                            {% set image_button = 'Edit image'|trans %}
+                        {% else %}
+                            {% set recipeimage = 'https://placehold.in/200' %}
+                        {% endif %}
+                        <img id="recipe-image"
+                             src="{{ recipeimage }}"
+                             class="recipe-image"
+                             alt="{{ recipe.id }}"
+                             data-editing-target="resourceImage"
+                        />
+
+                        <button
+                            id="button-open-image"
+                            class="my-3 btn btn-sm btn-primary text-center"
+                            data-ajaxurl="{{ ajaxUrl }}"
+                            data-entity="Recipe"
+                            data-formcode="recipe-image"
+                            data-action="click->popup#open click->editing#openImage"
+                        >
+                            {{ image_button }}
+                        </button>
+                    </div>
+                </div>
+                <div class="col-9 mb-3">
+                    {{ form_row(form.recipetranslations[0].name) }}
+                    {{ form_row(form.recipetranslations[0].short_description) }}
+                    {{ form_row(form.recipetranslations[0].description) }}
+
+                </div>
+            </div>
+            <div class="row mt-3 mb-3">
+                <div class="col-12">
+                    {{ form_row(form.recipetranslations[0].notes,{'attr': {'class': 'mb-1 form-control notes'}}) }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 mb-3" data-controller="groupcomponent">
+                    <h4 class="fw-bold ms-2 my-3">{{'Time'|trans}}</h4>
+                    {{ form_row(form.prep_time_min) }}
+                    {{ form_row(form.cook_time_min) }}
+                    {{ form_row(form.servings) }}
+                    <h4 class="fw-bold ms-2 my-3">{{'Ingredients'|trans}}</h4>
+                    <div id="recipe-group-components" class="recipegroupcomponents"
+                         data-groupcomponent-target="container"
+                         data-prototype="{{ form_widget(form.recipetranslations[0].groupcomponents.vars.prototype)|e('html_attr') }}">
+
+                        {% for groupComponentForm in form.recipetranslations[0].groupcomponents %}
+
+                            <div class="container-recipe-group-component-item"  data-controller="component">
+                                   {{ form_row(groupComponentForm.name) }}
+
+                                <div id="recipe-components" class="recipecomponents"
+                                     data-sotable-target="container"
+                                     data-component-target="container"
+                                     data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}">
+
+                                      {% for componenForm in groupComponentForm.components %}
+                                         <div class="container-recipe-component-item">
+
+                                             {{ form_row(componenForm.drag) }}
+                                             {{ form_row(componenForm.position) }}
+                                             {{ form_row(componenForm.ingredient) }}
+                                             {{ form_row(componenForm.quantity) }}
+                                             {{ form_row(componenForm.unit) }}
+
+                                            <button type="button" class="remove-component" title="{{'Remove component'|trans}}"
+                                                    data-action="click->component#remove">X</button>
+                                         </div>
+                                      {% endfor %}
+
+                                   </div>
+                                   <button type="button" class="remove-step" data-action="click->groupcomponent#remove" title="{{'Remove Group'|trans}}">X</button>
+                                   <button type="button" id="add-component" class="add-component" data-action="click->component#add" title="{{'Add Component'|trans}}">+</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-group-component" class="add-group-component" data-action="click->groupcomponent#add" title="{{'Add Group'|trans}}">{{'Add Group'|trans}}</button>
+                </div>
+                <div class="col-9 mb-3" data-controller="sortable">
+                    <h4 class="fw-bold ms-2 my-3">{{'Steps'|trans}}</h4>
+                    <div id="recipe-steps" class="recipesteps"
+                         data-sortable-target="container"
+                         data-prototype="{{ form_widget(form.recipetranslations[0].recipesteps.vars.prototype)|e('html_attr') }}">
+
+                        {% for stepForm in form.recipetranslations[0].recipesteps %}
+                            <div class="container-recipe-step-item">
+                                {{ form_row(stepForm) }}
+                                <button type="button" class="remove-step"
+                                        data-action="click->sortable#remove">X</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-step" class="add-step" data-action="click->sortable#add">Add</button>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-3 mb-3" data-controller="groupcomponent">
-                <h4 class="fw-bold ms-2 my-3">{{'Time'|trans}}</h4>
-                {{ form_row(form.prep_time_min) }}
-                {{ form_row(form.cook_time_min) }}
-                {{ form_row(form.servings) }}
-                <h4 class="fw-bold ms-2 my-3">{{'Ingredients'|trans}}</h4>
-                <div id="recipe-group-components" class="recipegroupcomponents"
-                     data-groupcomponent-target="container"
-                     data-prototype="{{ form_widget(form.recipetranslations[0].groupcomponents.vars.prototype)|e('html_attr') }}">
-
-                    {% for groupComponentForm in form.recipetranslations[0].groupcomponents %}
-
-                        <div class="container-recipe-group-component-item"  data-controller="component">
-                               {{ form_row(groupComponentForm.name) }}
-
-                            <div id="recipe-components" class="recipecomponents"
-                                 data-sotable-target="container"
-                                 data-component-target="container"
-                                 data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}">
-
-                                  {% for componenForm in groupComponentForm.components %}
-                                     <div class="container-recipe-component-item">
-
-                                         {{ form_row(componenForm.drag) }}
-                                         {{ form_row(componenForm.position) }}
-                                         {{ form_row(componenForm.ingredient) }}
-                                         {{ form_row(componenForm.quantity) }}
-                                         {{ form_row(componenForm.unit) }}
-
-                                        <button type="button" class="remove-component" title="{{'Remove component'|trans}}"
-                                                data-action="click->component#remove">X</button>
-                                     </div>
-                                  {% endfor %}
-
-                               </div>
-                               <button type="button" class="remove-step" data-action="click->groupcomponent#remove" title="{{'Remove Group'|trans}}">X</button>
-                               <button type="button" id="add-component" class="add-component" data-action="click->component#add" title="{{'Add Component'|trans}}">+</button>
-                        </div>
-                    {% endfor %}
-                </div>
-                <button type="button" id="add-group-component" class="add-group-component" data-action="click->groupcomponent#add" title="{{'Add Group'|trans}}">{{'Add Group'|trans}}</button>
-            </div>
-            <div class="col-9 mb-3" data-controller="sortable">
-                <h4 class="fw-bold ms-2 my-3">{{'Steps'|trans}}</h4>
-                <div id="recipe-steps" class="recipesteps"
-                     data-sortable-target="container"
-                     data-prototype="{{ form_widget(form.recipetranslations[0].recipesteps.vars.prototype)|e('html_attr') }}">
-
-                    {% for stepForm in form.recipetranslations[0].recipesteps %}
-                        <div class="container-recipe-step-item">
-                            {{ form_row(stepForm) }}
-                            <button type="button" class="remove-step"
-                                    data-action="click->sortable#remove">X</button>
-                        </div>
-                    {% endfor %}
-                </div>
-                <button type="button" id="add-step" class="add-step" data-action="click->sortable#add">Add</button>
-            </div>
-        </div>
-    </div>
-    {{ form_end(form,{ render_rest: false }) }}
+        {{ form_end(form,{ render_rest: false }) }}
+    {% endif %}
 {% endblock %}
-

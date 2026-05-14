@@ -19,9 +19,14 @@ class CollectionController extends AbstractController
         private Breadcrumbs $breadcrumbs
     ) {
     }
+
     #[Route('/{_locale}/collection/{slug}', name: 'collection_list')]
-    public function list(Request $request, string $slug, RecipeRepository $recipeRepository,RecipeCategoryRepository $recipeCategoryRepository): Response
-    {
+    public function list(
+        Request $request,
+        string $slug,
+        RecipeRepository $recipeRepository,
+        RecipeCategoryRepository $recipeCategoryRepository
+    ): Response {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
 
@@ -35,7 +40,11 @@ class CollectionController extends AbstractController
 
         $recipeCategory = $recipeCategoryRepository->findOneByUrlKey($slug);
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByCategory($recipeCategory);
-        $recipes = $recipeRepository->findByCategoryId($recipeCategory->getId(), $site->getId(), $localeObject->getId());
+        $recipes = $recipeRepository->findByCategoryId(
+            $recipeCategory->getId(),
+            $site->getId(),
+            $localeObject->getId()
+        );
 
         return $this->render('collection/list.html.twig', [
             'recipes' => $recipes,
@@ -44,13 +53,13 @@ class CollectionController extends AbstractController
 
         ]);
     }
+
     #[Route('/{_locale}/recipe/{urlKey}', name: 'catalog_show')]
     public function show(
         Request $request,
         string $urlKey,
         RecipeServiceRepository $recipeRepository
-    ): Response
-    {
+    ): Response {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
         $recipes = $recipeRepository->findByRecipeSlug($urlKey, $site->getId(), $localeObject->getId());
@@ -58,9 +67,23 @@ class CollectionController extends AbstractController
             throw $this->createNotFoundException();
         }
         $recipe = $recipes[0];
+        $message = '';
+        if ($recipe->getRecipetranslations()[0]->getConfirmation() === 'No') {
+            $user = $this->getUser();
+            if (!($user && $user->getId() === $recipe->getRecipetranslations()[0]->getUser()->getId())) {
+                $message = 'This recipe is private (or not confirmed).';
+                return $this->render('recipe/access_denied.html.twig', [
+                    'message' => $message,
+                    'recipe' => $recipe,
+                ]);
+            } else {
+                $message = 'This recipe is private (or not confirmed) and available only for you.';
+            }
+        }
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByRecipe($recipe);
 
         return $this->render('recipe/show.html.twig', [
+            'message' => $message,
             'recipe' => $recipe,
             'breadcrumbs' => $breadCrumbs,
         ]);

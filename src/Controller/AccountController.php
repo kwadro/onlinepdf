@@ -139,7 +139,7 @@ class AccountController extends AbstractController
     public function recipeImageUpdate(
         Request $request,
         EntityManagerInterface $entityManager
-    ) {
+    ): JsonResponse {
         $result = [];
         if ($request->isXmlHttpRequest()) {
             if ($this->getUser()) {

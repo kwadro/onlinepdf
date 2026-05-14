@@ -36,6 +36,9 @@ groups:
                     - name: publish
                       type: select
                       typeInput: yesno
+                    - name: confirmation
+                      type: select
+                      typeInput: yesno
                     - name: is_popular
                       type: select
                       typeInput: yesno
