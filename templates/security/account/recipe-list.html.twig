@@ -5,6 +5,7 @@
             {% for recipe in recipes %}
                 {% set publishVal = (recipe.recipetranslations[0].publish === 'Yes') ? '<i class="bi bi-check-circle text-success"></i>' :'<i class="bi bi-lock"></i>'  %}
                 {% set publishValTitle = (recipe.recipetranslations[0].publish === 'Yes') ? 'Publish' :'Private'  %}
+                {% set confirmValTitle = (recipe.recipetranslations[0].confirmation === 'Yes') ? ((publishValTitle==='Private') ? '' : 'Confirm') : ((publishValTitle==='Private') ? '' : 'Pending Confirmation')  %}
                 {% set publishButtonLabel = (recipe.recipetranslations[0].publish==='Yes') ? '<i class="bi bi-eye-slash"></i>' :'<i class="bi bi-send"></i>'  %}
                 {% set publishButtonLabelTitle = (recipe.recipetranslations[0].publish==='Yes') ? 'UnPublish' :'Publish'  %}
                 {% set recipeSlug = recipe.recipetranslations[0].slug %}
@@ -45,24 +46,36 @@
                         </div>
                     </div>
 
-                    <div class="col-1">
-                        <a title="{{ 'Edit Recipe'|trans }}" href="{{ path('recipe_edit', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100 d-flex align-items-center justify-content-center" >
+                    <div class="col-1 recipe-link"
+                         data-action="click->scroll#openLink"
+                         data-url="{{ path('recipe_edit', {id: recipe.id}) }}"
+                    >
+                        <span title="{{ 'Edit Recipe'|trans }}"  class="btn btn-sm btn-primary w-100 d-flex align-items-center justify-content-center" >
                             <i class="bi bi-pencil"></i>
-                        </a>
+                        </span>
                     </div>
-                    <div class="col-1">
-                        <a title="{{ publishButtonLabelTitle|trans }}" href="{{ path('publish_recipe', {id: recipe.id}) }}" class="btn btn-sm btn-primary w-100  d-flex align-items-center justify-content-center">
+                    <div class="col-1 recipe-link"
+                         data-action="click->scroll#openLink"
+                         data-url="{{ path('publish_recipe', {id: recipe.id}) }}"
+                    >
+                        <span   title="{{ publishButtonLabelTitle|trans }}"  class="btn btn-sm btn-primary w-100  d-flex align-items-center justify-content-center">
                             {{ publishButtonLabel|raw }}
-                        </a>
+                        </span>
                     </div>
-                    <div class="col-1">
-                        <a target="_blank" title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
+                    <div class="col-1 recipe-link"
+                         data-action="click->scroll#openLink"
+                         data-url="{{ path('catalog_show', {urlKey: recipeSlug}) }}"
+                    >
+                        <span data-target="_blank" title="{{'View'|trans }}"  class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
                             <i class="bi bi-eye"></i>
-                        </a>
+                        </span>
                     </div>
 
                     <div title="{{ publishValTitle|trans }}" class="col-1">
                             {{ publishVal|raw }}
+                    </div>
+                    <div  class="col-1"   style="font-size: 12px; font-weight: 600;">
+                            {{ confirmValTitle|trans }}
                     </div>
                 </div>
             {% endfor %}

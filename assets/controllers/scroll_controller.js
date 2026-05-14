@@ -50,6 +50,18 @@ export default class extends Controller {
         window.location.href = event.currentTarget.getAttribute('data-add-url');
         this.updateRightContent()
     }
+    openLink(e){
+        e.preventDefault()
+        const url = e.currentTarget.getAttribute('data-url');
+        const target = e.currentTarget.getAttribute('data-target');
+        if(target){
+            window.open(url, target);
+        }else{
+            window.location.href = url;
+        }
+        this.updateRightContent()
+    }
+    openEditor(e){}
     addFavoriteItem(e){
         e.preventDefault()
         console.log('click add favorite')
