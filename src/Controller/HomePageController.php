@@ -157,7 +157,7 @@ class HomePageController extends AbstractController
         ]);
     }
 
-    #[Route('/', name: 'default', locale: 'en')]
+    #[Route('/', name: 'default', locale: 'uk')]
     public function default(Request $request): Response
     {
         return $this->redirectToRoute('homepage');

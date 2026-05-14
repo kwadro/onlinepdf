@@ -13,7 +13,12 @@
         {% set full_name = '' %}
 
         {% if recipeUser.avatarurl %}
-            {% set avatarimage = '/uploads/avatars/' ~ recipeUser.avatarurl %}
+            {% if 'http' in app.user.avatarUrl  %}
+                {% set avatarimage = recipeUser.avatarurl %}
+            {% else %}
+                {% set avatarimage = '/uploads/avatars/' ~ recipeUser.avatarurl %}
+            {% endif %}
+
             {% set image_button = 'Edit image'|trans %}
         {% else %}
             {% set avatarimage = 'https://placehold.in/200' %}

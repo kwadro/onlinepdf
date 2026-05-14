@@ -1,4 +1,4 @@
 easy_admin:
     design:
-        locales: ['uk', 'en']
+        locales: ['uk']
         default_locale: 'uk'

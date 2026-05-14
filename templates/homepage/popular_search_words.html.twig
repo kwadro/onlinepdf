@@ -1,7 +1,7 @@
 {% if popularSearchWords is not empty %}
      <div class="width-search d-flex justify-content-between align-items-center">
          <h5 class="fw-bold ms-2 my-3">{{'Popular search terms'|trans}}</h5>
-         <small class="text-muted me-3 my-3">{{'Updated'|trans}} 23:35</small>
+{#         <small class="text-muted me-3 my-3">{{'Updated'|trans}} 23:35</small>#}
      </div>
      <div class="row g-3 width-search" data-controller="popularsearch">
          {% for popularSearch in popularSearchWords %}

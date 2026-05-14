@@ -97,7 +97,7 @@ class DashboardController extends AbstractDashboardController
             ->disableDarkMode()
             ->setDefaultColorScheme('dark')
             ->generateRelativeUrls()
-            ->setLocales(['en','uk'])
+            ->setLocales(['uk'])
 ;
     }
 

@@ -247,7 +247,7 @@ class AccountController extends AbstractController
                                 $entityManager->persist($translation);
                             }
                         } else {
-                            if($hasSubField){
+                            if ($hasSubField) {
                                 $subFullClassName = 'App\Entity\\' . $subClassName;
                                 $newElement = new $subFullClassName();
                                 $newElement->setPosition(1);
@@ -255,11 +255,10 @@ class AccountController extends AbstractController
                                 $methodAdd = 'add' . $subClassName;
                                 $translation->$methodAdd($newElement);
                                 $entityManager->persist($translation);
-                            }else{
+                            } else {
                                 $translation->$method($value);
                                 $entityManager->persist($translation);
                             }
-
                         }
                     }
                 }
@@ -387,7 +386,7 @@ class AccountController extends AbstractController
             });
 
             $favoriteRecipesIds = [];
-            if($user = $this->getUser()) {
+            if ($user = $this->getUser()) {
                 $favoriteRecipesIds = $favoriteListRepository->loadFavoriteRecipeIds(
                     $user->getId(),
                     $site->getId(),
@@ -397,7 +396,7 @@ class AccountController extends AbstractController
 
             return $this->render('security/account/recently-viewed.html.twig', [
                 'recipes' => $recentlyRecipes,
-                'favoriteIds'=>$favoriteRecipesIds
+                'favoriteIds' => $favoriteRecipesIds
             ]);
         }
         return $this->redirectToRoute('app_login');
@@ -406,12 +405,21 @@ class AccountController extends AbstractController
     #[Route('/{_locale}/account/setting', name: 'account_setting')]
     public function getAccountSetting(
         Request $request,
-        UserRepository $userRepository
+        UserRepository $userRepository,
+        RecipeServiceRepository $recipeServiceRepository,
     ): Response {
         if ($user = $this->getUser()) {
             $userObject = $userRepository->find($user->getId());
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+            $userRecipes = $recipeServiceRepository->findByAuthorId(
+                $user->getId(),
+                $site->getId(),
+                $localeObject->getId()
+            ) ?? [];
             $ajaxUrl = $this->generateUrl('user_update');
             return $this->render('security/account/setting.html.twig', [
+                'countRecipe' => count($userRecipes),
                 'recipeUser' => $userObject,
                 'ajaxUrl' => $ajaxUrl
             ]);

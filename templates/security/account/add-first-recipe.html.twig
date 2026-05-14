@@ -4,11 +4,31 @@
          title="'Add first recipe'|trans"
          style="width: 225px;"
     />
-    <h2 class="text-center">{{ 'Get started and create your first recipe!'|trans }}</h2>
 
-    <h4 class="text-center">{{ 'You haven’t created any recipes. Write your first one and see it here!!'|trans }}</h4>
+    {% if countRecipe===0 %}
+        <h2 class="text-center">{{ 'Get started and create your first recipe!'|trans }}</h2>
+        <h4 class="text-center">{{ 'You have not created any recipes. Write your first one and see it here!!'|trans }}</h4>
+    {% else %}
+        <h2 class="text-center">{{ 'Congratulations!'|trans }}</h2>
 
-    <a href="{{ absolute_url(path('add_recipe')) }}" class="my-3 btn btn-sm btn-primary text-center">
-        {{ 'Add new recipe'|trans }}
-    </a>
+        <h2 class="text-center">
+            {% if countRecipe===1 %}
+                {{ 'You created 1 recipe'|trans({'%count%': countRecipe}) }}
+            {% else %}
+                {{ 'You created %count% recipes'|trans({'%count%': countRecipe}) }}
+            {% endif %}
+        </h2>
+    {% endif %}
+    <div class="d-flex justify-content-center gap-2">
+        {% if countRecipe > 0 %}
+            <a href="{{ absolute_url(path('account_my_recipes')) }}" class="my-3 btn btn-sm btn-primary text-center">
+                {{ 'Edit recipes'|trans }}
+            </a>
+        {% endif %}
+        <a href="{{ absolute_url(path('add_recipe')) }}" class="my-3 btn btn-sm btn-primary text-center">
+            {{ 'Add new recipe'|trans }}
+        </a>
+
+    </div>
+
 </div>
