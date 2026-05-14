@@ -201,5 +201,14 @@ readonly class CsvEntityImporter
         $this->em->clear();
         fclose($handle);
     }
+
+    public function setSiteUrl($appDomain): void
+    {
+        $siteRepository = $this->em->getRepository('App\Entity\Site');
+        $site = $siteRepository->find(1);
+        $site->setDomain($appDomain);
+        $this->em->persist($site);
+        $this->em->flush();
+    }
 }
 

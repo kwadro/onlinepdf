@@ -45,6 +45,7 @@ class AuthorController extends AbstractController
             $site->getId(),
             $localeObject->getId()
         );
+
         return $this->render('author/list.html.twig', [
             'recipes' => $recipes,
             'recipeAuthor' => $recipeUser,

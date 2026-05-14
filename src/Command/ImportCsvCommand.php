@@ -17,7 +17,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class ImportCsvCommand extends Command
 {
     public function __construct(
-        private readonly CsvEntityImporter $importer
+        private readonly CsvEntityImporter $importer,
+        private readonly string $appDomain
     ) {
         parent::__construct();
     }
@@ -52,6 +53,7 @@ class ImportCsvCommand extends Command
                 $this->importer->importAssociations($entity, $file);
             }
 
+            $this->importer->setSiteUrl($this->appDomain);
         } catch (\Throwable $e) {
             $io->error($e->getMessage());
             return Command::FAILURE;

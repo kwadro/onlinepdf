@@ -6,6 +6,7 @@
 parameters:
     locale: ua
     languages: [ en, ua ]
+    app.domain: '%env(APP_DOMAIN)%'
     app.zip_upload_directory: '%kernel.project_dir%/public/uploads/files'
     app.avatar_upload_directory: '%kernel.project_dir%/public/uploads/avatars'
     app.recipe_upload_directory: '%kernel.project_dir%/public/uploads/recipes'
@@ -38,3 +39,6 @@ services:
             $handlers: !tagged_iterator app.import_handler
     App\Twig\SiteSettingExtension:
         tags: ['twig.extension']
+    App\Command\ImportCsvCommand:
+        arguments:
+            $appDomain: '%app.domain%'
