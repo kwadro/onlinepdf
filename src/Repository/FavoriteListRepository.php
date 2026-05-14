@@ -33,11 +33,13 @@ class FavoriteListRepository extends ServiceEntityRepository
             ->andWhere('t.locale = :locale')
             ->andWhere('t.is_active = :is_active')
             ->andWhere('t.publish = :publish')
+            ->andWhere('t.confirmation = :confirmation')
             ->setParameter('site', $siteId)
             ->setParameter('locale', $localeId)
             ->setParameter('userId', $userId)
             ->setParameter('is_active', 'Yes')
             ->setParameter('publish', 'Yes')
+            ->setParameter('confirmation', 'Yes')
             ->orderBy('s.updated_at', 'DESC')
             ->setMaxResults(10)
             ->getQuery();
