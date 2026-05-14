@@ -1,15 +1,18 @@
 {% set setting = site_settings() %}
 {% extends "base.html.twig" %}
 {% block main %}
-    <h1>{{ 'Facebook Data Deletion Instructions'|trans }}</h1>
-    <p>
-        {{ 'If you would like your Facebook-related data removed from our system'|trans }},
-        {{ 'please send an email to'|trans }}:
-    </p>
-    <p>
-        {{ 'support@kwadro.com.com'|trans }}
-    </p>
-    <p>
-        {{ 'We will delete your data within 30 days.'|trans }}
-    </p>
+    <div class="container mt-3">
+        <h1>{{ 'Facebook Data Deletion Instructions'|trans }}</h1>
+        <p>
+            {{ 'If you would like your Facebook-related data removed from our system'|trans }},
+            {{ 'please send an email to'|trans }}: <a href="mailto:support@kwadro.com.com">
+                support@kwadro.com.com
+            </a>
+        </p>
+
+        <p>
+            {{ 'We will delete your data within 30 days.'|trans }}
+        </p>
+
+    </div>
 {% endblock %}
