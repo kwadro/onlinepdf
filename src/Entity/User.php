@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\TimeStampAbleTrait;
 use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Deprecated;
@@ -18,6 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -61,11 +63,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar_url = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $facebook_id = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
     #[ORM\OneToMany(
         targetEntity: RecipeTranslation::class,
         mappedBy: 'user',
@@ -100,18 +100,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->recipes;
     }
-
-    #[ORM\PrePersist]
-    public function setCreatedAtValue(): void
+    public function getFacebookId(): ?int
     {
-        $this->created_at = new DateTimeImmutable();
-        $this->updated_at = new DateTimeImmutable();
+        return $this->facebook_id;
     }
-    public function setUpdatedAtValue(): void
+    public function setFacebookId(?int $id): static
     {
-        $this->updated_at = new DateTimeImmutable();
+        $this->facebook_id = $id;
+        return $this;
     }
-
 
     public function getId(): ?int
     {
@@ -289,30 +286,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatarUrl(?string $avatar_url): static
     {
         $this->avatar_url = $avatar_url;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeImmutable
-    {
-        return $this->created_at;
-    }
-
-    public function setCreatedAt(?\DateTimeImmutable $created_at): static
-    {
-        $this->created_at = $created_at;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updated_at;
-    }
-
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
-    {
-        $this->updated_at = $updated_at;
 
         return $this;
     }
