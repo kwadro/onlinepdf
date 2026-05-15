@@ -43,12 +43,14 @@ class Facebook extends AbstractController
             $this->em->remove($user);
             $this->em->flush();
         }
+        $confirmation_code = 'abc123test!_&low';
         return new JsonResponse([
             'url' => $this->generateUrl(
                 'facebook_data_deletion_status',
                 ['id' => base64_encode($facebookUserId)],
                 true
-            )
+            ),
+            'confirmation_code' => $confirmation_code
         ]);
     }
     private function parseSignedRequest(string $signedRequest): ?array
