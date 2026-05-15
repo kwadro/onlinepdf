@@ -41,3 +41,4 @@ php bin/console app:import:csv MegaMenuSetting association
 php bin/console app:import:csv MegaMenuTranslation association
 php bin/console app:import:csv MegaMenuType association
 php bin/console app:import:csv Popularsearch association
+php bin/console app:import:csv SetSiteSetting

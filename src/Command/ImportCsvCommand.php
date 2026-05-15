@@ -34,8 +34,11 @@ class ImportCsvCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
-
         $entity = $input->getArgument('entity');
+        if($entity === 'SetSiteSetting'){
+            $this->importer->setSiteUrl($this->appDomain);
+            return Command::SUCCESS;
+        }
         $type = $input->getArgument('type');
         $file   = $input->getArgument('file')
             ?? './export/'.strtolower($entity) . '.csv';
@@ -53,7 +56,7 @@ class ImportCsvCommand extends Command
                 $this->importer->importAssociations($entity, $file);
             }
 
-            $this->importer->setSiteUrl($this->appDomain);
+
         } catch (\Throwable $e) {
             $io->error($e->getMessage());
             return Command::FAILURE;
