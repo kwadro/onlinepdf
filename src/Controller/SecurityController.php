@@ -24,7 +24,19 @@ class SecurityController extends AbstractController
         $this->httpClient = $httpClient;
         $this->emailVerifier = $emailVerifier;
     }
+    #[Route('/{_locale}/login/facebook', name: 'login_facebook')]
+    public function facebookLogin(): Response
+    {
+        $params = [
+            'client_id' => $_ENV['FACEBOOK_APP_ID'],
+            'redirect_uri' => $this->generateUrl('login_facebook_callback', [], 0),
+            'scope' => 'email',
+            'response_type' => 'code',
+        ];
 
+        $url = CustomAuthenticator::FACEBOOK_OAUTH_BASE_URL . '?' . http_build_query($params);
+        return $this->redirect($url);
+    }
 
     #[Route('/{_locale}/login/google', name: 'login_google')]
     public function googleLogin(): Response
@@ -52,7 +64,13 @@ class SecurityController extends AbstractController
             'This method can be blank - it will be intercepted by customAuthenticator.'
         );
     }
-
+    #[Route('/login/facebook/callback', name: 'login_facebook_callback')]
+    public function facebookCallback(): RedirectResponse|Response|null
+    {
+        throw new LogicException(
+            'This method can be blank - it will be intercepted by customAuthenticator.'
+        );
+    }
     #[Route(path: '/{_locale}/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {

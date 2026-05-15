@@ -7,7 +7,6 @@ use Doctrine\ORM\EntityManagerInterface;
 use Exception;
 use LogicException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,6 +37,7 @@ class CustomAuthenticator extends AbstractAuthenticator
     public const GOOGLE_OAUTH_BASE_URL = 'https://accounts.google.com/o/oauth2/v2/auth';
     public const GOOGLE_GET_TOKEN_URL = 'https://oauth2.googleapis.com/token';
     public const GOOGLE_GET_PROFILE_URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
+    const FACEBOOK_OAUTH_BASE_URL = 'https://www.facebook.com/v19.0/dialog/oauth';
     private UrlGeneratorInterface $urlGenerator;
     private HttpClientInterface $http;
     private EntityManagerInterface $em;
@@ -76,7 +76,9 @@ class CustomAuthenticator extends AbstractAuthenticator
         if ($request->attributes->get('_route') === 'login_google_callback' && $request->query->has('code')) {
             return true;
         }
-
+        if ($request->attributes->get('_route') === 'login_facebook_callback' && $request->query->has('code')) {
+            return true;
+        }
         return false;
     }
 
@@ -96,6 +98,94 @@ class CustomAuthenticator extends AbstractAuthenticator
                 new UserBadge($email),
                 new PasswordCredentials($password)
             );
+        }
+        if ($request->attributes->get('_route') === 'login_facebook_callback') {
+            $code = $request->query->get('code');
+            $tokenResponse = $this->http->request(
+                'GET',
+                'https://graph.facebook.com/v19.0/oauth/access_token',
+                [
+                    'query' => [
+                        'client_id' => $_ENV['FACEBOOK_APP_ID'],
+                        'client_secret' => $_ENV['FACEBOOK_APP_SECRET'],
+                        'redirect_uri' => $this->urlGenerator->generate(
+                            'login_facebook_callback',
+                            [],
+                            UrlGeneratorInterface::ABSOLUTE_URL
+                        ),
+                        'code' => $code,
+                    ]
+                ]
+            );
+            $tokenData = $tokenResponse->toArray();
+
+            if (empty($tokenData['access_token'])) {
+                throw new Exception('Facebook token error');
+            }
+
+            // get user data
+            $response = $this->http->request(
+                'GET',
+                'https://graph.facebook.com/me',
+                [
+                    'query' => [
+                        'fields' => 'id,name,email',
+                        'access_token' => $tokenData['access_token'],
+                    ]
+                ]
+            );
+            $facebookUser = $response->toArray();
+            $facebookId = $facebookUser['id'] ?? null;
+            $email = $facebookUser['email'] ?? null;
+            $name = $facebookUser['name'] ?? null;
+            if (!$facebookId) {
+                throw new Exception('Facebook ID missing');
+            }
+
+            $picture = null;
+            return new Passport(
+                new UserBadge($email, function ($userIdentifier) use ($name, $picture,$facebookId) {
+                    $user = $this->em->getRepository(User::class)->findOneBy(['email' => $userIdentifier]);
+                    $isNewUser = false;
+                    if (!$user) {
+                        $user = new User();
+                        $user->setEmail($userIdentifier);
+                        $randomString = bin2hex(random_bytes(16));
+                        $randomPassword = $this->userPasswordHasher->hashPassword($user, $randomString);
+                        $user->setPassword($randomPassword);
+                        $user->setFacebookId($facebookId);
+                        $isNewUser = true;
+                    }
+                    if ($name) {
+                        $names = explode(' ', $name);
+                        $user->setFirstName($names[0]);
+                        $user->setLastName($names[1] ?? '');
+                    }
+                    if ($picture) {
+                        $user->setAvatarUrl($picture);
+                    }
+                    $this->em->persist($user);
+                    $this->em->flush();
+
+                    if ($isNewUser) {
+                        $this->emailVerifier->sendEmailConfirmation(
+                            'app_verify_email',
+                            $user,
+                            (new TemplatedEmail())
+                                ->from(new Address('pdf-editor@kwadro.com.ua', 'Confirmation Mail'))
+                                ->to((string)$user->getEmail())
+                                ->subject('Please Confirm your Email')
+                                ->htmlTemplate('registration/confirmation_email.html.twig')
+                        );
+                    }
+
+                    return $user;
+                }),
+                new CustomCredentials(function ($credentials, $user) {
+                    return true;
+                }, 'facebook_oauth')
+            );
+
         }
         if ($request->attributes->get('_route') === 'login_google_callback') {
             $code = $request->query->get('code');
