@@ -7,8 +7,10 @@ use App\Security\EmailVerifier;
 use LogicException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
@@ -67,8 +69,12 @@ class SecurityController extends AbstractController
     }
 
     #[Route('/login/facebook/callback', name: 'login_facebook_callback')]
-    public function facebookCallback(): RedirectResponse|Response|null
+    public function facebookCallback(Request $request): RedirectResponse|Response|null
     {
+        $error = $request->query->get('error');
+        if ($error) {
+            return new RedirectResponse($this->generateUrl('app_login', [], 0));
+        }
         throw new LogicException(
             'This method can be blank - it will be intercepted by customAuthenticator.'
         );

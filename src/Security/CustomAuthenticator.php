@@ -40,6 +40,7 @@ class CustomAuthenticator extends AbstractAuthenticator
     const EXTERNAL_TYPE_FACEBOOK = 'facebook';
     const EXTERNAL_TYPE_GOOGLE = 'google';
     const EMAIL_REQUIRED_MESSAGE_KEY = 'EMAIL_REQUIRED';
+    const ACCESS_DENIED_MESSAGE_KEY = 'ACCESS_DENIED';
 
     private UrlGeneratorInterface $urlGenerator;
     private HttpClientInterface $http;
@@ -101,6 +102,13 @@ class CustomAuthenticator extends AbstractAuthenticator
         }
         if ($request->attributes->get('_route') === 'login_facebook_callback') {
             $code = $request->query->get('code');
+
+            if (!$code) {
+                throw new CustomUserMessageAuthenticationException(
+                    self::ACCESS_DENIED_MESSAGE_KEY
+                );
+            }
+
             $tokenResponse = $this->http->request(
                 'GET',
                 self::FACEBOOK_GET_TOKEN_URL,
@@ -264,6 +272,9 @@ class CustomAuthenticator extends AbstractAuthenticator
     {
         if ($exception->getMessageKey() === self::EMAIL_REQUIRED_MESSAGE_KEY) {
             return new RedirectResponse($this->router->generate('facebook_email'));
+        }
+        if ($exception->getMessageKey() === self::ACCESS_DENIED_MESSAGE_KEY) {
+            return new RedirectResponse($this->router->generate('app_login'));
         }
 
         $email = $request->request->get('_username', '');
