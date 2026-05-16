@@ -46,7 +46,7 @@ readonly class UserManager
         }
         if ($externalId) {
             $user->setExternalId($externalId);
-            $user->setExternalId($externalType);
+            $user->setExternalType($externalType);
         }
         $this->em->persist($user);
         $this->em->flush();
