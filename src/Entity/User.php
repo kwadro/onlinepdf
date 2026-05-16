@@ -63,9 +63,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar_url = null;
 
-    #[ORM\Column(type:"integer", nullable:true)]
-    private ?int $facebook_id = null;
-
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $external_id = null;
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $external_type = null;
     #[ORM\OneToMany(
         targetEntity: RecipeTranslation::class,
         mappedBy: 'user',
@@ -100,16 +101,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->recipes;
     }
-    public function getFacebookId(): ?int
+    public function getExternalId(): ?string
     {
-        return $this->facebook_id;
+        return $this->external_id;
     }
-    public function setFacebookId(?int $id): static
+    public function setExternalId(?string $externalId): static
     {
-        $this->facebook_id = $id;
+        $this->external_id = $externalId;
         return $this;
     }
-
+    public function getExternalType(): ?string
+    {
+        return $this->external_type;
+    }
+    public function setExternalType(?string $externalType): static
+    {
+        $this->external_type = $externalType;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;

@@ -36,7 +36,7 @@ class AuthorController extends AbstractController
                 'breadcrumbs' => [],
             ]);
         }
-
+        $id = (int)$id - 1253;
         $recipeUser = $userRepository->findOneById($id);
         $breadCrumbs = $this->breadcrumbs->loadBreadCrumbsByAuthor($recipeUser);
 

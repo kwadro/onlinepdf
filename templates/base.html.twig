@@ -32,7 +32,11 @@
             f.parentNode.insertBefore(j, f);
         })(window, document, 'script', 'dataLayer', '{{setting.seo.gtm_code}}');</script>
     <!-- End Google Tag Manager -->
-
+    <script>
+        if (location.hash === '#_=_') {
+            history.replaceState('', document.title, location.pathname + location.search);
+        }
+    </script>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
 

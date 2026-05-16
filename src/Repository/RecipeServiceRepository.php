@@ -142,12 +142,12 @@ class RecipeServiceRepository extends ServiceEntityRepository
             ->andWhere('t.slug = :slug')
             ->andWhere('t.locale = :locale')
             ->andWhere('t.is_active = :is_active')
-            ->andWhere('t.publish = :publish')
+
             ->setParameter('site', $site)
             ->setParameter('slug', $slug)
             ->setParameter('locale', $locale)
             ->setParameter('is_active', 'Yes')
-            ->setParameter('publish', 'Yes')
+
             ->orderBy('s.position', 'ASC')
             ->getQuery();
         $query->setHint(Query::HINT_REFRESH, true);

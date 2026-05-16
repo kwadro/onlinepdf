@@ -12,7 +12,11 @@
                             {{ message }}
                         </div>
                     {% endfor %}
-
+                    {% for message in app.flashes('error') %}
+                        <div class="alert alert-error">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
                     {{ form_start(ContactFormType) }}
                     {{ form_row(ContactFormType.full_name , {'attr': {'class': 'mb-1 form-control name'}}) }}
                     {{ form_row(ContactFormType.email, {'attr': {'class': 'mb-1 form-control email'}}) }}

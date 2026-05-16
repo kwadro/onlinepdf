@@ -223,3 +223,7 @@ please send an email to: 'надішліть електронного листа
 We will delete your data within 30 days.: 'Ми видалимо ваші дані протягом 30 днів.'
 This recipe is private (or not confirmed).: 'Цей рецепт є приватним (або не підтвердженим).'
 This recipe is private (or not confirmed) and available only for you.: 'Цей рецепт є приватним (або не підтвердженим) і доступний лише для вас.'
+Sign in with Facebook: 'Продовжити з Facebook'
+email.already_exists: 'Email %email% вже існує.'
+We were unable to read the email associated with your Facebook account: 'Ми не змогли прочитати електронну пошту в твоєму Facebook акаунті'
+Set up your email: 'Встановіть  пошту'

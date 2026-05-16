@@ -24,13 +24,14 @@ class SecurityController extends AbstractController
         $this->httpClient = $httpClient;
         $this->emailVerifier = $emailVerifier;
     }
+
     #[Route('/{_locale}/login/facebook', name: 'login_facebook')]
     public function facebookLogin(): Response
     {
         $params = [
             'client_id' => $_ENV['FACEBOOK_APP_ID'],
             'redirect_uri' => $this->generateUrl('login_facebook_callback', [], 0),
-            'scope' => 'email',
+            'scope' => 'public_profile, email',
             'response_type' => 'code',
         ];
 
@@ -64,6 +65,7 @@ class SecurityController extends AbstractController
             'This method can be blank - it will be intercepted by customAuthenticator.'
         );
     }
+
     #[Route('/login/facebook/callback', name: 'login_facebook_callback')]
     public function facebookCallback(): RedirectResponse|Response|null
     {
@@ -71,12 +73,12 @@ class SecurityController extends AbstractController
             'This method can be blank - it will be intercepted by customAuthenticator.'
         );
     }
+
     #[Route(path: '/{_locale}/login', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
-
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();

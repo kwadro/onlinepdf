@@ -70,7 +70,7 @@ class CollectionController extends AbstractController
         $message = '';
         if ($recipe->getRecipetranslations()[0]->getConfirmation() === 'No') {
             $user = $this->getUser();
-            if (!($user && $user->getId() === $recipe->getRecipetranslations()[0]->getUser()->getId())) {
+            if (!($user && (int)$user->getId() === (int)$recipe->getRecipetranslations()[0]->getUser()->getId())) {
                 $message = 'This recipe is private (or not confirmed).';
                 return $this->render('recipe/access_denied.html.twig', [
                     'message' => $message,

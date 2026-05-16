@@ -92,7 +92,7 @@ class AccountController extends AbstractController
                 'label' => 'Закрити'
             ])->add('delete', SubmitType::class, [
                 'label' => 'Видалити'
-            ]);;
+            ]);
             $form->handleRequest($request);
             $ajaxUrl = $this->generateUrl('recipe_image_update');
             if ($form->isSubmitted()) {
@@ -292,6 +292,8 @@ class AccountController extends AbstractController
             $translation->setLocale($localeObject);
             $translation->setRecipe($recipe);
             $translation->setIsActive('Yes');
+            $translation->setConfirmation('No');
+            $translation->setPublish('No');
             $translation->setName('Новий рецепт');
             $userObject = $em->getRepository(User::class)->find($user->getId());
             $translation->setUser($userObject);

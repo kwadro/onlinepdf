@@ -24,7 +24,7 @@
             {% set avatarimage = 'https://placehold.in/200' %}
         {% endif %}
 
-        {% set account_name = '@cook-1000' ~ recipeUser.id %}
+        {% set account_name = '@cook-' ~ (recipeUser.id+1253) %}
 
         {% set user_button = 'Add name'|trans %}
         {% set user_class = '' %}
@@ -54,7 +54,7 @@
             </button>
     </div>
         <div class="col-4">
-            <div class="col d-flex flex-row justify-content-start align-items-center">
+            <div class="col mb-1 d-flex flex-row justify-content-start align-items-center">
                 <div id="user-full-name"
                     class="editing-field"
                     data-editing-target="fullName"
@@ -71,6 +71,11 @@
                 >
                     {{ user_button }}
                 </button>
+            </div>
+            <div class="col mb-1 d-flex flex-row justify-content-start align-items-center">
+                <div id="user-email">
+                    {{ recipeUser.email }}
+                </div>
             </div>
             <div class="col my-3 d-flex flex-row justify-content-start align-items-center">
                 {{ account_name }}

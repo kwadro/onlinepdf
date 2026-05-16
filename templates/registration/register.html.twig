@@ -43,6 +43,13 @@
                                 <span class="">{{ 'Register with Google'|trans }}</span>
                             </button>
                         </a>
+                        {% include "service/horisontal-text.html.twig" with {'content':"OR"} %}
+                        <a href="{{ path('login_facebook') }}" >
+                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
+                                <img src="{{ absolute_url(asset('images/icons/facebook.png')) }}" alt="{{ 'Facebook Logo'|trans }}" class="me-2" width="24" height="24">
+                                <span class="">{{ 'Sign in with Facebook'|trans }}</span>
+                            </button>
+                        </a>
                         {% include "service/horisontal-text.html.twig" with {'content':'If you have an account?'|trans } %}
 
                         <a href="{{ path('app_login') }}" >
