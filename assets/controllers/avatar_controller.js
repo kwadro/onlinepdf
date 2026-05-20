@@ -19,8 +19,8 @@ export default class extends Controller {
         }
 
         // validate size (2MB)
-        if (file.size > 2 * 1024 * 1024) {
-            alert('Max file size is 2MB');
+        if (file.size > 3 * 1024 * 1024) {
+            alert('Max file size is 3MB');
             this.inputTarget.value = '';
             return;
         }
