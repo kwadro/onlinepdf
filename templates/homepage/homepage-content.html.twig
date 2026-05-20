@@ -22,17 +22,20 @@
     </div>
 </div>
 
-{% include "homepage/popular_search_words.html.twig" with {
+{% include "homepage/block-popular_search_words.html.twig" with {
     'popularSearchWords': popularSearchWords,
     'favoriteIds': favoriteIds,
 } %}
 
-{% include "homepage/popular_recipes.html.twig" with {
+{% include "homepage/block-popular_recipes.html.twig" with {
     'recipes': popularRecipes,
     'favoriteIds': favoriteIds
 } %}
-
-{% include "homepage/recently_recipes.html.twig" with {
+{% include "homepage/block-favoritelist.html.twig" with {
+    'recipes': favoriteRecipes,
+    'favoriteIds': favoriteIds
+} %}
+{% include "homepage/block-recently_recipes.html.twig" with {
     'recipes': recentlyRecipes,
     'favoriteIds': favoriteIds
 } %}

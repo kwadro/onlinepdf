@@ -6,7 +6,6 @@ use App\Entity\Locale;
 use App\Entity\RecipeTranslation;
 use App\Entity\User;
 use App\Form\Type\CustomAddselectType;
-
 use App\Form\Type\UserType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -58,7 +57,6 @@ class RecipeTranslationType extends AbstractType
                     'rows' => '1'
                 ]]
             )
-
             ->add('notes', TextareaType::class,
                 ['attr' => [
                     'data-controller' => 'smarttextarea',
@@ -97,17 +95,14 @@ class RecipeTranslationType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
-            ])
-         ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => RecipeTranslation::class,
-            'csrf_protection' => true,
-            'csrf_field_name' => '_token',
-            'csrf_token_id'   => 'recipetranslation_form',
+            'csrf_protection' => false,
             'locale' => null,
         ]);
     }

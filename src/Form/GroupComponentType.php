@@ -7,12 +7,14 @@ use App\Entity\GroupComponent;
 use App\Entity\Ingredient;
 use App\Entity\Unit;
 use App\Form\Type\CustomAddselectType;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -26,6 +28,7 @@ class GroupComponentType extends AbstractType
                 'position',
                 HiddenType::class,
                 [
+                    'label' => 'form.position',
                     'attr' => [
                         'class' => 'mb-1 form-control position'
                     ]
@@ -67,9 +70,6 @@ class GroupComponentType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => GroupComponent::class,
-            'csrf_protection' => true,
-            'csrf_field_name' => '_token',
-            'csrf_token_id' => 'group_component_form',
             'locale' => null,
         ]);
     }

@@ -57,7 +57,8 @@
         "symfonycasts/verify-email-bundle": "^1.18",
         "twig/extra-bundle": "^2.12|^3.23",
         "twig/twig": "^2.12|^3.23",
-        "ext-simplexml": "*"
+        "ext-simplexml": "*",
+        "ext-imagick": "*"
     },
     "config": {
         "allow-plugins": {

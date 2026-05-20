@@ -14,7 +14,13 @@ export default class extends Controller {
             this.addListeners();
         });
 
+
     }
+    saveScroll() {
+        console.log('saveScroll',window.scrollY);
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+    }
+
     measure() {
         this.rightContent = document.getElementById('rightContent');
 

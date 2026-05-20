@@ -10,7 +10,6 @@ function loadTargets(){
         values.push(`countSpan${field}`)
         values.push(`countWarning${field}`)
     })
-    console.log('values loadTargets : ', values)
     return values;
 }
 function loadValues(){
@@ -18,7 +17,6 @@ function loadValues(){
     AVAILABLE_FIELDS.forEach((field)=>{
         values[`maxLength${ucFirst(field)}`] = String
     })
-    console.log('values Values : ', values)
     return values;
 }
 function loadCountWarning(){
@@ -26,7 +24,6 @@ function loadCountWarning(){
     AVAILABLE_FIELDS.forEach((field)=>{
         values[ucFirst(field)] = false;
     })
-    console.log('values CountWarning : ', values)
     return values;
 }
 function ucFirst(str) {

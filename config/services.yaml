@@ -10,6 +10,7 @@ parameters:
     app.zip_upload_directory: '%kernel.project_dir%/public/uploads/files'
     app.avatar_upload_directory: '%kernel.project_dir%/public/uploads/avatars'
     app.recipe_upload_directory: '%kernel.project_dir%/public/uploads/recipes'
+    app.facebook_generate_directory: '%kernel.project_dir%/public/facebook'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -29,6 +30,10 @@ services:
         arguments:
             $targetDirectory: '%app.zip_upload_directory%'
             $targetAvatarDirectory: '%app.avatar_upload_directory%'
+    App\Service\GenerateFacebookPostImage:
+        arguments:
+            $generateDirectory: '%app.facebook_generate_directory%'
+            $uploadRecipeDirectory: '%app.recipe_upload_directory%'
     App\Import\Handler\:
         resource: '../src/Import/Handler'
         autowire: true

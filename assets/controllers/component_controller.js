@@ -8,17 +8,32 @@ export default class extends Controller {
     static targets = ['container'];
 
     connect() {
-        this.index = this.containerTarget.querySelectorAll('.container-recipe-component-item').length;
-
-        this.sortable = new Sortable(this.containerTarget, {
-            animation: 150,
-            onEnd: () => this.updatePositions()
-        });
+        if (this.hasContainerTarget) {
+            this.index = this.containerTarget.querySelectorAll('.container-recipe-component-item').length;
+            this.sortable = new Sortable(this.containerTarget, {
+                animation: 150,
+                onEnd: () => this.updatePositions()
+            });
+        } else {
+            this.index = 0;
+        }
     }
-
+    setStatusSaveButton( saveButton, status){
+        console.log('setStatusSaveButton saveButton',saveButton)
+        console.log('setStatusSaveButton status',status)
+        if(saveButton){
+            if(status){
+                saveButton.classList.remove('d-none');
+            }else{
+                saveButton.classList.add('d-none');
+            }
+        }
+    }
     add(event) {
         event.preventDefault();
-        console.log('add component clicked')
+        if (!this.hasContainerTarget) {
+            return;
+        }
         const prototype = this.containerTarget.dataset.prototype;
         const newForm = prototype.replace(/__name__/g, this.index);
 
@@ -30,31 +45,31 @@ export default class extends Controller {
         // remove button
         const removeBtn = document.createElement('button');
         removeBtn.type = 'button';
-        removeBtn.className = 'remove-step';
+        removeBtn.className = 'remove-component';
         removeBtn.innerHTML = 'X';
-        removeBtn.addEventListener('click', (event) =>{
+        removeBtn.addEventListener('click', (event) => {
             event.preventDefault();
-            console.log('start 1 : ', document.getElementById('rightContent').offsetHeight)
+            const rightContentStart = document.getElementById('rightContent').offsetHeight;
+            console.log('start 1 : ', rightContentStart)
             div.remove();
-            console.log('finish 1 : ', document.getElementById('rightContent').offsetHeight)
-            document.body.style.height = (document.getElementById('rightContent').offsetHeight - 255) + 'px';
+            this.updateUi(rightContentStart);
         });
         div.appendChild(removeBtn);
         this.containerTarget.appendChild(div);
+
+        const groupItemElement = event.currentTarget.closest('.container-recipe-group-component-item');
+        const saveButton = groupItemElement.querySelector('.group-save');
+        this.setStatusSaveButton(saveButton,true)
         this.index++;
         document.body.style.height = (document.getElementById('rightContent').offsetHeight + 255) + 'px';
     }
 
     remove(event) {
         event.preventDefault();
-
-        console.log('start:',document.getElementById('rightContent').offsetHeight)
+        const rightContentStart = document.getElementById('rightContent').offsetHeight;
+        console.log('rightContent start: ', rightContentStart)
         event.target.closest('.container-recipe-component-item').remove();
-        console.log('finish:',document.getElementById('rightContent').offsetHeight)
-        this.autoSubmit();
-        if(document.getElementById('rightContent').offsetHeight) {
-            document.body.style.height = (document.getElementById('rightContent').offsetHeight - 255) + 'px';
-        }
+        this.updateUi(rightContentStart);
     }
 
     disconnect() {
@@ -71,32 +86,26 @@ export default class extends Controller {
                 const input = item.querySelector('input[name*="[position]"]');
                 if (input) input.value = index + 1;
             });
-        this.autoSavePosition().then(r => {
-            console.log('response : ', r)
-        });
-        this.autoSubmit();
     }
 
     async autoSavePosition() {
         console.log('autoSave  position')
         if (!this.hasAutosaveUrlValue) return;
     }
-
-    autoSubmit() {
-        const form = document.querySelector('form');
-        console.log('form ', form)
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(() => {
-                console.log('Saved!');
-            })
-            .catch(() => {
-                console.error('Save error');
-            });
+    updateUi(rightContentStart) {
+        const rightElement = document.getElementById('rightContent')
+        if (rightElement) {
+            const rightContentFinish =rightElement.offsetHeight;
+            console.log('rightContent finish: ', rightContentFinish)
+            const diff = rightContentStart - rightContentFinish;
+            console.log('rightContent diff: ', diff)
+            const bodyHeightStart = document.body.offsetHeight;
+            console.log('body start height: ', document.body.offsetHeight)
+            console.log('body height: ', document.body.style.height)
+            const bodyHeightFinish = (bodyHeightStart - diff) + 'px'
+            console.log('body heightFinish: ', bodyHeightFinish)
+            // recalculate body height
+            document.body.style.height = bodyHeightFinish
+        }
     }
 }

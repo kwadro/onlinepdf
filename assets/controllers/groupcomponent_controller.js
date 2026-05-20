@@ -8,27 +8,72 @@ export default class extends Controller {
     static targets = ['container'];
 
     connect() {
-        this.index = this.containerTarget.querySelectorAll('.container-recipe-group-component-item').length;
-
-        this.sortable = new Sortable(this.containerTarget, {
-            animation: 150,
-            onEnd: () => this.updatePositions()
-        });
+        this.statusSave ={};
+        if (this.hasContainerTarget) {
+            const groupItemElements = this.containerTarget.querySelectorAll('.container-recipe-group-component-item');
+            this.index = groupItemElements.length;
+            this.sortable = new Sortable(this.containerTarget, {
+                animation: 150,
+                onEnd: () => this.updatePositions()
+            });
+        } else {
+            this.index = 0;
+        }
+        // only one time scroll
+        const scrollPosition = sessionStorage.getItem('scrollPosition');
+        console.log('loadScroll',scrollPosition);
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('scrollPosition');
+        }
     }
-
     add(event) {
+        const self = this;
         event.preventDefault();
+        if (!this.hasContainerTarget) {
+            return;
+        }
         const prototype = this.containerTarget.dataset.prototype;
         const newForm = prototype.replace(/__name__/g, this.index);
 
+        const componentFormElement = this.containerTarget.querySelector('.recipecomponents');
+        let componentForm = '';
+        let componentPrototype = null;
+        if (componentFormElement) {
+            componentPrototype = componentFormElement.dataset.prototype;
+            componentForm = componentPrototype.replace(/__name__/g, this.index);
+        }
         const div = document.createElement('div');
         div.classList.add('container-recipe-group-component-item');
+        div.classList.add('collection');
+        div.setAttribute(
+            'data-controller',
+            'component'
+        );
         div.innerHTML = newForm;
 
-        if(div.querySelector('input[name*="[position]"]')){
+        if (div.querySelector('input[name*="[position]"]')) {
             div.querySelector('input[name*="[position]"]').value = this.index + 1;
         }
 
+        // save button
+        const buttonSaveDiv = document.createElement('div');
+        buttonSaveDiv.className = 'group-save d-none';
+
+        const buttonSave = document.createElement('button');
+        buttonSave.type = 'button';
+        buttonSave.className = 'mb-1 fs-6 btn btn-success';
+        buttonSave.id = 'recipe_save';
+        buttonSave.setAttribute(
+            'data-action',
+            'click->scroll#saveScroll'
+        );
+        buttonSave.setAttribute(
+            'name',
+            'recipe[save]'
+        );
+        buttonSave.innerHTML = 'Зберегти';
+        buttonSaveDiv.appendChild(buttonSave)
 
         // remove button
         const removeBtn = document.createElement('button');
@@ -36,13 +81,75 @@ export default class extends Controller {
         removeBtn.className = 'remove-step';
         removeBtn.innerHTML = 'X';
         removeBtn.addEventListener('click',
-            ()=>{
-                console.log('start 1 : ',document.getElementById('rightContent').offsetHeight)
+            () => {
                 div.remove();
-                console.log('finish 1 : ',document.getElementById('rightContent').offsetHeight)
-                document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
-        });
+                this.updateUi();
+                this.index--;
+            });
         div.appendChild(removeBtn);
+
+        const buttonAdd = document.createElement('button');
+        buttonAdd.type = 'button';
+        buttonAdd.id = 'add-component';
+        buttonAdd.className = 'add-component';
+
+        buttonAdd.setAttribute(
+            'data-action',
+            'click->component#add'
+        );
+
+        buttonAdd.setAttribute('title', 'Add Component');
+
+        buttonAdd.textContent = '+';
+        if (3===4 && componentPrototype) {
+            const divComponent = document.createElement('div');
+            divComponent.innerHTML = componentForm;
+            divComponent.classList.add('recipecomponents');
+            divComponent.setAttribute(
+                'id',
+                'recipe-components'
+            );
+            divComponent.setAttribute(
+                'data-sotable-target',
+                'container'
+            );
+            divComponent.setAttribute(
+                'data-component-target',
+                'container'
+            );
+
+            divComponent.setAttribute(
+                'data-prototype',
+                componentPrototype
+            );
+            const innerDiv = divComponent.firstElementChild;
+            const divComponentContainer = document.createElement('div');
+            divComponentContainer.classList.add('container-recipe-component-item');
+            divComponentContainer.classList.add('collection');
+            divComponentContainer.setAttribute(
+                'data-controller',
+                'component'
+            );
+            if (innerDiv) {
+                divComponentContainer.innerHTML = innerDiv.outerHTML;
+            }
+            const buttonClose = document.createElement('button');
+            buttonClose.type = 'button';
+            buttonClose.className = 'remove-component';
+            buttonClose.setAttribute('title', 'Remove Component');
+            buttonClose.textContent = 'X';
+            buttonClose.setAttribute(
+                'data-action',
+                'click->component#remove'
+            );
+
+            divComponentContainer.appendChild(buttonClose);
+            divComponent.innerHTML = divComponentContainer.outerHTML;
+            // div.appendChild(buttonSaveDiv);
+            div.appendChild(divComponent);
+            div.appendChild(buttonAdd);
+
+        }
         this.containerTarget.appendChild(div);
         this.index++;
         document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
@@ -50,12 +157,11 @@ export default class extends Controller {
 
     remove(event) {
         event.preventDefault();
-        console.log('start: ',document.getElementById('rightContent').offsetHeight)
+        console.log('start: ', document.getElementById('rightContent').offsetHeight)
+        //removed block
         event.target.closest('.container-recipe-group-component-item').remove();
-        console.log('finish: ',document.getElementById('rightContent').offsetHeight)
-        console.log('body height: ',document.body.style.height)
-        this.autoSubmit();
-        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
+        this.updateUi();
+        this.index--;
     }
 
     disconnect() {
@@ -66,38 +172,28 @@ export default class extends Controller {
 
     }
 
-    updatePositions() {
-        this.element.querySelectorAll('.recipe-group-component-item')
-            .forEach((item, index) => {
-                const input = item.querySelector('input[name*="[position]"]');
-                if (input) input.value = index + 1;
-            });
-        this.autoSavePosition().then(r => {
-            console.log('response : ', r)
-        });
+    updateUi() {
+        console.log('start: ', document.getElementById('rightContent').offsetHeight)
+        //update positions after remove block
+        this.updatePositions()
+        //save data after remove block
         this.autoSubmit();
-    }
+        console.log('finish: ', document.getElementById('rightContent').offsetHeight)
+        console.log('body height: ', document.body.style.height)
 
-    async autoSavePosition() {
-        console.log('autoSave  position')
-        if (!this.hasAutosaveUrlValue) return;
+        // recalculate body height
+        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
     }
 
     autoSubmit() {
-        const form = document.querySelector('form');
-        console.log('form ', form)
-        const formData = new FormData(form);
+        document.getElementById('recipe_save').click();
+    }
 
-        fetch(form.action, {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => response.text())
-            .then(() => {
-                console.log('Saved!');
-            })
-            .catch(() => {
-                console.error('Save error');
+    updatePositions() {
+        this.element.querySelectorAll('.container-recipe-group-component-item')
+            .forEach((item, index) => {
+                const input = item.querySelector('input[name*="[position]"]');
+                if (input) input.value = index + 1;
             });
     }
 }

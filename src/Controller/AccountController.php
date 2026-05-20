@@ -13,7 +13,10 @@ use App\Repository\RecipeRepository;
 use App\Repository\RecipeServiceRepository;
 use App\Repository\RecipeViewRepository;
 use App\Repository\UserRepository;
+use App\Service\GenerateFacebookPostImage;
 use Doctrine\ORM\EntityManagerInterface;
+use ImagickDrawException;
+use ImagickException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -59,11 +62,16 @@ class AccountController extends AbstractController
         return $this->redirectToRoute('app_login');
     }
 
+    /**
+     * @throws ImagickException
+     * @throws ImagickDrawException
+     */
     #[Route('/recipe-editor/{id}/edit', name: 'recipe_edit')]
     public function edit(
         Request $request,
         EntityManagerInterface $em,
         RecipeServiceRepository $recipeServiceRepository,
+        GenerateFacebookPostImage $generateFacebookPostImage,
         $id
     ): Response {
         if ($user = $this->getUser()) {
@@ -92,10 +100,25 @@ class AccountController extends AbstractController
                 'label' => 'Закрити'
             ])->add('delete', SubmitType::class, [
                 'label' => 'Видалити'
+            ])->add('generate', SubmitType::class, [
+                'label' => 'Генерувати Facebook пост'
             ]);
             $form->handleRequest($request);
             $ajaxUrl = $this->generateUrl('recipe_image_update');
             if ($form->isSubmitted()) {
+                if ($form->get('generate')->isClicked()) {
+                    $entity = $form->getData();
+                    $image = $entity->getImage();
+                    $imagePath = $this->getParameter('app.recipe_upload_directory') . '/' . $image;
+                    $facebookPath = $generateFacebookPostImage->execute($entity);
+
+                    return $this->redirectToRoute('recipe_edit', [
+                        'id' => $entity->getId(),
+                        'facebookPath' => $facebookPath,
+
+                    ]);
+                }
+
                 if ($form->get('delete')->isClicked()) {
                     $entity = $form->getData();
                     foreach ($entity->getRecipeTranslations() as $translation) {
@@ -123,7 +146,7 @@ class AccountController extends AbstractController
                     }
                 }
             } else {
-                return $this->render('security/account/edit-recipe.html.twig', [
+                return $this->render('security/account/edit-recipe-2.html.twig', [
                     'form' => $form->createView(),
                     'user' => $user,
                     'recipe' => $recipe,
@@ -220,6 +243,7 @@ class AccountController extends AbstractController
                                 $hasSubField = true;
                                 $elements = $translation->getRecipesteps();
                         }
+
                         $subClassName = str_replace(
                             ' ',
                             '',
@@ -230,6 +254,7 @@ class AccountController extends AbstractController
                             $added = false;
                             $currentPosition = 0;
                             foreach ($elements as $element) {
+
                                 if ($element->getPosition() == $positionId) {
                                     $element->$method($value);
                                     $entityManager->persist($element);
@@ -237,6 +262,7 @@ class AccountController extends AbstractController
                                 }
                                 $currentPosition = $element->getPosition();
                             }
+
                             if (!$added) {
                                 $subFullClassName = 'App\Entity\\' . $subClassName;
                                 $newElement = new $subFullClassName();
@@ -259,6 +285,7 @@ class AccountController extends AbstractController
                                 $translation->$method($value);
                                 $entityManager->persist($translation);
                             }
+
                         }
                     }
                 }
@@ -267,7 +294,11 @@ class AccountController extends AbstractController
                 $entityManager->persist($recipe);
             }
             $entityManager->flush();
-            return new JsonResponse(['success' => true]);
+            return new JsonResponse([
+                'success' => true,
+                'field' => $data['field'],
+                'position' => $positionId,
+            ]);
         }
     }
 

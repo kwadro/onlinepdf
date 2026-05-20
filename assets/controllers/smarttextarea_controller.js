@@ -1,16 +1,16 @@
-import { Controller } from '@hotwired/stimulus';
+import {Controller} from '@hotwired/stimulus';
 
 export default class extends Controller {
 
     static values = {
-        trim: { type: Boolean, default: true },
-        debounce: { type: Number, default: 200 },
+        trim: {type: Boolean, default: true},
+        debounce: {type: Number, default: 200},
         autosaveUrl: String
     };
-    debounceValue= 500;
+    debounceValue = 500;
+
     connect() {
         this.textarea = this.element;
-
         this.createUI();
         this.init();
         this.bindEvents();
@@ -30,13 +30,23 @@ export default class extends Controller {
         this.inputHandler = this.debounce(() => {
             this.animateResize();
             this.updateUI();
-            this.autoSave().then(r => {console.log('autoSave r : ',r)});
+            this.autoSave().then(r => {
+                console.log('input autosave success')
+            }).catch(e => {
+                console.log('error : ', e);
+            })
+
         });
 
         this.blurHandler = () => {
             if (this.trimValue) {
                 this.textarea.value = this.textarea.value.trim();
                 this.updateUI();
+                this.autoSave().then(r => {
+                    console.log('blur autosave success')
+                }).catch(e => {
+                    console.log('error : ', e);
+                })
             }
         };
 
@@ -79,6 +89,8 @@ export default class extends Controller {
     }
 
     updateUI() {
+
+
         const max = parseInt(this.textarea.getAttribute('maxlength'));
         const length = this.textarea.value.length;
 
@@ -111,9 +123,7 @@ export default class extends Controller {
         try {
             const recipeId = document.getElementById('recipe_id').value;
             const positionId = this.element.closest('.collection')?.querySelector('input[name*="[position]"]')?.value;
-            console.log('area autosave ',recipeId)
-            console.log('area positionId ',positionId)
-            await fetch(this.autosaveUrlValue, {
+            const response = await fetch(this.autosaveUrlValue, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -126,9 +136,23 @@ export default class extends Controller {
                     locale_code: this.textarea.getAttribute('locale')
                 })
             });
+            const data = await response.json();
+            if (data.success && data.field === 'recipe_translations-group_components-name') {
+                const addButton = this.element.closest('.container-recipe-group-component-item')?.querySelector('.add-component');
+                if (!addButton?.id) {
+                    this.reloadPage()
+                }
+            }
         } catch (e) {
             console.warn('Autosave failed', e);
         }
+        return JSON.stringify({'success': 'OK'})
+    }
+
+    reloadPage() {
+        console.log('reload saveScroll', window.scrollY);
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+        window.location.reload();
     }
 
     debounce(callback) {

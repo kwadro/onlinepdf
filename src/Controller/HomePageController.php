@@ -7,8 +7,6 @@ namespace App\Controller;
 use App\Repository\FavoriteListRepository;
 use App\Repository\PopularsearchRepository;
 use App\Repository\RecipeAuthorRepository;
-use App\Repository\RecipeCategoryRepository;
-use App\Repository\RecipeRepository;
 use App\Repository\RecipeServiceRepository;
 use App\Repository\RecipeViewRepository;
 use App\Service\Breadcrumbs;
@@ -36,7 +34,6 @@ class HomePageController extends AbstractController
         CsrfTokenManagerInterface $csrfTokenManager,
         FavoriteListRepository $favoriteListRepository
     ): Response {
-
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
 
@@ -53,7 +50,7 @@ class HomePageController extends AbstractController
         );
         $popularRecipes = $recipeServiceRepository->findPopularValues($site->getId(), $localeObject->getId());
         $recentlyRecipes = [];
-        if($user = $this->getUser()) {
+        if ($user = $this->getUser()) {
             $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
             $site = $request->attributes->get('site');
             $localeObject = $request->attributes->get('localeObject');
@@ -64,7 +61,7 @@ class HomePageController extends AbstractController
             );
         }
         $favoriteRecipeIds = [];
-        if($user = $this->getUser()) {
+        if ($user = $this->getUser()) {
             $favoriteRecipeIds = $favoriteListRepository->loadFavoriteRecipeIds(
                 $user->getId(),
                 $site->getId(),
@@ -77,7 +74,7 @@ class HomePageController extends AbstractController
             'recipes' => $recipes,
             'popularRecipes' => $popularRecipes,
             'recentlyRecipes' => $recentlyRecipes,
-            'favoriteIds'=>$favoriteRecipeIds,
+            'favoriteIds' => $favoriteRecipeIds,
             'searchAjaxUrl' => $searchAjaxUrl,
             'keyword' => $keyword,
             'csrf_token_search' => $tokenSearch
@@ -118,7 +115,7 @@ class HomePageController extends AbstractController
 
         $recentlyRecipes = [];
         $recentlyRecipesIds = [];
-        if($user = $this->getUser()) {
+        if ($user = $this->getUser()) {
             $recentlyRecipesIds = $recipeViewRepository->loadRecentlyViewedRecipeIds($user->getId());
             $recentlyRecipes = $recipeServiceRepository->loadItemsByIds(
                 $recentlyRecipesIds,
@@ -129,26 +126,36 @@ class HomePageController extends AbstractController
             usort($recentlyRecipes, function ($a, $b) use ($map) {
                 return $map[$a->getId()] <=> $map[$b->getId()];
             });
-
         }
 
         $searchAjaxUrl = $this->generateUrl('search_ajax_data');
         $tokenSearch = $csrfTokenManager->getToken('search_form')->getValue();
         $popularSearchWords = $popularSearchRepository->findAllBySiteAndLocale($site->getId(), $localeObject->getId());
         $favoriteRecipeIds = [];
-        if($user = $this->getUser()) {
+        $favoriteRecipes = [];
+        if ($user = $this->getUser()) {
             $favoriteRecipeIds = $favoriteListRepository->loadFavoriteRecipeIds(
                 $user->getId(),
                 $site->getId(),
                 $localeObject->getId()
             );
+            $favoriteRecipes = $recipeServiceRepository->loadItemsByIds(
+                $favoriteRecipeIds,
+                $site->getId(),
+                $localeObject->getId()
+            );
+            $map = array_flip($favoriteRecipeIds);
+            usort($favoriteRecipes, function ($a, $b) use ($map) {
+                return $map[$a->getId()] <=> $map[$b->getId()];
+            });
         }
         return $this->render('homepage/index.html.twig', [
             'recipes' => $recipes,
             'popularRecipes' => $popularRecipes,
             'recentlyRecipesIds' => $recentlyRecipesIds,
             'recentlyRecipes' => $recentlyRecipes,
-            'favoriteIds'=>$favoriteRecipeIds,
+            'favoriteIds' => $favoriteRecipeIds,
+            'favoriteRecipes' => $favoriteRecipes,
             'popularSearchWords' => $popularSearchWords,
             'breadcrumbs' => $breadCrumbs,
             'searchAjaxUrl' => $searchAjaxUrl,
