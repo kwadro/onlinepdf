@@ -22,12 +22,12 @@
             <h5 class="text-center">{{ 'We not found any recipe'|trans }}</h5>
         {% endif %}
     </div>
-    {% include "homepage/popular_recipes.html.twig" with {
+    {% include "homepage/block-popular_recipes.html.twig" with {
         'recipes': popularRecipes,
         'favoriteIds': favoriteIds
     } %}
 
-    {% include "homepage/recently_recipes.html.twig" with {
+    {% include "homepage/block-recently_recipes.html.twig" with {
         'recipes': recentlyRecipes,
         'favoriteIds': favoriteIds
     } %}
