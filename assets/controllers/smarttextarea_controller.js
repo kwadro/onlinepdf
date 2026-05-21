@@ -89,16 +89,15 @@ export default class extends Controller {
     }
 
     updateUI() {
-
-
         const max = parseInt(this.textarea.getAttribute('maxlength'));
-        const length = this.textarea.value.length;
+        if (!max) return;
 
+        const length = this.textarea.value.length;
         this.counter.textContent = max
             ? `${length} / ${max}`
             : `${length}`;
 
-        if (!max) return;
+
 
         const percent = Math.min((length / max) * 100, 100);
 

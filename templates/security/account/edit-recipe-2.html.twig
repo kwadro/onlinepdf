@@ -1,5 +1,5 @@
 {% set setting = site_settings() %}
-{% extends "base.html.twig" %}
+{% extends "base-account.html.twig" %}
 {% block main %}
     {% if recipe.recipetranslations[0].confirmation ==='Yes' %}
         <div class="px-2 mt-3 d-flex justify-content-start gap-2 w-100">
@@ -15,7 +15,7 @@
             'attr':{'class': 'mb-1 fs-6 btn btn-success',
                 'data-action': 'click->scroll#saveScroll'}
         }) %}
-        <div class="px-2 mt-3 d-flex justify-content-start gap-2">
+        <div class="px-2 mt-3 d-flex justify-content-start gap-2 flex-wrap">
             {{ saveButton |raw}}
             {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
             {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
@@ -35,11 +35,10 @@
             {% endif %}
         </div>
 
-        <div class="recipe-edit-page row">
+        <div class="recipe-edit-page">
             <div class="row">
                 <div class="col-12 col-xxl-3 mb-3">
                     <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-center user-select-none" >
-
                         {% set image_button = 'Add image'|trans %}
                         {% set full_name = '' %}
 

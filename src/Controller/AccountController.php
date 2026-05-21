@@ -136,7 +136,9 @@ class AccountController extends AbstractController
                         $entity = $form->getData();
                         $em->persist($entity);
                         $em->flush();
-                        return $this->redirectToRoute('account_my_recipes');
+                        return $this->redirectToRoute('account_my_recipes',
+                            [],
+                            Response::HTTP_SEE_OTHER);
                     }
                     if ($form->get('save')->isClicked()) {
                         $entity = $form->getData();
@@ -243,12 +245,15 @@ class AccountController extends AbstractController
                                 $hasSubField = true;
                                 $elements = $translation->getRecipesteps();
                         }
+                        $subClassName ='';
+                        if($hasSubField) {
+                            $subClassName = str_replace(
+                                ' ',
+                                '',
+                                ucwords(str_replace('_', ' ', substr($subField, 0, -1)))
+                            );
+                        }
 
-                        $subClassName = str_replace(
-                            ' ',
-                            '',
-                            ucwords(str_replace('_', ' ', substr($subField, 0, -1)))
-                        );
 
                         if ($elements) {
                             $added = false;

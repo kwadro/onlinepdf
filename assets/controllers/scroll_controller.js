@@ -6,15 +6,27 @@ export default class extends Controller {
         maxLengthTitle: Number
     }
     connect() {
-
         this.editor = new EditorClass();
         this.updateRightContent = this.updateRightContent.bind(this);
-        requestAnimationFrame(() => {
-            this.measure();
-            this.addListeners();
-        });
-
-
+        const run = () => {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    this.measure();
+                    this.addListeners();
+                    this.loadScroll();
+                });
+            });
+        };
+        setTimeout(run, 50);
+    }
+    loadScroll() {
+        // only one time scroll
+        const scrollPosition = sessionStorage.getItem('scrollPosition');
+        console.log('loadScroll',scrollPosition);
+        if (scrollPosition !== null) {
+            window.scrollTo(0, parseInt(scrollPosition));
+            sessionStorage.removeItem('scrollPosition');
+        }
     }
     saveScroll() {
         console.log('saveScroll',window.scrollY);
@@ -22,21 +34,14 @@ export default class extends Controller {
     }
 
     measure() {
-        this.rightContent = document.getElementById('rightContent');
-
-        if (!this.rightContent) return;
-
-        this.heightContent = this.rightContent.offsetHeight;
-
-        console.log('heightContent', this.heightContent);
-
-        document.body.style.height = (this.heightContent + 220) + 'px';
+        console.log('heightContent', document.getElementById('rightContent').offsetHeight);
+        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
     }
 
     updateRightContent() {
         const scrollY = window.scrollY;
         requestAnimationFrame(() => {
-            this.rightContent.style.transform = `translateY(-${scrollY}px)`;
+            document.getElementById('rightContent').style.transform = `translateY(-${scrollY}px)`;
         });
     }
 
@@ -52,7 +57,6 @@ export default class extends Controller {
         window.removeEventListener('resize', this.updateRightContent);
     }
     addRecipe(e){
-
         window.location.href = event.currentTarget.getAttribute('data-add-url');
         this.updateRightContent()
     }
@@ -67,7 +71,7 @@ export default class extends Controller {
         }
         this.updateRightContent()
     }
-    openEditor(e){}
+
     addFavoriteItem(e){
         e.preventDefault()
         console.log('click add favorite')

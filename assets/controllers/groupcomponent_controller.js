@@ -19,13 +19,7 @@ export default class extends Controller {
         } else {
             this.index = 0;
         }
-        // only one time scroll
-        const scrollPosition = sessionStorage.getItem('scrollPosition');
-        console.log('loadScroll',scrollPosition);
-        if (scrollPosition !== null) {
-            window.scrollTo(0, parseInt(scrollPosition));
-            sessionStorage.removeItem('scrollPosition');
-        }
+
     }
     add(event) {
         const self = this;

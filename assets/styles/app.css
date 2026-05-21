@@ -314,10 +314,12 @@ body {
 .recipe-info span {
     font-size: 0.8rem;
 }
+
 .recipe-info.full span {
     font-size: 1.0rem;
     font-weight: 600;
 }
+
 .category-badge {
     background: #e5e7eb;
     border-radius: 6px;
@@ -899,6 +901,25 @@ button:not(:disabled).drag-handle {
 }
 
 @media screen and (max-width: 768px) {
+    .recipe-edit-page {
+        padding: 5px;
+    }
+
+    .recipecomponents {
+        padding-right: 0;
+    }
+
+    .container__header header {
+        margin-top: 12px;
+    }
+
+    .container-recipe-component-item .quantity {
+        width: 64px;
+    }
+    .container-recipe-component-item select.ingredient {
+        text-wrap: wrap;
+    }
+
     .popup {
         min-width: 360px !important;
         max-width: 360px !important;
