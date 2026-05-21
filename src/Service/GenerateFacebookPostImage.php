@@ -39,7 +39,7 @@ class GenerateFacebookPostImage
         $background->rectangle(0, 0, self::IMAGE_WIDTH, self::IMAGE_HEIGHT);
         $image->drawImage($background);
         $title = new ImagickDraw();
-        $title->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf');
+        $title->setFont('/usr/share/fonts/type/dejavu/DejaVuSans-Bold.ttf');
         $title->setFontSize(54);
         $title->setFillColor(new ImagickPixel('#8b1e2d'));
         $titles = explode("\n", $translation->getName());
