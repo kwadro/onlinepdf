@@ -2,12 +2,12 @@
 
 namespace App\Service;
 
+use Doctrine\ORM\EntityManagerInterface;
 use Imagick;
 use ImagickDraw;
 use ImagickDrawException;
 use ImagickException;
 use ImagickPixel;
-use SplFileInfo;
 
 
 class GenerateFacebookPostImage
@@ -18,7 +18,9 @@ class GenerateFacebookPostImage
     public function __construct(
         private readonly string $generateDirectory,
         private readonly string $uploadRecipeDirectory,
-        private readonly FileService $fileService
+        private readonly FileService $fileService,
+        private readonly EntityManagerInterface $em
+
     ) {
     }
 
@@ -28,6 +30,7 @@ class GenerateFacebookPostImage
      */
     public function execute($entity): string
     {
+        $translation = $entity->getRecipeTranslations()[0];
         $image = new Imagick();
         $image->newImage(self::IMAGE_WIDTH, self::IMAGE_HEIGHT, new ImagickPixel('#f7f1ea'));
         $image->setImageFormat('png');
@@ -39,32 +42,42 @@ class GenerateFacebookPostImage
         $title->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf');
         $title->setFontSize(54);
         $title->setFillColor(new ImagickPixel('#8b1e2d'));
-
-        $image->annotateImage($title, 60, 100, 0, 'Домашні');
-        $image->annotateImage($title, 60, 170, 0, 'ВАРЕНИКИ');
-
-        $subtitle = new ImagickDraw();
-        $subtitle->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
-        $subtitle->setFontSize(42);
-        $subtitle->setFillColor(new ImagickPixel('#5c4033'));
-        $image->annotateImage($subtitle, 60, 230, 0, 'з вишнями');
-
+        $titles = explode("\n", $translation->getName());
+        $image->annotateImage($title, 60, 100, 0, $titles[0]);
+        $startDescription = 220;
+        if (isset($titles[1])) {
+            $startDescription = 270;
+            $image->annotateImage($title, 60, 170, 0, mb_strtoupper($titles[1]));
+        }
+        if (isset($titles[2])) {
+            $startDescription = 330;
+            $subtitle = new ImagickDraw();
+            $subtitle->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
+            $subtitle->setFontSize(42);
+            $subtitle->setFillColor(new ImagickPixel('#5c4033'));
+            $image->annotateImage($subtitle, 60, 230, 0, $titles[2]);
+        }
         $info = new ImagickDraw();
         $info->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf');
         $info->setFontSize(28);
         $info->setFillColor(new ImagickPixel('#4a2d20'));
-
-        $image->annotateImage($info, 60, 330, 0, '• Соковита вишнева начинка');
-        $image->annotateImage($info, 60, 380, 0, '• Ніжне домашнє тісто');
-        $image->annotateImage($info, 60, 430, 0, '• Смак дитинства');
+        $descriptions = explode("\n", $translation->getShortDescription());
+        $image->annotateImage($info, 60, $startDescription, 0, '• ' . $descriptions[0]);
+        if (isset($descriptions[1])) {
+            $image->annotateImage($info, 60, $startDescription + 50, 0, '• ' . $descriptions[1]);
+        }
+        if (isset($descriptions[2])) {
+            $image->annotateImage($info, 60, $startDescription + 100, 0, '• ' . $descriptions[2]);
+        }
 
         $time = new ImagickDraw();
         $time->setFont('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf');
         $time->setFontSize(24);
         $time->setFillColor(new ImagickPixel('#8b1e2d'));
 
-        $image->annotateImage($time, 60, 530, 0, 'Підготовка: 35 хв');
-        $image->annotateImage($time, 320, 530, 0, 'Варіння: 15 хв');
+        $image->annotateImage($time, 60, 530, 0, sprintf('Підготовка : %s хв', $entity->getPrepTimeMin()));
+        $image->annotateImage($time, 320, 530, 0, sprintf('Готувати : %s хв', $entity->getCookTimeMin()));
+
         $this->fileService->checkDirectory($this->uploadRecipeDirectory);
         $foodImagePath = $this->uploadRecipeDirectory . '/' . $entity->getImage();
 
@@ -97,13 +110,18 @@ class GenerateFacebookPostImage
             50,
             618,
             0,
-            'Подавайте зі сметаною або цукровою пудрою'
+            $translation->getNotes()
         );
 
-        list ($filename , $extension) = $this->fileService->getInfoByPath($foodImagePath);
+        list ($filename, $extension) = $this->fileService->getInfoByPath($foodImagePath);
         $this->fileService->checkDirectory($this->generateDirectory);
-        $outputPath = $this->generateDirectory . '/' . $filename . '-facebook-post.' . $extension;
+        $filename = $filename . '-facebook-post.' . $extension;
+        $outputPath = $this->generateDirectory . '/' . $filename;
         $image->writeImage($outputPath);
+        $translation->setFacebookImage($filename);
+        $this->em->persist($translation);
+        $this->em->flush();
         return $outputPath;
     }
+
 }
