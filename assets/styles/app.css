@@ -24,7 +24,7 @@ body, h1, h2, p, ul, ol, li, a {
 body {
     background-color: #f9f9f9;
     color: #333;
-    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    font-family: 'Nunito', sans-serif;
     font-size: 16px;
     line-height: 1.6;
     margin: 0;
@@ -314,7 +314,10 @@ body {
 .recipe-info span {
     font-size: 0.8rem;
 }
-
+.recipe-info.full span {
+    font-size: 1.0rem;
+    font-weight: 600;
+}
 .category-badge {
     background: #e5e7eb;
     border-radius: 6px;
@@ -821,7 +824,7 @@ body {
     position: relative;
 }
 
-.recipecomponents{
+.recipecomponents {
     row-gap: 10px;
 }
 
@@ -879,9 +882,22 @@ button:not(:disabled).drag-handle {
     position: relative;
 }
 
-.recipe-group-component-item div:nth-of-type(3) label{
-     display: none;
+
+.recipe-group-component-item div:nth-of-type(3) label {
+    display: none;
 }
+
+/* Frontend recipe page*/
+.steps-grid .list-group-item {
+    border: none;
+}
+
+.ingredients-grid .list-group-item {
+    border-width: 0 0 1px 0;
+    border-style: dashed;
+    padding: 0;
+}
+
 @media screen and (max-width: 768px) {
     .popup {
         min-width: 360px !important;

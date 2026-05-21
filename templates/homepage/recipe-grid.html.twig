@@ -46,24 +46,18 @@
                             {% endif %}
 
                             <h6 class="recipe-name mb-1">{{ recipe.recipetranslations[0].name }}</h6>
-                            <div class="recipe-info my-2 d-flex justify-content-start gap-2 align-items-center">
-                                <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
-                                     <i class="me-1 bi bi-clock"></i>{{ recipe.prepTimeMin }} {{ 'minutes'|trans }}
-                                </span>
-                                <span data-bs-toggle="tooltip" title="{{ 'Cook time'|trans }}">
-                                     <i class="me-1 bi bi-fire"></i>{{ recipe.cookTimeMin }} {{ 'minutes'|trans }}
-                                </span>
-                                <span data-bs-toggle="tooltip" title="{{ 'Servings'|trans }}">
-                                     <i class="me-1 bi bi-people"></i>{{ recipe.servings }}
-                                </span>
-                            </div>
+
+                            {% include "recipe/block-info-time.html.twig" with {
+                                'recipe': recipe,
+                                'class':'recipe-info'
+                            } %}
+
                             <div class="d-flex flex-column gap-2 justify-content-between align-items-start">
-                                <div class="flex-row small">
-                                    <span>{{ 'Author'|trans }}</span>
-                                    <a href="{{ path('author_list', {id: (recipe.recipetranslations[0].user.id + 1253)}) }}" class="btn btn-sm btn-secondary">
-                                        @cook-{{ recipe.recipetranslations[0].user.id + 1253 }}
-                                    </a>
-                                </div>
+
+                                {% include "author/block-info-author-full.html.twig" with {
+                                    'recipe': recipe
+                                } %}
+
                                 <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary w-100">
                                     {{ 'View'|trans }}
                                 </a>

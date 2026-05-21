@@ -1,0 +1,11 @@
+<div class="{{ class }} my-2 d-flex justify-content-start gap-2 align-items-center">
+    <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
+         <i class="me-1 bi bi-clock"></i>{{ recipe.prepTimeMin }} {{ 'minutes'|trans }}
+    </span>
+    <span data-bs-toggle="tooltip" title="{{ 'Cook time'|trans }}">
+         <i class="me-1 bi bi-fire"></i>{{ recipe.cookTimeMin }} {{ 'minutes'|trans }}
+    </span>
+    <span data-bs-toggle="tooltip" title="{{ 'Servings'|trans }}">
+         <i class="me-1 bi bi-people"></i>{{ recipe.servings }}
+    </span>
+</div>

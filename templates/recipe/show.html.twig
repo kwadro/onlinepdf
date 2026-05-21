@@ -21,14 +21,14 @@
                     {% set recipeimage = 'https://placehold.in/200' %}
                 {% endif %}
                 <img src="{{ recipeimage }}"
-                    class="img-fluid rounded shadow-sm mb-3"
+                    class="img-fluid rounded shadow-sm"
                     alt="{{ recipe.recipetranslations[0].name }}"
                     title="{{ recipe.recipetranslations[0].name }}"
                 >
                 {% if recipe.recipetranslations[0].groupcomponents %}
                     <ul class=" ingredients-grid ">
                         {% for groupcomponent in recipe.recipetranslations[0].groupcomponents %}
-                            <h4 class="fw-bold mb-3">
+                            <h4 class="fw-bold my-3">
                                 {{ groupcomponent.name }}
                             </h4>
                             {% for component in groupcomponent.components %}
@@ -55,15 +55,25 @@
             <div class="col-12 col-md-8 col-lg-9">
                 <h1 class="mb-3">{{ recipe.recipetranslations[0].name }}</h1>
 
+                {% include "author/block-info-author-full.html.twig" with {
+                    'recipe': recipe
+                } %}
+
                 <p class="text-muted mb-4">
-                    {{ recipe.recipetranslations[0].description }}
+                    {{ recipe.recipetranslations[0].description|nl2br }}
                 </p>
+
+                {% include "recipe/block-info-time.html.twig" with {
+                    'recipe': recipe,
+                    'class':'recipe-info full'
+                } %}
+
                 <!-- Preparation steps -->
                 <h3 class="text-center fw-bold my-4">
                     {{ 'Preparation steps'|trans }}
                 </h3>
 
-                <ul class="list-group mb-4">
+                <ul class="steps-grid list-group mb-4">
                     {% for step in recipe.recipetranslations[0].recipesteps %}
                         <li class="list-group-item">
                             <div class="d-flex flex-column flex-md-row gap-3">

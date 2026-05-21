@@ -1,0 +1,7 @@
+<div class="flex-row small mb-3">
+    <a href="{{ path('author_list', {id: (recipe.recipetranslations[0].user.id + 1253)}) }}" class="btn btn-sm btn-secondary"
+       title="{{ recipe.recipetranslations[0].user.firstName ~ ' ' ~ recipe.recipetranslations[0].user.lastName }}"
+    >
+        @cook-{{ recipe.recipetranslations[0].user.id + 1253 }}
+    </a>
+</div>
