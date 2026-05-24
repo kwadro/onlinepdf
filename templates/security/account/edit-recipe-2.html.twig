@@ -1,7 +1,7 @@
 {% set setting = site_settings() %}
 {% extends "base-account.html.twig" %}
 {% block main %}
-    {% if recipe.recipetranslations[0].confirmation ==='Yes' %}
+    {% if recipe.recipetranslations[0].confirmation ==='Yes' and  (not is_granted('ROLE_SUPER_ADMIN')) %}
         <div class="px-2 mt-3 d-flex justify-content-start gap-2 w-100">
             <div class="alert alert-warning" role="alert">
                  {{'This recipe has been published. We can not editing it.'|trans}}
@@ -23,7 +23,7 @@
 
             {% if recipe.id %}
                 <div class="ms-auto">
-                    {{ form_row(form.generate,{'attr': {'class': 'mb-1 btn  text-warning'}}) }}
+                    {{ form_row(form.generate,{'attr': {'class': 'mb-1 btn  btn-warning'}}) }}
                 </div>
 
                 {% set recipeSlug = recipe.recipetranslations[0].slug %}

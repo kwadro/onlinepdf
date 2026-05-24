@@ -39,6 +39,7 @@ class LocaleCrudController extends AbstractCrudController
             AssociationField::new('seosettingtranslatelocales')->setFormTypeOption('by_reference', false),
             AssociationField::new('megamenutranslatelocales')->setFormTypeOption('by_reference', false),
             AssociationField::new('popularsearchlocales')->setFormTypeOption('by_reference', false),
+            AssociationField::new('facebooksettinglocales')->setFormTypeOption('by_reference', false),
         ];
     }
 

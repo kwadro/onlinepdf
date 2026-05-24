@@ -15,6 +15,7 @@ use App\Entity\FooterSetting;
 use App\Entity\MegaMenuSetting;
 use App\Entity\Recipe;
 use App\Entity\Popularsearch;
+use App\Entity\FacebookSetting;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -74,6 +75,13 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $popularsearchsites;
+    #[ORM\OneToMany(
+        targetEntity: FacebookSetting::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $facebooksettingsites;
 
     public function __construct()
     {
@@ -83,6 +91,7 @@ class Site
         $this->megamenusites = new ArrayCollection();
         $this->recipesites = new ArrayCollection();
         $this->popularsearchsites = new ArrayCollection();
+        $this->facebooksettingsites = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -261,6 +270,30 @@ class Site
     public function getPopularsearchsites(): ?Collection
     {
         return $this->popularsearchsites;
+    }
+
+    public function addFacebookSetting(FacebookSetting $facebooksetting): self
+    {
+        if(!$this->facebooksettingsites->contains($facebooksetting)) {
+           $this->facebooksettingsites[] = $facebooksetting;
+           $facebooksetting->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeFacebookSetting(FacebookSetting $facebooksetting): self
+    {
+        if($this->facebooksettingsites->removeElement($facebooksetting)) {
+           if ($facebooksetting->getSite() === $this) {
+               $facebooksetting->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getFacebooksettingsites(): ?Collection
+    {
+        return $this->facebooksettingsites;
     }
 
 }

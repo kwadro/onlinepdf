@@ -38,6 +38,7 @@ class RecipeTranslationType extends AbstractType
                  ])
             ->add('name', TextType::class)
             ->add('slug', TextType::class)
+            ->add('facebook_image', TextType::class)
             ->add('is_active', ChoiceType::class,[
                 'choices' => [
                     'Yes' => 'Yes',

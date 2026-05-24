@@ -18,6 +18,7 @@ use App\Form\Type\FooterSettingType;
 use App\Form\Type\MegaMenuSettingType;
 use App\Form\Type\RecipeType;
 use App\Form\Type\PopularsearchType;
+use App\Form\Type\FacebookSettingType;
 class SiteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

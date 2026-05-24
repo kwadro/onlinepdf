@@ -36,6 +36,7 @@ class RecipeTranslationCrudController extends AbstractCrudController
             AssociationField::new('locale'),
             TextField::new('name')->setRequired(true),
             TextField::new('slug'),
+            TextField::new('facebook_image'),
             ChoiceField::new('is_active')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             ChoiceField::new('publish')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             ChoiceField::new('confirmation')->setChoices(['Yes' => 'Yes', 'No' => 'No']),

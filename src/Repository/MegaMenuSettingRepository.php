@@ -28,7 +28,7 @@ class MegaMenuSettingRepository extends ServiceEntityRepository
                      ->setParameter('status', 'Yes')
                      ->addOrderBy('CASE WHEN t.position IS NULL THEN 1 ELSE 0 END', 'ASC')
                      ->addOrderBy('t.position', 'ASC')
-                     ->setMaxResults(30)
+                     ->setMaxResults(10)
                      ->getQuery();
                      $query->setHint(Query::HINT_REFRESH, true);
                  return $query->getResult();

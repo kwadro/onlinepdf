@@ -30,6 +30,7 @@ use App\Entity\Ingredient;
 use App\Entity\GroupComponent;
 use App\Entity\Component;
 use App\Entity\Unit;
+use App\Entity\FacebookSetting;
 use App\Entity\Site;
 use App\Entity\Locale;
 use App\Entity\HeaderSetting;
@@ -118,6 +119,7 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_ingredient', [], 
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_groupcomponent', [], 'messages'), 'fas fa-list', Groupcomponent::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_component', [], 'messages'), 'fas fa-list', Component::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_unit', [], 'messages'), 'fas fa-list', Unit::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_facebooksetting', [], 'messages'), 'fas fa-list', Facebooksetting::class);
         yield MenuItem::section($this->translator->trans('menu.group_setting', [], 'messages'));
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_site', [], 'messages'), 'fas fa-list', Site::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_locale', [], 'messages'), 'fas fa-list', Locale::class);

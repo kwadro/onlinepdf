@@ -46,7 +46,7 @@
                             </span>
                         </div>
                     </div>
-                    {% if recipe.recipetranslations[0].confirmation ==='No' %}
+                    {% if (recipe.recipetranslations[0].confirmation ==='No') or (is_granted('ROLE_SUPER_ADMIN')) %}
                         <div class="col-4 col-xxl-1 recipe-link"
                              data-action="click->scroll#openLink"
                              data-url="{{ path('recipe_edit', {id: recipe.id}) }}"

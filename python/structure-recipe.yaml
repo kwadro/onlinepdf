@@ -30,6 +30,8 @@ groups:
                       isstring: true
                     - name: slug
                       type: string
+                    - name: facebook_image
+                      type: string
                     - name: is_active
                       type: select
                       typeInput: yesno
@@ -369,6 +371,61 @@ groups:
                       typeRelation: OneToMany
                       mappedBy: unit
 
+            FacebookSetting:
+                translate:
+                    link:
+                        uk: Facebook Настройки
+                        uk_single: Facebook Настройка
+                        en: Facebook Settings
+                        en_single: Facebook Setting
+                import:
+                    type: json
+                    resource: recipe_facebbok.json
+                fields:
+                    -   name: id
+                        type: integer
+                        id: true
+                    -   name: site
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Site
+                        inversedBy: facebooksettingsites
+                        roleRelation: master
+                    -   name: locale
+                        type: relation
+                        typeRelation: ManyToOne
+                        objectRelation: Locale
+                        inversedBy: facebooksettinglocales
+                        roleRelation: master
+                        typeInput: addNew
+                        formSetting: code|code,name
+                    -   name: recipe_id
+                        type: integer
+                        isstring: true
+                    -   name: text_post
+                        type: text
+                    -   name: tag
+                        type: string
+                    -   name: title1
+                        type: string
+                    -   name: title2
+                        type: string
+                    -   name: title3
+                        type: string
+                    -   name: content1
+                        type: string
+                        isrequire: true
+                    -   name: content2
+                        type: string
+                    -   name: content3
+                        type: string
+                    -   name: content4
+                        type: string
+                    -   name: notes
+                        type: string
+                    -   name: template
+                        type: integer
+
     setting:
         translate:
             link:
@@ -424,6 +481,12 @@ groups:
                       typeRelation: OneToMany
                       objectRelation: Popularsearch
                       mappedBy: site
+                    - name: facebooksettingsites
+                      type: relation
+                      typeRelation: OneToMany
+                      objectRelation: FacebookSetting
+                      mappedBy: site
+
 
             Locale:
                 translate:
@@ -470,6 +533,11 @@ groups:
                         type: relation
                         typeRelation: OneToMany
                         objectRelation: Popularsearch
+                        mappedBy: locale
+                    -   name: facebooksettinglocales
+                        type: relation
+                        typeRelation: OneToMany
+                        objectRelation: FacebookSetting
                         mappedBy: locale
 
             HeaderSetting:

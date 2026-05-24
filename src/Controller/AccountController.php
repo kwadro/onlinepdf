@@ -4,10 +4,15 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Entity\Locale;
 use App\Entity\Recipe;
 use App\Entity\RecipeTranslation;
+use App\Entity\Site;
 use App\Entity\User;
+use App\Form\FacebookSettingType;
 use App\Form\RecipeType;
+use App\Repository\FacebookSettingRepository;
+use App\Repository\FacebookSettingServiceRepository;
 use App\Repository\FavoriteListRepository;
 use App\Repository\RecipeRepository;
 use App\Repository\RecipeServiceRepository;
@@ -66,6 +71,101 @@ class AccountController extends AbstractController
      * @throws ImagickException
      * @throws ImagickDrawException
      */
+    #[Route('/recipe-facebook/{id}/generate', name: 'facebook_recipe_generate')]
+    public function facebookGenerate(
+        Request $request,
+        RecipeServiceRepository $recipeServiceRepository,
+        GenerateFacebookPostImage $generateFacebookPostImage,
+        $id
+    ): RedirectResponse {
+        if ($user = $this->getUser()) {
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
+            $recipes = $recipeServiceRepository->findByRecipeId(
+                $id,
+                $site->getId(),
+                $localeObject->getId()
+            );
+            $recipe = $recipes[0];
+            $imageOutput = $generateFacebookPostImage->execute($recipe, $site, $localeObject);
+            if (file_exists($imageOutput)) {
+                return $this->redirectToRoute('account_facebook_recipe', ['id' => $recipe->getId()]);
+            } else {
+            }
+        }
+        return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/recipe-facebook/{id}/edit', name: 'account_facebook_recipe')]
+    public function facebookEdit(
+        Request $request,
+        FacebookSettingRepository $facebookSettingRepository,
+        RecipeServiceRepository $recipeServiceRepository,
+        EntityManagerInterface $em,
+        $id
+    ): RedirectResponse|Response {
+
+            if ($user = $this->getUser()) {
+                $site = $request->attributes->get('site');
+                $localeObject = $request->attributes->get('localeObject');
+
+                $recipes = $recipeServiceRepository->findByRecipeId(
+                    $id,
+                    $site->getId(),
+                    $localeObject->getId()
+                );
+                $recipe = $recipes[0];
+                $facebookSetting = $facebookSettingRepository->findOneBy(
+                    [
+                        'recipe_id' => $id,
+                        'locale' => $localeObject->getId(),
+                        'site' => $site->getId()
+                    ]
+                );
+                $formFacebook = $this->createForm(
+                    FacebookSettingType::class,
+                    $facebookSetting,
+                    ['attr' => ['locale' => $localeObject->getCode(), 'site' => $site->getId()]]
+                )->add('save', SubmitType::class, [
+                    'label' => 'Зберегти'
+                ])->add('save_close', SubmitType::class, [
+                    'label' => 'Зберегти і закрити'
+                ])->add('close', SubmitType::class, [
+                    'label' => 'Закрити'
+                ]);
+                $formFacebook->handleRequest($request);
+                if ( $formFacebook->isSubmitted()) {
+                    if ($formFacebook->isValid() ) {
+                        if ($formFacebook->get('close')->isClicked()) {
+                            return $this->redirectToRoute('recipe_edit', ['id' => $recipe->getId()]);
+                        }
+                        if ($formFacebook->get('save_close')->isClicked()) {
+                            $entity = $formFacebook->getData();
+                            $em->persist($entity);
+                            $em->flush();
+                            return $this->redirectToRoute('recipe_edit', ['id' => $recipe->getId()]);
+                        }
+                        if ($formFacebook->get('save')->isClicked()) {
+                            $entity = $formFacebook->getData();
+                            $em->persist($entity);
+                            $em->flush();
+                            return $this->redirectToRoute('account_facebook_recipe', ['id' => $recipe->getId()]);
+                        }
+                    }
+                }
+                return $this->render('security/account/facebook-recipe.html.twig', [
+                    'recipe' => $recipe,
+                    'form' => $formFacebook->createView(),
+                    'user' => $user,
+                ]);
+            }
+        return $this->redirectToRoute('app_login');
+    }
+
+    /**
+     * @throws ImagickException
+     * @throws ImagickDrawException
+     */
     #[Route('/recipe-editor/{id}/edit', name: 'recipe_edit')]
     public function edit(
         Request $request,
@@ -101,24 +201,18 @@ class AccountController extends AbstractController
             ])->add('delete', SubmitType::class, [
                 'label' => 'Видалити'
             ])->add('generate', SubmitType::class, [
-                'label' => 'Генерувати Facebook пост'
+                'label' => 'Facebook пост'
             ]);
             $form->handleRequest($request);
+
             $ajaxUrl = $this->generateUrl('recipe_image_update');
             if ($form->isSubmitted()) {
                 if ($form->get('generate')->isClicked()) {
                     $entity = $form->getData();
-                    $image = $entity->getImage();
-                    $imagePath = $this->getParameter('app.recipe_upload_directory') . '/' . $image;
-                    $facebookPath = $generateFacebookPostImage->execute($entity);
-
-                    return $this->redirectToRoute('recipe_edit', [
-                        'id' => $entity->getId(),
-                        'facebookPath' => $facebookPath,
-
-                    ]);
+                    // generate and save image to entity of recipe
+                    $generateFacebookPostImage->execute($entity, $site, $localeObject);
+                    return $this->redirectToRoute('account_facebook_recipe', ['id' => $entity->getId()]);
                 }
-
                 if ($form->get('delete')->isClicked()) {
                     $entity = $form->getData();
                     foreach ($entity->getRecipeTranslations() as $translation) {
@@ -136,9 +230,11 @@ class AccountController extends AbstractController
                         $entity = $form->getData();
                         $em->persist($entity);
                         $em->flush();
-                        return $this->redirectToRoute('account_my_recipes',
+                        return $this->redirectToRoute(
+                            'account_my_recipes',
                             [],
-                            Response::HTTP_SEE_OTHER);
+                            Response::HTTP_SEE_OTHER
+                        );
                     }
                     if ($form->get('save')->isClicked()) {
                         $entity = $form->getData();
@@ -170,7 +266,6 @@ class AccountController extends AbstractController
             if ($this->getUser()) {
                 $result['success'] = true;
                 $formCode = $request->get('form_code');
-
                 if ($formCode === 'recipe-image') {
                     $file = $request->files->get('recipe_file');
                     if (!$file) {
@@ -205,10 +300,16 @@ class AccountController extends AbstractController
         return $this->json($result);
     }
 
+    /**
+     * @throws ImagickException
+     * @throws ImagickDrawException
+     */
     #[Route('/{_locale}/recipe/autosave', name: 'recipe_autosave')]
     public function autosaveRecipe(
         Request $request,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        FacebookSettingServiceRepository $facebookSettingServiceRepository,
+        GenerateFacebookPostImage $generateFacebookPostImage
     ) {
         if ($this->getUser()) {
             $data = $request->getPayload()->all();
@@ -216,9 +317,15 @@ class AccountController extends AbstractController
             $recipe = $entityManager->getRepository(Recipe::class)->find($recipeId);
             $field = $data['field'];
             $positionId = $data['position_id'] ?? null;
+            $siteId = $data['site_id'] ?? null;
             $value = $data['value'];
             $localeCode = $data['locale_code'];
-
+            $locale = $localeCode
+                ? $entityManager->getRepository(Locale::class)->findOneBy(['code' => $localeCode])
+                : null;
+            $site = $siteId
+                ? $entityManager->getRepository(Site::class)->find($siteId)
+                : null;
             $temp = explode('-', $field);
             $fieldType = $temp[0];
             $subField = null;
@@ -228,7 +335,7 @@ class AccountController extends AbstractController
                 $field = $temp[2];
                 $subField = $temp[1];
             }
-
+            $imageUrl = null;
             $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
             if ($fieldType === 'recipe_translations') {
                 $translations = $recipe->getRecipetranslations();
@@ -245,21 +352,18 @@ class AccountController extends AbstractController
                                 $hasSubField = true;
                                 $elements = $translation->getRecipesteps();
                         }
-                        $subClassName ='';
-                        if($hasSubField) {
+                        $subClassName = '';
+                        if ($hasSubField) {
                             $subClassName = str_replace(
                                 ' ',
                                 '',
                                 ucwords(str_replace('_', ' ', substr($subField, 0, -1)))
                             );
                         }
-
-
                         if ($elements) {
                             $added = false;
                             $currentPosition = 0;
                             foreach ($elements as $element) {
-
                                 if ($element->getPosition() == $positionId) {
                                     $element->$method($value);
                                     $entityManager->persist($element);
@@ -290,19 +394,36 @@ class AccountController extends AbstractController
                                 $translation->$method($value);
                                 $entityManager->persist($translation);
                             }
-
                         }
                     }
+                }
+            } elseif ($fieldType === 'facebook') {
+                $facebookSetting = $facebookSettingServiceRepository
+                    ->findOneBy([
+                        'recipe_id' => $recipeId,
+                        'site' => $site->getId(),
+                        'locale' => $locale->getId()
+                    ]);
+                $facebookSetting->$method($value);
+                $entityManager->persist($facebookSetting);
+                $entityManager->flush();
+
+                // reload facebook image
+                $result = $generateFacebookPostImage->update($recipe, $locale, $site);
+                if ($result['status'] === 'success') {
+                    $imageUrl = $request->getSchemeAndHttpHost() . '/public/facebook/' . $result['message'];
                 }
             } else {
                 $recipe->$method($value);
                 $entityManager->persist($recipe);
             }
             $entityManager->flush();
+
             return new JsonResponse([
                 'success' => true,
                 'field' => $data['field'],
                 'position' => $positionId,
+                'image_url' => $imageUrl,
             ]);
         }
     }

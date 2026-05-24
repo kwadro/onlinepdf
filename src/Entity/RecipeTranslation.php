@@ -39,6 +39,9 @@ class RecipeTranslation
     private ?string $slug;
 
     #[ORM\Column(type:"string", nullable:true)]
+    private ?string $facebook_image;
+
+    #[ORM\Column(type:"string", nullable:true)]
     private ?string $is_active;
 
     #[ORM\Column(type:"string", nullable:true)]
@@ -143,6 +146,16 @@ class RecipeTranslation
     public function getSlug(): ?string
     {
         return $this->slug;
+    }
+    public function setFacebookImage(?string $facebook_image): self
+    {
+        $this->facebook_image = $facebook_image;
+        return $this;
+    }
+
+    public function getFacebookImage(): ?string
+    {
+        return $this->facebook_image;
     }
     public function setIsActive(?string $is_active): self
     {

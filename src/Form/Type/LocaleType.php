@@ -17,6 +17,7 @@ use App\Form\Type\FooterTranslationType;
 use App\Form\Type\SeoSettingsTranslationType;
 use App\Form\Type\MegaMenuTranslationType;
 use App\Form\Type\PopularsearchType;
+use App\Form\Type\FacebookSettingType;
 class LocaleType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

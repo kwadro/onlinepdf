@@ -1,0 +1,100 @@
+{% set setting = site_settings() %}
+{% extends "base-account.html.twig" %}
+{% block main %}
+    {{ form_start(form) }}
+    {{ form_row(form.id) }}
+    {{ form_row(form.recipe_id) }}
+    {{ form_widget(form._token) }}
+    <div class="recipe-facebook-page">
+        <div class="row ps-2">
+            <div class="col-12 px-2 mt-3 d-flex justify-content-start gap-2 flex-wrap">
+                {% set saveButton = form_row(form.save,{
+                    'attr':{'class': 'mb-1 fs-6 btn btn-success',
+                        'data-action': 'click->scroll#saveScroll'}
+                }) %}
+
+                {{ saveButton |raw }}
+                {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
+                {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
+            </div>
+            <div class="offset-4 col-6  my-3 facebook-menu ">
+                <div class="row">
+                    <div class="col-6">
+                        <span class="tab-btn d-block text-center my-2 fs-4 active"
+                              style="cursor: pointer;"
+                              onclick="showDiv('image-block',this)"
+                        >
+                              {{ 'Image'|trans }}
+                        </span>
+                    </div>
+
+                    <div class="col-6">
+                        <span class="tab-btn d-block text-center my-2 fs-4"
+                               style="cursor: pointer;"
+                               onclick="showDiv('text-block',this)"
+                        >
+                            {{ 'Text'|trans }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ps-2">
+            <div id="text-block" class="col-9  my-3 block ">
+                {{ form_row(form.text_post) }}
+                {{ form_row(form.tag) }}
+            </div>
+            <div id="image-block" class="col-12  my-3 block active">
+                <div class="row">
+                    <div id="image-block" class="col-4  my-3 ">
+                        {{ form_row(form.title1) }}
+                        {{ form_row(form.title2) }}
+                        {{ form_row(form.title3) }}
+                        {{ form_row(form.content1) }}
+                        {{ form_row(form.content2) }}
+                        {{ form_row(form.content3) }}
+                        {{ form_row(form.notes , {'attr': {'class': 'mb-1 form-control notes'}}) }}
+                        {{ saveButton |raw }}
+                    </div>
+                    <div id="image-block" class="col-8  my-3 ">
+                        {% if recipe.id and recipe.recipetranslations[0].facebookImage %}
+                            {% set recipeImage = '/facebook/' ~ recipe.recipetranslations[0].facebookImage %}
+                        {% else %}
+                            {% set recipeImage = 'https://placehold.in/200' %}
+                        {% endif %}
+                        <img id="recipe-facebook-image"
+                             src="{{ recipeImage }}"
+                             class="recipe-facebook-image"
+                             alt="{{ recipe.id }}"
+                             width="900"
+                             style="display: block;"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_end(form,{ render_rest: false }) }}
+    <script>
+        function showDiv(id, button) {
+            document.getElementById('image-block').classList.remove('active');
+            document.getElementById('text-block').classList.remove('active');
+            console.log('id',id)
+            document.getElementById(id).classList.add('active');
+            document.querySelectorAll('.recipe-facebook-page .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            button.classList.add('active');
+            const run = () => {
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        const rightElement = document.getElementById('rightContent');
+                        console.log('document.body.style.height : ',rightElement.offsetHeight)
+                        document.body.style.height = rightElement.offsetHeight + 200 + 'px';
+                    });
+                });
+            };
+            setTimeout(run, 100);
+        }
+    </script>
+{% endblock %}

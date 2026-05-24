@@ -7,6 +7,7 @@ php bin/console app:export:csv Ingredient
 php bin/console app:export:csv GroupComponent
 php bin/console app:export:csv Component
 php bin/console app:export:csv Unit
+php bin/console app:export:csv FacebookSetting
 php bin/console app:export:csv Site
 php bin/console app:export:csv Locale
 php bin/console app:export:csv HeaderSetting

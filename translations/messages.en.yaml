@@ -117,6 +117,8 @@ menu.link_component_single: Component
 menu.link_component: Components
 menu.link_unit_single: Unit
 menu.link_unit: Units
+menu.link_facebooksetting_single: Facebook Setting
+menu.link_facebooksetting: Facebook Settings
 menu.group_setting: Setting Site
 menu.link_site_single: Site
 menu.link_site: Sites

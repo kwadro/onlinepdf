@@ -110,9 +110,6 @@ def generate_form_type(entities, entity, entity_name,additionalEntities):
                             write_file(OUT / f"src/Form/Type/{field.get('objectRelation')}Type.php", code)
 
 def generate_repository(entity_name, entity):
-    if ('disable_admin' not in entity ):
-        return
-
     related = False
     if ('relatedSaleAndLocale' in entity):
         related = entity['relatedSaleAndLocale']

@@ -95,15 +95,19 @@ export default class extends Controller {
     updateUi(rightContentStart) {
         const rightElement = document.getElementById('rightContent')
         if (rightElement) {
-            const rightContentFinish =rightElement.offsetHeight;
+            const rightContentFinish = rightElement.offsetHeight;
             console.log('rightContent finish: ', rightContentFinish)
+
             const diff = rightContentStart - rightContentFinish;
             console.log('rightContent diff: ', diff)
+
             const bodyHeightStart = document.body.offsetHeight;
             console.log('body start height: ', document.body.offsetHeight)
             console.log('body height: ', document.body.style.height)
+
             const bodyHeightFinish = (bodyHeightStart - diff) + 'px'
             console.log('body heightFinish: ', bodyHeightFinish)
+
             // recalculate body height
             document.body.style.height = bodyHeightFinish
         }

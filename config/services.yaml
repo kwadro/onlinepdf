@@ -32,6 +32,7 @@ services:
             $targetAvatarDirectory: '%app.avatar_upload_directory%'
     App\Service\GenerateFacebookPostImage:
         arguments:
+            $projectDir: '%kernel.project_dir%'
             $generateDirectory: '%app.facebook_generate_directory%'
             $uploadRecipeDirectory: '%app.recipe_upload_directory%'
     App\Import\Handler\:

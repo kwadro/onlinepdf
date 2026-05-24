@@ -102,7 +102,7 @@ readonly class CsvEntityExporter
         // toOne
         if (is_object($value)) {
             if(get_class($value) == 'Proxies\__CG__\App\Entity\GroupComponent'){
-                //return (string) $value->getId();
+                return (string) $value->getId();
             }
             return method_exists($value, '__toString')
                 ? (string) $value

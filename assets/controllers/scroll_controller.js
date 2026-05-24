@@ -1,10 +1,12 @@
 import {Controller} from "@hotwired/stimulus";
 import {EditorClass} from '../js/editor';
+
 export default class extends Controller {
     static targets = ['textareaTitle', 'countTitle', 'countSpanTitle', 'countWarningTitle']
     static values = {
         maxLengthTitle: Number
     }
+
     connect() {
         this.editor = new EditorClass();
         this.updateRightContent = this.updateRightContent.bind(this);
@@ -19,17 +21,19 @@ export default class extends Controller {
         };
         setTimeout(run, 50);
     }
+
     loadScroll() {
         // only one time scroll
         const scrollPosition = sessionStorage.getItem('scrollPosition');
-        console.log('loadScroll',scrollPosition);
+        console.log('loadScroll', scrollPosition);
         if (scrollPosition !== null) {
             window.scrollTo(0, parseInt(scrollPosition));
             sessionStorage.removeItem('scrollPosition');
         }
     }
+
     saveScroll() {
-        console.log('saveScroll',window.scrollY);
+        console.log('saveScroll', window.scrollY);
         sessionStorage.setItem('scrollPosition', window.scrollY);
     }
 
@@ -56,36 +60,37 @@ export default class extends Controller {
         window.removeEventListener('scroll', this.updateRightContent);
         window.removeEventListener('resize', this.updateRightContent);
     }
-    addRecipe(e){
+
+    addRecipe(e) {
         window.location.href = event.currentTarget.getAttribute('data-add-url');
         this.updateRightContent()
     }
-    openLink(e){
+
+    openLink(e) {
         e.preventDefault()
         const url = e.currentTarget.getAttribute('data-url');
         const target = e.currentTarget.getAttribute('data-target');
-        if(target){
+        if (target) {
             window.open(url, target);
-        }else{
+        } else {
             window.location.href = url;
         }
         this.updateRightContent()
     }
 
-    addFavoriteItem(e){
+    addFavoriteItem(e) {
         e.preventDefault()
         console.log('click add favorite')
         const buttonElement = e.currentTarget;
         let ajaxUrl = null;
         if (buttonElement.classList.contains('selected')) {
-             ajaxUrl = buttonElement.dataset.remove
-        }else{
+            ajaxUrl = buttonElement.dataset.remove
+        } else {
             ajaxUrl = buttonElement.dataset.add;
         }
-        console.log('ajaxUrl ',ajaxUrl)
+        console.log('ajaxUrl ', ajaxUrl)
         const formData = new FormData();
         formData.append('id', buttonElement.dataset.id);
-
 
         fetch(ajaxUrl, {
             method: 'POST',
@@ -102,7 +107,7 @@ export default class extends Controller {
                 } else {
                     if (json.success) {
                         buttonElement.classList.toggle('selected');
-                    }else{
+                    } else {
                         console.log('error message : ', json.message)
                     }
                 }
@@ -111,5 +116,4 @@ export default class extends Controller {
                 console.error('Submit error:', error)
             })
     }
-
 }

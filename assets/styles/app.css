@@ -899,7 +899,27 @@ button:not(:disabled).drag-handle {
     border-style: dashed;
     padding: 0;
 }
-
+.facebook-menu span{
+    padding: 10px;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.facebook-menu span.active{
+    border: 1px solid gray;
+    border-radius: 5px;
+    background-color: lightgray;
+}
+.recipe-facebook-page .block{
+    visibility: hidden;
+    height: 0;
+}
+.recipe-facebook-page .block.active{
+    visibility: visible;
+    height: auto;
+}
+textarea.field-text-post{
+    display: block;
+}
 @media screen and (max-width: 768px) {
     .recipe-edit-page {
         padding: 5px;

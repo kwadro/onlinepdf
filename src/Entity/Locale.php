@@ -14,6 +14,7 @@ use App\Entity\FooterTranslation;
 use App\Entity\SeoSettingsTranslation;
 use App\Entity\MegaMenuTranslation;
 use App\Entity\Popularsearch;
+use App\Entity\FacebookSetting;
 
 #[ORM\Entity(repositoryClass: LocaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -69,6 +70,13 @@ class Locale
         orphanRemoval: false,
     )]
         public ?Collection $popularsearchlocales;
+    #[ORM\OneToMany(
+        targetEntity: FacebookSetting::class,
+        mappedBy: 'locale',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $facebooksettinglocales;
 
     public function __construct()
     {
@@ -77,6 +85,7 @@ class Locale
         $this->seosettingtranslatelocales = new ArrayCollection();
         $this->megamenutranslatelocales = new ArrayCollection();
         $this->popularsearchlocales = new ArrayCollection();
+        $this->facebooksettinglocales = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -241,6 +250,30 @@ class Locale
     public function getPopularsearchlocales(): ?Collection
     {
         return $this->popularsearchlocales;
+    }
+
+    public function addFacebookSetting(FacebookSetting $facebooksetting): self
+    {
+        if(!$this->facebooksettinglocales->contains($facebooksetting)) {
+           $this->facebooksettinglocales[] = $facebooksetting;
+           $facebooksetting->setLocale($this);
+        }
+        return $this;
+    }
+
+    public function removeFacebookSetting(FacebookSetting $facebooksetting): self
+    {
+        if($this->facebooksettinglocales->removeElement($facebooksetting)) {
+           if ($facebooksetting->getLocale() === $this) {
+               $facebooksetting->setLocale(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getFacebooksettinglocales(): ?Collection
+    {
+        return $this->facebooksettinglocales;
     }
 
 }

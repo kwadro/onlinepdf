@@ -120,8 +120,11 @@ export default class extends Controller {
         if (!this.hasAutosaveUrlValue) return;
 
         try {
-            const recipeId = document.getElementById('recipe_id').value;
+            const recipeIdElement = document.getElementById('recipe_id')||document.getElementById('facebook_setting_recipe_id');
+            const recipeId = recipeIdElement.value;
             const positionId = this.element.closest('.collection')?.querySelector('input[name*="[position]"]')?.value;
+            console.log('this.autosaveUrlValue',this.autosaveUrlValue)
+            console.log('site id : ',this.textarea.getAttribute('site'))
             const response = await fetch(this.autosaveUrlValue, {
                 method: 'POST',
                 headers: {
@@ -132,7 +135,8 @@ export default class extends Controller {
                     field: this.textarea.getAttribute('field'),
                     id: recipeId,
                     position_id: positionId,
-                    locale_code: this.textarea.getAttribute('locale')
+                    locale_code: this.textarea.getAttribute('locale'),
+                    site_id: this.textarea.getAttribute('site')
                 })
             });
             const data = await response.json();
@@ -142,8 +146,16 @@ export default class extends Controller {
                     this.reloadPage()
                 }
             }
+            if (data.success && data.field.startsWith('facebook-')) {
+                const imageElement = document.getElementById('recipe-facebook-image');
+                if(imageElement){
+                    imageElement.src = imageElement.src.split('?')[0] + '?t=' + new Date().getTime();
+                }
+            }
         } catch (e) {
             console.warn('Autosave failed', e);
+            return JSON.stringify({'success': 'ERROR','message':e})
+
         }
         return JSON.stringify({'success': 'OK'})
     }
