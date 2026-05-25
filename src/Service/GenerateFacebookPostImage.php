@@ -258,6 +258,8 @@ class GenerateFacebookPostImage
             if (!empty($templateData['title1'])) {
                 $currentY += 100;
                 $image->annotateImage($title, 60, $currentY, 0, $templateData['title1']);
+            }else{
+                $currentY += 30;
             }
             if (!empty($templateData['title2'])) {
                 $currentY += 70;
@@ -273,7 +275,7 @@ class GenerateFacebookPostImage
             }
             $info = new ImagickDraw();
             $info->setFont($fontPath);
-            $info->setFontSize(28);
+            $info->setFontSize(32);
             $info->setFillColor(new ImagickPixel('#4a2d20'));
 
             if (!empty($templateData['content1'])) {
@@ -291,11 +293,11 @@ class GenerateFacebookPostImage
             }
             $time = new ImagickDraw();
             $time->setFont($fontBoldPath);
-            $time->setFontSize(24);
+            $time->setFontSize(28);
             $time->setFillColor(new ImagickPixel('#8b1e2d'));
 
-            $image->annotateImage($time, 60, 530, 0, sprintf('Підготовка : %s хв', $templateData['prep_time']));
-            $image->annotateImage($time, 320, 530, 0, sprintf('Готувати : %s хв', $templateData['cook_time']));
+            $image->annotateImage($time, 60, 530, 0, sprintf('Підготовка: %s хв', $templateData['prep_time']));
+            $image->annotateImage($time, 370, 530, 0, sprintf('Готувати: %s хв', $templateData['cook_time']));
 
             $this->fileService->checkDirectory($this->uploadRecipeDirectory);
             $foodImagePath = $this->uploadRecipeDirectory . '/' . $templateData['image'];
@@ -316,18 +318,18 @@ class GenerateFacebookPostImage
 
             $ornament = new ImagickDraw();
             $ornament->setFillColor(new ImagickPixel('#8b1e2d'));
-            $ornament->rectangle(0, 590, 1200, 630);
+            $ornament->rectangle(0, 580, 1200, 630);
             $image->drawImage($ornament);
 
             $footer = new ImagickDraw();
             $footer->setFont($fontPath);
-            $footer->setFontSize(20);
+            $footer->setFontSize(24);
             $footer->setFillColor(new ImagickPixel('#ffffff'));
 
             $image->annotateImage(
                 $footer,
                 50,
-                618,
+                612,
                 0,
                 $templateData['notes']
             );

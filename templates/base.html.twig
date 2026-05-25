@@ -17,6 +17,7 @@
     <meta property="og:image" content="{{ absolute_url(asset('uploads/images/' ~ setting.seo.og_image)) }}"/>
     <link rel="canonical" href="{{ absolute_url(path('homepage')) }}/"/>
     <link rel="icon" type="image/x-icon" href="{{ absolute_url(asset('uploads/images/' ~ setting.header.favicon)) }}"/>
+
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
     <!-- Google Tag Manager -->
     <script>(function (w, d, s, l, i) {
@@ -30,7 +31,8 @@
             j.async = true;
             j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
             f.parentNode.insertBefore(j, f);
-        })(window, document, 'script', 'dataLayer', '{{setting.seo.gtm_code}}');</script>
+        })(window, document, 'script', 'dataLayer', '{{setting.seo.gtm_code}}');
+    </script>
     <!-- End Google Tag Manager -->
     <script>
         if (location.hash === '#_=_') {
@@ -72,7 +74,6 @@
             <div class="content" id="rightContent">
                 {% block main %}
                 {% endblock %}
-
             </div>
         </div>
     </div>
