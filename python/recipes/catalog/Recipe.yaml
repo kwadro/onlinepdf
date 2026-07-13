@@ -1,0 +1,52 @@
+relatedSaleAndLocale: list
+url_key_field: slug
+category_field: recipecategorys
+author_field: user
+translate:
+  link:
+    uk: Рецепти
+    uk_single: Рецепт
+    en: Recipes
+    en_single: Recipe
+import:
+  type: csv
+  resource: recipes.csv
+stringfield: site|id
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  roleRelation: master
+  inversedBy: recipesites
+- name: position
+  type: integer
+- name: prep_time_min
+  name_uk: час підготовки
+  type: integer
+- name: cook_time_min
+  name_uk: час приготування
+  type: integer
+- name: servings
+  type: integer
+- name: image
+  name_uk: Картинка
+  type: image
+  uploadDir: recipes
+- name: recipecategorys
+  name_uk: Категорії
+  type: relation
+  objectRelation: RecipeCategory
+  typeRelation: ManyToMany
+  roleRelation: master
+  mappedBy: recipes
+- name: recipetranslations
+  isCollectionField: true
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: RecipeTranslation
+  mappedBy: recipe
+  roleRelation: master

@@ -1,0 +1,32 @@
+translate:
+  link:
+    uk: Кроки Приготування
+    uk_single: Крок Приготування
+    en: Recipe Steps
+    en_single: Recipe Step
+import:
+  type: json
+  resource: recipe_categories.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: recipetranslation
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: RecipeTranslation
+  roleRelation: master
+  inversedBy: recipesteps
+- name: position
+  type: integer
+- name: question
+  type: text
+- name: answer
+  type: text
+- name: image
+  type: image
+  uploadDir: recipes

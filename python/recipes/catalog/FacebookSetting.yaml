@@ -1,0 +1,53 @@
+translate:
+  link:
+    uk: Facebook Настройки
+    uk_single: Facebook Настройка
+    en: Facebook Settings
+    en_single: Facebook Setting
+import:
+  type: json
+  resource: recipe_facebbok.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: facebooksettingsites
+  roleRelation: master
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: facebooksettinglocales
+  roleRelation: master
+  typeInput: addNew
+  formSetting: code|code,name
+- name: recipe_id
+  type: integer
+  isstring: true
+- name: text_post
+  type: text
+- name: tag
+  type: string
+- name: title1
+  type: string
+- name: title2
+  type: string
+- name: title3
+  type: string
+- name: content1
+  type: string
+  isrequire: true
+- name: content2
+  type: string
+- name: content3
+  type: string
+- name: content4
+  type: string
+- name: notes
+  type: string
+- name: template
+  type: integer

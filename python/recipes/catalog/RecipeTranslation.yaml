@@ -1,0 +1,88 @@
+translate:
+  link:
+    uk: Рецепти (переклад)
+    uk_single: Рецепт (переклад)
+    en: Recipes (translation)
+    en_single: Recipe (translation)
+fields:
+- name: id
+  type: integer
+  id: true
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: recipelocales
+  roleRelation: master
+  typeInput: addNew
+  formSetting: code|code,name
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: slug
+  type: string
+- name: facebook_image
+  type: string
+- name: is_active
+  type: select
+  typeInput: yesno
+- name: publish
+  type: select
+  typeInput: yesno
+- name: confirmation
+  type: select
+  typeInput: yesno
+- name: is_popular
+  type: select
+  typeInput: yesno
+- name: meta_title
+  type: string
+- name: meta_description
+  type: text
+- name: short_description
+  name_uk: Короткий опис
+  type: text
+- name: description
+  name_uk: Опис
+  type: text
+  numOfRows: 10
+- name: cuisine
+  name_uk: кухня
+  type: string
+- name: notes
+  type: text
+  numOfRows: 3
+- name: groupcomponents
+  isCollectionField: true
+  roleRelation: master
+  name_uk: Групи Компонентів
+  type: relation
+  objectRelation: GroupComponent
+  typeRelation: OneToMany
+  mappedBy: recipetranslation
+  typeInput: addNews
+- name: recipesteps
+  isCollectionField: true
+  roleRelation: master
+  orderByField: position
+  orderBy: ASC
+  name_uk: кроки
+  type: relation
+  objectRelation: RecipeStep
+  typeRelation: OneToMany
+  mappedBy: recipetranslation
+  typeInput: addNews
+- name: recipe
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Recipe
+  inversedBy: recipetranslations
+- name: user
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: User
+  roleRelation: master
+  typeInput: addNew
+  formSetting: email|email
+  inversedBy: recipes

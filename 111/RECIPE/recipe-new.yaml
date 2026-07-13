@@ -1,0 +1,147 @@
+1:
+    id: '0'
+    position: '1'
+    prep_time_min: '15'
+    cook_time_min: '40'
+    servings: '4'
+    site: symfony.local
+
+    recipecategorys:
+        -
+            name: 'Другі страви'
+            is_active: 'Yes'
+            parent: 'Default'
+        -
+            name: 'Паста'
+            is_active: 'Yes'
+            parent: 'Default'
+        -
+            name: 'Паста Італійська'
+            is_active: 'Yes'
+            parent: 'Паста'
+    recipetranslations:
+        -
+            name: 'Carbonara Pasta'
+            slug: pasta-carbonara
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'No'
+            is_popular: 'Yes'
+            cuisine: Italian
+            locale: English
+            recipe: symfony.local|2
+            user: kwadro2010@gmail.com
+
+        -
+            name: 'Паста Карбонара'
+            slug: pasta-carbonara
+            facebook_image: carbonara-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Паста Карбонара — класичний італійський рецепт'
+            meta_description: 'Простий рецепт пасти Карбонара з беконом, сиром та вершковим соусом.'
+            short_description: "Класична італійська паста\nз беконом, сиром пармезан\nта ніжним соусом."
+            description: 'Паста Карбонара — одна з найвідоміших страв італійської кухні. Вона готується з пасти, бекону, яєць та сиру пармезан. Соус виходить ніжним і кремовим без використання вершків.'
+            cuisine: Італійська
+            notes: 'Подавати одразу після приготування.'
+            locale: Українська
+            recipe: symfony.local|2
+            user: kwadro2010@gmail.com
+            groupcomponents:
+                -
+                    id: '0'
+                    name: Паста
+
+                    components:
+                        -
+                            id: '0'
+                            position: '1'
+                            quantity: '400'
+                            ingredient: Спагеті
+                            unit: г.
+                            groupcomponent: Паста
+
+                        -
+                            id: '0'
+                            position: '2'
+                            quantity: '150'
+                            ingredient: Бекон
+                            unit: г.
+                            groupcomponent: Паста
+
+                        -
+                            id: '0'
+                            position: '3'
+                            quantity: '2'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Паста
+
+                        -
+                            id: '0'
+                            position: '4'
+                            quantity: '50'
+                            ingredient: Пармезан
+                            unit: г.
+                            groupcomponent: Паста
+
+                        -
+                            id: '0'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Часник
+                            unit: зуб.
+                            groupcomponent: Паста
+
+                -
+                    id: '0'
+                    name: Спеції
+
+                    components:
+                        -
+                            id: '0'
+                            position: '1'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'за смаком'
+                        -
+                            id: '0'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: 'Чорний перець'
+                            unit: 'за смаком'
+
+            recipesteps:
+                -
+                    id: '0'
+                    name: 'Відварювання пасти'
+                    position: '1'
+                    answer: "Закип’яти воду,\nдодай сіль та відвари спагеті до стану al dente."
+
+                -
+                    id: '0'
+                    name: 'Обсмажування бекону'
+                    position: '2'
+                    answer: "Наріж бекон шматочками\nта обсмаж на сковороді до золотистого кольору."
+
+                -
+                    id: '0'
+                    name: 'Приготування соусу'
+                    position: '3'
+                    answer: "Збий яйця,\nдодай тертий пармезан та чорний перець."
+
+                -
+                    id: '0'
+                    name: 'Змішування'
+                    position: '4'
+                    answer: "Додай гарячу пасту до бекону,\nвимкни вогонь та швидко влий яєчний соус,\nретельно перемішай."
+
+                -
+                    id: '0'
+                    name: 'Подача'
+                    position: '5'
+                    answer: "Подавай гарячою,\nпосипавши додатковим пармезаном."
+
+

@@ -1,0 +1,28 @@
+translate:
+  link:
+    uk: Групи Компонентів
+    uk_single: Група Компонентів
+    en: Groups of Components
+    en_single: Group of Components
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: position
+  type: integer
+- name: recipetranslation
+  type: relation
+  objectRelation: RecipeTranslation
+  typeRelation: ManyToOne
+  inversedBy: groupcomponents
+- name: components
+  type: relation
+  objectRelation: Component
+  typeRelation: OneToMany
+  mappedBy: groupcomponent
+  typeInput: addNews
+  formSetting: id|name

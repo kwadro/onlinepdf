@@ -1,0 +1,57 @@
+relatedSaleAndLocale: catalog
+default_field: parent
+url_key_field: slug
+translate:
+  link:
+    uk: Категорії
+    uk_single: Категорію
+    en: Categories
+    en_single: Category
+import:
+  type: json
+  resource: recipe_categories.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  name_uk: назва
+  type: string
+  isrequire: true
+  isstring: true
+- name: slug
+  name_uk: лінк
+  type: string
+- name: position
+  name_uk: позиція
+  type: integer
+- name: is_active
+  name_uk: активний?
+  type: select
+  typeInput: yesno
+- name: image
+  type: image
+  uploadDir: recipes
+- name: meta_title
+  name_uk: мета тайтл
+  type: string
+- name: meta_description
+  name_uk: мета опис
+  type: text
+- name: parent
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: self
+  inversedBy: children
+- name: children
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: self
+  mappedBy: parent
+- name: recipes
+  name_uk: рецепти
+  type: relation
+  objectRelation: Recipe
+  typeRelation: ManyToMany
+  roleRelation: slave
+  inversedBy: recipecategorys

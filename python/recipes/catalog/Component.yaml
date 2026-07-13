@@ -1,0 +1,40 @@
+translate:
+  link:
+    uk: Компоненти Рецепта
+    uk_single: Компонент Рецепта
+    en: Components
+    en_single: Component
+import:
+  type: json
+  resource: recipe_categories.json
+stringfield: ingredient->getName()|quantity|unit->getName()
+fields:
+- name: id
+  type: integer
+  id: true
+- name: position
+  type: integer
+- name: ingredient
+  type: relation
+  objectRelation: Ingredient
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: components
+  typeInput: addNew
+  formSetting: name|name,sku
+- name: unit
+  type: relation
+  objectRelation: Unit
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: components
+  typeInput: addNew
+  formSetting: name|name
+- name: quantity
+  type: integer
+- name: groupcomponent
+  type: relation
+  objectRelation: GroupComponent
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: components

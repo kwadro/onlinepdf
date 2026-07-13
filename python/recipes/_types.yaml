@@ -1,0 +1,11 @@
+# Reusable field patterns (YAML anchors for single-file use).
+# Copy or merge into entity files as needed.
+
+x-id: &id
+  name: id
+  type: integer
+  id: true
+
+x-yesno: &yesno
+  type: select
+  typeInput: yesno

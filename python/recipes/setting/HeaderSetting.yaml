@@ -1,0 +1,27 @@
+relatedSaleAndLocale: single
+translate:
+  link:
+    uk: Настройки Заголовків
+    uk_single: Настройка Заголовка
+    en: Header Settings
+    en_single: Header Setting
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: headersettingsites
+  isstring: true
+- name: translations
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: HeaderTranslation
+  mappedBy: headersetting
+- name: logo
+  type: image
+  uploadDir: logo
+- name: favicon
+  type: image

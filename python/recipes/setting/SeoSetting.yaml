@@ -1,0 +1,22 @@
+relatedSaleAndLocale: single
+translate:
+  link:
+    uk: Seo Настройки
+    uk_single: Seo Настройка
+    en: Seo Settings
+    en_single: Seo Setting
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  isstring: true
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: seosettingsites
+- name: translations
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: SeoSettingsTranslation
+  mappedBy: seosetting

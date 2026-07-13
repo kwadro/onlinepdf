@@ -1,0 +1,28 @@
+translate:
+  link:
+    uk: Інградієнти
+    uk_single: Інградієнт
+    en: Ingredients
+    en_single: Ingredient
+import:
+  type: json
+  resource: recipe_categories.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: sku
+  type: string
+- name: url
+  type: string
+- name: price
+  type: money
+- name: components
+  type: relation
+  objectRelation: Component
+  typeRelation: OneToMany
+  mappedBy: ingredient

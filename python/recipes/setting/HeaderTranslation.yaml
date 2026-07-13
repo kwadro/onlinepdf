@@ -1,0 +1,25 @@
+translate:
+  link:
+    uk: Переклад Заголовків
+    uk_single: Переклад Заголовка
+    en: Header Translations
+    en_single: Header Translation
+fields:
+- name: id
+  type: integer
+  id: true
+- name: headersetting
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: HeaderSetting
+  inversedBy: translations
+  isstring: true
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: headertranslatelocales
+- name: title
+  type: string
+- name: menu_json
+  type: string

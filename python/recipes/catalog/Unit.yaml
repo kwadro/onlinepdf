@@ -1,0 +1,24 @@
+translate:
+  link:
+    uk: Одиниці
+    uk_single: Одиниця
+    en: Units
+    en_single: Unit
+import:
+  type: json
+  resource: recipe_categories.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+- name: short_name
+  type: string
+  isstring: true
+- name: components
+  type: relation
+  objectRelation: Component
+  typeRelation: OneToMany
+  mappedBy: unit

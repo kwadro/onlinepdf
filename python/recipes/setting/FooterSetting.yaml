@@ -1,0 +1,22 @@
+relatedSaleAndLocale: single
+translate:
+  link:
+    uk: Настройки Футера
+    uk_single: Настройка Футера
+    en: Footer Settings
+    en_single: Footer Setting
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: footersettingsites
+  isstring: true
+- name: translations
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: FooterTranslation
+  mappedBy: footersetting

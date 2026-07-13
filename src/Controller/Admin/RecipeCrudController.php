@@ -79,6 +79,17 @@ class RecipeCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
+          $importYaml = Action::new('importYaml', $this->translator->trans('menu.link_import_yaml', [], 'messages'))
+            ->linkToRoute('admin_import_yaml', ['entity' => 'Recipe'])
+            ->createAsGlobalAction()
+            ->addCssClass('btn btn-secondary')
+            ->setIcon('fa fa fa-upload');
+
+          $exportYaml = Action::new('exportYaml', $this->translator->trans('menu.link_export_yaml', [], 'messages'))
+            ->linkToRoute('admin_export_yaml', ['entity' => 'Recipe'])
+            ->createAsGlobalAction()
+            ->addCssClass('btn btn-secondary')
+            ->setIcon('fa fa-file-code');
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
                       ->linkToRoute('admin_export_csv', ['entity' => 'Recipe'])
                       ->createAsGlobalAction()
@@ -92,6 +103,8 @@ class RecipeCrudController extends AbstractCrudController
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
           $linkName = $this->translator->trans('menu.link_recipe_single', [], 'messages');
           return $actions
+             ->add(Crud::PAGE_INDEX, $exportYaml)
+             ->add(Crud::PAGE_INDEX, $importYaml)
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)
              ->update(Crud::PAGE_INDEX, Action::NEW,

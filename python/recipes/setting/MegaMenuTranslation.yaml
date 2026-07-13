@@ -1,0 +1,39 @@
+translate:
+  link:
+    uk: Пункти Меню
+    uk_single: Пункт Меню
+    en: Menu Items
+    en_single: Menu Item
+fields:
+- name: id
+  type: integer
+  id: true
+- name: megamenusetting
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: MegaMenuSetting
+  inversedBy: translations
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: megamenutranslatelocales
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: status
+  type: select
+  typeInput: yesno
+- name: megamenutype
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: MegaMenuType
+  inversedBy: megamenutranslations
+- name: position
+  type: integer
+- name: url
+  type: string
+- name: content
+  type: text
+  numOfRows: 10

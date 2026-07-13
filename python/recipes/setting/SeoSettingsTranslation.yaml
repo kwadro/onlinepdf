@@ -1,0 +1,39 @@
+translate:
+  link:
+    uk: Seo Настройки Переклад
+    uk_single: Seo Настройка Переклад
+    en: Seo Settings Translation
+    en_single: Seo Setting Translation
+fields:
+- name: id
+  type: integer
+  id: true
+- name: seosetting
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: SeoSetting
+  inversedBy: translations
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: seosettingtranslatelocales
+- name: meta_title
+  type: string
+  isstring: true
+- name: meta_description
+  type: text
+- name: meta_keywords
+  type: string
+- name: author
+  type: string
+- name: og_title
+  type: string
+- name: og_description
+  type: text
+- name: og_type
+  type: string
+- name: og_image
+  type: image
+- name: gtm_code
+  type: string

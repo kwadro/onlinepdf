@@ -1,0 +1,29 @@
+relatedSaleAndLocale: singletwo
+translate:
+  link:
+    uk: Популярні пошукові слова
+    uk_single: Популярне пошукове слово
+    en: Popular search terms
+    en_single: Popular search term
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: image
+  type: image
+  uploadDir: recipes
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  roleRelation: master
+  inversedBy: popularsearchsites
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: Popularsearchlocales

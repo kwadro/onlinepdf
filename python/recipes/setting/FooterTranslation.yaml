@@ -1,0 +1,25 @@
+translate:
+  link:
+    uk: Переклад Футера
+    uk_single: Переклад Футера
+    en: Footer Translations
+    en_single: Footer Translation
+fields:
+- name: id
+  type: integer
+  id: true
+- name: footersetting
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: FooterSetting
+  isstring: true
+  inversedBy: translations
+- name: locale
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Locale
+  inversedBy: footertranslatelocales
+- name: content
+  type: text
+  isHtml: true
+  numOfRows: 10
