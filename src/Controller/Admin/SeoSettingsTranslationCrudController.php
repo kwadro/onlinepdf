@@ -35,12 +35,12 @@ class SeoSettingsTranslationCrudController extends AbstractCrudController
             AssociationField::new('locale'),
             TextField::new('meta_title'),
         
-            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3'),
             TextField::new('meta_keywords'),
             TextField::new('author'),
             TextField::new('og_title'),
         
-            TextareaField::new('og_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('og_description')->setHelp('Enter full text here')->setNumOfRows('3'),
             TextField::new('og_type'),
             ImageField::new('og_image')->setBasePath('/uploads/images')->setUploadDir('public/uploads/images')->setRequired(false),
             TextField::new('gtm_code'),
@@ -87,9 +87,6 @@ class SeoSettingsTranslationCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

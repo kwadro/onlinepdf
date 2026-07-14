@@ -39,25 +39,35 @@ fields:
   isrequire: true
   name_uk: Пароль
 - name: boxencryption
-  type: string
+  type: select
+  typeInput: choices
   isrequire: true
   name_uk: Шифрування
+  choices:
+    ssl: SSL (рекомендовано для Gmail, порт 993)
+    tls: TLS (STARTTLS, зазвичай порт 143)
 - name: boxmailbox
-  type: string
+  type: select
+  typeInput: choices
   isrequire: true
   name_uk: Папка
+  choices:
+    INBOX: INBOX — вхідні
+    Sent: Sent — надіслані
+    Drafts: Drafts — чернетки
+    Spam: Spam — спам
+    Trash: Trash — кошик
 - name: boxactive
   type: select
   typeInput: yesno
   name_uk: Активна
-- name: boxlast_uid
-  type: integer
-  name_uk: Останній UID
 - name: last_checked_at
   type: datetime
   name_uk: Остання перевірка
+  hideOnForm: true
 - name: emailmessages
   type: relation
   typeRelation: OneToMany
   objectRelation: EmailMessage
   mappedBy: mailbox
+  hideOnForm: true

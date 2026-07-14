@@ -61,9 +61,6 @@ class EmailMessage
     private ?string $subject;
 
     #[ORM\Column(type:"text", nullable:true)]
-    private ?string $body_text;
-
-    #[ORM\Column(type:"text", nullable:true)]
     private ?string $body_html;
 
     #[ORM\Column(type:"datetime_immutable", nullable:true)]
@@ -178,16 +175,6 @@ class EmailMessage
     public function getSubject(): ?string
     {
         return $this->subject;
-    }
-    public function setBodyText(?string $body_text): self
-    {
-        $this->body_text = $body_text;
-        return $this;
-    }
-
-    public function getBodyText(): ?string
-    {
-        return $this->body_text;
     }
     public function setBodyHtml(?string $body_html): self
     {

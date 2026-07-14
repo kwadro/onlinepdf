@@ -26,13 +26,15 @@ class {{ name }}Type extends AbstractType
     {
         $builder
         {%- for field in fields %}
-            {%- if field.type=='string' and not field.id %}
+            {%- if field.id or field.hideOnForm or (field.admin is defined and field.admin == false) or field.type == 'relation' %}
+            {%- else %}
+            {%- if field.type=='string' %}
             ->add('{{field.name}}', TextType::class)
             {%- endif %}
-            {%- if field.type=='text' and not field.id %}
+            {%- if field.type=='text' %}
             ->add('{{field.name}}', TextareaType::class)
             {%- endif %}
-            {%- if field.type=='integer' and not field.id %}
+            {%- if field.type=='integer' %}
             ->add('{{field.name}}', IntegerType::class)
             {%- endif %}
             {%- if field.type=='select' and field.typeInput=='yesno' %}
@@ -41,6 +43,18 @@ class {{ name }}Type extends AbstractType
                     'Yes' => 'Yes',
                     'No' => 'No'
                 ]
+            ])
+            {%- endif %}
+            {%- if field.type=='select' and field.typeInput=='choices' %}
+            ->add('{{field.name}}', ChoiceType::class, [
+                'choices' => [
+                {%- for value, label in field.choices.items() %}
+                    '{{ label }}' => '{{ value }}',
+                {%- endfor %}
+                ],
+                {%- if field.help %}
+                'help' => '{{ field.help }}',
+                {%- endif %}
             ])
             {%- endif %}
 
@@ -71,6 +85,7 @@ class {{ name }}Type extends AbstractType
                      ],
 
                  ])
+            {%- endif %}
             {%- endif %}
         {%- endfor %}
          ;

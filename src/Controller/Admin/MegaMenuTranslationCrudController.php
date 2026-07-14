@@ -41,7 +41,7 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
                 ->setHelp('Enter a positive number only'),
             TextField::new('url'),
         
-            TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
+            TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10'),
         ];
     }
 
@@ -85,9 +85,6 @@ class MegaMenuTranslationCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

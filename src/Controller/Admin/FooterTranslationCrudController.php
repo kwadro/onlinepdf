@@ -34,7 +34,7 @@ class FooterTranslationCrudController extends AbstractCrudController
             AssociationField::new('footersetting'),
             AssociationField::new('locale'),
         
-            TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
+            TextareaField::new('content')->setHelp('Enter full text here')->setNumOfRows('10'),
         ];
     }
 
@@ -78,9 +78,6 @@ class FooterTranslationCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

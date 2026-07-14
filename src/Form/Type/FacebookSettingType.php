@@ -20,18 +20,6 @@ class FacebookSettingType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-                 ->add('locale', CustomAddselectType::class, [
-                     'class' => Locale::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select locale',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'Locale',
-                         'search-field'=>'code',
-                         'require-fields'=>'code,name',
-                     ],
-
-                 ])
             ->add('recipe_id', IntegerType::class)
             ->add('text_post', TextareaType::class)
             ->add('tag', TextType::class)

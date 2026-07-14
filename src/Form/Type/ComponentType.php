@@ -23,30 +23,6 @@ class ComponentType extends AbstractType
     {
         $builder
             ->add('position', IntegerType::class)
-                 ->add('ingredient', CustomAddselectType::class, [
-                     'class' => Ingredient::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select ingredient',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'Ingredient',
-                         'search-field'=>'name',
-                         'require-fields'=>'name,sku',
-                     ],
-
-                 ])
-                 ->add('unit', CustomAddselectType::class, [
-                     'class' => Unit::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select unit',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'Unit',
-                         'search-field'=>'name',
-                         'require-fields'=>'name',
-                     ],
-
-                 ])
             ->add('quantity', IntegerType::class)
          ;
     }

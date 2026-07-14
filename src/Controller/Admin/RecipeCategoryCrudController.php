@@ -40,7 +40,7 @@ class RecipeCategoryCrudController extends AbstractCrudController
             ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->setRequired(false),
             TextField::new('meta_title'),
         
-            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3'),
             AssociationField::new('parent'),
             AssociationField::new('children')->setFormTypeOption('by_reference', false),
             AssociationField::new('recipes')->setFormTypeOption('by_reference', false),
@@ -87,9 +87,6 @@ class RecipeCategoryCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

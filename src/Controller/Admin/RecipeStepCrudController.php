@@ -37,9 +37,9 @@ class RecipeStepCrudController extends AbstractCrudController
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
         
-            TextareaField::new('question')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('question')->setHelp('Enter full text here')->setNumOfRows('3'),
         
-            TextareaField::new('answer')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('answer')->setHelp('Enter full text here')->setNumOfRows('3'),
             ImageField::new('image')->setBasePath('/uploads/recipes')->setUploadDir('public/uploads/recipes')->setRequired(false),
         ];
     }
@@ -84,9 +84,6 @@ class RecipeStepCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

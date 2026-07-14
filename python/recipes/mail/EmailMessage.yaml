@@ -7,6 +7,8 @@ translate:
 repository:
   template: mail-message
 disable_import: true
+crud:
+  edit_only: true
 fields:
 - name: id
   type: integer
@@ -36,6 +38,7 @@ fields:
 - name: message_id
   type: string
   name_uk: Message-ID
+  hideOnIndex: true
 - name: from_address
   type: string
   isrequire: true
@@ -50,12 +53,10 @@ fields:
 - name: subject
   type: string
   name_uk: Тема
-- name: body_text
-  type: text
-  name_uk: Текст
 - name: body_html
   type: text
   name_uk: HTML
+  hideOnIndex: true
 - name: received_at
   type: datetime_immutable
   name_uk: Отримано

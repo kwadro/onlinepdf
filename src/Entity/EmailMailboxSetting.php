@@ -53,9 +53,6 @@ class EmailMailboxSetting
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $boxactive;
 
-    #[ORM\Column(type:"integer", nullable:true)]
-    private ?int $boxlast_uid;
-
     #[ORM\Column(type:"datetime", nullable:true)]
     private ?\DateTimeInterface $last_checked_at;
     #[ORM\OneToMany(
@@ -173,16 +170,6 @@ class EmailMailboxSetting
     public function getBoxactive(): ?string
     {
         return $this->boxactive;
-    }
-    public function setBoxlastUid(?int $boxlast_uid): self
-    {
-        $this->boxlast_uid = $boxlast_uid;
-        return $this;
-    }
-
-    public function getBoxlastUid(): ?int
-    {
-        return $this->boxlast_uid;
     }
     public function setLastCheckedAt(?\DateTimeInterface $last_checked_at): self
     {

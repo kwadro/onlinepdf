@@ -40,6 +40,9 @@ class EmailSenderFilter
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $filteractive;
+
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $filterlast_uid;
     #[ORM\OneToMany(
         targetEntity: EmailMessage::class,
         mappedBy: 'sender_filter',
@@ -115,6 +118,16 @@ class EmailSenderFilter
     public function getFilteractive(): ?string
     {
         return $this->filteractive;
+    }
+    public function setFilterlastUid(?int $filterlast_uid): self
+    {
+        $this->filterlast_uid = $filterlast_uid;
+        return $this;
+    }
+
+    public function getFilterlastUid(): ?int
+    {
+        return $this->filterlast_uid;
     }
 
     public function addEmailMessage(EmailMessage $emailmessage): self

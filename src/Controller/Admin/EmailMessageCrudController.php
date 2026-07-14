@@ -37,15 +37,14 @@ class EmailMessageCrudController extends AbstractCrudController
             IntegerField::new('imap_uid')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only')->setRequired(true),
-            TextField::new('message_id'),
+            TextField::new('message_id')->hideOnIndex(),
             TextField::new('from_address')->setRequired(true),
             TextField::new('from_name'),
             TextField::new('recipient'),
             TextField::new('subject'),
         
-            TextareaField::new('body_text')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
-        
             TextareaField::new('body_html')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            DateField::new('received_at')->renderAsNativeWidget(),
             ChoiceField::new('is_seen')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
         ];
     }
@@ -70,29 +69,9 @@ class EmailMessageCrudController extends AbstractCrudController
 
     public function configureActions(Actions $actions): Actions
     {
-          $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailMessage'])
-                      ->createAsGlobalAction()
-                      ->addCssClass('btn btn-secondary')
-                      ->setIcon('fa fa-file-csv');
-          $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'EmailMessage'])
-                       ->createAsGlobalAction()
-                       ->addCssClass('btn btn-secondary')
-                       ->setIcon('fa fa-upload');
-          $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_emailmessage_single', [], 'messages');
           return $actions
-             ->add(Crud::PAGE_INDEX, $export)
-             ->add(Crud::PAGE_INDEX, $import)
-             ->update(Crud::PAGE_INDEX, Action::NEW,
-                         fn (Action $action) =>
-                             $action->setLabel(sprintf('%s %s',$addNew,$linkName))
-                     );
+             ->disable(Action::NEW, Action::DELETE);
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

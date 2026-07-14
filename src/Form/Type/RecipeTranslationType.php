@@ -24,18 +24,6 @@ class RecipeTranslationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-                 ->add('locale', CustomAddselectType::class, [
-                     'class' => Locale::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select locale',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'Locale',
-                         'search-field'=>'code',
-                         'require-fields'=>'code,name',
-                     ],
-
-                 ])
             ->add('name', TextType::class)
             ->add('slug', TextType::class)
             ->add('facebook_image', TextType::class)
@@ -69,38 +57,6 @@ class RecipeTranslationType extends AbstractType
             ->add('description', TextareaType::class)
             ->add('cuisine', TextType::class)
             ->add('notes', TextareaType::class)
-            ->add('groupcomponents', CollectionType::class, [
-                'entry_type' => GroupComponentType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-            ->add('recipesteps', CollectionType::class, [
-                'entry_type' => RecipeStepType::class,
-                'entry_options' => [
-                    'label' => false,
-                ],
-                'allow_add' => true,
-                'allow_delete' => true,
-                'by_reference' => false,
-                'prototype' => true,
-            ])
-                 ->add('user', CustomAddselectType::class, [
-                     'class' => User::class,
-                     'choice_label' => 'name',
-                     'placeholder' => 'Select user',
-                     'required' => true,
-                     'attr' => [
-                         'data-entity' => 'User',
-                         'search-field'=>'email',
-                         'require-fields'=>'email',
-                     ],
-
-                 ])
          ;
     }
 

@@ -37,7 +37,7 @@ class FacebookSettingCrudController extends AbstractCrudController
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
         
-            TextareaField::new('text_post')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('text_post')->setHelp('Enter full text here')->setNumOfRows('3'),
             TextField::new('tag'),
             TextField::new('title1'),
             TextField::new('title2'),
@@ -93,9 +93,6 @@ class FacebookSettingCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

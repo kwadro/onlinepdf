@@ -1,11 +1,12 @@
 from __future__ import annotations
 
+from .config import BASE
 from .context import GeneratorContext, EntityRef, normalize_fields, resolve_group_paths
 from .engine import render_template
 from .writers import OUT, Writer
 
 PER_ENTITY_TASKS = {"entity", "controller", "repository", "form_type", "import"}
-ONCE_TASKS = {"dashboard", "export"}
+ONCE_TASKS = {"dashboard", "export", "group_files"}
 ALL_TASKS = PER_ENTITY_TASKS | ONCE_TASKS
 
 ENTITY_TEMPLATES = {
@@ -98,7 +99,7 @@ def generate_controller(writer: Writer, entity_ref: EntityRef) -> None:
 
     if template == "controller.php.j2":
         fields = normalize_fields(entity["fields"])
-        code = render_template(template, name=entity_name, fields=fields)
+        code = render_template(template, name=entity_name, fields=fields, entity=entity)
     else:
         code = render_template(template, **_template_context(entity_ref))
 
@@ -136,7 +137,7 @@ def generate_form_types(
             )
             continue
 
-        class_fields = class_entity.get("fields")
+        class_fields = normalize_fields(class_entity.get("fields"))
         if not class_fields:
             continue
 
@@ -256,6 +257,34 @@ def generate_export_script(writer: Writer, groups: dict) -> None:
     writer.write_file(OUT / "bash/import-entity.sh", code)
 
 
+def generate_group_files(
+    writer: Writer,
+    ctx: GeneratorContext,
+    group_filter: set[str] | None = None,
+) -> None:
+    for group_name, group in ctx.groups.items():
+        if group_filter and group_name not in group_filter:
+            continue
+
+        for file_spec in group.get("generate_files", []):
+            template = file_spec.get("template")
+            output_path = file_spec.get("path")
+            if not template or not output_path:
+                print(
+                    f"Warning: group '{group_name}' generate_files entry "
+                    "requires template and path"
+                )
+                continue
+
+            print(f"Group: {group_name}, File: {output_path}")
+            template_path = BASE / "templates" / template
+            if file_spec.get("copy") or template.endswith(".php"):
+                code = template_path.read_text(encoding="utf-8")
+            else:
+                code = render_template(template)
+            writer.write_file(OUT / output_path, code)
+
+
 def run_tasks(
     tasks: set[str],
     ctx: GeneratorContext,
@@ -284,3 +313,5 @@ def run_tasks(
         generate_dashboard_link(writer, ctx.groups)
     if "export" in once:
         generate_export_script(writer, ctx.groups)
+    if "group_files" in once:
+        generate_group_files(writer, ctx, group_filter)

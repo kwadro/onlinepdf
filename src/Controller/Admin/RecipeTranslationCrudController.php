@@ -43,14 +43,14 @@ class RecipeTranslationCrudController extends AbstractCrudController
             ChoiceField::new('is_popular')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
             TextField::new('meta_title'),
         
-            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('meta_description')->setHelp('Enter full text here')->setNumOfRows('3'),
         
-            TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('short_description')->setHelp('Enter full text here')->setNumOfRows('3'),
         
-            TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10')->hideOnIndex(),
+            TextareaField::new('description')->setHelp('Enter full text here')->setNumOfRows('10'),
             TextField::new('cuisine'),
         
-            TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+            TextareaField::new('notes')->setHelp('Enter full text here')->setNumOfRows('3'),
             CollectionField::new('groupcomponents')
                 ->setEntryType(GroupComponentType::class)
                 ->setEntryIsComplex(true)
@@ -112,9 +112,6 @@ class RecipeTranslationCrudController extends AbstractCrudController
                              $action->setLabel(sprintf('%s %s',$addNew,$linkName))
                      );
     //    return $actions
-    //        ->setPermission(Action::NEW, 'ROLE_ADMIN')
-    //        ->setPermission(Action::EDIT, 'ROLE_MANAGER')
-    //        ->setPermission(Action::DELETE, 'ROLE_ADMIN')
     //        ->setPermission(Action::DETAIL, 'ROLE_USER');
     }
 }

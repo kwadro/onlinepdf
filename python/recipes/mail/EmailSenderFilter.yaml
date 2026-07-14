@@ -27,15 +27,25 @@ fields:
   isrequire: true
   name_uk: Email відправника
 - name: match_mode
-  type: string
+  type: select
+  typeInput: choices
   isrequire: true
   name_uk: Режим збігу
+  help: 'exact — адреса From повністю співпадає; contains — адреса From містить указаний фрагмент'
+  choices:
+    exact: Точний збіг (exact)
+    contains: Містить (contains)
 - name: filteractive
   type: select
   typeInput: yesno
   name_uk: Активний
+- name: filterlast_uid
+  type: integer
+  name_uk: Останній UID
+  hideOnForm: true
 - name: emailmessages
   type: relation
   typeRelation: OneToMany
   objectRelation: EmailMessage
   mappedBy: sender_filter
+  hideOnForm: true

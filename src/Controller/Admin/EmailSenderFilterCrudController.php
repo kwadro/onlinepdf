@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use App\Entity\EmailMailboxSetting;
+use App\Entity\EmailSenderFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -19,32 +19,27 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 
-class EmailMailboxSettingCrudController extends AbstractCrudController
+class EmailSenderFilterCrudController extends AbstractCrudController
 {
     public function __construct(
         private TranslatorInterface $translator
     ) {
     }
-    public static function getEntityFqcn(): string { return EmailMailboxSetting::class; }
+    public static function getEntityFqcn(): string { return EmailSenderFilter::class; }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
             AssociationField::new('site'),
-            TextField::new('boxname')->setRequired(true),
-            TextField::new('boxhost')->setRequired(true),
-            IntegerField::new('boxport')
+            TextField::new('filtername')->setRequired(true),
+            TextField::new('filtersender')->setRequired(true),
+        
+            ChoiceField::new('match_mode')->setChoices(['Точний збіг (exact)' => 'exact', 'Містить (contains)' => 'contains'])->setHelp('exact — адреса From повністю співпадає; contains — адреса From містить указаний фрагмент')->setRequired(true),
+            ChoiceField::new('filteractive')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            IntegerField::new('filterlast_uid')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-                ->setHelp('Enter a positive number only')->setRequired(true),
-            TextField::new('boxusername')->setRequired(true),
-            TextField::new('boxpassword')->setRequired(true),
-        
-            ChoiceField::new('boxencryption')->setChoices(['SSL (рекомендовано для Gmail, порт 993)' => 'ssl', 'TLS (STARTTLS, зазвичай порт 143)' => 'tls'])->setRequired(true),
-        
-            ChoiceField::new('boxmailbox')->setChoices(['INBOX — вхідні' => 'INBOX', 'Sent — надіслані' => 'Sent', 'Drafts — чернетки' => 'Drafts', 'Spam — спам' => 'Spam', 'Trash — кошик' => 'Trash'])->setRequired(true),
-            ChoiceField::new('boxactive')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
-            DateField::new('last_checked_at')->renderAsNativeWidget()->hideOnForm(),
+                ->setHelp('Enter a positive number only')->hideOnForm(),
             AssociationField::new('emailmessages')->setFormTypeOption('by_reference', false)->hideOnForm(),
         ];
     }
@@ -55,7 +50,7 @@ class EmailMailboxSettingCrudController extends AbstractCrudController
          $manage = $this->translator->trans('grud.manage', [], 'messages');
          $edit = $this->translator->trans('grud.edit', [], 'messages');
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
-         $linkName = $this->translator->trans('menu.link_emailmailboxsetting_single', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_emailsenderfilter_single', [], 'messages');
          return $crud
             ->setFormThemes([
                '@EasyAdmin/crud/form_theme.html.twig',
@@ -70,17 +65,17 @@ class EmailMailboxSettingCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailMailboxSetting'])
+                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailSenderFilter'])
                       ->createAsGlobalAction()
                       ->addCssClass('btn btn-secondary')
                       ->setIcon('fa fa-file-csv');
           $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'EmailMailboxSetting'])
+                       ->linkToRoute('admin_import', ['entity' => 'EmailSenderFilter'])
                        ->createAsGlobalAction()
                        ->addCssClass('btn btn-secondary')
                        ->setIcon('fa fa-upload');
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_emailmailboxsetting_single', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_emailsenderfilter_single', [], 'messages');
           return $actions
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)

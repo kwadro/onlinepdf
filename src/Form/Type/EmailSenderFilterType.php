@@ -2,7 +2,7 @@
 
 namespace App\Form\Type;
 
-use App\Entity\EmailMailboxSetting;
+use App\Entity\EmailSenderFilter;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,32 +14,21 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\Type\SiteType;
 use App\Form\Type\EmailMessageType;
-class EmailMailboxSettingType extends AbstractType
+class EmailSenderFilterType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('boxname', TextType::class)
-            ->add('boxhost', TextType::class)
-            ->add('boxport', IntegerType::class)
-            ->add('boxusername', TextType::class)
-            ->add('boxpassword', TextType::class)
-            ->add('boxencryption', ChoiceType::class, [
+            ->add('filtername', TextType::class)
+            ->add('filtersender', TextType::class)
+            ->add('match_mode', ChoiceType::class, [
                 'choices' => [
-                    'SSL (рекомендовано для Gmail, порт 993)' => 'ssl',
-                    'TLS (STARTTLS, зазвичай порт 143)' => 'tls',
+                    'Точний збіг (exact)' => 'exact',
+                    'Містить (contains)' => 'contains',
                 ],
+                'help' => 'exact — адреса From повністю співпадає; contains — адреса From містить указаний фрагмент',
             ])
-            ->add('boxmailbox', ChoiceType::class, [
-                'choices' => [
-                    'INBOX — вхідні' => 'INBOX',
-                    'Sent — надіслані' => 'Sent',
-                    'Drafts — чернетки' => 'Drafts',
-                    'Spam — спам' => 'Spam',
-                    'Trash — кошик' => 'Trash',
-                ],
-            ])
-            ->add('boxactive', ChoiceType::class,[
+            ->add('filteractive', ChoiceType::class,[
                 'choices' => [
                     'Yes' => 'Yes',
                     'No' => 'No'
@@ -51,10 +40,10 @@ class EmailMailboxSettingType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => EmailMailboxSetting::class,
+            'data_class' => EmailSenderFilter::class,
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
-            'csrf_token_id'   => 'emailmailboxsetting_form',
+            'csrf_token_id'   => 'emailsenderfilter_form',
         ]);
     }
 }

@@ -147,7 +147,6 @@ Boxpassword: Пароль
 Boxencryption: Шифрування
 Boxmailbox: Папка
 Boxactive: Активна
-Boxlast Uid: Останній Uid
 Last Checked At: Остання Перевірка
 menu.link_emailmessage_single: Вхідний лист
 menu.link_emailmessage: Вхідні листи
@@ -157,7 +156,6 @@ From Address: Відправник
 From Name: Ім'я Відправника
 Recipient: Отримувач (To)
 Subject: Тема
-Body Text: Текст
 Body Html: Html
 Received At: Отримано
 Is Seen: Прочитано
@@ -167,6 +165,7 @@ Filtername: Назва Фільтра
 Filtersender: Email Відправника
 Match Mode: Режим Збігу
 Filteractive: Активний
+Filterlast Uid: Останній Uid
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Будь ласка увійдіть'
 Sign in with Google: 'Продовжити з Google'
