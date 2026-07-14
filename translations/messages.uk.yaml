@@ -156,7 +156,7 @@ From Address: Відправник
 From Name: Ім'я Відправника
 Recipient: Отримувач (To)
 Subject: Тема
-Body Html: Html
+Body Html: Html Листа
 Received At: Отримано
 Is Seen: Прочитано
 menu.link_emailsenderfilter_single: Фільтр відправника

@@ -41,6 +41,10 @@ class {{ name }}CrudController extends AbstractCrudController
     {%- set configureField = '' %}
     {%- if field.id %}
         {%- set configureField = configureField  ~ "IdField::new('id')->hideOnForm()" %}
+    {%- elif field.type=='text' and field.typeInput in ['tinymce', 'tinymce_email'] %}
+        {% set rows = field.numOfRows | default(12) %}
+        {% set tinymce_class = 'tinymce tinymce-email' if field.typeInput == 'tinymce_email' else 'tinymce' %}
+        {%- set configureField = configureField ~ "TextareaField::new('" ~ field.name ~ "')->setNumOfRows(" ~ rows ~ ")->setFormTypeOption('attr', ['class' => '" ~ tinymce_class ~ "'])" %}
     {%- elif field.type=='text' %}
         {% set rows = field.numOfRows | default(3) %}
         {%- set configureField = configureField ~ "TextareaField::new('" ~ field.name ~ "')->setHelp('Enter full text here')->setNumOfRows('" ~ rows ~ "')" %}

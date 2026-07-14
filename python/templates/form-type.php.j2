@@ -31,7 +31,16 @@ class {{ name }}Type extends AbstractType
             {%- if field.type=='string' %}
             ->add('{{field.name}}', TextType::class)
             {%- endif %}
-            {%- if field.type=='text' %}
+            {%- if field.type=='text' and field.typeInput in ['tinymce', 'tinymce_email'] %}
+            {% set tinymce_class = 'tinymce tinymce-email' if field.typeInput == 'tinymce_email' else 'tinymce' %}
+            ->add('{{field.name}}', TextareaType::class, [
+                'attr' => ['class' => '{{ tinymce_class }}'],
+            ])
+            {%- endif %}
+            {%- if field.type=='text' and not field.typeInput %}
+            ->add('{{field.name}}', TextareaType::class)
+            {%- endif %}
+            {%- if field.type=='text' and field.typeInput and field.typeInput not in ['tinymce', 'tinymce_email'] %}
             ->add('{{field.name}}', TextareaType::class)
             {%- endif %}
             {%- if field.type=='integer' %}

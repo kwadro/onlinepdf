@@ -26,7 +26,10 @@ class EmailMessageType extends AbstractType
             ->add('from_name', TextType::class)
             ->add('recipient', TextType::class)
             ->add('subject', TextType::class)
-            ->add('body_html', TextareaType::class)
+            
+            ->add('body_html', TextareaType::class, [
+                'attr' => ['class' => 'tinymce tinymce-email'],
+            ])
             ->add('is_seen', ChoiceType::class,[
                 'choices' => [
                     'Yes' => 'Yes',

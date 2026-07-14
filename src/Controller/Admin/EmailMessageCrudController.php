@@ -43,7 +43,8 @@ class EmailMessageCrudController extends AbstractCrudController
             TextField::new('recipient'),
             TextField::new('subject'),
         
-            TextareaField::new('body_html')->setHelp('Enter full text here')->setNumOfRows('3')->hideOnIndex(),
+        
+            TextareaField::new('body_html')->setNumOfRows(12)->setFormTypeOption('attr', ['class' => 'tinymce tinymce-email'])->hideOnIndex(),
             DateField::new('received_at')->renderAsNativeWidget(),
             ChoiceField::new('is_seen')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
         ];

@@ -20,25 +20,39 @@ function initTinyMce(context = document) {
             return;
         }
 
-        tinymce.init({
+        const isEmail = el.classList.contains('tinymce-email');
+        const baseConfig = {
             target: el,
-            height: 400,
-            menubar: false,
+            height: isEmail ? 560 : 400,
+            menubar: isEmail,
             license_key: 'gpl',
             base_url: '/build/tinymce',
             suffix: '.min',
-            plugins: 'image link lists code table',
-            toolbar: 'undo redo | bold italic | bullist numlist | link image | code',
-            automatic_uploads: true,
-            images_upload_url: '/admin/tinymce/upload',
+            plugins: isEmail ? 'link lists code table fullscreen' : 'image link lists code table',
+            toolbar: isEmail
+                ? 'fullscreen | undo redo | code | bold italic underline | alignleft aligncenter alignright | bullist numlist | link'
+                : 'undo redo | bold italic | bullist numlist | link image | code',
+            automatic_uploads: !isEmail,
+            images_upload_url: isEmail ? undefined : '/admin/tinymce/upload',
             images_reuse_filename: true,
             relative_urls: false,
             remove_script_host: false,
-
             setup: function () {
                 el.classList.add('tinymce-initialized');
-            }
-        });
+            },
+        };
+
+        if (isEmail) {
+            Object.assign(baseConfig, {
+                verify_html: false,
+                valid_elements: '*[*]',
+                extended_valid_elements: 'style,link[href|rel|type],meta[*],head[*],body[*],html[*]',
+                convert_urls: false,
+                content_style: 'body { font-family: Arial, Helvetica, sans-serif; font-size: 14px; margin: 16px; }',
+            });
+        }
+
+        tinymce.init(baseConfig);
     });
 }
 
