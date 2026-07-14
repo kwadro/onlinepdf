@@ -1,0 +1,210 @@
+{% extends "base-account.html.twig" %}
+
+{% block main %}
+    <div class="width-search d-flex justify-content-between align-items-center">
+        <h4 class="fw-bold ms-2 my-3">{{ 'subscription.your_plan'|trans }}</h4>
+    </div>
+
+    <div class="width-search px-2">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label == 'error' ? 'danger' : label }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="card mb-4 border-0 shadow-sm">
+            <div class="card-body">
+                <h5 class="card-title">{{ 'subscription.current_plan'|trans }}</h5>
+
+                {% if activeSubscription %}
+                    {% set plan = activeSubscription.plan %}
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">{{ 'subscription.plan_name'|trans }}</p>
+                            <p class="fs-5 fw-semibold mb-0">{{ plan ? plan.name : '-' }}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">{{ 'subscription.status'|trans }}</p>
+                            <p class="mb-0">
+                                <span class="badge bg-success">{{ 'subscription.status_active'|trans }}</span>
+                            </p>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="mb-1 text-muted">{{ 'subscription.expires_at'|trans }}</p>
+                            <p class="mb-0">
+                                {% if activeSubscription.expiresAt %}
+                                    {{ activeSubscription.expiresAt|date('d.m.Y H:i') }}
+                                {% else %}
+                                    {{ 'subscription.unlimited'|trans }}
+                                {% endif %}
+                            </p>
+                        </div>
+                        {% if plan and plan.features is not empty %}
+                            <div class="col-12">
+                                <p class="mb-1 text-muted">{{ 'subscription.features'|trans }}</p>
+                                <ul class="mx-3 mb-0">
+                                    {% for feature in plan.features %}
+                                        <li>{{ feature }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    {% if plan and plan.code != 'free' and not pendingSubscription %}
+                        <form method="post" action="{{ path('account_plan_cancel', {_locale: app.request.locale}) }}" class="mt-3" data-turbo="false">
+                            <input type="hidden" name="_token" value="{{ csrf_token('account_plan_cancel') }}">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                {{ 'subscription.cancel_plan'|trans }}
+                            </button>
+                        </form>
+                    {% endif %}
+                {% else %}
+                    <p class="mb-0 text-muted">{{ 'subscription.no_active_plan'|trans }}</p>
+                {% endif %}
+
+                {% if pendingSubscription %}
+                    <hr class="my-3">
+                    <p class="mb-2 text-warning">
+                        {{ 'subscription.pending_payment'|trans({
+                            '%plan%': pendingSubscription.plan ? pendingSubscription.plan.name : ''
+                        }) }}
+                    </p>
+                    <p class="small text-muted mb-3">{{ 'subscription.pending_keeps_current_plan'|trans }}</p>
+                    <div class="d-flex flex-wrap gap-2">
+                        <a
+                            href="{{ path('account_plan_checkout', {_locale: app.request.locale, id: pendingSubscription.id}) }}"
+                            class="btn btn-primary btn-sm"
+                            data-turbo="false"
+                        >
+                            {{ 'subscription.continue_payment'|trans }}
+                        </a>
+                        <form method="post" action="{{ path('account_plan_pending_cancel', {_locale: app.request.locale}) }}" data-turbo="false">
+                            <input type="hidden" name="_token" value="{{ csrf_token('account_plan_pending_cancel') }}">
+                            <button type="submit" class="btn btn-outline-secondary btn-sm">
+                                {{ 'subscription.cancel_pending'|trans }}
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                {% if showPlanForm %}
+                <h5 class="card-title">{{ 'subscription.choose_plan'|trans }}</h5>
+                <p class="text-muted">
+                    {% if activeSubscription %}
+                        {{ 'subscription.upgrade_help'|trans }}
+                    {% else %}
+                        {{ 'subscription.choose_plan_help'|trans }}
+                    {% endif %}
+                </p>
+
+                <form
+                    method="post"
+                    action="{{ path('account_plan_subscribe', {_locale: app.request.locale}) }}"
+                    id="subscription-form"
+                    data-turbo="false"
+                >
+                    <input type="hidden" name="_token" value="{{ csrf_token('account_plan_subscribe') }}">
+
+                    <div class="row g-3 mb-4">
+                        {% for plan in selectablePlans %}
+                            <div class="col-md-6">
+                                <label class="card h-100 border plan-option" style="cursor: pointer;">
+                                    <div class="card-body">
+                                        <div class="form-check">
+                                            <input
+                                                class="form-check-input"
+                                                type="radio"
+                                                name="plan"
+                                                id="plan-{{ plan.code }}"
+                                                value="{{ plan.code }}"
+                                                data-price="{{ plan.price }}"
+                                                {% if loop.first %}checked{% endif %}
+                                                required
+                                            >
+                                            <span class="form-check-label w-100">
+                                                <span class="d-flex justify-content-between align-items-start">
+                                                    <span>
+                                                        <strong class="d-block">{{ plan.name }}</strong>
+                                                        <small class="text-muted">{{ plan.interval.value }}</small>
+                                                    </span>
+                                                    <span class="fw-bold">
+                                                        {% if plan.price == 0 %}
+                                                            {{ 'subscription.free'|trans }}
+                                                        {% else %}
+                                                            {{ (plan.price / 100)|number_format(2, '.', ' ') }} {{ plan.currency }}
+                                                        {% endif %}
+                                                    </span>
+                                                </span>
+                                                {% if plan.features is not empty %}
+                                                    <ul class="small text-muted mt-2 mb-0 ps-3">
+                                                        {% for feature in plan.features %}
+                                                            <li>{{ feature }}</li>
+                                                        {% endfor %}
+                                                    </ul>
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div id="payment-methods-block" class="mb-4">
+                        <h6 class="mb-3">{{ 'subscription.payment_method'|trans }}</h6>
+                        <div class="row g-2">
+                            {% for method in paymentMethods %}
+                                <div class="col-md-6">
+                                    <label class="d-flex align-items-center gap-2 border rounded p-3">
+                                        <input
+                                            type="radio"
+                                            name="payment_method"
+                                            value="{{ method.code }}"
+                                            {% if loop.first %}checked{% endif %}
+                                            required
+                                        >
+                                        <span>{{ method.name }}</span>
+                                    </label>
+                                </div>
+                            {% else %}
+                                <div class="col-12">
+                                    <p class="text-muted mb-0">{{ 'subscription.no_payment_methods'|trans }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                        id="subscribe-button"
+                    >
+                        {{ 'subscription.subscribe_button'|trans }}
+                    </button>
+                </form>
+                {% elseif pendingSubscription %}
+                    <p class="text-muted mb-3">{{ 'subscription.complete_pending_payment'|trans }}</p>
+                    <a
+                        href="{{ path('account_plan_checkout', {_locale: app.request.locale, id: pendingSubscription.id}) }}"
+                        class="btn btn-primary"
+                        data-turbo="false"
+                    >
+                        {{ 'subscription.continue_payment'|trans }}
+                    </a>
+                {% elseif activeSubscription and selectablePlans is empty %}
+                    <p class="text-muted mb-0">{{ 'subscription.already_on_highest_plan'|trans }}</p>
+                {% else %}
+                    <p class="text-muted mb-0">{{ 'subscription.no_plans_available'|trans }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

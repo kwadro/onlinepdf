@@ -1,0 +1,102 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Kwadro\UserSubscription\Repository;
+
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Kwadro\UserSubscription\Entity\Subscription;
+use Kwadro\UserSubscription\Enum\SubscriptionStatus;
+use Kwadro\UserSubscription\Model\SubscribableUserInterface;
+
+/** @extends ServiceEntityRepository<Subscription> */
+class SubscriptionRepository extends ServiceEntityRepository
+{
+    public function __construct(ManagerRegistry $registry)
+    {
+        parent::__construct($registry, Subscription::class);
+    }
+
+    public function findActiveForUser(SubscribableUserInterface $user): ?Subscription
+    {
+        $subscriptions = $this->createQueryBuilder('s')
+            ->andWhere('s.user = :user')
+            ->andWhere('s.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', SubscriptionStatus::Active)
+            ->orderBy('s.startedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+
+        foreach ($subscriptions as $subscription) {
+            if ($subscription->isCurrentlyActive()) {
+                return $subscription;
+            }
+        }
+
+        return null;
+    }
+
+    /** @return list<Subscription> */
+    public function findExpiredActive(?\DateTimeImmutable $now = null): array
+    {
+        $now ??= new \DateTimeImmutable();
+
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.status = :status')
+            ->andWhere('s.expiresAt IS NOT NULL')
+            ->andWhere('s.expiresAt <= :now')
+            ->setParameter('status', SubscriptionStatus::Active)
+            ->setParameter('now', $now)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findLatestPendingForUser(SubscribableUserInterface $user): ?Subscription
+    {
+        return $this->createQueryBuilder('s')
+            ->andWhere('s.user = :user')
+            ->andWhere('s.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', SubscriptionStatus::Pending)
+            ->orderBy('s.startedAt', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function userHasEverHadPlan(SubscribableUserInterface $user, string $planCode): bool
+    {
+        $subscription = $this->createQueryBuilder('s')
+            ->innerJoin('s.plan', 'p')
+            ->andWhere('s.user = :user')
+            ->andWhere('p.code = :planCode')
+            ->setParameter('user', $user)
+            ->setParameter('planCode', $planCode)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $subscription !== null;
+    }
+
+    /** @return list<Subscription> */
+    public function findAllActiveForUser(SubscribableUserInterface $user): array
+    {
+        $subscriptions = $this->createQueryBuilder('s')
+            ->andWhere('s.user = :user')
+            ->andWhere('s.status = :status')
+            ->setParameter('user', $user)
+            ->setParameter('status', SubscriptionStatus::Active)
+            ->orderBy('s.startedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+
+        return array_values(array_filter(
+            $subscriptions,
+            static fn (Subscription $subscription) => $subscription->isCurrentlyActive(),
+        ));
+    }
+}

@@ -8,6 +8,8 @@ use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Gesdinet\JWTRefreshTokenBundle\Generator\RefreshTokenGeneratorInterface;
 use Gesdinet\JWTRefreshTokenBundle\Model\RefreshTokenManagerInterface;
+use Kwadro\UserSubscription\Model\SubscribableUserInterface;
+use Kwadro\UserSubscription\Service\SubscriptionManager;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -35,6 +37,7 @@ class RegistrationController extends AbstractController
         JWTTokenManagerInterface $jwtManager,
         RefreshTokenGeneratorInterface $refreshTokenGenerator,
         RefreshTokenManagerInterface $refreshTokenManager,
+        SubscriptionManager $subscriptionManager,
     ): Response {
         $data = json_decode($request->getContent(), true);
 
@@ -68,6 +71,10 @@ class RegistrationController extends AbstractController
 
         $entityManager->persist($user);
         $entityManager->flush();
+
+        if ($user instanceof SubscribableUserInterface) {
+            $subscriptionManager->ensureFreePlan($user);
+        }
 
         try {
             $refreshToken = $refreshTokenGenerator->createForUserWithTtl($user, 30 * 24 * 60 * 60);

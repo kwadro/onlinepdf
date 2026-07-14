@@ -1,0 +1,35 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    Kwadro\UserSubscription\:
+        resource: '../../'
+        exclude:
+            - '../../DependencyInjection/'
+            - '../../Entity/'
+            - '../../Enum/'
+            - '../../Event/'
+            - '../../Payment/LiqPayGateway.php'
+            - '../../Payment/MonobankGateway.php'
+            - '../../Payment/MonobankClient.php'
+            - '../../Payment/MonobankSignatureVerifier.php'
+            - '../../Payment/NullPaymentGateway.php'
+            - '../../UserSubscriptionBundle.php'
+
+    Kwadro\UserSubscription\Payment\PaymentGatewayRegistry:
+        arguments:
+            $gateways: !tagged_iterator kwadro.payment_gateway
+
+    Kwadro\UserSubscription\Service\SubscriptionManager:
+        arguments:
+            $autoActivate: '%kwadro_user_subscription.auto_activate%'
+            $defaultPlanCode: '%kwadro_user_subscription.default_plan_code%'
+
+    Kwadro\UserSubscription\Service\PlanSeeder:
+        arguments:
+            $defaultPlans: '%kwadro_user_subscription.default_plans%'
+
+    Kwadro\UserSubscription\Controller\Api\PaymentWebhookController:
+        arguments:
+            $verifyMonobankSignature: true

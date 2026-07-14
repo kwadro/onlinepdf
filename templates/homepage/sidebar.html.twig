@@ -36,11 +36,11 @@
         {% for item_menu in setting.menu %}
             {% if  item_menu.megamenutype =='AccountSidebar'%}
                 <li  class="list-group-item  border-0 mx-1 mega-left-item
-                    {% if loop.first %}active fw-semibold{% endif %}"
+                    {% if loop.first %}active fw-semibold{% endif %} {% if app.request.get('_route') == item_menu.url %}active fw-semibold{% endif %}"
                     data-target="sidebar-{{ loop.index }}">
                     <div class="d-flex align-center">
                         {{ item_menu.content|raw }}
-                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none text-dark py-1 px-2"
+                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
                             href="{{ absolute_url(path(item_menu.url)) }}">
                             {{ item_menu.name }}
                         </a>
@@ -53,14 +53,22 @@
     <ul class="list-group  mt-4"
         data-controller="sidebar"
     >
+        <li class="list-group-item border-0 mx-1 mega-left-item {% if app.request.get('_route') == 'account_plan' %}active fw-semibold{% endif %}">
+            <div class="d-flex align-center">
+                <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
+                   href="{{ absolute_url(path('account_plan', {_locale: app.request.locale})) }}">
+                    {{ 'subscription.your_plan'|trans }}
+                </a>
+            </div>
+        </li>
         {% for item_menu in setting.menu %}
             {% if  item_menu.megamenutype =='AccountSettingSidebar'%}
                 <li  class="list-group-item  border-0 mx-1 mega-left-item
-                    {% if loop.first %}active fw-semibold{% endif %}"
+                    {% if loop.first %}active fw-semibold{% endif %} {% if app.request.get('_route') == item_menu.url %}active fw-semibold{% endif %}"
                      data-target="sidebar-{{ loop.index }}">
                     <div class="d-flex align-center">
                         {{ item_menu.content|raw }}
-                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none text-dark py-1 px-2"
+                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
                            href="{{ absolute_url(path(item_menu.url)) }}">
                             {{ item_menu.name }}
                         </a>

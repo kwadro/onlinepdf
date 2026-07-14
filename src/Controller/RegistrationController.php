@@ -6,6 +6,8 @@ use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
+use Kwadro\UserSubscription\Model\SubscribableUserInterface;
+use Kwadro\UserSubscription\Service\SubscriptionManager;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +32,8 @@ class RegistrationController extends AbstractController
     public function register(
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
+        SubscriptionManager $subscriptionManager,
     ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -45,6 +48,10 @@ class RegistrationController extends AbstractController
 
             $entityManager->persist($user);
             $entityManager->flush();
+
+            if ($user instanceof SubscribableUserInterface) {
+                $subscriptionManager->ensureFreePlan($user);
+            }
 
             // generate a signed url and email it to the user
             $this->emailVerifier->sendEmailConfirmation(

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="{{ app.request.locale }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ 'subscription.redirecting_to_payment'|trans }}</title>
+</head>
+<body data-turbo="false">
+    <p class="text-center mt-5">{{ 'subscription.redirecting_to_payment'|trans }}</p>
+
+    <form id="liqpay-form" method="POST" action="{{ checkoutUrl }}" data-turbo="false">
+        <input type="hidden" name="data" value="{{ checkoutData.data }}">
+        <input type="hidden" name="signature" value="{{ checkoutData.signature }}">
+        <noscript>
+            <button type="submit" class="btn btn-primary">{{ 'subscription.continue_payment'|trans }}</button>
+        </noscript>
+    </form>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            document.getElementById('liqpay-form').submit();
+        });
+    </script>
+</body>
+</html>

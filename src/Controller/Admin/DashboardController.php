@@ -43,6 +43,8 @@ use App\Entity\MegaMenuSetting;
 use App\Entity\MegaMenuTranslation;
 use App\Entity\MegaMenuType;
 use App\Entity\Popularsearch;
+use Kwadro\UserSubscription\Entity\Subscription;
+use Kwadro\UserSubscription\Entity\SubscriptionPlan;
 // @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
@@ -134,6 +136,9 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenutranslati
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_megamenutype', [], 'messages'), 'fas fa-list', Megamenutype::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_popularsearch', [], 'messages'), 'fas fa-list', Popularsearch::class);
 // @GENERATE MENU FINISH
+        yield MenuItem::section($this->translator->trans('menu.group_subscriptions', [], 'messages'));
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_subscription_plan', [], 'messages'), 'fas fa-tags', SubscriptionPlan::class);
+        yield MenuItem::linkToCrud($this->translator->trans('menu.link_subscription', [], 'messages'), 'fas fa-user-check', Subscription::class);
         yield MenuItem::section($this->translator->trans('menu.contact_form', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.contact_form_items', [], 'messages'), 'fas fa-list', ContactForm::class);
     }

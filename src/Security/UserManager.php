@@ -4,6 +4,8 @@ namespace App\Security;
 
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Kwadro\UserSubscription\Model\SubscribableUserInterface;
+use Kwadro\UserSubscription\Service\SubscriptionManager;
 use Random\RandomException;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -16,7 +18,8 @@ readonly class UserManager
     public function __construct(
         private EmailVerifier $emailVerifier,
         private UserPasswordHasherInterface $userPasswordHasher,
-        private EntityManagerInterface $em
+        private EntityManagerInterface $em,
+        private SubscriptionManager $subscriptionManager,
     ) {
     }
 
@@ -50,6 +53,11 @@ readonly class UserManager
         }
         $this->em->persist($user);
         $this->em->flush();
+
+        if ($isNewUser && $user instanceof SubscribableUserInterface) {
+            $this->subscriptionManager->ensureFreePlan($user);
+        }
+
         return [$user, $isNewUser];
     }
 

@@ -1,0 +1,5 @@
+kwadro_user_subscription:
+    resource:
+        path: ../../../Controller/
+        namespace: Kwadro\UserSubscription\Controller
+    type: attribute

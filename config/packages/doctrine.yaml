@@ -24,6 +24,14 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+            KwadroUserSubscription:
+                type: attribute
+                is_bundle: false
+                dir: '%kernel.project_dir%/packages/kwadro/user-subscription/src/Entity'
+                prefix: 'Kwadro\UserSubscription\Entity'
+                alias: KwadroUserSubscription
+        resolve_target_entities:
+            Kwadro\UserSubscription\Model\SubscribableUserInterface: App\Entity\User
         controller_resolver:
             auto_mapping: false
 

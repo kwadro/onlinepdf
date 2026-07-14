@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ComponentCrudController extends AbstractCrudController
 {
     public function __construct(
-        private TranslatorInterface $translator
+        private readonly TranslatorInterface $translator
     ) {
     }
     public static function getEntityFqcn(): string { return Component::class; }

@@ -1,0 +1,7 @@
+# Copy to config/routes/kwadro_user_subscription.yaml in your Symfony project.
+# Adjust the path if the package is installed via Composer into vendor/.
+kwadro_user_subscription:
+    resource:
+        path: ../../vendor/kwadro/user-subscription/src/Controller/
+        namespace: Kwadro\UserSubscription\Controller
+    type: attribute
