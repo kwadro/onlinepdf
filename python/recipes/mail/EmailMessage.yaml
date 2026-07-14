@@ -1,0 +1,65 @@
+translate:
+  link:
+    uk: Вхідні листи
+    uk_single: Вхідний лист
+    en: Inbound Emails
+    en_single: Inbound Email
+repository:
+  template: mail-message
+disable_import: true
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: emailmessagesites
+  roleRelation: master
+- name: mailbox
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: EmailMailboxSetting
+  inversedBy: emailmessages
+  roleRelation: master
+- name: sender_filter
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: EmailSenderFilter
+  inversedBy: emailmessages
+  roleRelation: master
+- name: imap_uid
+  type: integer
+  isrequire: true
+  name_uk: IMAP UID
+- name: message_id
+  type: string
+  name_uk: Message-ID
+- name: from_address
+  type: string
+  isrequire: true
+  name_uk: Відправник
+  isstring: true
+- name: from_name
+  type: string
+  name_uk: Ім'я відправника
+- name: recipient
+  type: string
+  name_uk: Отримувач (To)
+- name: subject
+  type: string
+  name_uk: Тема
+- name: body_text
+  type: text
+  name_uk: Текст
+- name: body_html
+  type: text
+  name_uk: HTML
+- name: received_at
+  type: datetime_immutable
+  name_uk: Отримано
+- name: is_seen
+  type: select
+  typeInput: yesno
+  name_uk: Прочитано

@@ -50,3 +50,18 @@ fields:
   typeRelation: OneToMany
   objectRelation: FacebookSetting
   mappedBy: site
+- name: emailmailboxsettingsites
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMailboxSetting
+  mappedBy: site
+- name: emailsenderfiltersites
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailSenderFilter
+  mappedBy: site
+- name: emailmessagesites
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMessage
+  mappedBy: site

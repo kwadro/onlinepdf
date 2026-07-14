@@ -12,6 +12,7 @@ KNOWN_FIELD_TYPES = {
     "integer",
     "string",
     "datetime",
+    "datetime_immutable",
     "date",
     "float",
     "boolean",
@@ -21,6 +22,8 @@ KNOWN_FIELD_TYPES = {
     "relation",
     "select",
     "money",
+    "enum",
+    "json",
 }
 
 

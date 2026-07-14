@@ -1,0 +1,23 @@
+kwadro_user_subscription:
+    user_class: App\Entity\User
+    default_plan_code: free
+    auto_activate: false
+
+    payment:
+        default_provider: privat
+        verify_monobank_signature: true
+        providers:
+            privat:
+                enabled: true
+                public_key: '%env(LIQPAY_PUBLIC_KEY)%'
+                private_key: '%env(LIQPAY_PRIVATE_KEY)%'
+                sandbox: '%env(bool:LIQPAY_SANDBOX)%'
+                api_version: 7
+                result_url: 'https://%env(APP_DOMAIN)%/uk/account/plan/payment/success'
+                server_url: 'https://%env(APP_DOMAIN)%/webhook/payment/privat'
+            monobank:
+                enabled: true
+                token: '%env(MONOBANK_TOKEN)%'
+                redirect_url: 'https://%env(APP_DOMAIN)%/uk/account/plan/payment/success'
+                webhook_url: 'https://%env(APP_DOMAIN)%/webhook/payment/monobank'
+                invoice_validity: 86400

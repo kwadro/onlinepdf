@@ -16,6 +16,9 @@ use App\Entity\MegaMenuSetting;
 use App\Entity\Recipe;
 use App\Entity\Popularsearch;
 use App\Entity\FacebookSetting;
+use App\Entity\EmailMailboxSetting;
+use App\Entity\EmailSenderFilter;
+use App\Entity\EmailMessage;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -82,6 +85,27 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $facebooksettingsites;
+    #[ORM\OneToMany(
+        targetEntity: EmailMailboxSetting::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $emailmailboxsettingsites;
+    #[ORM\OneToMany(
+        targetEntity: EmailSenderFilter::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $emailsenderfiltersites;
+    #[ORM\OneToMany(
+        targetEntity: EmailMessage::class,
+        mappedBy: 'site',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $emailmessagesites;
 
     public function __construct()
     {
@@ -92,6 +116,9 @@ class Site
         $this->recipesites = new ArrayCollection();
         $this->popularsearchsites = new ArrayCollection();
         $this->facebooksettingsites = new ArrayCollection();
+        $this->emailmailboxsettingsites = new ArrayCollection();
+        $this->emailsenderfiltersites = new ArrayCollection();
+        $this->emailmessagesites = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -294,6 +321,78 @@ class Site
     public function getFacebooksettingsites(): ?Collection
     {
         return $this->facebooksettingsites;
+    }
+
+    public function addEmailMailboxSetting(EmailMailboxSetting $emailmailboxsetting): self
+    {
+        if(!$this->emailmailboxsettingsites->contains($emailmailboxsetting)) {
+           $this->emailmailboxsettingsites[] = $emailmailboxsetting;
+           $emailmailboxsetting->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeEmailMailboxSetting(EmailMailboxSetting $emailmailboxsetting): self
+    {
+        if($this->emailmailboxsettingsites->removeElement($emailmailboxsetting)) {
+           if ($emailmailboxsetting->getSite() === $this) {
+               $emailmailboxsetting->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getEmailmailboxsettingsites(): ?Collection
+    {
+        return $this->emailmailboxsettingsites;
+    }
+
+    public function addEmailSenderFilter(EmailSenderFilter $emailsenderfilter): self
+    {
+        if(!$this->emailsenderfiltersites->contains($emailsenderfilter)) {
+           $this->emailsenderfiltersites[] = $emailsenderfilter;
+           $emailsenderfilter->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeEmailSenderFilter(EmailSenderFilter $emailsenderfilter): self
+    {
+        if($this->emailsenderfiltersites->removeElement($emailsenderfilter)) {
+           if ($emailsenderfilter->getSite() === $this) {
+               $emailsenderfilter->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getEmailsenderfiltersites(): ?Collection
+    {
+        return $this->emailsenderfiltersites;
+    }
+
+    public function addEmailMessage(EmailMessage $emailmessage): self
+    {
+        if(!$this->emailmessagesites->contains($emailmessage)) {
+           $this->emailmessagesites[] = $emailmessage;
+           $emailmessage->setSite($this);
+        }
+        return $this;
+    }
+
+    public function removeEmailMessage(EmailMessage $emailmessage): self
+    {
+        if($this->emailmessagesites->removeElement($emailmessage)) {
+           if ($emailmessage->getSite() === $this) {
+               $emailmessage->setSite(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getEmailmessagesites(): ?Collection
+    {
+        return $this->emailmessagesites;
     }
 
 }

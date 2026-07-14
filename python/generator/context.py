@@ -3,10 +3,13 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Iterator
 
+from .writers import OUT
+
 TYPE_MAP = {
     "integer": "int",
     "string": "string",
     "datetime": "\\DateTimeInterface",
+    "datetime_immutable": "\\DateTimeImmutable",
     "date": "\\DateTimeInterface",
     "float": "float",
     "boolean": "bool",
@@ -16,12 +19,15 @@ TYPE_MAP = {
     "relation": "relation",
     "select": "string",
     "money": "string",
+    "enum": "enum",
+    "json": "array",
 }
 
 DOCTRINE_TYPE_MAP = {
     "integer": "integer",
     "string": "string",
     "datetime": "datetime",
+    "datetime_immutable": "datetime_immutable",
     "date": "datetime",
     "float": "float",
     "boolean": "bool",
@@ -31,6 +37,8 @@ DOCTRINE_TYPE_MAP = {
     "relation": "relation",
     "select": "string",
     "money": "string",
+    "enum": "enum",
+    "json": "json",
 }
 
 
@@ -58,6 +66,45 @@ class EntityRef:
     name: str
     entity: dict
     group_name: str
+    group: dict
+
+
+def resolve_group_paths(group: dict) -> dict[str, str]:
+    output = group.get("output", {})
+    package_root = OUT / output.get("package_root", ".")
+
+    if output:
+        return {
+            "entity_dir": package_root / "src/Entity",
+            "repository_dir": package_root / "src/Repository",
+            "controller_dir": OUT / output.get("controller_root", "src/Controller/Admin"),
+            "entity_namespace": output.get(
+                "entity_namespace", "App\\Entity"
+            ),
+            "repository_namespace": output.get(
+                "repository_namespace", "App\\Repository"
+            ),
+            "controller_namespace": output.get(
+                "controller_namespace", "App\\Controller\\Admin"
+            ),
+            "enum_namespace": output.get(
+                "enum_namespace", "App\\Enum"
+            ),
+            "model_namespace": output.get(
+                "model_namespace", "App\\Model"
+            ),
+        }
+
+    return {
+        "entity_dir": OUT / "src/Entity",
+        "repository_dir": OUT / "src/Repository",
+        "controller_dir": OUT / "src/Controller/Admin",
+        "entity_namespace": "App\\Entity",
+        "repository_namespace": "App\\Repository",
+        "controller_namespace": "App\\Controller\\Admin",
+        "enum_namespace": "App\\Enum",
+        "model_namespace": "App\\Model",
+    }
 
 
 @dataclass
@@ -83,4 +130,9 @@ class GeneratorContext:
             for entity_name, entity in group.get("entities", {}).items():
                 if entity_filter and entity_name not in entity_filter:
                     continue
-                yield EntityRef(name=entity_name, entity=entity, group_name=group_name)
+                yield EntityRef(
+                    name=entity_name,
+                    entity=entity,
+                    group_name=group_name,
+                    group=group,
+                )

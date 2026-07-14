@@ -77,13 +77,14 @@ Enter a positive number only: Введіть тільки додатне чис�
 Catalog Recipes: 'Каталог реептів'
 #@GENERATE TRANSLATE START
 menu.group_catalog: Каталог
-menu.link_recipetranslation_single: Рецепт (переклад)
-menu.link_recipetranslation: Рецепти (переклад)
-Short Description: Короткий Опис
-Description: Опис
-Cuisine: Кухня
-Groupcomponents: Групи Компонентів
-Recipesteps: Кроки
+menu.link_component_single: Компонент Рецепта
+menu.link_component: Компоненти Рецепта
+menu.link_facebooksetting_single: Facebook Настройка
+menu.link_facebooksetting: Facebook Настройки
+menu.link_groupcomponent_single: Група Компонентів
+menu.link_groupcomponent: Групи Компонентів
+menu.link_ingredient_single: Інградієнт
+menu.link_ingredient: Інградієнти
 menu.link_recipe_single: Рецепт
 menu.link_recipe: Рецепти
 Prep Time Min: Час Підготовки
@@ -101,33 +102,26 @@ Meta Description: Мета Опис
 Recipes: Рецепти
 menu.link_recipestep_single: Крок Приготування
 menu.link_recipestep: Кроки Приготування
-menu.link_ingredient_single: Інградієнт
-menu.link_ingredient: Інградієнти
-menu.link_groupcomponent_single: Група Компонентів
-menu.link_groupcomponent: Групи Компонентів
-menu.link_component_single: Компонент Рецепта
-menu.link_component: Компоненти Рецепта
+menu.link_recipetranslation_single: Рецепт (переклад)
+menu.link_recipetranslation: Рецепти (переклад)
+Short Description: Короткий Опис
+Description: Опис
+Cuisine: Кухня
+Groupcomponents: Групи Компонентів
+Recipesteps: Кроки
 menu.link_unit_single: Одиниця
 menu.link_unit: Одиниці
-menu.link_facebooksetting_single: Facebook Настройка
-menu.link_facebooksetting: Facebook Настройки
 menu.group_setting: Настройки Сайта
-menu.link_site_single: Сайт
-menu.link_site: Сайти
-menu.link_locale_single: Мова
-menu.link_locale: Мови
-menu.link_headersetting_single: Настройка Заголовка
-menu.link_headersetting: Настройки Заголовків
-menu.link_headertranslation_single: Переклад Заголовка
-menu.link_headertranslation: Переклад Заголовків
-menu.link_seosetting_single: Seo Настройка
-menu.link_seosetting: Seo Настройки
-menu.link_seosettingstranslation_single: Seo Настройка Переклад
-menu.link_seosettingstranslation: Seo Настройки Переклад
 menu.link_footersetting_single: Настройка Футера
 menu.link_footersetting: Настройки Футера
 menu.link_footertranslation_single: Переклад Футера
 menu.link_footertranslation: Переклад Футера
+menu.link_headersetting_single: Настройка Заголовка
+menu.link_headersetting: Настройки Заголовків
+menu.link_headertranslation_single: Переклад Заголовка
+menu.link_headertranslation: Переклад Заголовків
+menu.link_locale_single: Мова
+menu.link_locale: Мови
 menu.link_megamenusetting_single: Настройка Меню
 menu.link_megamenusetting: Настройки Меню
 menu.link_megamenutranslation_single: Пункт Меню
@@ -136,9 +130,43 @@ menu.link_megamenutype_single: Тип Пунктів Меню
 menu.link_megamenutype: Типи Пунктів Меню
 menu.link_popularsearch_single: Популярне пошукове слово
 menu.link_popularsearch: Популярні пошукові слова
-menu.group_subscriptions: Підписки
-menu.link_subscription_plan: Тарифні плани
-menu.link_subscription: Підписки користувачів
+menu.link_seosetting_single: Seo Настройка
+menu.link_seosetting: Seo Настройки
+menu.link_seosettingstranslation_single: Seo Настройка Переклад
+menu.link_seosettingstranslation: Seo Настройки Переклад
+menu.link_site_single: Сайт
+menu.link_site: Сайти
+menu.group_mail: Пошта
+menu.link_emailmailboxsetting_single: Поштова скринька
+menu.link_emailmailboxsetting: Поштові скриньки
+Boxname: Назва
+Boxhost: Imap Хост
+Boxport: Порт
+Boxusername: Логін
+Boxpassword: Пароль
+Boxencryption: Шифрування
+Boxmailbox: Папка
+Boxactive: Активна
+Boxlast Uid: Останній Uid
+Last Checked At: Остання Перевірка
+menu.link_emailmessage_single: Вхідний лист
+menu.link_emailmessage: Вхідні листи
+Imap Uid: Imap Uid
+Message Id: Message-Id
+From Address: Відправник
+From Name: Ім'я Відправника
+Recipient: Отримувач (To)
+Subject: Тема
+Body Text: Текст
+Body Html: Html
+Received At: Отримано
+Is Seen: Прочитано
+menu.link_emailsenderfilter_single: Фільтр відправника
+menu.link_emailsenderfilter: Фільтри відправників
+Filtername: Назва Фільтра
+Filtersender: Email Відправника
+Match Mode: Режим Збігу
+Filteractive: Активний
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Будь ласка увійдіть'
 Sign in with Google: 'Продовжити з Google'
@@ -273,3 +301,6 @@ subscription.continue_payment: 'Перейти до оплати'
 subscription.cancel_pending: 'Скасувати оплату'
 subscription.pending_cancelled: 'Спробу оплати скасовано.'
 subscription.pending_keeps_current_plan: 'Поточний план залишається активним, доки оплата не буде підтверджена.'
+menu:
+    link_subscription_plan: 'Список планів'
+    link_subscription: 'Підписники'

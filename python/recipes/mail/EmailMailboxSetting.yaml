@@ -1,0 +1,63 @@
+translate:
+  link:
+    uk: Поштові скриньки
+    uk_single: Поштова скринька
+    en: Mailboxes
+    en_single: Mailbox
+repository:
+  template: mail-mailbox
+disable_import: true
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: emailmailboxsettingsites
+  roleRelation: master
+- name: boxname
+  type: string
+  isrequire: true
+  isstring: true
+  name_uk: Назва
+- name: boxhost
+  type: string
+  isrequire: true
+  name_uk: IMAP хост
+- name: boxport
+  type: integer
+  isrequire: true
+  name_uk: Порт
+- name: boxusername
+  type: string
+  isrequire: true
+  name_uk: Логін
+- name: boxpassword
+  type: string
+  isrequire: true
+  name_uk: Пароль
+- name: boxencryption
+  type: string
+  isrequire: true
+  name_uk: Шифрування
+- name: boxmailbox
+  type: string
+  isrequire: true
+  name_uk: Папка
+- name: boxactive
+  type: select
+  typeInput: yesno
+  name_uk: Активна
+- name: boxlast_uid
+  type: integer
+  name_uk: Останній UID
+- name: last_checked_at
+  type: datetime
+  name_uk: Остання перевірка
+- name: emailmessages
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMessage
+  mappedBy: mailbox

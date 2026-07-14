@@ -12,3 +12,25 @@ groups:
         uk: Настройки Сайта
         en: Setting Site
     entities_dir: recipes/setting
+  mail:
+    translate:
+      link:
+        uk: Пошта
+        en: Mail
+    entities_dir: recipes/mail
+  subscription:
+    translate:
+      link:
+        uk: Підписки
+        en: Subscriptions
+    entities_dir: recipes/subscription
+    skip_dashboard: true
+    skip_export: true
+    output:
+      package_root: packages/kwadro/user-subscription
+      entity_namespace: 'Kwadro\UserSubscription\Entity'
+      repository_namespace: 'Kwadro\UserSubscription\Repository'
+      enum_namespace: 'Kwadro\UserSubscription\Enum'
+      model_namespace: 'Kwadro\UserSubscription\Model'
+      controller_namespace: 'App\Controller\Admin'
+      controller_root: src/Controller/Admin

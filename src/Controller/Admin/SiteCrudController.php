@@ -40,6 +40,9 @@ class SiteCrudController extends AbstractCrudController
             AssociationField::new('recipesites')->setFormTypeOption('by_reference', false),
             AssociationField::new('popularsearchsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('facebooksettingsites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('emailmailboxsettingsites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('emailsenderfiltersites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('emailmessagesites')->setFormTypeOption('by_reference', false),
         ];
     }
 

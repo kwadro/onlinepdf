@@ -1,0 +1,41 @@
+translate:
+  link:
+    uk: Фільтри відправників
+    uk_single: Фільтр відправника
+    en: Sender Filters
+    en_single: Sender Filter
+repository:
+  template: mail-filter
+disable_import: true
+fields:
+- name: id
+  type: integer
+  id: true
+- name: site
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: Site
+  inversedBy: emailsenderfiltersites
+  roleRelation: master
+- name: filtername
+  type: string
+  isrequire: true
+  isstring: true
+  name_uk: Назва фільтра
+- name: filtersender
+  type: string
+  isrequire: true
+  name_uk: Email відправника
+- name: match_mode
+  type: string
+  isrequire: true
+  name_uk: Режим збігу
+- name: filteractive
+  type: select
+  typeInput: yesno
+  name_uk: Активний
+- name: emailmessages
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMessage
+  mappedBy: sender_filter

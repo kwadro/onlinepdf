@@ -119,20 +119,18 @@ class {{ name }}
     {%- if field.typeRelation =='ManyToOne' %}
 
     {%- if field.objectRelation == 'self' %}
-       {%- set fieldName = field.name %}
        {%- set objectClass = 'self' %}
     {%- else %}
-       {%- set fieldName = field.objectRelation %}
        {%- set objectClass = field.objectRelation %}
     {%- endif %}
 
-    public function get{{fieldName|pascal}}(): ?{{objectClass}}
+    public function get{{field.name|pascal}}(): ?{{objectClass}}
     {
-        return $this->{{fieldName|lower}};
+        return $this->{{field.name}};
     }
-    public function set{{fieldName|pascal}}(?{{objectClass}} ${{fieldName|lower}}): {{name}}
+    public function set{{field.name|pascal}}(?{{objectClass}} ${{field.name}}): {{name}}
     {
-        $this->{{fieldName|lower}} = ${{fieldName|lower}};
+        $this->{{field.name}} = ${{field.name}};
         return $this;
     }
     {%- endif %}

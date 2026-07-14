@@ -46,7 +46,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--group",
         nargs="+",
         metavar="NAME",
-        help="Generate only entities from selected groups (catalog, setting, ...)",
+        help="Generate only entities from selected groups (catalog, setting, mail, subscription, ...)",
     )
     parser.add_argument(
         "--dry-run",

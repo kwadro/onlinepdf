@@ -13,11 +13,12 @@
         }
     ],
     "require": {
-        "kwadro/user-subscription": "@dev",
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-imagick": "*",
         "ext-intl": "*",
+        "ext-simplexml": "*",
         "deployer/deployer": "^7.5.12",
         "doctrine/dbal": "^3.10.4",
         "doctrine/doctrine-bundle": "^2.18.2",
@@ -26,6 +27,7 @@
         "easycorp/easyadmin-bundle": "^4.27.8",
         "gedmo/doctrine-extensions": "^3.22",
         "gesdinet/jwt-refresh-token-bundle": "^1.5",
+        "kwadro/user-subscription": "@dev",
         "lexik/jwt-authentication-bundle": "^3.2",
         "nelmio/cors-bundle": "^2.6.1",
         "phpdocumentor/reflection-docblock": "^5.6.6",
@@ -67,8 +69,8 @@
         "symfonycasts/verify-email-bundle": "^1.18",
         "twig/extra-bundle": "^2.12|^3.23",
         "twig/twig": "^2.12|^3.23",
-        "ext-simplexml": "*",
-        "ext-imagick": "*"
+        "webklex/php-imap": "^6.2",
+        "ext-imap": "*"
     },
     "config": {
         "allow-plugins": {

@@ -87,13 +87,14 @@ menu.link_new: 'New'
 Catalog Recipes: 'Catalog Recipes'
 #@GENERATE TRANSLATE START
 menu.group_catalog: Catalog
-menu.link_recipetranslation_single: Recipe (translation)
-menu.link_recipetranslation: Recipes (translation)
-Short Description: Short Description
-Description: Description
-Cuisine: Cuisine
-Groupcomponents: Groupcomponents
-Recipesteps: Recipesteps
+menu.link_component_single: Component
+menu.link_component: Components
+menu.link_facebooksetting_single: Facebook Setting
+menu.link_facebooksetting: Facebook Settings
+menu.link_groupcomponent_single: Group of Components
+menu.link_groupcomponent: Groups of Components
+menu.link_ingredient_single: Ingredient
+menu.link_ingredient: Ingredients
 menu.link_recipe_single: Recipe
 menu.link_recipe: Recipes
 Prep Time Min: Prep Time Min
@@ -111,33 +112,26 @@ Meta Description: Meta Description
 Recipes: Recipes
 menu.link_recipestep_single: Recipe Step
 menu.link_recipestep: Recipe Steps
-menu.link_ingredient_single: Ingredient
-menu.link_ingredient: Ingredients
-menu.link_groupcomponent_single: Group of Components
-menu.link_groupcomponent: Groups of Components
-menu.link_component_single: Component
-menu.link_component: Components
+menu.link_recipetranslation_single: Recipe (translation)
+menu.link_recipetranslation: Recipes (translation)
+Short Description: Short Description
+Description: Description
+Cuisine: Cuisine
+Groupcomponents: Groupcomponents
+Recipesteps: Recipesteps
 menu.link_unit_single: Unit
 menu.link_unit: Units
-menu.link_facebooksetting_single: Facebook Setting
-menu.link_facebooksetting: Facebook Settings
 menu.group_setting: Setting Site
-menu.link_site_single: Site
-menu.link_site: Sites
-menu.link_locale_single: Locale
-menu.link_locale: Locales
-menu.link_headersetting_single: Header Setting
-menu.link_headersetting: Header Settings
-menu.link_headertranslation_single: Header Translation
-menu.link_headertranslation: Header Translations
-menu.link_seosetting_single: Seo Setting
-menu.link_seosetting: Seo Settings
-menu.link_seosettingstranslation_single: Seo Setting Translation
-menu.link_seosettingstranslation: Seo Settings Translation
 menu.link_footersetting_single: Footer Setting
 menu.link_footersetting: Footer Settings
 menu.link_footertranslation_single: Footer Translation
 menu.link_footertranslation: Footer Translations
+menu.link_headersetting_single: Header Setting
+menu.link_headersetting: Header Settings
+menu.link_headertranslation_single: Header Translation
+menu.link_headertranslation: Header Translations
+menu.link_locale_single: Locale
+menu.link_locale: Locales
 menu.link_megamenusetting_single: Menu Setting
 menu.link_megamenusetting: Menu Settings
 menu.link_megamenutranslation_single: Menu Item
@@ -146,9 +140,43 @@ menu.link_megamenutype_single: Type Menu Item
 menu.link_megamenutype: Type Menu Items
 menu.link_popularsearch_single: Popular search term
 menu.link_popularsearch: Popular search terms
-menu.group_subscriptions: Subscriptions
-menu.link_subscription_plan: Subscription Plans
-menu.link_subscription: User Subscriptions
+menu.link_seosetting_single: Seo Setting
+menu.link_seosetting: Seo Settings
+menu.link_seosettingstranslation_single: Seo Setting Translation
+menu.link_seosettingstranslation: Seo Settings Translation
+menu.link_site_single: Site
+menu.link_site: Sites
+menu.group_mail: Mail
+menu.link_emailmailboxsetting_single: Mailbox
+menu.link_emailmailboxsetting: Mailboxes
+Boxname: Boxname
+Boxhost: Boxhost
+Boxport: Boxport
+Boxusername: Boxusername
+Boxpassword: Boxpassword
+Boxencryption: Boxencryption
+Boxmailbox: Boxmailbox
+Boxactive: Boxactive
+Boxlast Uid: Boxlast Uid
+Last Checked At: Last Checked At
+menu.link_emailmessage_single: Inbound Email
+menu.link_emailmessage: Inbound Emails
+Imap Uid: Imap Uid
+Message Id: Message Id
+From Address: From Address
+From Name: From Name
+Recipient: Recipient
+Subject: Subject
+Body Text: Body Text
+Body Html: Body Html
+Received At: Received At
+Is Seen: Is Seen
+menu.link_emailsenderfilter_single: Sender Filter
+menu.link_emailsenderfilter: Sender Filters
+Filtername: Filtername
+Filtersender: Filtersender
+Match Mode: Match Mode
+Filteractive: Filteractive
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Please sign in'
 Sign in with Google: 'Sign in with Google'
@@ -278,3 +306,6 @@ subscription.continue_payment: 'Continue to payment'
 subscription.cancel_pending: 'Cancel payment attempt'
 subscription.pending_cancelled: 'Payment attempt cancelled.'
 subscription.pending_keeps_current_plan: 'Your current plan stays active until the payment is confirmed.'
+menu:
+    link_subscription_plan: 'Subscription Plan'
+    link_subscription: 'Subscription'
