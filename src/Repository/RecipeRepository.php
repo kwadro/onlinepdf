@@ -10,6 +10,10 @@ use Doctrine\Persistence\ManagerRegistry;
 */
 class RecipeRepository extends ServiceEntityRepository
 {
+    const SEARCH_MAX_COUNT = 20;
+    const POPULAR_MAX_COUNT = 20;
+    const AUTHOR_MAX_COUNT = 20;
+    const CATEGORY_MAX_COUNT = 20;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Recipe::class);
@@ -25,7 +29,7 @@ class RecipeRepository extends ServiceEntityRepository
                     ->setParameter('site', $site)
                     ->setParameter('locale', $locale)
                     ->setParameter('is_popular', 'Yes')
-                    ->setMaxResults(10)
+                    ->setMaxResults(self::POPULAR_MAX_COUNT)
                     ->getQuery();
                 $query->setHint(Query::HINT_REFRESH, true);
                 return $query->getResult();
@@ -78,7 +82,7 @@ class RecipeRepository extends ServiceEntityRepository
             ->setParameter('locale', $locale)
             ->setParameter('is_active', 'Yes')
             ->orderBy('s.position', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(self::AUTHOR_MAX_COUNT)
             ->getQuery();
         $query->setHint(Query::HINT_REFRESH, true);
         $query = $query->getQuery();
@@ -121,7 +125,7 @@ class RecipeRepository extends ServiceEntityRepository
                 ->setParameter('locale', $locale)
                 ->setParameter('is_active', 'Yes')
                 ->orderBy('s.position', 'ASC')
-                ->setMaxResults(10)
+                ->setMaxResults(self::CATEGORY_MAX_COUNT)
                 ->getQuery();
                 $query = $query->getQuery();
             return $query->getResult();
@@ -141,7 +145,7 @@ class RecipeRepository extends ServiceEntityRepository
                        ->setParameter('authorId', $authorId)
                        ->setParameter('is_active', 'Yes')
                        ->orderBy('s.position', 'ASC')
-                       ->setMaxResults(10)
+                       ->setMaxResults(self::AUTHOR_MAX_COUNT)
                        ->getQuery();
                    return $query->getResult();
               }
