@@ -8,13 +8,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\EmailMailboxSettingRepository;
+use App\Repository\EmailMailboxRepository;
 use App\Entity\Site;
+use App\Entity\EmailMailboxFolder;
 use App\Entity\EmailMessage;
+use App\Entity\EmailFilterGroup;
 
-#[ORM\Entity(repositoryClass: EmailMailboxSettingRepository::class)]
+#[ORM\Entity(repositoryClass: EmailMailboxRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class EmailMailboxSetting
+class EmailMailbox
 {
     use TimestampableTrait;
     #[ORM\Id]
@@ -25,9 +27,16 @@ class EmailMailboxSetting
     #[ORM\ManyToOne(
             targetEntity: Site::class,
             cascade: ['persist'],
-            inversedBy: 'emailmailboxsettingsites'
+            inversedBy: 'emailmailboxsites'
     )]
         private ?Site $site;
+    #[ORM\OneToMany(
+        targetEntity: EmailMailboxFolder::class,
+        mappedBy: 'emailmailbox',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $folders;
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $boxname;
@@ -48,9 +57,6 @@ class EmailMailboxSetting
     private ?string $boxencryption;
 
     #[ORM\Column(type:"string", nullable:true)]
-    private ?string $boxmailbox;
-
-    #[ORM\Column(type:"string", nullable:true)]
     private ?string $boxactive;
 
     #[ORM\Column(type:"datetime", nullable:true)]
@@ -62,10 +68,19 @@ class EmailMailboxSetting
         orphanRemoval: false,
     )]
         public ?Collection $emailmessages;
+    #[ORM\OneToMany(
+        targetEntity: EmailFilterGroup::class,
+        mappedBy: 'mailbox',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $filtergroups;
 
     public function __construct()
     {
+        $this->folders = new ArrayCollection();
         $this->emailmessages = new ArrayCollection();
+        $this->filtergroups = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -82,10 +97,34 @@ class EmailMailboxSetting
     {
         return $this->site;
     }
-    public function setSite(?Site $site): EmailMailboxSetting
+    public function setSite(?Site $site): EmailMailbox
     {
         $this->site = $site;
         return $this;
+    }
+
+    public function addEmailMailboxFolder(EmailMailboxFolder $emailmailboxfolder): self
+    {
+        if(!$this->folders->contains($emailmailboxfolder)) {
+           $this->folders[] = $emailmailboxfolder;
+           $emailmailboxfolder->setEmailmailbox($this);
+        }
+        return $this;
+    }
+
+    public function removeEmailMailboxFolder(EmailMailboxFolder $emailmailboxfolder): self
+    {
+        if($this->folders->removeElement($emailmailboxfolder)) {
+           if ($emailmailboxfolder->getEmailmailbox() === $this) {
+               $emailmailboxfolder->setEmailmailbox(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getFolders(): ?Collection
+    {
+        return $this->folders;
     }
     public function setBoxname(?string $boxname): self
     {
@@ -151,16 +190,6 @@ class EmailMailboxSetting
     {
         return $this->boxencryption;
     }
-    public function setBoxmailbox(?string $boxmailbox): self
-    {
-        $this->boxmailbox = $boxmailbox;
-        return $this;
-    }
-
-    public function getBoxmailbox(): ?string
-    {
-        return $this->boxmailbox;
-    }
     public function setBoxactive(?string $boxactive): self
     {
         $this->boxactive = $boxactive;
@@ -204,6 +233,30 @@ class EmailMailboxSetting
     public function getEmailmessages(): ?Collection
     {
         return $this->emailmessages;
+    }
+
+    public function addEmailFilterGroup(EmailFilterGroup $emailfiltergroup): self
+    {
+        if(!$this->filtergroups->contains($emailfiltergroup)) {
+           $this->filtergroups[] = $emailfiltergroup;
+           $emailfiltergroup->setMailbox($this);
+        }
+        return $this;
+    }
+
+    public function removeEmailFilterGroup(EmailFilterGroup $emailfiltergroup): self
+    {
+        if($this->filtergroups->removeElement($emailfiltergroup)) {
+           if ($emailfiltergroup->getMailbox() === $this) {
+               $emailfiltergroup->setMailbox(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getFiltergroups(): ?Collection
+    {
+        return $this->filtergroups;
     }
 
 }

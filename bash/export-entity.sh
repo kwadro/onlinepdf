@@ -20,7 +20,9 @@ php bin/console app:export:csv Popularsearch
 php bin/console app:export:csv SeoSetting
 php bin/console app:export:csv SeoSettingsTranslation
 php bin/console app:export:csv Site
-php bin/console app:export:csv EmailMailboxSetting
+php bin/console app:export:csv EmailFilter
+php bin/console app:export:csv EmailFilterGroup
+php bin/console app:export:csv EmailMailbox
+php bin/console app:export:csv EmailMailboxFolder
 php bin/console app:export:csv EmailMessage
-php bin/console app:export:csv EmailSenderFilter
 php bin/console app:export:csv User

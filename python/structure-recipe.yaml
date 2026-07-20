@@ -18,10 +18,6 @@ groups:
         uk: Пошта
         en: Mail
     entities_dir: recipes/mail
-    generate_files:
-      - template: service-mail-fetcher.php
-        path: src/Service/Mail/EmailFetcher.php
-        copy: true
   subscription:
     translate:
       link:

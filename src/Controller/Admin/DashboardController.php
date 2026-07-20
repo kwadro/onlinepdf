@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\ContactForm;
+
 use App\Entity\GitUser;
 use App\Entity\SamProject;
 use App\Entity\ServerData;
@@ -10,11 +11,13 @@ use App\Entity\ServerType;
 use App\Entity\ServiceData;
 use App\Entity\User;
 use App\Entity\UserAccess;
+use App\Repository\EmailFilterGroupRepository;
 use EasyCorp\Bundle\EasyAdminBundle\Attribute\AdminDashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Assets;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Kwadro\UserSubscription\Entity\Subscription;
 use Kwadro\UserSubscription\Entity\SubscriptionPlan;
 use Symfony\Component\HttpFoundation\Response;
@@ -45,9 +48,11 @@ use App\Entity\Popularsearch;
 use App\Entity\SeoSetting;
 use App\Entity\SeoSettingsTranslation;
 use App\Entity\Site;
-use App\Entity\EmailMailboxSetting;
+use App\Entity\EmailFilter;
+use App\Entity\EmailFilterGroup;
+use App\Entity\EmailMailbox;
+use App\Entity\EmailMailboxFolder;
 use App\Entity\EmailMessage;
-use App\Entity\EmailSenderFilter;
 // @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
@@ -55,8 +60,10 @@ use App\Entity\EmailSenderFilter;
 class DashboardController extends AbstractDashboardController
 {
     public function __construct(
-        private ChartBuilderInterface $chartBuilder,
-        private TranslatorInterface $translator
+        private readonly ChartBuilderInterface $chartBuilder,
+        private readonly TranslatorInterface $translator,
+        private readonly AdminUrlGenerator $adminUrlGenerator,
+        private readonly EmailFilterGroupRepository $emailFilterGroupRepository,
     ) {
     }
 
@@ -110,6 +117,12 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard($this->translator->trans('menu.dashboard', [], 'messages'), 'fa fa-home');
+        yield MenuItem::section($this->translator->trans('menu.link_emailmessage', [], 'messages'));
+
+        yield MenuItem::subMenu(
+            $this->translator->trans('menu.email_all_messages', [], 'messages'),
+            'fa fa-envelope',
+        )->setSubItems($this->buildEmailMenuSubItems());
 
         yield MenuItem::section($this->translator->trans('menu.users', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.users', [], 'messages'), 'fas fa-list', User::class);
@@ -139,9 +152,10 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_seosetting', [], 
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_seosettingstranslation', [], 'messages'), 'fas fa-list', Seosettingstranslation::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_site', [], 'messages'), 'fas fa-list', Site::class);
         yield MenuItem::section($this->translator->trans('menu.group_mail', [], 'messages'));
-yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmailboxsetting', [], 'messages'), 'fas fa-list', Emailmailboxsetting::class);
-yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmessage', [], 'messages'), 'fas fa-list', Emailmessage::class);
-yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailsenderfilter', [], 'messages'), 'fas fa-list', Emailsenderfilter::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailfilter', [], 'messages'), 'fas fa-list', Emailfilter::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailfiltergroup', [], 'messages'), 'fas fa-list', Emailfiltergroup::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmailbox', [], 'messages'), 'fas fa-list', Emailmailbox::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmailboxfolder', [], 'messages'), 'fas fa-list', Emailmailboxfolder::class);
 // @GENERATE MENU FINISH
         yield MenuItem::section($this->translator->trans('menu.group_subscriptions', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_subscription_plan', [], 'messages'), 'fas fa-tags', SubscriptionPlan::class);
@@ -149,10 +163,66 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailsenderfilter
         yield MenuItem::section($this->translator->trans('menu.contact_form', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.contact_form_items', [], 'messages'), 'fas fa-list', ContactForm::class);
     }
+
+    /**
+     * @return MenuItem[]
+     */
+    private function buildEmailMenuSubItems(): array
+    {
+        $subItems = [
+            MenuItem::linkToUrl(
+                $this->translator->trans('menu.email_all_messages', [], 'messages'),
+                'fa fa-envelope',
+                $this->buildEmailListUrl(),
+            ),
+        ];
+
+        foreach ($this->emailFilterGroupRepository->findForEmailMenu() as $filterGroup) {
+            $subItems[] = MenuItem::section((string) $filterGroup->getFiltergroupname());
+
+            $subItems[] = MenuItem::linkToUrl(
+                $this->translator->trans('menu.email_group_all', [], 'messages'),
+                'fa fa-inbox',
+                $this->buildEmailListUrl(filterGroupId: (int) $filterGroup->getId()),
+            );
+
+            foreach ($filterGroup->getEmailfilters() as $filter) {
+                if ($filter->getFilteractive() === 'No') {
+                    continue;
+                }
+
+                $subItems[] = MenuItem::linkToUrl(
+                    (string) $filter->getFiltername(),
+                    'fa fa-envelope-open',
+                    $this->buildEmailListUrl(filterId: (int) $filter->getId()),
+                );
+            }
+        }
+
+        return $subItems;
+    }
+
+    private function buildEmailListUrl(?int $filterId = null, ?int $filterGroupId = null): string
+    {
+        $this->adminUrlGenerator->unsetAll();
+        $this->adminUrlGenerator->setController(EmailMessageGroupCrudController::class);
+
+        if ($filterId !== null) {
+            $this->adminUrlGenerator->set('filter_id', (string) $filterId);
+        }
+
+        if ($filterGroupId !== null) {
+            $this->adminUrlGenerator->set('filter_group_id', (string) $filterGroupId);
+        }
+
+        return $this->adminUrlGenerator->generateUrl();
+    }
+
     public function configureAssets(): \EasyCorp\Bundle\EasyAdminBundle\Config\Assets
     {
         return Assets::new()
             ->addCssFile('build/admin-css.css')
+            ->addJsFile('build/admin.js')
             ->addCssFile('https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css')
             ->addJsFile('https://cdn.jsdelivr.net/npm/flatpickr')
             ->addJsFile('lib/admin-datepicker.js');

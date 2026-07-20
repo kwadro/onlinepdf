@@ -50,18 +50,13 @@ fields:
   typeRelation: OneToMany
   objectRelation: FacebookSetting
   mappedBy: site
-- name: emailmailboxsettingsites
+- name: emailmailboxsites
   type: relation
   typeRelation: OneToMany
-  objectRelation: EmailMailboxSetting
+  objectRelation: EmailMailbox
   mappedBy: site
-- name: emailsenderfiltersites
+- name: filtergroupsites
   type: relation
   typeRelation: OneToMany
-  objectRelation: EmailSenderFilter
-  mappedBy: site
-- name: emailmessagesites
-  type: relation
-  typeRelation: OneToMany
-  objectRelation: EmailMessage
+  objectRelation: EmailFilterGroup
   mappedBy: site

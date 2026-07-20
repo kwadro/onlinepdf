@@ -137,6 +137,9 @@ readonly class CsvEntityImporter
             'megamenutype'=>'name',
             'megamenusetting'=>'site',
             'user'=>'email',
+            'filtergroup'=>'filtergroupname',
+            'mailbox'=>'boxname',
+            'emailmailbox'=>'boxname'
         ];
         $idIndex = array_search('id', $header);
         while (($row = fgetcsv($handle,null,';')) !== false) {

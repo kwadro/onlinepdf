@@ -22,9 +22,11 @@ php bin/console app:import:csv Popularsearch scalar
 php bin/console app:import:csv SeoSetting scalar
 php bin/console app:import:csv SeoSettingsTranslation scalar
 php bin/console app:import:csv Site scalar
-php bin/console app:import:csv EmailMailboxSetting scalar
+php bin/console app:import:csv EmailFilter scalar
+php bin/console app:import:csv EmailFilterGroup scalar
+php bin/console app:import:csv EmailMailbox scalar
+php bin/console app:import:csv EmailMailboxFolder scalar
 php bin/console app:import:csv EmailMessage scalar
-php bin/console app:import:csv EmailSenderFilter scalar
 php bin/console app:import:csv Component association
 php bin/console app:import:csv FacebookSetting association
 php bin/console app:import:csv GroupComponent association
@@ -46,6 +48,8 @@ php bin/console app:import:csv Popularsearch association
 php bin/console app:import:csv SeoSetting association
 php bin/console app:import:csv SeoSettingsTranslation association
 php bin/console app:import:csv Site association
-php bin/console app:import:csv EmailMailboxSetting association
+php bin/console app:import:csv EmailMailbox association
+php bin/console app:import:csv EmailMailboxFolder association
 php bin/console app:import:csv EmailMessage association
-php bin/console app:import:csv EmailSenderFilter association
+php bin/console app:import:csv EmailFilterGroup association
+php bin/console app:import:csv EmailFilter association

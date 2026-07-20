@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use App\Entity\EmailSenderFilter;
+use App\Entity\EmailFilterGroup;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -19,28 +19,22 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 
-class EmailSenderFilterCrudController extends AbstractCrudController
+class EmailFilterGroupCrudController extends AbstractCrudController
 {
     public function __construct(
         private TranslatorInterface $translator
     ) {
     }
-    public static function getEntityFqcn(): string { return EmailSenderFilter::class; }
+    public static function getEntityFqcn(): string { return EmailFilterGroup::class; }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            AssociationField::new('site'),
-            TextField::new('filtername')->setRequired(true),
-            TextField::new('filtersender')->setRequired(true),
-        
-            ChoiceField::new('match_mode')->setChoices(['Точний збіг (exact)' => 'exact', 'Містить (contains)' => 'contains'])->setHelp('exact — адреса From повністю співпадає; contains — адреса From містить указаний фрагмент')->setRequired(true),
-            ChoiceField::new('filteractive')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
-            IntegerField::new('filterlast_uid')
-                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
-                ->setHelp('Enter a positive number only')->hideOnForm(),
-            AssociationField::new('emailmessages')->setFormTypeOption('by_reference', false)->hideOnForm(),
+            AssociationField::new('mailbox'),
+            TextField::new('filtergroupname')->setRequired(true),
+            ChoiceField::new('filtergroupactive')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            AssociationField::new('emailfilters')->setFormTypeOption('by_reference', false),
         ];
     }
 
@@ -50,7 +44,7 @@ class EmailSenderFilterCrudController extends AbstractCrudController
          $manage = $this->translator->trans('grud.manage', [], 'messages');
          $edit = $this->translator->trans('grud.edit', [], 'messages');
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
-         $linkName = $this->translator->trans('menu.link_emailsenderfilter_single', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_emailfiltergroup_single', [], 'messages');
          return $crud
             ->setFormThemes([
                '@EasyAdmin/crud/form_theme.html.twig',
@@ -65,17 +59,17 @@ class EmailSenderFilterCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailSenderFilter'])
+                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailFilterGroup'])
                       ->createAsGlobalAction()
                       ->addCssClass('btn btn-secondary')
                       ->setIcon('fa fa-file-csv');
           $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'EmailSenderFilter'])
+                       ->linkToRoute('admin_import', ['entity' => 'EmailFilterGroup'])
                        ->createAsGlobalAction()
                        ->addCssClass('btn btn-secondary')
                        ->setIcon('fa fa-upload');
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_emailsenderfilter_single', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_emailfiltergroup_single', [], 'messages');
           return $actions
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)

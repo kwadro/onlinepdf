@@ -8,13 +8,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\EmailSenderFilterRepository;
-use App\Entity\Site;
+use App\Repository\EmailFilterRepository;
+use App\Entity\EmailFilterGroup;
 use App\Entity\EmailMessage;
 
-#[ORM\Entity(repositoryClass: EmailSenderFilterRepository::class)]
+#[ORM\Entity(repositoryClass: EmailFilterRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class EmailSenderFilter
+class EmailFilter
 {
     use TimestampableTrait;
     #[ORM\Id]
@@ -23,17 +23,17 @@ class EmailSenderFilter
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $id;
     #[ORM\ManyToOne(
-            targetEntity: Site::class,
+            targetEntity: EmailFilterGroup::class,
             cascade: ['persist'],
-            inversedBy: 'emailsenderfiltersites'
+            inversedBy: 'emailfiltergroups'
     )]
-        private ?Site $site;
+        private ?EmailFilterGroup $filtergroup;
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $filtername;
 
     #[ORM\Column(type:"string", nullable:true)]
-    private ?string $filtersender;
+    private ?string $filteremail;
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $match_mode;
@@ -45,7 +45,7 @@ class EmailSenderFilter
     private ?int $filterlast_uid;
     #[ORM\OneToMany(
         targetEntity: EmailMessage::class,
-        mappedBy: 'sender_filter',
+        mappedBy: 'emailfilter',
         cascade: ['persist'],
         orphanRemoval: false,
     )]
@@ -66,13 +66,13 @@ class EmailSenderFilter
         return $this->id;
     }
 
-    public function getSite(): ?Site
+    public function getFiltergroup(): ?EmailFilterGroup
     {
-        return $this->site;
+        return $this->filtergroup;
     }
-    public function setSite(?Site $site): EmailSenderFilter
+    public function setFiltergroup(?EmailFilterGroup $filtergroup): EmailFilter
     {
-        $this->site = $site;
+        $this->filtergroup = $filtergroup;
         return $this;
     }
     public function setFiltername(?string $filtername): self
@@ -89,15 +89,15 @@ class EmailSenderFilter
     {
         return $this->filtername;
     }
-    public function setFiltersender(?string $filtersender): self
+    public function setFilteremail(?string $filteremail): self
     {
-        $this->filtersender = $filtersender;
+        $this->filteremail = $filteremail;
         return $this;
     }
 
-    public function getFiltersender(): ?string
+    public function getFilteremail(): ?string
     {
-        return $this->filtersender;
+        return $this->filteremail;
     }
     public function setMatchMode(?string $match_mode): self
     {
@@ -134,7 +134,7 @@ class EmailSenderFilter
     {
         if(!$this->emailmessages->contains($emailmessage)) {
            $this->emailmessages[] = $emailmessage;
-           $emailmessage->setSenderFilter($this);
+           $emailmessage->setEmailfilter($this);
         }
         return $this;
     }
@@ -142,8 +142,8 @@ class EmailSenderFilter
     public function removeEmailMessage(EmailMessage $emailmessage): self
     {
         if($this->emailmessages->removeElement($emailmessage)) {
-           if ($emailmessage->getSenderFilter() === $this) {
-               $emailmessage->setSenderFilter(null);
+           if ($emailmessage->getEmailfilter() === $this) {
+               $emailmessage->setEmailfilter(null);
            }
         }
         return $this;

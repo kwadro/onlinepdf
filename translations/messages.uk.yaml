@@ -137,21 +137,41 @@ menu.link_seosettingstranslation: Seo Настройки Переклад
 menu.link_site_single: Сайт
 menu.link_site: Сайти
 menu.group_mail: Пошта
-menu.link_emailmailboxsetting_single: Поштова скринька
-menu.link_emailmailboxsetting: Поштові скриньки
+
+menu.link_emailfilter_single: Фільтр відправника
+menu.link_emailfilter: Фільтри відправників
+Filtergroup: Фільтра Групи
+Filtername: Назва Фільтра
+Filteremail: Email Відправника
+Match Mode: Режим Збігу
+Filteractive: Активний
+Filterlast Uid: Останній Uid
+menu.link_emailfiltergroup_single: Група Фільтрів
+menu.link_emailfiltergroup: Групи Фільтрів
+Filtergroupname: Назва Групи
+Filtergroupactive: Активний
+menu.link_emailmailbox_single: Поштова скринька
+menu.link_emailmailbox: Поштові скриньки
 Boxname: Назва
 Boxhost: Imap Хост
 Boxport: Порт
 Boxusername: Логін
 Boxpassword: Пароль
 Boxencryption: Шифрування
-Boxmailbox: Папка
 Boxactive: Активна
 Last Checked At: Остання Перевірка
+menu.link_emailmailboxfolder_single: Папка скриньки
+menu.link_emailmailboxfolder: Папки скриньки
+Foldername: Назва
+Folderactive: Активна
 menu.link_emailmessage_single: Вхідний лист
 menu.link_emailmessage: Вхідні листи
+Mailboxtype: Тип Повідомлення
 Imap Uid: Imap Uid
 Message Id: Message-Id
+Parent Message Id: Parent Message-Id
+In Reply To: In Reply To
+Mailreferences: References
 From Address: Відправник
 From Name: Ім'я Відправника
 Recipient: Отримувач (To)
@@ -159,13 +179,6 @@ Subject: Тема
 Body Html: Html Листа
 Received At: Отримано
 Is Seen: Прочитано
-menu.link_emailsenderfilter_single: Фільтр відправника
-menu.link_emailsenderfilter: Фільтри відправників
-Filtername: Назва Фільтра
-Filtersender: Email Відправника
-Match Mode: Режим Збігу
-Filteractive: Активний
-Filterlast Uid: Останній Uid
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Будь ласка увійдіть'
 Sign in with Google: 'Продовжити з Google'
@@ -301,5 +314,10 @@ subscription.cancel_pending: 'Скасувати оплату'
 subscription.pending_cancelled: 'Спробу оплати скасовано.'
 subscription.pending_keeps_current_plan: 'Поточний план залишається активним, доки оплата не буде підтверджена.'
 menu:
+    email_group_all: 'Всі в групі'
+    email_all_messages: 'Всі листи'
     link_subscription_plan: 'Список планів'
     link_subscription: 'Підписники'
+email.view.reply: 'Відповісти'
+email.view.forward: 'Переслати'
+

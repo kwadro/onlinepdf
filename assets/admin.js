@@ -6,8 +6,11 @@ import 'tinymce/plugins/link';
 import 'tinymce/plugins/image';
 import 'tinymce/plugins/code';
 
+import { initEmailCompose } from './admin/email-compose';
+
 document.addEventListener('DOMContentLoaded', function () {
     initTinyMce();
+    initEmailCompose();
 });
 
 document.addEventListener('ea.form.rendered', function (event) {

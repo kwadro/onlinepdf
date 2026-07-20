@@ -1,11 +1,11 @@
 translate:
-  link:
-    uk: Поштові скриньки
-    uk_single: Поштова скринька
-    en: Mailboxes
-    en_single: Mailbox
+    link:
+        uk: Поштові скриньки
+        uk_single: Поштова скринька
+        en: Mailboxes
+        en_single: Mailbox
 repository:
-  template: mail-mailbox
+    template: mail-mailbox
 disable_import: true
 fields:
 - name: id
@@ -15,8 +15,13 @@ fields:
   type: relation
   typeRelation: ManyToOne
   objectRelation: Site
-  inversedBy: emailmailboxsettingsites
+  inversedBy: emailmailboxsites
   roleRelation: master
+- name: folders
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMailboxFolder
+  mappedBy: emailmailbox
 - name: boxname
   type: string
   isrequire: true
@@ -44,19 +49,8 @@ fields:
   isrequire: true
   name_uk: Шифрування
   choices:
-    ssl: SSL (рекомендовано для Gmail, порт 993)
-    tls: TLS (STARTTLS, зазвичай порт 143)
-- name: boxmailbox
-  type: select
-  typeInput: choices
-  isrequire: true
-  name_uk: Папка
-  choices:
-    INBOX: INBOX — вхідні
-    Sent: Sent — надіслані
-    Drafts: Drafts — чернетки
-    Spam: Spam — спам
-    Trash: Trash — кошик
+    ssl: SSL ( порт 993)
+    tls: TLS ( порт 143)
 - name: boxactive
   type: select
   typeInput: yesno
@@ -69,5 +63,11 @@ fields:
   type: relation
   typeRelation: OneToMany
   objectRelation: EmailMessage
+  mappedBy: mailbox
+  hideOnForm: true
+- name: filtergroups
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailFilterGroup
   mappedBy: mailbox
   hideOnForm: true

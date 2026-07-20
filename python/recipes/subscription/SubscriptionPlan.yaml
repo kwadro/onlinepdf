@@ -1,0 +1,48 @@
+translate:
+  link:
+    uk: Тарифні плани
+    uk_single: Тарифний план
+    en: Subscription Plans
+    en_single: Subscription Plan
+generator_template: subscription-plan
+disable_import: true
+meta:
+  table: subscription_plan
+  unique_constraints:
+    - name: uniq_subscription_plan_code
+      columns: [code]
+repository:
+  template: subscription-plan
+controller:
+  template: subscription-plan
+fields:
+  - name: id
+    type: integer
+    id: true
+  - name: code
+    type: string
+    length: 64
+    isrequire: true
+  - name: name
+    type: string
+    isrequire: true
+    isstring: true
+  - name: price
+    type: integer
+    default: 0
+  - name: currency
+    type: string
+    length: 3
+    default: UAH
+  - name: interval
+    type: enum
+    enumClass: BillingInterval
+    enumNamespace: Kwadro\\UserSubscription\\Enum\\BillingInterval
+    column: billing_interval
+    default: Monthly
+  - name: features
+    type: json
+    default: []
+  - name: active
+    type: boolean
+    default: true

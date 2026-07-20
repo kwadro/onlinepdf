@@ -1,0 +1,33 @@
+translate:
+    link:
+        uk: Папки скриньки
+        uk_single: Папка скриньки
+        en: Folders of Mailbox
+        en_single: Folder of Mailbox
+repository:
+    template: mail-mailbox-folder
+disable_import: true
+fields:
+- name: id
+  type: integer
+  id: true
+- name: emailmailbox
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: EmailMailbox
+  inversedBy: folders
+  roleRelation: master
+- name: emailmessages
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: EmailMessage
+  mappedBy: mailboxfolder
+- name: foldername
+  type: string
+  isrequire: true
+  isstring: true
+  name_uk: Назва
+- name: folderactive
+  type: select
+  typeInput: yesno
+  name_uk: Активна

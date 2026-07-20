@@ -147,21 +147,40 @@ menu.link_seosettingstranslation: Seo Settings Translation
 menu.link_site_single: Site
 menu.link_site: Sites
 menu.group_mail: Mail
-menu.link_emailmailboxsetting_single: Mailbox
-menu.link_emailmailboxsetting: Mailboxes
+menu.link_emailfilter_single: Sender Filter
+menu.link_emailfilter: Sender Filters
+Filtergroup: Filtergroup
+Filtername: Filtername
+Filteremail: Filteremail
+Match Mode: Match Mode
+Filteractive: Filteractive
+Filterlast Uid: Filterlast Uid
+menu.link_emailfiltergroup_single: Group Filter
+menu.link_emailfiltergroup: Group Filters
+Filtergroupname: Filtergroupname
+Filtergroupactive: Filtergroupactive
+menu.link_emailmailbox_single: Mailbox
+menu.link_emailmailbox: Mailboxes
 Boxname: Boxname
 Boxhost: Boxhost
 Boxport: Boxport
 Boxusername: Boxusername
 Boxpassword: Boxpassword
 Boxencryption: Boxencryption
-Boxmailbox: Boxmailbox
 Boxactive: Boxactive
 Last Checked At: Last Checked At
+menu.link_emailmailboxfolder_single: Folder of Mailbox
+menu.link_emailmailboxfolder: Folders of Mailbox
+Foldername: Foldername
+Folderactive: Folderactive
 menu.link_emailmessage_single: Inbound Email
 menu.link_emailmessage: Inbound Emails
+Mailboxtype: Mailboxtype
 Imap Uid: Imap Uid
 Message Id: Message Id
+Parent Message Id: Parent Message Id
+In Reply To: In Reply To
+Mailreferences: Mailreferences
 From Address: From Address
 From Name: From Name
 Recipient: Recipient
@@ -169,13 +188,6 @@ Subject: Subject
 Body Html: Body Html
 Received At: Received At
 Is Seen: Is Seen
-menu.link_emailsenderfilter_single: Sender Filter
-menu.link_emailsenderfilter: Sender Filters
-Filtername: Filtername
-Filtersender: Filtersender
-Match Mode: Match Mode
-Filteractive: Filteractive
-Filterlast Uid: Filterlast Uid
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Please sign in'
 Sign in with Google: 'Sign in with Google'

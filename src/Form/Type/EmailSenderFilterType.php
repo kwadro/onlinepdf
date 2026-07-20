@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\Type\SiteType;
+use App\Form\Type\EmailSenderFilterGroupType;
 use App\Form\Type\EmailMessageType;
 class EmailSenderFilterType extends AbstractType
 {

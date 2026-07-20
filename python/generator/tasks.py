@@ -19,6 +19,7 @@ REPOSITORY_TEMPLATES = {
     "subscription": "repository-subscription.php.j2",
     "mail-mailbox": "repository-mail-mailbox.php.j2",
     "mail-filter": "repository-mail-filter.php.j2",
+    "mail-filter-group": "repository-mail-filter-group.php.j2",
     "mail-message": "repository-mail-message.php.j2",
 }
 
@@ -254,7 +255,7 @@ def generate_export_script(writer: Writer, groups: dict) -> None:
             handle.write("\nphp bin/console app:export:csv User")
 
     code = render_template("import.sh.j2", groups=export_groups).strip()
-    writer.write_file(OUT / "bash/import-entity.sh", code)
+#     writer.write_file(OUT / "bash/import-entity.sh", code)
 
 
 def generate_group_files(

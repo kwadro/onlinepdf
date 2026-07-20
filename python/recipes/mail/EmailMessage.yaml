@@ -7,6 +7,7 @@ translate:
 repository:
   template: mail-message
 disable_import: true
+skip_dashboard: true
 crud:
   edit_only: true
 fields:
@@ -22,13 +23,27 @@ fields:
 - name: mailbox
   type: relation
   typeRelation: ManyToOne
-  objectRelation: EmailMailboxSetting
+  objectRelation: EmailMailbox
   inversedBy: emailmessages
   roleRelation: master
-- name: sender_filter
+- name: mailboxtype
+  type: select
+  typeInput: choices
+  isrequire: true
+  name_uk: Тип повідомлення
+  choices:
+      inbox: INBOX
+      sent: SENT
+- name: mailboxfolder
   type: relation
   typeRelation: ManyToOne
-  objectRelation: EmailSenderFilter
+  objectRelation: EmailMailboxFolder
+  inversedBy: emailmessages
+  roleRelation: master
+- name: emailfilter
+  type: relation
+  typeRelation: ManyToOne
+  objectRelation: EmailFilter
   inversedBy: emailmessages
   roleRelation: master
 - name: imap_uid
@@ -38,6 +53,18 @@ fields:
 - name: message_id
   type: string
   name_uk: Message-ID
+  hideOnIndex: true
+- name: parent_message_id
+  type: string
+  name_uk: Parent Message-ID
+  hideOnIndex: true
+- name: in_reply_to
+  type: string
+  name_uk: In Reply To
+  hideOnIndex: true
+- name: mailreferences
+  type: string
+  name_uk: References
   hideOnIndex: true
 - name: from_address
   type: string

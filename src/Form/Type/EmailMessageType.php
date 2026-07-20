@@ -13,15 +13,25 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use App\Form\Type\SiteType;
-use App\Form\Type\EmailMailboxSettingType;
-use App\Form\Type\EmailSenderFilterType;
+use App\Form\Type\EmailMailboxType;
+use App\Form\Type\EmailMailboxFolderType;
+use App\Form\Type\EmailFilterType;
 class EmailMessageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('mailboxtype', ChoiceType::class, [
+                'choices' => [
+                    'INBOX' => 'inbox',
+                    'SENT' => 'sent',
+                ],
+            ])
             ->add('imap_uid', IntegerType::class)
             ->add('message_id', TextType::class)
+            ->add('parent_message_id', TextType::class)
+            ->add('in_reply_to', TextType::class)
+            ->add('mailreferences', TextType::class)
             ->add('from_address', TextType::class)
             ->add('from_name', TextType::class)
             ->add('recipient', TextType::class)

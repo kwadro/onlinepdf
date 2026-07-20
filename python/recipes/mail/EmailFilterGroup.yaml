@@ -1,0 +1,33 @@
+translate:
+    link:
+        uk: Групи Фільтрів
+        uk_single: Група Фільтрів
+        en: Group Filters
+        en_single: Group Filter
+repository:
+    template: mail-filter-group
+disable_import: true
+fields:
+    - name: id
+      type: integer
+      id: true
+    - name: mailbox
+      type: relation
+      typeRelation: ManyToOne
+      objectRelation: EmailMailbox
+      inversedBy: filtergroups
+      roleRelation: master
+    - name: filtergroupname
+      type: string
+      isrequire: true
+      isstring: true
+      name_uk: Назва Групи
+    - name: filtergroupactive
+      type: select
+      typeInput: yesno
+      name_uk: Активний
+    - name: emailfilters
+      type: relation
+      typeRelation: OneToMany
+      objectRelation: EmailFilter
+      mappedBy: filtergroup

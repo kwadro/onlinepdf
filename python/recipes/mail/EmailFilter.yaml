@@ -11,18 +11,20 @@ fields:
 - name: id
   type: integer
   id: true
-- name: site
+- name: filtergroup
   type: relation
   typeRelation: ManyToOne
-  objectRelation: Site
-  inversedBy: emailsenderfiltersites
+  objectRelation: EmailFilterGroup
+  isrequire: false
+  inversedBy: emailfiltergroups
   roleRelation: master
+  name_uk: Фільтра групи
 - name: filtername
   type: string
   isrequire: true
   isstring: true
   name_uk: Назва фільтра
-- name: filtersender
+- name: filteremail
   type: string
   isrequire: true
   name_uk: Email відправника
@@ -47,5 +49,5 @@ fields:
   type: relation
   typeRelation: OneToMany
   objectRelation: EmailMessage
-  mappedBy: sender_filter
+  mappedBy: emailfilter
   hideOnForm: true

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use App\Entity\EmailMailboxSetting;
+use App\Entity\EmailMailbox;
 use App\Entity\EmailMessage;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,7 +17,7 @@ class EmailMessageRepository extends ServiceEntityRepository
         parent::__construct($registry, EmailMessage::class);
     }
 
-    public function existsByMailboxAndUid(EmailMailboxSetting $mailbox, int $uid): bool
+    public function existsByMailboxAndUid(EmailMailbox $mailbox, int $uid): bool
     {
         return $this->count([
             'mailbox' => $mailbox,

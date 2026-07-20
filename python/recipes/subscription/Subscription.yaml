@@ -1,0 +1,62 @@
+translate:
+  link:
+    uk: Підписки користувачів
+    uk_single: Підписка користувача
+    en: User Subscriptions
+    en_single: User Subscription
+generator_template: subscription
+disable_import: true
+meta:
+  table: user_subscription
+  indexes:
+    - name: idx_user_subscription_status
+      columns: [status]
+    - name: idx_user_subscription_expires_at
+      columns: [expires_at]
+repository:
+  template: subscription
+controller:
+  template: subscription
+fields:
+  - name: id
+    type: integer
+    id: true
+  - name: user
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: SubscribableUserInterface
+    objectNamespace: Kwadro\\UserSubscription\\Model\\SubscribableUserInterface
+    inversedBy: subscriptions
+    onDelete: CASCADE
+    nullable: false
+  - name: plan
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: SubscriptionPlan
+    objectNamespace: Kwadro\\UserSubscription\\Entity\\SubscriptionPlan
+    nullable: false
+  - name: status
+    type: enum
+    enumClass: SubscriptionStatus
+    enumNamespace: Kwadro\\UserSubscription\\Enum\\SubscriptionStatus
+    default: Pending
+  - name: startedAt
+    type: datetime_immutable
+    constructor_init: true
+  - name: expiresAt
+    type: datetime_immutable
+    nullable: true
+  - name: cancelledAt
+    type: datetime_immutable
+    nullable: true
+  - name: renewedAt
+    type: datetime_immutable
+    nullable: true
+  - name: externalId
+    type: string
+    column: external_id
+    length: 255
+    nullable: true
+  - name: metadata
+    type: json
+    default: []

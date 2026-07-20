@@ -1,7 +1,7 @@
 <?php
 namespace App\Controller\Admin;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
-use App\Entity\Site;
+use App\Entity\EmailFilter;
 use EasyCorp\Bundle\EasyAdminBundle\Field\CollectionField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
@@ -19,29 +19,28 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 
 
-class SiteCrudController extends AbstractCrudController
+class EmailFilterCrudController extends AbstractCrudController
 {
     public function __construct(
         private TranslatorInterface $translator
     ) {
     }
-    public static function getEntityFqcn(): string { return Site::class; }
+    public static function getEntityFqcn(): string { return EmailFilter::class; }
 
     public function configureFields(string $pageName): iterable
     {
         return [
             IdField::new('id')->hideOnForm(),
-            TextField::new('code')->setRequired(true),
-            TextField::new('domain')->setRequired(true),
-            AssociationField::new('headersettingsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('seosettingsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('footersettingsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('megamenusites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('recipesites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('popularsearchsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('facebooksettingsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('emailmailboxsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('filtergroupsites')->setFormTypeOption('by_reference', false),
+            AssociationField::new('filtergroup'),
+            TextField::new('filtername')->setRequired(true),
+            TextField::new('filteremail')->setRequired(true),
+        
+            ChoiceField::new('match_mode')->setChoices(['Точний збіг (exact)' => 'exact', 'Містить (contains)' => 'contains'])->setHelp('exact — адреса From повністю співпадає; contains — адреса From містить указаний фрагмент')->setRequired(true),
+            ChoiceField::new('filteractive')->setChoices(['Yes' => 'Yes', 'No' => 'No']),
+            IntegerField::new('filterlast_uid')
+                ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
+                ->setHelp('Enter a positive number only')->hideOnForm(),
+            AssociationField::new('emailmessages')->setFormTypeOption('by_reference', false)->hideOnForm(),
         ];
     }
 
@@ -51,7 +50,7 @@ class SiteCrudController extends AbstractCrudController
          $manage = $this->translator->trans('grud.manage', [], 'messages');
          $edit = $this->translator->trans('grud.edit', [], 'messages');
          $createNew = $this->translator->trans('grud.create_new', [], 'messages');
-         $linkName = $this->translator->trans('menu.link_site_single', [], 'messages');
+         $linkName = $this->translator->trans('menu.link_emailfilter_single', [], 'messages');
          return $crud
             ->setFormThemes([
                '@EasyAdmin/crud/form_theme.html.twig',
@@ -66,17 +65,17 @@ class SiteCrudController extends AbstractCrudController
     public function configureActions(Actions $actions): Actions
     {
           $export = Action::new('exportCsv', $this->translator->trans('menu.link_export_csv', [], 'messages'))
-                      ->linkToRoute('admin_export_csv', ['entity' => 'Site'])
+                      ->linkToRoute('admin_export_csv', ['entity' => 'EmailFilter'])
                       ->createAsGlobalAction()
                       ->addCssClass('btn btn-secondary')
                       ->setIcon('fa fa-file-csv');
           $import = Action::new('import', $this->translator->trans('menu.link_import_csv', [], 'messages'))
-                       ->linkToRoute('admin_import', ['entity' => 'Site'])
+                       ->linkToRoute('admin_import', ['entity' => 'EmailFilter'])
                        ->createAsGlobalAction()
                        ->addCssClass('btn btn-secondary')
                        ->setIcon('fa fa-upload');
           $addNew = $this->translator->trans('menu.link_new', [], 'messages');
-          $linkName = $this->translator->trans('menu.link_site_single', [], 'messages');
+          $linkName = $this->translator->trans('menu.link_emailfilter_single', [], 'messages');
           return $actions
              ->add(Crud::PAGE_INDEX, $export)
              ->add(Crud::PAGE_INDEX, $import)

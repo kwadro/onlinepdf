@@ -33,11 +33,17 @@ class EmailMessageCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             AssociationField::new('site'),
             AssociationField::new('mailbox'),
-            AssociationField::new('sender_filter'),
+        
+            ChoiceField::new('mailboxtype')->setChoices(['INBOX' => 'inbox', 'SENT' => 'sent'])->setRequired(true),
+            AssociationField::new('mailboxfolder'),
+            AssociationField::new('emailfilter'),
             IntegerField::new('imap_uid')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only')->setRequired(true),
             TextField::new('message_id')->hideOnIndex(),
+            TextField::new('parent_message_id')->hideOnIndex(),
+            TextField::new('in_reply_to')->hideOnIndex(),
+            TextField::new('mailreferences')->hideOnIndex(),
             TextField::new('from_address')->setRequired(true),
             TextField::new('from_name'),
             TextField::new('recipient'),

@@ -10,8 +10,9 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\EmailMessageRepository;
 use App\Entity\Site;
-use App\Entity\EmailMailboxSetting;
-use App\Entity\EmailSenderFilter;
+use App\Entity\EmailMailbox;
+use App\Entity\EmailMailboxFolder;
+use App\Entity\EmailFilter;
 
 #[ORM\Entity(repositoryClass: EmailMessageRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -30,23 +31,41 @@ class EmailMessage
     )]
         private ?Site $site;
     #[ORM\ManyToOne(
-            targetEntity: EmailMailboxSetting::class,
+            targetEntity: EmailMailbox::class,
             cascade: ['persist'],
             inversedBy: 'emailmessages'
     )]
-        private ?EmailMailboxSetting $mailbox;
+        private ?EmailMailbox $mailbox;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private ?string $mailboxtype;
     #[ORM\ManyToOne(
-            targetEntity: EmailSenderFilter::class,
+            targetEntity: EmailMailboxFolder::class,
             cascade: ['persist'],
             inversedBy: 'emailmessages'
     )]
-        private ?EmailSenderFilter $sender_filter;
+        private ?EmailMailboxFolder $mailboxfolder;
+    #[ORM\ManyToOne(
+            targetEntity: EmailFilter::class,
+            cascade: ['persist'],
+            inversedBy: 'emailmessages'
+    )]
+        private ?EmailFilter $emailfilter;
 
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $imap_uid;
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $message_id;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private ?string $parent_message_id;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private ?string $in_reply_to;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private ?string $mailreferences;
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $from_address;
@@ -93,23 +112,43 @@ class EmailMessage
         return $this;
     }
 
-    public function getMailbox(): ?EmailMailboxSetting
+    public function getMailbox(): ?EmailMailbox
     {
         return $this->mailbox;
     }
-    public function setMailbox(?EmailMailboxSetting $mailbox): EmailMessage
+    public function setMailbox(?EmailMailbox $mailbox): EmailMessage
     {
         $this->mailbox = $mailbox;
         return $this;
     }
-
-    public function getSenderFilter(): ?EmailSenderFilter
+    public function setMailboxtype(?string $mailboxtype): self
     {
-        return $this->sender_filter;
+        $this->mailboxtype = $mailboxtype;
+        return $this;
     }
-    public function setSenderFilter(?EmailSenderFilter $sender_filter): EmailMessage
+
+    public function getMailboxtype(): ?string
     {
-        $this->sender_filter = $sender_filter;
+        return $this->mailboxtype;
+    }
+
+    public function getMailboxfolder(): ?EmailMailboxFolder
+    {
+        return $this->mailboxfolder;
+    }
+    public function setMailboxfolder(?EmailMailboxFolder $mailboxfolder): EmailMessage
+    {
+        $this->mailboxfolder = $mailboxfolder;
+        return $this;
+    }
+
+    public function getEmailfilter(): ?EmailFilter
+    {
+        return $this->emailfilter;
+    }
+    public function setEmailfilter(?EmailFilter $emailfilter): EmailMessage
+    {
+        $this->emailfilter = $emailfilter;
         return $this;
     }
     public function setImapUid(?int $imap_uid): self
@@ -131,6 +170,36 @@ class EmailMessage
     public function getMessageId(): ?string
     {
         return $this->message_id;
+    }
+    public function setParentMessageId(?string $parent_message_id): self
+    {
+        $this->parent_message_id = $parent_message_id;
+        return $this;
+    }
+
+    public function getParentMessageId(): ?string
+    {
+        return $this->parent_message_id;
+    }
+    public function setInReplyTo(?string $in_reply_to): self
+    {
+        $this->in_reply_to = $in_reply_to;
+        return $this;
+    }
+
+    public function getInReplyTo(): ?string
+    {
+        return $this->in_reply_to;
+    }
+    public function setMailreferences(?string $mailreferences): self
+    {
+        $this->mailreferences = $mailreferences;
+        return $this;
+    }
+
+    public function getMailreferences(): ?string
+    {
+        return $this->mailreferences;
     }
     public function setFromAddress(?string $from_address): self
     {
