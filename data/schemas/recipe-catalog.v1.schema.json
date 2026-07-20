@@ -1,0 +1,179 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://symfony.local/schemas/recipe-catalog.v1.schema.json",
+  "title": "Recipe catalog export/import",
+  "description": "Nested JSON format for exporting recipes from DB and importing new or updated recipes to the site.",
+  "type": "object",
+  "required": ["schema_version", "site", "recipes"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "const": 1
+    },
+    "site": {
+      "type": "string",
+      "description": "Site domain, e.g. symfony.local"
+    },
+    "reference_data": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "units": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/unit" }
+        },
+        "ingredients": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/ingredient" }
+        },
+        "categories": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/category" }
+        }
+      }
+    },
+    "recipes": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/recipe" }
+    }
+  },
+  "$defs": {
+    "yesNo": {
+      "type": "string",
+      "enum": ["Yes", "No"]
+    },
+    "unit": {
+      "type": "object",
+      "required": ["name", "short_name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "short_name": { "type": "string" }
+      }
+    },
+    "ingredient": {
+      "type": "object",
+      "required": ["name"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "sku": { "type": ["string", "null"] },
+        "url": { "type": ["string", "null"] },
+        "price": { "type": ["string", "null"] }
+      }
+    },
+    "category": {
+      "type": "object",
+      "required": ["name", "slug"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "position": { "type": "integer" },
+        "is_active": { "$ref": "#/$defs/yesNo" },
+        "parent": { "type": ["string", "null"] }
+      }
+    },
+    "component": {
+      "type": "object",
+      "required": ["ingredient", "unit", "quantity"],
+      "additionalProperties": false,
+      "properties": {
+        "position": { "type": "integer" },
+        "ingredient": { "type": "string" },
+        "unit": { "type": "string", "description": "Unit short_name, e.g. г." },
+        "quantity": { "type": "integer" }
+      }
+    },
+    "group_component": {
+      "type": "object",
+      "required": ["name", "components"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "position": { "type": "integer" },
+        "components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/component" }
+        }
+      }
+    },
+    "step": {
+      "type": "object",
+      "required": ["name", "answer"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string" },
+        "position": { "type": "integer" },
+        "question": { "type": ["string", "null"] },
+        "answer": { "type": "string" },
+        "image": { "type": ["string", "null"] }
+      }
+    },
+    "translation": {
+      "type": "object",
+      "required": ["locale", "name", "slug"],
+      "additionalProperties": false,
+      "properties": {
+        "locale": {
+          "type": "string",
+          "description": "Locale code (uk) or display name (Українська)"
+        },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "is_active": { "$ref": "#/$defs/yesNo" },
+        "publish": { "$ref": "#/$defs/yesNo" },
+        "confirmation": { "$ref": "#/$defs/yesNo" },
+        "is_popular": { "$ref": "#/$defs/yesNo" },
+        "meta_title": { "type": ["string", "null"] },
+        "meta_description": { "type": ["string", "null"] },
+        "short_description": { "type": ["string", "null"] },
+        "description": { "type": ["string", "null"] },
+        "cuisine": { "type": ["string", "null"] },
+        "notes": { "type": ["string", "null"] },
+        "facebook_image": { "type": ["string", "null"] },
+        "author_email": { "type": ["string", "null"] },
+        "group_components": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/group_component" }
+        },
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/step" }
+        }
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "required": ["translations"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "Existing recipe id on target site (optional, for update)"
+        },
+        "external_key": {
+          "type": "string",
+          "description": "Stable key for upsert when id is unknown, e.g. ai-generated slug"
+        },
+        "position": { "type": "integer" },
+        "prep_time_min": { "type": "integer" },
+        "cook_time_min": { "type": "integer" },
+        "servings": { "type": "integer" },
+        "image": { "type": ["string", "null"] },
+        "categories": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Category names"
+        },
+        "translations": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/translation" }
+        }
+      }
+    }
+  }
+}

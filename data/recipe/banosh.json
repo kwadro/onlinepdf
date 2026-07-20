@@ -1,0 +1,191 @@
+{
+    "schema_version": 1,
+    "site": "symfony.local",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "banosh-hutsulskyi",
+            "position": 4,
+            "prep_time_min": 10,
+            "cook_time_min": 40,
+            "servings": 4,
+            "image": "banosh-hutsulskyi.png",
+            "categories": [
+                "Другі страви",
+                "Овочеві страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Банош по-гуцульськи",
+                    "slug": "banosh-hutsulskyi",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Банош по-гуцульськи — традиційний рецепт карпатської кухні",
+                    "meta_description": "Автентичний гуцульський банош з кукурудзяною крупою, сметаною, бринзою та шкварками.",
+                    "short_description": "Традиційний гуцульський банош\nз кукурудзяною крупою,\nсметаною, бринзою та шкварками.",
+                    "description": "Банош — це традиційна страва гуцульської кухні, яку готують з кукурудзяної крупи та домашньої сметани. Готовий банош подають із бринзою, шкварками або смаженими грибами. Страва має ніжну кремову текстуру та насичений смак.",
+                    "cuisine": "Українська (гуцульська)",
+                    "notes": "За традицією банош готують на вогні у казані та помішують дерев'яною ложкою.",
+                    "facebook_image": "banosh-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+
+                    "group_components": [
+                        {
+                            "name": "Основні інгредієнти",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Кукурудзяна крупа",
+                                    "unit": "г.",
+                                    "quantity": 250
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Сметана",
+                                    "unit": "г.",
+                                    "quantity": 500
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Вода",
+                                    "unit": "мл.",
+                                    "quantity": 250
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Бринза",
+                                    "unit": "г.",
+                                    "quantity": 150
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Копчене м’ясо",
+                                    "unit": "г.",
+                                    "quantity": 100
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                }
+                            ]
+                        }
+                    ],
+
+                    "steps": [
+                        {
+                            "name": "Підготовка сметани",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Сметану вилити у каструлю з товстим дном та довести до гарячого стану на слабкому вогні.",
+                            "image": null
+                        },
+                        {
+                            "name": "Додавання кукурудзяної крупи",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Поступово додавати кукурудзяну крупу, постійно помішуючи дерев'яною ложкою, щоб не утворилися грудочки.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування баношу",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Варити на маленькому вогні 30–40 хвилин, постійно помішуючи, поки маса не стане густою та кремовою.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування шкварок",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Нарізати копчене м’ясо або сало шматочками та обсмажити разом із цибулею до золотистого кольору.",
+                            "image": null
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Готовий банош викласти у тарілку, додати бринзу та зверху полити шкварками.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "мілілітри",
+                "short_name": "мл."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            },
+            {
+                "name": "за смаком",
+                "short_name": "за смаком"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "Кукурудзяна крупа",
+                "sku": "kukurudziana-krupa",
+                "url": "https://silpo.com",
+                "price": "45"
+            },
+            {
+                "name": "Сметана",
+                "sku": "smetana",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Бринза",
+                "sku": "brynza",
+                "url": "https://silpo.com",
+                "price": "150"
+            },
+            {
+                "name": "Копчене м’ясо",
+                "sku": "kopchene-miaso",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Цибуля",
+                "sku": "zubulja",
+                "url": "https://silpo.com",
+                "price": "189"
+            },
+            {
+                "name": "Сіль",
+                "sku": "sil",
+                "url": "https://silpo.com",
+                "price": "12"
+            }
+        ]
+    }
+}

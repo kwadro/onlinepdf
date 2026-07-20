@@ -48,3 +48,6 @@ services:
     App\Command\ImportCsvCommand:
         arguments:
             $appDomain: '%app.domain%'
+    App\Command\ExportRecipeCatalogJsonCommand:
+        arguments:
+            $appDomain: '%app.domain%'

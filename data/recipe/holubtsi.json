@@ -1,0 +1,242 @@
+{
+    "schema_version": 1,
+    "site": "symfony.local",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "holubtsi-ukrainski",
+            "position": 9,
+            "prep_time_min": 60,
+            "cook_time_min": 90,
+            "servings": 8,
+            "image": "holubtsi-ukrainski.png",
+            "categories": [
+                "Другі страви",
+                "Мʼясні страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Українські голубці",
+                    "slug": "holubtsi-ukrainski",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Українські голубці — класичний домашній рецепт",
+                    "meta_description": "Традиційний рецепт українських голубців з м'ясом, рисом та капустою.",
+                    "short_description": "Домашні українські голубці\nз м'ясною начинкою,\nрисом та ніжною капустою.",
+                    "description": "Голубці — традиційна українська страва, яку готують з капустяного листя та соковитої начинки з м'яса і рису. Страва чудово підходить для сімейного обіду або святкового столу.",
+                    "cuisine": "Українська",
+                    "notes": "Смак голубців стає ще кращим після настоювання.",
+                    "facebook_image": "holubtsi-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+                    "group_components": [
+                        {
+                            "name": "Капуста",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Капуста білокачанна",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Начинка",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Свинина",
+                                    "unit": "г.",
+                                    "quantity": 500
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Рис",
+                                    "unit": "г.",
+                                    "quantity": 150
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Морква",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 6,
+                                    "ingredient": "Чорний мелений перець",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Соус",
+                            "position": 3,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Томатна паста",
+                                    "unit": "ст. л",
+                                    "quantity": 3
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Сметана",
+                                    "unit": "г.",
+                                    "quantity": 200
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Вода",
+                                    "unit": "л.",
+                                    "quantity": 0.5
+                                }
+                            ]
+                        }
+                    ],
+                    "steps": [
+                        {
+                            "name": "Підготовка капусти",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Відварити капусту у киплячій воді. Обережно зняти листя та зрізати товсті прожилки.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування начинки",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Відварити рис до напівготовності. Змішати його з фаршем, обсмаженою цибулею та морквою. Додати сіль і перець.",
+                            "image": null
+                        },
+                        {
+                            "name": "Формування голубців",
+                            "position": 3,
+                            "question": null,
+                            "answer": "На кожен капустяний лист покласти начинку та загорнути конвертиком.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування соусу",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Змішати томатну пасту, сметану та воду. Додати трохи солі.",
+                            "image": null
+                        },
+                        {
+                            "name": "Тушкування",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Викласти голубці у каструлю, залити соусом та тушкувати на малому вогні 60–90 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Подавати гарячими зі сметаною та зеленню.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "літра",
+                "short_name": "л."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            },
+            {
+                "name": "столова ложка",
+                "short_name": "ст. л"
+            },
+            {
+                "name": "за смаком",
+                "short_name": "за смаком"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "Капуста білокачанна",
+                "sku": "capusta-bilokachanna",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Свинина",
+                "sku": "swununa",
+                "url": "https://silpo.com",
+                "price": "12345"
+            },
+            {
+                "name": "Рис",
+                "sku": "rys",
+                "url": "https://silpo.com",
+                "price": "45"
+            },
+            {
+                "name": "Цибуля",
+                "sku": "zubulja",
+                "url": "https://silpo.com",
+                "price": "189"
+            },
+            {
+                "name": "Морква",
+                "sku": "morkva",
+                "url": "https://silpo.com",
+                "price": "122"
+            },
+            {
+                "name": "Томатна паста",
+                "sku": "tomato-paste",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сметана",
+                "sku": "smetana",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сіль",
+                "sku": "sil",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Чорний мелений перець",
+                "sku": "Chornuj-perez",
+                "url": "https://silpo.com",
+                "price": "123"
+            }
+        ]
+    }
+}

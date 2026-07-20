@@ -6,6 +6,17 @@ groups:
         uk: Каталог
         en: Catalog
     entities_dir: recipes/catalog
+    json_catalog:
+      schema_version: 1
+      schema: data/schemas/recipe-catalog.v1.schema.json
+      template: data/templates/recipe-catalog.template.json
+      example: data/examples/recipe-catalog.example.json
+      import_command: app:recipe:import-json
+      export_command: app:recipe:export-json
+      python_script: python/recipe_catalog.py
+      simple_yaml_example: data/examples/recipe-simple.example.yaml
+      ai_generate_command: generate
+      ai_publish_command: publish
   setting:
     translate:
       link:

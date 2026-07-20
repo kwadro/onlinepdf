@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "site": "symfony.local",
+  "reference_data": {
+    "units": [
+      { "name": "грам", "short_name": "г." },
+      { "name": "літр", "short_name": "л." }
+    ],
+    "ingredients": [
+      { "name": "Вода", "sku": null, "url": null, "price": null }
+    ],
+    "categories": [
+      {
+        "name": "Перші страви",
+        "slug": "pershi-stravy",
+        "position": 1,
+        "is_active": "Yes",
+        "parent": null
+      }
+    ]
+  },
+  "recipes": [
+    {
+      "external_key": "my-new-recipe",
+      "position": 1,
+      "prep_time_min": 15,
+      "cook_time_min": 30,
+      "servings": 4,
+      "image": null,
+      "categories": ["Перші страви"],
+      "translations": [
+        {
+          "locale": "uk",
+          "name": "Назва рецепту",
+          "slug": "nazva-receptu",
+          "is_active": "Yes",
+          "publish": "Yes",
+          "confirmation": "No",
+          "is_popular": "No",
+          "meta_title": null,
+          "meta_description": null,
+          "short_description": "Короткий опис для картки рецепту",
+          "description": "Повний опис рецепту",
+          "cuisine": "Українська",
+          "notes": null,
+          "facebook_image": null,
+          "author_email": "admin@example.com",
+          "group_components": [
+            {
+              "name": "Основні інгредієнти",
+              "position": 1,
+              "components": [
+                {
+                  "position": 1,
+                  "ingredient": "Вода",
+                  "unit": "л.",
+                  "quantity": 1
+                }
+              ]
+            }
+          ],
+          "steps": [
+            {
+              "name": "Крок 1",
+              "position": 1,
+              "question": null,
+              "answer": "Опис першого кроку приготування.",
+              "image": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

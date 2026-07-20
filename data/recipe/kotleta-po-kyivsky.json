@@ -1,0 +1,257 @@
+{
+    "schema_version": 1,
+    "site": "symfony.local",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "kotleta-po-kyivsky",
+            "position": 7,
+            "prep_time_min": 40,
+            "cook_time_min": 25,
+            "servings": 4,
+            "image": "kotleta-po-kyivsky.png",
+            "categories": [
+                "Другі страви",
+                "Мʼясні страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Котлета по-київськи",
+                    "slug": "kotleta-po-kyivsky",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Котлета по-київськи — класичний український рецепт",
+                    "meta_description": "Соковита котлета по-київськи з курячого філе з вершковим маслом та хрусткою скоринкою.",
+                    "short_description": "Класична котлета по-київськи\nз ніжним вершковим маслом всередині\nта хрусткою паніровкою.",
+                    "description": "Котлета по-київськи — відома страва української кухні. Ніжне куряче філе з холодним вершковим маслом всередині обсмажується у паніровці до золотистої скоринки. При правильному приготуванні всередині утворюється ароматна масляна начинка.",
+                    "cuisine": "Українська",
+                    "notes": "Перед смаженням котлети бажано охолодити 20–30 хвилин, щоб масло не витекло.",
+                    "facebook_image": "kotleta-kyiv-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+
+                    "group_components": [
+                        {
+                            "name": "Котлетна маса",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Куряче філе",
+                                    "unit": "г.",
+                                    "quantity": 800
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Масло вершкове",
+                                    "unit": "г.",
+                                    "quantity": 100
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Часник",
+                                    "unit": "зуб.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Кріп",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 6,
+                                    "ingredient": "Чорний мелений перець",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Паніровка",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Борошно",
+                                    "unit": "г.",
+                                    "quantity": 100
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Яйце",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Панірувальні сухарі",
+                                    "unit": "г.",
+                                    "quantity": 150
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Смаження",
+                            "position": 3,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Рослинна олія",
+                                    "unit": "мл.",
+                                    "quantity": 500
+                                }
+                            ]
+                        }
+                    ],
+
+                    "steps": [
+                        {
+                            "name": "Приготування масла",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Розм'якшити вершкове масло, додати подрібнений кріп, часник та трохи солі. Сформувати брусочок і охолодити.",
+                            "image": null
+                        },
+                        {
+                            "name": "Підготовка курячого філе",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Куряче філе розрізати, відбити через плівку тонким шаром. Посолити та поперчити.",
+                            "image": null
+                        },
+                        {
+                            "name": "Формування котлет",
+                            "position": 3,
+                            "question": null,
+                            "answer": "На середину філе покласти шматочок холодного масла. Загорнути краї так, щоб масло було повністю закрите.",
+                            "image": null
+                        },
+                        {
+                            "name": "Панірування",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Обваляти котлети у борошні, потім у збитому яйці та панірувальних сухарях. Для кращої скоринки повторити панірування двічі.",
+                            "image": null
+                        },
+                        {
+                            "name": "Смаження",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Обсмажити котлети у великій кількості гарячої олії до золотистої скоринки приблизно 3–4 хвилини.",
+                            "image": null
+                        },
+                        {
+                            "name": "Доведення до готовності",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Перекласти котлети у духовку та запікати при 180°C ще 10–15 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 7,
+                            "question": null,
+                            "answer": "Подавати гарячими з картопляним пюре, овочами або зеленню.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "мілілітри",
+                "short_name": "мл."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            },
+            {
+                "name": "зубчик",
+                "short_name": "зуб."
+            },
+            {
+                "name": "за смаком",
+                "short_name": "за смаком"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "Куряче філе",
+                "sku": "kurjache-file",
+                "url": "https://silpo.com",
+                "price": "200"
+            },
+            {
+                "name": "Масло вершкове",
+                "sku": "maslo-vershkove",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Часник",
+                "sku": "garlic",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Кріп",
+                "sku": "krip",
+                "url": "https://silpo.com",
+                "price": "34"
+            },
+            {
+                "name": "Борошно",
+                "sku": "boroshno",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Яйце",
+                "sku": "jajce",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Панірувальні сухарі",
+                "sku": "paniruvalni-sukhari",
+                "url": "https://silpo.com",
+                "price": "45"
+            },
+            {
+                "name": "Рослинна олія",
+                "sku": "vegetable-oil",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сіль",
+                "sku": "sil",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Чорний мелений перець",
+                "sku": "Chornuj-perez",
+                "url": "https://silpo.com",
+                "price": "123"
+            }
+        ]
+    }
+}

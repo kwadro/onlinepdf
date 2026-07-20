@@ -1,0 +1,56 @@
+site: symfony.local
+
+reference_data:
+  units:
+    - name: літр
+      short_name: л.
+    - name: грам
+      short_name: г.
+    - name: штука
+      short_name: шт.
+  ingredients:
+    - Вода
+    - Картопля
+    - Цибуля
+  categories:
+    - name: Перші страви
+      slug: pershi-stravy
+
+recipe:
+  external_key: kartoplyanyi-soup
+  position: 10
+  prep_time_min: 15
+  cook_time_min: 40
+  servings: 6
+  image: null
+  categories:
+    - Перші страви
+  translation:
+    locale: uk
+    name: Картопляний суп
+    slug: kartoplyany-i-sup
+    is_active: Yes
+    publish: Yes
+    confirmation: No
+    is_popular: No
+    short_description: Простий домашній картопляний суп.
+    description: Легкий суп на овочевому бульйоні з картоплею та цибулею.
+    cuisine: Українська
+    author_email: kwadro2010@gmail.com
+    groups:
+      - name: Основні інгредієнти
+        components:
+          - ingredient: Вода
+            unit: л.
+            quantity: 2
+          - ingredient: Картопля
+            unit: шт.
+            quantity: 4
+          - ingredient: Цибуля
+            unit: шт.
+            quantity: 1
+    steps:
+      - name: Підготовка овочів
+        answer: Очистити картоплю та цибулю, нарізати.
+      - name: Варіння
+        answer: Довести воду до кипіння, додати овочі і варити 20-25 хвилин.

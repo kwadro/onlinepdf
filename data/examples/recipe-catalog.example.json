@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "site": "symfony.local",
+  "reference_data": {
+    "units": [
+      { "name": "літр", "short_name": "л." },
+      { "name": "грам", "short_name": "г." },
+      { "name": "штука", "short_name": "шт." }
+    ],
+    "ingredients": [
+      { "name": "Вода", "sku": null, "url": null, "price": null },
+      { "name": "Яловичина на кістці", "sku": null, "url": null, "price": null },
+      { "name": "Буряк", "sku": null, "url": null, "price": null }
+    ],
+    "categories": [
+      {
+        "name": "Перші страви",
+        "slug": "pershi-stravy",
+        "position": 1,
+        "is_active": "Yes",
+        "parent": null
+      }
+    ]
+  },
+  "recipes": [
+    {
+      "external_key": "ukrayinskyi-borsch",
+      "position": 1,
+      "prep_time_min": 20,
+      "cook_time_min": 90,
+      "servings": 8,
+      "image": "borsch.jpg",
+      "categories": ["Перші страви"],
+      "translations": [
+        {
+          "locale": "uk",
+          "name": "Український борщ",
+          "slug": "ukrayinskyi-borsch",
+          "is_active": "Yes",
+          "publish": "Yes",
+          "confirmation": "Yes",
+          "is_popular": "Yes",
+          "meta_title": "Український борщ — класичний домашній рецепт",
+          "meta_description": "Покроковий рецепт українського борщу.",
+          "short_description": "Традиційний український борщ із буряком та м'ясом.",
+          "description": "Український борщ — одна з найвідоміших страв національної кухні.",
+          "cuisine": "Українська",
+          "notes": "На наступний день буде смачніше",
+          "facebook_image": null,
+          "author_email": "kwadro2010@gmail.com",
+          "group_components": [
+            {
+              "name": "Бульйон",
+              "position": 1,
+              "components": [
+                { "position": 1, "ingredient": "Вода", "unit": "л.", "quantity": 3 },
+                { "position": 2, "ingredient": "Яловичина на кістці", "unit": "г.", "quantity": 500 }
+              ]
+            },
+            {
+              "name": "Овочі",
+              "position": 2,
+              "components": [
+                { "position": 1, "ingredient": "Буряк", "unit": "шт.", "quantity": 2 }
+              ]
+            }
+          ],
+          "steps": [
+            {
+              "name": "Приготування бульйону",
+              "position": 1,
+              "question": null,
+              "answer": "Покласти м'ясо в холодну воду і варити 1,5–2 години.",
+              "image": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

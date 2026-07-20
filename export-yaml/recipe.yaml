@@ -1,0 +1,1291 @@
+1:
+    id: '1'
+    position: '1'
+    prep_time_min: '20'
+    cook_time_min: '90'
+    servings: '8'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 2
+            name: 'Перші страви'
+        -
+            id: 3
+            name: Борщі
+    recipetranslations:
+        -
+            id: '1'
+            name: Borsch
+            slug: borsch
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'No'
+            is_popular: 'Yes'
+            cuisine: Ukrainian
+            locale: English
+            recipe: symfony.local|1
+            user: kwadro2010@gmail.com
+        -
+            id: '2'
+            name: 'Український борщ'
+            slug: borsch
+            facebook_image: borsch-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Український борщ — класичний домашній рецепт'
+            meta_description: 'Покроковий рецепт українського борщу: інгредієнти, поради та час приготування.'
+            short_description: "Традиційний український борщ\nіз буряком, м’ясом та овочами\nнасичений, ароматний і ситний."
+            description: 'Український борщ — одна з найвідоміших страв національної кухні. Його готують на м’ясному бульйоні з буряком, капустою, картоплею та іншими овочами. Завдяки правильному поєднанню інгредієнтів борщ має глибокий смак і яскравий колір. Подається зі сметаною та зеленню, часто з пампушками.'
+            cuisine: Українська
+            notes: 'На наступний день буде смачніше'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '1'
+                    name: Бульйон
+                    recipetranslation: 'Український борщ'
+                    components:
+                        -
+                            id: '1'
+                            position: '1'
+                            quantity: '3'
+                            ingredient: Вода
+                            unit: л.
+                            groupcomponent: Бульйон
+                        -
+                            id: '2'
+                            position: '2'
+                            quantity: '500'
+                            ingredient: 'Яловичина на кістці'
+                            unit: г.
+                            groupcomponent: Бульйон
+                -
+                    id: '2'
+                    name: Овочі
+                    recipetranslation: 'Український борщ'
+                    components:
+                        -
+                            id: '3'
+                            position: '1'
+                            quantity: '2'
+                            ingredient: Буряк
+                            unit: шт.
+                            groupcomponent: Овочі
+                        -
+                            id: '4'
+                            position: '2'
+                            quantity: '4'
+                            ingredient: Картопля
+                            unit: л.
+                            groupcomponent: Овочі
+                        -
+                            id: '5'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: Морква
+                            unit: шт.
+                            groupcomponent: Овочі
+                        -
+                            id: '6'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Цибуля
+                            unit: шт.
+                            groupcomponent: Овочі
+                        -
+                            id: '7'
+                            position: '5'
+                            quantity: '300'
+                            ingredient: 'Капуста білокачанна'
+                            unit: г.
+                            groupcomponent: Овочі
+                        -
+                            id: '8'
+                            position: '6'
+                            quantity: '2'
+                            ingredient: Часник
+                            unit: зуб.
+                            groupcomponent: Овочі
+                        -
+                            id: '9'
+                            position: '7'
+                            quantity: '2'
+                            ingredient: 'Томатна паста'
+                            unit: 'ст. л'
+                            groupcomponent: Овочі
+                        -
+                            id: '10'
+                            position: '8'
+                            quantity: '1'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: Овочі
+                -
+                    id: '3'
+                    name: Спеції
+                    recipetranslation: 'Український борщ'
+                    components:
+                        -
+                            id: '11'
+                            position: '1'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'за смаком'
+                            groupcomponent: Спеції
+                        -
+                            id: '12'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: 'Чорний мелений перець'
+                            unit: 'за смаком'
+                            groupcomponent: Спеції
+                        -
+                            id: '13'
+                            position: '3'
+                            quantity: '2'
+                            ingredient: 'Лавровий листок'
+                            unit: шт.
+                            groupcomponent: Спеції
+                        -
+                            id: '14'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Кріп
+                            unit: 'за смаком'
+                            groupcomponent: Спеції
+            recipesteps:
+                -
+                    id: '1'
+                    name: 'Приготування бульйону.'
+                    position: '1'
+                    answer: "Поклади м’ясо (яловичину або свинину на кістці) у велику каструлю, \nзалий холодною водою та постав на середній вогонь.\nПісля закипання зніми піну, зменш вогонь і вари бульйон 60–90 хвилин до м’якості м’яса.\nПосоли за смаком."
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '2'
+                    name: 'Підготовка овочів'
+                    position: '2'
+                    answer: "Поки вариться бульйон:\nкартоплю почисть і наріж кубиками\nкапусту нашаткуй тонкою соломкою\nбуряк натри на великій тертці або наріж соломкою\nморкву натри\nцибулю дрібно наріж"
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '3'
+                    name: 'Засмажка (серце борщу)'
+                    position: '3'
+                    answer: "обсмаж цибулю до прозорості\nдодай моркву — смаж 2–3 хвилини\nдодай буряк, томатну пасту та трохи бульйону\nтуши 5–7 хвилин на малому вогні\nЗа бажанням додай дрібку цукру або кілька крапель оцту / лимонного соку — це збереже колір буряка."
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '5'
+                    name: Завершення
+                    position: '5'
+                    answer: "Додай:\nподрібнений часник\nлавровий лист\nчорний перець\nдрібно нарізану зелень\nВимкни вогонь і дай борщу настоятися 15–20 хвилин під кришкою."
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '22'
+                    name: 'Обсмажування овочів'
+                    position: '6'
+                    answer: 'Обсмажити цибулю та моркву до золотистого кольору.'
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '23'
+                    name: 'Додавання картоплі'
+                    position: '7'
+                    answer: 'Дістати м’ясо з бульйону, нарізати шматочками і повернути назад. Додати картоплю та варити 10 хвилин.'
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '24'
+                    name: 'Додавання капусти'
+                    position: '8'
+                    answer: 'Додати нашатковану капусту та варити ще 5–7 хвилин.'
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '25'
+                    name: 'Змішування інгредієнтів'
+                    position: '9'
+                    answer: 'Додати буряк, обсмажені овочі, лавровий лист, сіль і спеції.'
+                    recipetranslation: 'Український борщ'
+                -
+                    id: '27'
+                    name: Настоювання
+                    position: '11'
+                    answer: 'Зняти борщ з вогню і дати настоятися 20–30 хвилин перед подачею.'
+                    recipetranslation: 'Український борщ'
+            recipe: symfony.local|1
+            user: kwadro2010@gmail.com
+2:
+    id: '2'
+    position: '1'
+    prep_time_min: '30'
+    cook_time_min: '40'
+    servings: '3'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 7
+            name: 'Другі страви'
+    recipetranslations:
+        -
+            id: '3'
+            name: 'Вареники з картоплею та цибулею.'
+            slug: recipe-3
+            facebook_image: 69e52eed6427a-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Вареники з картоплею та цибулею'
+            meta_description: 'Вареники з картоплею та цибулею'
+            short_description: "Домашні вареники\nз картоплею та смаженою цибулею\nкласика української кухні."
+            description: 'Вареники з картоплею — одна з найпопулярніших українських страв. Ніжне тісто та ситна картопляна начинка з обсмаженою цибулею створюють простий, але дуже смачний домашній варіант.'
+            cuisine: Українська
+            notes: 'Найсмачніші вареники — щойно зварені, з великою ложкою сметани.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '13'
+                    name: Тісто
+                    position: '1'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                    components:
+                        -
+                            id: '52'
+                            position: '1'
+                            quantity: '500'
+                            ingredient: Борошно
+                            unit: г.
+                            groupcomponent: Тісто
+                        -
+                            id: '53'
+                            position: '2'
+                            quantity: '300'
+                            ingredient: Вода
+                            unit: мл.
+                            groupcomponent: Тісто
+                        -
+                            id: '54'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Тісто
+                        -
+                            id: '55'
+                            position: '4'
+                            quantity: '2'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: Тісто
+                        -
+                            id: '56'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'ч. л.'
+                            groupcomponent: Тісто
+                -
+                    id: '14'
+                    name: Начинка
+                    position: '2'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                    components:
+                        -
+                            id: '57'
+                            position: '1'
+                            quantity: '800'
+                            ingredient: Картопля
+                            unit: г.
+                            groupcomponent: Начинка
+                        -
+                            id: '58'
+                            position: '2'
+                            quantity: '3'
+                            ingredient: Цибуля
+                            unit: шт.
+                            groupcomponent: Начинка
+                        -
+                            id: '59'
+                            position: '3'
+                            quantity: '40'
+                            ingredient: 'Масло вершкове'
+                            unit: г.
+                            groupcomponent: Начинка
+                        -
+                            id: '60'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'за смаком'
+                            groupcomponent: Начинка
+                        -
+                            id: '61'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: 'Чорний мелений перець'
+                            unit: 'за смаком'
+                            groupcomponent: Начинка
+                -
+                    id: '15'
+                    name: 'Для смаження цибулі'
+                    position: '3'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                    components:
+                        -
+                            id: '62'
+                            position: '1'
+                            quantity: '3'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: 'Для смаження цибулі'
+                -
+                    id: '16'
+                    name: 'Для подачі'
+                    position: '4'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                    components:
+                        -
+                            id: '63'
+                            position: '1'
+                            quantity: '100'
+                            ingredient: Сметана
+                            unit: г.
+                            groupcomponent: 'Для подачі'
+                        -
+                            id: '64'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: Кріп
+                            unit: 'за смаком'
+                            groupcomponent: 'Для подачі'
+                        -
+                            id: '65'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: 'Обсмажена цибуля'
+                            unit: 'за смаком'
+                            groupcomponent: 'Для подачі'
+            recipesteps:
+                -
+                    id: '6'
+                    name: Тісто
+                    position: '1'
+                    answer: 'Замісити м’яке еластичне тісто з борошна, води, яйця та солі. Накрити і залишити на 20–30 хвилин.'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                -
+                    id: '7'
+                    name: Начинка
+                    position: '2'
+                    answer: 'Відварити картоплю, розім’яти в пюре. Обсмажити дрібно нарізану цибулю до золотистого кольору та додати до картоплі. Посолити, поперчити.'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                -
+                    id: '8'
+                    name: Формування
+                    position: '3'
+                    answer: 'Розкачати тісто, вирізати кружечки, викласти начинку і защипнути вареники.'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+                -
+                    id: '10'
+                    name: Подача
+                    position: '5'
+                    answer: 'Подавати зі сметаною або смаженою цибулею.'
+                    recipetranslation: 'Вареники з картоплею та цибулею.'
+            recipe: symfony.local|2
+            user: kwadro2010@gmail.com
+3:
+    id: '3'
+    position: '1'
+    prep_time_min: '35'
+    cook_time_min: '15'
+    servings: '7'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 11
+            name: Випічка
+    recipetranslations:
+        -
+            id: '4'
+            name: 'Вареники з вишнями'
+            slug: recipe-5
+            facebook_image: 69ff402105cd1-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Вареники з вишнями — традиційний український рецепт'
+            meta_description: 'Покроковий рецепт вареників з вишнями: інгредієнти, час приготування та поради.'
+            short_description: "Класичні українські вареники\nз соковитою вишневою начинкою\nідеальні для літа та свят."
+            description: 'Вареники з вишнями — одна з найулюбленіших страв української кухні. Тісто виходить м’яким і ніжним, а кисло-солодка начинка з вишень створює ідеальний баланс смаку. Страву подають зі сметаною або посипають цукром. Це чудовий варіант як для десерту, так і для ситного сніданку.'
+            cuisine: Українська
+            notes: 'Можна використовувати як свіжі, так і заморожені вишні. Для соковитості додавайте трохи крохмалю.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '10'
+                    name: Тісто
+                    recipetranslation: 'Вареники з вишнями'
+                    components:
+                        -
+                            id: '42'
+                            position: '1'
+                            quantity: '500'
+                            ingredient: Борошно
+                            unit: г.
+                            groupcomponent: Тісто
+                        -
+                            id: '43'
+                            position: '2'
+                            quantity: '250'
+                            ingredient: 'Вода тепла'
+                            unit: мл.
+                            groupcomponent: Тісто
+                        -
+                            id: '44'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Тісто
+                        -
+                            id: '45'
+                            position: '4'
+                            quantity: '2'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: Тісто
+                        -
+                            id: '46'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'за смаком'
+                            groupcomponent: Тісто
+                -
+                    id: '11'
+                    name: Начинка
+                    recipetranslation: 'Вареники з вишнями'
+                    components:
+                        -
+                            id: '47'
+                            position: '1'
+                            quantity: '500'
+                            ingredient: 'Вишні без кісточок'
+                            unit: г.
+                            groupcomponent: Начинка
+                        -
+                            id: '48'
+                            position: '2'
+                            quantity: '5'
+                            ingredient: Цукор
+                            unit: 'ст. л'
+                            groupcomponent: Начинка
+                        -
+                            id: '49'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: Крохмаль
+                            unit: 'ст. л'
+                            groupcomponent: Начинка
+                -
+                    id: '12'
+                    name: 'Для подачі'
+                    recipetranslation: 'Вареники з вишнями'
+                    components:
+                        -
+                            id: '50'
+                            position: '1'
+                            quantity: '1'
+                            ingredient: Сметана
+                            unit: 'за смаком'
+                            groupcomponent: 'Для подачі'
+                        -
+                            id: '51'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: Цукор
+                            unit: 'за смаком'
+                            groupcomponent: 'Для подачі'
+            recipesteps:
+                -
+                    id: '12'
+                    name: 'Підготовка тіста'
+                    position: '1'
+                    answer: 'У мисці змішати теплу воду, яйце, сіль та олію. Поступово додати борошно й замісити еластичне тісто.'
+                    recipetranslation: 'Вареники з вишнями'
+                -
+                    id: '13'
+                    name: 'Відпочинок тіста'
+                    position: '2'
+                    answer: 'Накрити тісто рушником або плівкою та залишити на 20–30 хвилин.'
+                    recipetranslation: 'Вареники з вишнями'
+                -
+                    id: '9'
+                    name: 'Підготовка начинки'
+                    position: '3'
+                    answer: 'Вишні змішати з цукром і крохмалем, щоб начинка стала густішою під час варіння.'
+                    recipetranslation: 'Вареники з вишнями'
+                -
+                    id: '14'
+                    name: 'Формування вареників'
+                    position: '4'
+                    answer: 'Розкачати тісто, вирізати кружечки, викласти начинку та добре защипнути краї.'
+                    recipetranslation: 'Вареники з вишнями'
+                -
+                    id: '15'
+                    name: 'Варіння вареників'
+                    position: '5'
+                    answer: 'Опустити вареники в киплячу підсолену воду та варити 3–5 хвилин після спливання.'
+                    recipetranslation: 'Вареники з вишнями'
+                -
+                    id: '44'
+                    name: 'Подача страви'
+                    position: '6'
+                    answer: 'Подавати гарячими зі сметаною, цукром або цукровою пудрою.'
+                    recipetranslation: 'Вареники з вишнями'
+            recipe: symfony.local|3
+            user: kwadro2010@gmail.com
+4:
+    id: '4'
+    position: '1'
+    prep_time_min: '20'
+    cook_time_min: '100'
+    servings: '6'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 11
+            name: Випічка
+    recipetranslations:
+        -
+            id: '5'
+            name: 'Пампушки з часником'
+            slug: recipe-6
+            facebook_image: 69ff4030dc3fe-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Пампушки з часником — рецепт до борщу'
+            meta_description: 'Як приготувати пухкі пампушки з часником: простий рецепт української кухні.'
+            short_description: 'Пухкі ароматні пампушки з часниковою заправкою — ідеальне доповнення до борщу.'
+            description: 'Пампушки — традиційна українська випічка, яку зазвичай подають до борщу. Вони мають м’яку текстуру та насичений аромат завдяки часниковій заправці з олії та зелені. Свіжоспечені пампушки з хрусткою скоринкою та ніжною серединкою — справжня класика домашньої кухні.'
+            cuisine: Українська
+            notes: 'Найсмачніші пампушки — щойно з духовки. Не шкодуйте часникової заправки.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '8'
+                    name: Тісто
+                    recipetranslation: 'Пампушки з часником'
+                    components:
+                        -
+                            id: '30'
+                            position: '1'
+                            quantity: '500'
+                            ingredient: Борошно
+                            unit: г.
+                            groupcomponent: Тісто
+                        -
+                            id: '31'
+                            position: '2'
+                            quantity: '250'
+                            ingredient: Молоко
+                            unit: мл.
+                            groupcomponent: Тісто
+                        -
+                            id: '32'
+                            position: '3'
+                            quantity: '7'
+                            ingredient: Дріжджі
+                            unit: г.
+                            groupcomponent: Тісто
+                        -
+                            id: '33'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Тісто
+                        -
+                            id: '34'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Цукор
+                            unit: 'ст. л'
+                            groupcomponent: Тісто
+                        -
+                            id: '35'
+                            position: '6'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'ч. л.'
+                            groupcomponent: Тісто
+                        -
+                            id: '36'
+                            position: '7'
+                            quantity: '3'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: Тісто
+                -
+                    id: '9'
+                    name: 'Часникова заливка'
+                    recipetranslation: 'Пампушки з часником'
+                    components:
+                        -
+                            id: '37'
+                            position: '1'
+                            quantity: '4'
+                            ingredient: Часник
+                            unit: зуб.
+                            groupcomponent: 'Часникова заливка'
+                        -
+                            id: '38'
+                            position: '2'
+                            quantity: '3'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: 'Часникова заливка'
+                        -
+                            id: '39'
+                            position: '3'
+                            quantity: '2'
+                            ingredient: Вода
+                            unit: 'ст. л'
+                            groupcomponent: 'Часникова заливка'
+                        -
+                            id: '40'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Кріп
+                            unit: 'за смаком'
+                            groupcomponent: 'Часникова заливка'
+                        -
+                            id: '41'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'за смаком'
+                            groupcomponent: 'Часникова заливка'
+            recipesteps:
+                -
+                    id: '37'
+                    name: 'Підготовка опари'
+                    position: '1'
+                    answer: 'У теплому молоці розчинити дріжджі та цукор, залишити на 10 хвилин до появи пінки.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '38'
+                    name: 'Замішування тіста'
+                    position: '2'
+                    answer: 'Додати яйце, сіль, олію та поступово всипати борошно. Замісити м’яке еластичне тісто.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '39'
+                    name: 'Підйом тіста'
+                    position: '3'
+                    answer: 'Накрити тісто рушником і залишити в теплому місці на 1 годину, поки воно не збільшиться вдвічі.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '40'
+                    name: 'Формування пампушок'
+                    position: '4'
+                    answer: 'Сформувати невеликі кульки з тіста та викласти у форму для випікання на невеликій відстані одна від одної.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '41'
+                    name: Випікання
+                    position: '5'
+                    answer: 'Випікати пампушки у розігрітій до 180°C духовці 25–30 хвилин до золотистого кольору.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '42'
+                    name: 'Приготування заливки'
+                    position: '6'
+                    answer: 'Подрібнити часник і зелень, змішати з олією, водою та дрібкою солі.'
+                    recipetranslation: 'Пампушки з часником'
+                -
+                    id: '43'
+                    name: 'Завершення страви'
+                    position: '7'
+                    answer: 'Гарячі пампушки щедро змастити часниковою заливкою та дати настоятися 5–10 хвилин.'
+                    recipetranslation: 'Пампушки з часником'
+            recipe: symfony.local|4
+            user: kwadro2010@gmail.com
+5:
+    id: '5'
+    position: '1'
+    prep_time_min: '90'
+    cook_time_min: '40'
+    servings: '8'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 11
+            name: Випічка
+    recipetranslations:
+        -
+            id: '6'
+            name: 'Домашній хліб у духовці'
+            slug: recipe-7
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Домашній хліб у духовці — простий рецепт'
+            meta_description: 'Як спекти домашній хліб: покроковий рецепт, інгредієнти та поради.'
+            short_description: 'Ароматний домашній хліб із хрусткою скоринкою та м’якою серединкою.'
+            description: 'Домашній хліб — це основа українського столу. Простий рецепт на дріжджах дозволяє отримати запашний буханець із золотистою скоринкою. Ідеально смакує зі свіжим маслом, салом або до перших страв.'
+            cuisine: Українська
+            notes: 'Для кращої скоринки поставте в духовку ємність з водою під час випікання.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '7'
+                    name: Інгредієнти
+                    recipetranslation: 'Домашній хліб у духовці'
+                    components:
+                        -
+                            id: '25'
+                            position: '1'
+                            quantity: '350'
+                            ingredient: Вода
+                            unit: мл.
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '26'
+                            position: '2'
+                            quantity: '598'
+                            ingredient: Борошно
+                            unit: г.
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '27'
+                            position: '3'
+                            quantity: '8'
+                            ingredient: Дріжджі
+                            unit: г.
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '28'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Сіль
+                            unit: 'ч. л.'
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '29'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: Цукор
+                            unit: 'ч. л.'
+                            groupcomponent: Інгредієнти
+            recipesteps:
+                -
+                    id: '11'
+                    name: 'Заміс тіста'
+                    position: '1'
+                    answer: 'Змішати борошно, воду, яйце та сіль до утворення однорідного еластичного тіста.'
+                    recipetranslation: 'Домашній хліб у духовці'
+                -
+                    id: '17'
+                    name: 'Активація дріжджів'
+                    position: '1'
+                    answer: 'Розчинити дріжджі у теплій воді, додати цукор і залишити на кілька хвилин для активації.'
+                    recipetranslation: 'Домашній хліб у духовці'
+                -
+                    id: '19'
+                    name: 'Підйом тіста'
+                    position: '3'
+                    answer: 'Накрити тісто та залишити підходити в теплому місці приблизно на 1–1,5 години.'
+                    recipetranslation: 'Домашній хліб у духовці'
+                -
+                    id: '20'
+                    name: 'Формування хліба'
+                    position: '4'
+                    answer: 'Сформувати з тіста буханець потрібної форми.'
+                    recipetranslation: 'Домашній хліб у духовці'
+            recipe: symfony.local|5
+            user: kwadro2010@gmail.com
+6:
+    id: '6'
+    position: '1'
+    prep_time_min: '15'
+    cook_time_min: '25'
+    servings: '4'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 11
+            name: Випічка
+    recipetranslations:
+        -
+            id: '7'
+            name: 'Сирники в духовці'
+            slug: recipe-8
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Сирники в духовці — корисний рецепт'
+            meta_description: 'Як приготувати сирники в духовці: простий і корисний рецепт.'
+            short_description: 'Корисні та ніжні сирники без смаження — ідеальні для сніданку.'
+            description: 'Сирники — традиційна українська страва, яку можна готувати не лише на сковороді, а й у духовці. Такий варіант менш жирний, але не менш смачний. Вони виходять ніжними, повітряними та добре тримають форму.'
+            cuisine: Українська
+            notes: 'Для більш ніжної текстури використовуйте домашній сир середньої жирності.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '6'
+                    name: Інгредієнти
+                    recipetranslation: 'Сирники в духовці'
+                    components:
+                        -
+                            id: '20'
+                            position: '1'
+                            quantity: '400'
+                            ingredient: 'Сир кисломолочний'
+                            unit: г.
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '21'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '22'
+                            position: '3'
+                            quantity: '2'
+                            ingredient: Цукор
+                            unit: 'ст. л'
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '23'
+                            position: '4'
+                            quantity: '3'
+                            ingredient: Борошно
+                            unit: 'ст. л'
+                            groupcomponent: Інгредієнти
+                        -
+                            id: '24'
+                            position: '5'
+                            quantity: '1'
+                            ingredient: 'Ванільний цукор'
+                            unit: 'за смаком'
+                            groupcomponent: Інгредієнти
+            recipesteps:
+                -
+                    id: '28'
+                    name: 'Підготовка сирної маси'
+                    position: '1'
+                    answer: 'Змішати сир, яйце, цукор і ваніль до однорідної консистенції.'
+                    recipetranslation: 'Сирники в духовці'
+                -
+                    id: '29'
+                    name: 'Формування сирників'
+                    position: '2'
+                    answer: 'Додати борошно до маси та сформувати невеликі сирники однакової форми.'
+                    recipetranslation: 'Сирники в духовці'
+                -
+                    id: '30'
+                    name: 'Підготовка до випікання'
+                    position: '3'
+                    answer: 'Викласти сирники на деко, застелене пергаментом.'
+                    recipetranslation: 'Сирники в духовці'
+                -
+                    id: '21'
+                    name: Випікання
+                    position: '5'
+                    answer: 'Випікати у розігрітій до 200°C духовці близько 35–40 хвилин до золотистої скоринки.'
+                    recipetranslation: 'Сирники в духовці'
+            recipe: symfony.local|6
+            user: kwadro2010@gmail.com
+7:
+    id: '7'
+    position: '1'
+    prep_time_min: '15'
+    cook_time_min: '35'
+    servings: '6'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 11
+            name: Випічка
+    recipetranslations:
+        -
+            id: '8'
+            name: 'Яблучний пиріг (шарлотка)'
+            slug: recipe-9
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Яблучна шарлотка — швидкий рецепт'
+            meta_description: 'Простий рецепт яблучного пирога: інгредієнти, час і поради.'
+            short_description: 'Ніжний пиріг з яблуками, який готується швидко і завжди вдається.'
+            description: 'Шарлотка — популярна домашня випічка в Україні. Легке бісквітне тісто поєднується з соковитими яблуками, створюючи ніжний і ароматний десерт. Ідеальний варіант до чаю або кави.'
+            cuisine: Українська
+            notes: 'Краще використовувати кисло-солодкі яблука — вони дають більш насичений смак.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '4'
+                    name: Тісто
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                    components:
+                        -
+                            id: '15'
+                            position: '1'
+                            quantity: '4'
+                            ingredient: Яйце
+                            unit: шт.
+                            groupcomponent: Тісто
+                        -
+                            id: '16'
+                            position: '2'
+                            quantity: '150'
+                            ingredient: Цукор
+                            unit: г.
+                            groupcomponent: Тісто
+                        -
+                            id: '17'
+                            position: '3'
+                            quantity: '150'
+                            ingredient: Борошно
+                            unit: г.
+                            groupcomponent: Тісто
+                -
+                    id: '5'
+                    name: Начинка
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                    components:
+                        -
+                            id: '18'
+                            position: '1'
+                            quantity: '5'
+                            ingredient: Яблука
+                            unit: шт.
+                            groupcomponent: Начинка
+                        -
+                            id: '19'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: Кориця
+                            unit: 'за смаком'
+                            groupcomponent: Начинка
+            recipesteps:
+                -
+                    id: '32'
+                    name: 'Підготувати яєчну масу'
+                    position: '1'
+                    answer: 'Збити яйця з цукром до пишної світлої маси'
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                -
+                    id: '33'
+                    name: 'Додати борошно'
+                    position: '2'
+                    answer: 'Поступово додати борошно та акуратно перемішати тісто.'
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                -
+                    id: '34'
+                    name: 'Підготувати яблука'
+                    position: '3'
+                    answer: 'Яблука помити, очистити за бажанням і нарізати скибками.'
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                -
+                    id: '35'
+                    name: 'Сформувати пиріг'
+                    position: '4'
+                    answer: 'Викласти яблука у форму для випікання та залити підготовленим тістом.'
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+                -
+                    id: '36'
+                    name: Випікати
+                    position: '5'
+                    answer: 'Випікати пиріг при температурі 180°C приблизно 30–35 хвилин.'
+                    recipetranslation: 'Яблучний пиріг (шарлотка)'
+            recipe: symfony.local|7
+            user: kwadro2010@gmail.com
+8:
+    id: '8'
+    position: '1'
+    prep_time_min: '10'
+    cook_time_min: '10'
+    servings: '10'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 4
+            name: Супи
+    recipetranslations:
+        -
+            id: '9'
+            name: Капусняк
+            slug: recipe-10
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Капусняк український — домашній рецепт традиційного супу'
+            meta_description: 'Покроковий рецепт українського капусняку з квашеною капустою та пшоном.'
+            short_description: 'Ситний традиційний суп із квашеної капусти та пшона з насиченим домашнім смаком.'
+            description: "Капусняк — старовинна українська страва, яку готують на м’ясному бульйоні з квашеною капустою та пшоном.\nСуп має приємну кислинку, густу консистенцію та дуже поживний смак.\nНайкраще смакує гарячим зі сметаною та свіжим хлібом."
+            cuisine: Українська
+            notes: 'Якщо капуста надто кисла, перед приготуванням промийте її холодною водою.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '17'
+                    name: 'Для бульйону'
+                    position: '1'
+                    recipetranslation: Капусняк
+                -
+                    id: '18'
+                    name: 'Основні інгредієнти'
+                    position: '2'
+                    recipetranslation: Капусняк
+                    components:
+                        -
+                            id: '68'
+                            position: '1'
+                            quantity: '400'
+                            ingredient: 'Квашена капуста'
+                            unit: г.
+                            groupcomponent: 'Основні інгредієнти'
+                        -
+                            id: '69'
+                            position: '2'
+                            quantity: '4'
+                            ingredient: Картопля
+                            unit: шт.
+                            groupcomponent: 'Основні інгредієнти'
+                        -
+                            id: '70'
+                            position: '3'
+                            quantity: '1'
+                            ingredient: Морква
+                            unit: шт.
+                            groupcomponent: 'Основні інгредієнти'
+                        -
+                            id: '71'
+                            position: '4'
+                            quantity: '1'
+                            ingredient: Цибуля
+                            unit: шт.
+                            groupcomponent: 'Основні інгредієнти'
+                        -
+                            id: '72'
+                            position: '5'
+                            quantity: '100'
+                            ingredient: Пшоно
+                            unit: г.
+                            groupcomponent: 'Основні інгредієнти'
+                -
+                    id: '19'
+                    name: 'Для засмажки'
+                    position: '3'
+                    recipetranslation: Капусняк
+                    components:
+                        -
+                            id: '73'
+                            position: '1'
+                            quantity: '3'
+                            ingredient: 'Рослинна олія'
+                            unit: 'ст. л'
+                            groupcomponent: 'Для засмажки'
+                        -
+                            id: '74'
+                            position: '2'
+                            quantity: '1'
+                            ingredient: 'Томатна паста'
+                            unit: 'ст. л'
+                            groupcomponent: 'Для засмажки'
+                -
+                    id: '20'
+                    name: 'Для подачі'
+                    position: '4'
+                    recipetranslation: Капусняк
+                    components:
+                        -
+                            id: '75'
+                            position: '1'
+                            quantity: '1'
+                            ingredient: Сметана
+                            unit: 'за смаком'
+                            groupcomponent: 'Для подачі'
+            recipesteps:
+                -
+                    id: '46'
+                    name: 'Приготування бульйону'
+                    position: '1'
+                    answer: 'М’ясо залити водою та варити до готовності приблизно 1–1,5 години.'
+                    recipetranslation: Капусняк
+                -
+                    id: '47'
+                    name: 'Підготовка овочів'
+                    position: '2'
+                    answer: 'Картоплю нарізати кубиками, моркву натерти, цибулю дрібно нарізати.'
+                    recipetranslation: Капусняк
+                -
+                    id: '48'
+                    name: 'Приготування засмажки'
+                    position: '3'
+                    answer: 'Обсмажити цибулю та моркву до золотистого кольору, додати томатну пасту.'
+                    recipetranslation: Капусняк
+                -
+                    id: '49'
+                    name: 'Додавання інгредієнтів'
+                    position: '4'
+                    answer: 'У бульйон додати картоплю, пшоно та квашену капусту.'
+                    recipetranslation: Капусняк
+                -
+                    id: '50'
+                    name: 'Завершення супу'
+                    position: '5'
+                    answer: 'Додати засмажку, спеції та варити ще 15–20 хвилин.'
+                    recipetranslation: Капусняк
+                -
+                    id: '51'
+                    name: 'Подача страви'
+                    position: '6'
+                    answer: 'Подавати гарячим зі сметаною та зеленню.'
+                    recipetranslation: Капусняк
+            recipe: symfony.local|8
+            user: kwadro2010@gmail.com
+9:
+    id: '9'
+    position: '1'
+    prep_time_min: '28'
+    cook_time_min: '80'
+    servings: '7'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 4
+            name: Супи
+70:
+    id: '70'
+    position: '1'
+    prep_time_min: '15'
+    cook_time_min: '40'
+    servings: '4'
+    site: symfony.local
+    recipecategorys:
+        -
+            id: 5
+            name: 'Другі страви'
+        -
+            id: 8
+            name: Паста
+        -
+            id: 31
+            name: 'Паста Італійська'
+    recipetranslations:
+        -
+            id: '18'
+            name: 'Carbonara Pasta'
+            slug: pasta-carbonara
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'No'
+            is_popular: 'Yes'
+            cuisine: Italian
+            locale: English
+            recipe: symfony.local|70
+            user: kwadro2010@gmail.com
+        -
+            id: '19'
+            name: 'Паста Карбонара'
+            slug: pasta-carbonara
+            facebook_image: carbonara-facebook-post.png
+            is_active: 'Yes'
+            publish: 'Yes'
+            confirmation: 'Yes'
+            is_popular: 'Yes'
+            meta_title: 'Паста Карбонара — класичний італійський рецепт'
+            meta_description: 'Простий рецепт пасти Карбонара з беконом, сиром та вершковим соусом.'
+            short_description: "Класична італійська паста\nз беконом, сиром пармезан\nта ніжним соусом."
+            description: 'Паста Карбонара — одна з найвідоміших страв італійської кухні. Вона готується з пасти, бекону, яєць та сиру пармезан. Соус виходить ніжним і кремовим без використання вершків.'
+            cuisine: Італійська
+            notes: 'Подавати одразу після приготування.'
+            locale: Українська
+            groupcomponents:
+                -
+                    id: '76'
+                    name: Паста
+                    recipetranslation: 'Паста Карбонара'
+                    components:
+                        -
+                            id: '237'
+                            position: '1'
+                            quantity: '400'
+                            groupcomponent: Паста
+                        -
+                            id: '238'
+                            position: '2'
+                            quantity: '150'
+                            groupcomponent: Паста
+                        -
+                            id: '239'
+                            position: '3'
+                            quantity: '2'
+                            groupcomponent: Паста
+                        -
+                            id: '240'
+                            position: '4'
+                            quantity: '50'
+                            groupcomponent: Паста
+                        -
+                            id: '241'
+                            position: '5'
+                            quantity: '1'
+                            groupcomponent: Паста
+                -
+                    id: '77'
+                    name: Спеції
+                    recipetranslation: 'Паста Карбонара'
+                    components:
+                        -
+                            id: '242'
+                            position: '1'
+                            quantity: '1'
+                            groupcomponent: Спеції
+                        -
+                            id: '243'
+                            position: '2'
+                            quantity: '1'
+                            groupcomponent: Спеції
+            recipesteps:
+                -
+                    id: '177'
+                    name: 'Відварювання пасти'
+                    position: '1'
+                    answer: "Закип’яти воду,\nдодай сіль та відвари спагеті до стану al dente."
+                    recipetranslation: 'Паста Карбонара'
+                -
+                    id: '178'
+                    name: 'Обсмажування бекону'
+                    position: '2'
+                    answer: "Наріж бекон шматочками\nта обсмаж на сковороді до золотистого кольору."
+                    recipetranslation: 'Паста Карбонара'
+                -
+                    id: '179'
+                    name: 'Приготування соусу'
+                    position: '3'
+                    answer: "Збий яйця,\nдодай тертий пармезан та чорний перець."
+                    recipetranslation: 'Паста Карбонара'
+                -
+                    id: '180'
+                    name: Змішування
+                    position: '4'
+                    answer: "Додай гарячу пасту до бекону,\nвимкни вогонь та швидко влий яєчний соус,\nретельно перемішай."
+                    recipetranslation: 'Паста Карбонара'
+                -
+                    id: '181'
+                    name: Подача
+                    position: '5'
+                    answer: "Подавай гарячою,\nпосипавши додатковим пармезаном."
+                    recipetranslation: 'Паста Карбонара'
+            recipe: symfony.local|70
+            user: kwadro2010@gmail.com

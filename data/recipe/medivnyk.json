@@ -1,0 +1,225 @@
+{
+    "schema_version": 1,
+    "site": "symfony.local",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "medivnyk-ukrainskyi",
+            "position": 15,
+            "prep_time_min": 40,
+            "cook_time_min": 60,
+            "servings": 10,
+            "image": "medivnyk-ukrainskyi.png",
+            "categories": [
+                "Випічка",
+                "Торти"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Український медівник",
+                    "slug": "medivnyk-ukrainskyi",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Український медівник — традиційний рецепт медового торта",
+                    "meta_description": "Домашній український медівник з медовими коржами та ніжним сметанним кремом.",
+                    "short_description": "Традиційний український медівник\nз ароматними медовими коржами\nта ніжним кремом.",
+                    "description": "Медівник — це один із найулюбленіших українських домашніх десертів. Тонкі медові коржі, просочені ніжним сметанним кремом, створюють м'який ароматний торт, який стає ще смачнішим наступного дня.",
+                    "cuisine": "Українська",
+                    "notes": "Після приготування бажано залишити торт у холодильнику на 8–12 годин для просочення.",
+                    "facebook_image": "medivnyk-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+
+                    "group_components": [
+                        {
+                            "name": "Медові коржі",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Борошно",
+                                    "unit": "г.",
+                                    "quantity": 600
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Мед",
+                                    "unit": "г.",
+                                    "quantity": 150
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Цукор",
+                                    "unit": "г.",
+                                    "quantity": 200
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Яйце",
+                                    "unit": "шт.",
+                                    "quantity": 3
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Масло вершкове",
+                                    "unit": "г.",
+                                    "quantity": 100
+                                },
+                                {
+                                    "position": 6,
+                                    "ingredient": "Сода",
+                                    "unit": "ч. л.",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Крем",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Сметана",
+                                    "unit": "г.",
+                                    "quantity": 800
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Цукор",
+                                    "unit": "г.",
+                                    "quantity": 150
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Ванільний цукор",
+                                    "unit": "ч. л.",
+                                    "quantity": 1
+                                }
+                            ]
+                        }
+                    ],
+
+                    "steps": [
+                        {
+                            "name": "Приготування медової основи",
+                            "position": 1,
+                            "question": null,
+                            "answer": "У каструлі змішати мед, цукор та вершкове масло. Нагрівати на водяній бані до повного розчинення цукру.",
+                            "image": null
+                        },
+                        {
+                            "name": "Додавання яєць",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Трохи охолодити медову суміш, додати яйця та добре перемішати.",
+                            "image": null
+                        },
+                        {
+                            "name": "Замішування тіста",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Додати соду та поступово вводити борошно. Замісити м'яке еластичне тісто.",
+                            "image": null
+                        },
+                        {
+                            "name": "Формування коржів",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Розділити тісто на 6–8 частин. Кожну частину тонко розкачати та випікати при температурі 180°C приблизно 5–7 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування крему",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Збити сметану з цукром та ванільним цукром до однорідної кремової консистенції.",
+                            "image": null
+                        },
+                        {
+                            "name": "Збірка торта",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Перемазати кожен корж кремом. Верх і боки також покрити кремом.",
+                            "image": null
+                        },
+                        {
+                            "name": "Настоювання",
+                            "position": 7,
+                            "question": null,
+                            "answer": "Залишити медівник у холодильнику мінімум на 8 годин, щоб коржі стали м'якими та просочилися.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            },
+            {
+                "name": "чайна ложка",
+                "short_name": "ч. л."
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "Борошно",
+                "sku": "boroshno",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Мед",
+                "sku": "med",
+                "url": "https://silpo.com",
+                "price": "150"
+            },
+            {
+                "name": "Цукор",
+                "sku": "sugar",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Яйце",
+                "sku": "jajce",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Масло вершкове",
+                "sku": "maslo-vershkove",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сметана",
+                "sku": "smetana",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Ванільний цукор",
+                "sku": "vanilshuger",
+                "url": "https://silpo.com",
+                "price": "7878"
+            },
+            {
+                "name": "Сода",
+                "sku": "soda",
+                "url": "https://silpo.com",
+                "price": "20"
+            }
+        ]
+    }
+}

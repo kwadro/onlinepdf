@@ -1,0 +1,219 @@
+{
+    "schema_version": 1,
+    "site": "symfony.local",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "deruny-ukrainski",
+            "position": 16,
+            "prep_time_min": 20,
+            "cook_time_min": 30,
+            "servings": 4,
+            "image": "deruny-ukrainski.png",
+            "categories": [
+                "Другі страви",
+                "Овочеві страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Українські деруни",
+                    "slug": "deruny-ukrainski",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Українські деруни — класичний рецепт картопляних дерунів",
+                    "meta_description": "Домашні українські деруни з картоплі з хрусткою скоринкою та ніжною серединою.",
+                    "short_description": "Традиційні українські деруни\nз картоплі та цибулі,\nхрусткі зовні та ніжні всередині.",
+                    "description": "Деруни — одна з найвідоміших українських страв. Їх готують із натертої картоплі з додаванням цибулі, яйця та борошна. Подають гарячими зі сметаною, зеленню або шкварками.",
+                    "cuisine": "Українська",
+                    "notes": "Для найкращого смаку використовувати картоплю з високим вмістом крохмалю.",
+                    "facebook_image": "deruny-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+
+                    "group_components": [
+                        {
+                            "name": "Основні інгредієнти",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Картопля",
+                                    "unit": "кг.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Яйце",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Борошно",
+                                    "unit": "ст. л",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 6,
+                                    "ingredient": "Чорний мелений перець",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Для смаження",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Рослинна олія",
+                                    "unit": "ст. л",
+                                    "quantity": 4
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 3,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Сметана",
+                                    "unit": "г.",
+                                    "quantity": 200
+                                }
+                            ]
+                        }
+                    ],
+
+                    "steps": [
+                        {
+                            "name": "Підготовка картоплі",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Очистити картоплю та натерти на дрібній тертці. Якщо виділилося багато соку — трохи його злити.",
+                            "image": null
+                        },
+                        {
+                            "name": "Підготовка цибулі",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Натерти цибулю разом із картоплею або додати окремо. Цибуля допомагає зберегти світлий колір картоплі.",
+                            "image": null
+                        },
+                        {
+                            "name": "Приготування тіста",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Додати яйце, борошно, сіль і перець. Добре перемішати до однорідної маси.",
+                            "image": null
+                        },
+                        {
+                            "name": "Смаження дерунів",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Розігріти сковороду з олією. Викладати картопляну масу ложкою та смажити по 3–4 хвилини з кожного боку до золотистої скоринки.",
+                            "image": null
+                        },
+                        {
+                            "name": "Подача",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Подавати гарячими зі сметаною, зеленню або смаженою цибулею.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "кілограм",
+                "short_name": "кг."
+            },
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            },
+            {
+                "name": "столова ложка",
+                "short_name": "ст. л"
+            },
+            {
+                "name": "за смаком",
+                "short_name": "за смаком"
+            }
+        ],
+        "ingredients": [
+            {
+                "name": "Картопля",
+                "sku": "kartoplja",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Цибуля",
+                "sku": "zubulja",
+                "url": "https://silpo.com",
+                "price": "189"
+            },
+            {
+                "name": "Яйце",
+                "sku": "jajce",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Борошно",
+                "sku": "boroshno",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Рослинна олія",
+                "sku": "vegetable-oil",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сметана",
+                "sku": "smetana",
+                "url": "https://silpo.com",
+                "price": "123"
+            },
+            {
+                "name": "Сіль",
+                "sku": "sil",
+                "url": "https://silpo.com",
+                "price": "12"
+            },
+            {
+                "name": "Чорний мелений перець",
+                "sku": "Chornuj-perez",
+                "url": "https://silpo.com",
+                "price": "123"
+            }
+        ]
+    }
+}
