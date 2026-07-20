@@ -41,7 +41,6 @@ class SiteCrudController extends AbstractCrudController
             AssociationField::new('popularsearchsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('facebooksettingsites')->setFormTypeOption('by_reference', false),
             AssociationField::new('emailmailboxsites')->setFormTypeOption('by_reference', false),
-            AssociationField::new('filtergroupsites')->setFormTypeOption('by_reference', false),
         ];
     }
 

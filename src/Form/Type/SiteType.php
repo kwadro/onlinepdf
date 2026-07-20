@@ -20,7 +20,6 @@ use App\Form\Type\RecipeType;
 use App\Form\Type\PopularsearchType;
 use App\Form\Type\FacebookSettingType;
 use App\Form\Type\EmailMailboxType;
-use App\Form\Type\EmailFilterGroupType;
 class SiteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void

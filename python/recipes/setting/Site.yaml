@@ -55,8 +55,4 @@ fields:
   typeRelation: OneToMany
   objectRelation: EmailMailbox
   mappedBy: site
-- name: filtergroupsites
-  type: relation
-  typeRelation: OneToMany
-  objectRelation: EmailFilterGroup
-  mappedBy: site
+

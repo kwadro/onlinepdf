@@ -17,7 +17,6 @@ use App\Entity\Recipe;
 use App\Entity\Popularsearch;
 use App\Entity\FacebookSetting;
 use App\Entity\EmailMailbox;
-use App\Entity\EmailFilterGroup;
 
 #[ORM\Entity(repositoryClass: SiteRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -91,13 +90,6 @@ class Site
         orphanRemoval: false,
     )]
         public ?Collection $emailmailboxsites;
-    #[ORM\OneToMany(
-        targetEntity: EmailFilterGroup::class,
-        mappedBy: 'site',
-        cascade: ['persist'],
-        orphanRemoval: false,
-    )]
-        public ?Collection $filtergroupsites;
 
     public function __construct()
     {
@@ -109,7 +101,6 @@ class Site
         $this->popularsearchsites = new ArrayCollection();
         $this->facebooksettingsites = new ArrayCollection();
         $this->emailmailboxsites = new ArrayCollection();
-        $this->filtergroupsites = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -336,30 +327,6 @@ class Site
     public function getEmailmailboxsites(): ?Collection
     {
         return $this->emailmailboxsites;
-    }
-
-    public function addEmailFilterGroup(EmailFilterGroup $emailfiltergroup): self
-    {
-        if(!$this->filtergroupsites->contains($emailfiltergroup)) {
-           $this->filtergroupsites[] = $emailfiltergroup;
-           $emailfiltergroup->setSite($this);
-        }
-        return $this;
-    }
-
-    public function removeEmailFilterGroup(EmailFilterGroup $emailfiltergroup): self
-    {
-        if($this->filtergroupsites->removeElement($emailfiltergroup)) {
-           if ($emailfiltergroup->getSite() === $this) {
-               $emailfiltergroup->setSite(null);
-           }
-        }
-        return $this;
-    }
-
-    public function getFiltergroupsites(): ?Collection
-    {
-        return $this->filtergroupsites;
     }
 
 }
