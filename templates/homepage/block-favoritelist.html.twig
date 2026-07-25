@@ -1,9 +1,13 @@
 {% if recipes is not empty %}
-    <div class="width-search d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold ms-2 my-3">{{'Favorite List'|trans}}</h4>
+<section class="home-section">
+    <div class="home-section__head">
+        <h2 class="home-section__title">{{ 'Favorite List'|trans }}</h2>
     </div>
-    {% include "homepage/recipe-grid.html.twig" with {
-        'recipes': recipes,
-        'favoriteIds': favoriteIds
-    } %}
+    <div class="home-section__body">
+        {% include "homepage/recipe-grid.html.twig" with {
+            recipes: recipes,
+            favoriteIds: favoriteIds,
+        } %}
+    </div>
+</section>
 {% endif %}

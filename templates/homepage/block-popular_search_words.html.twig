@@ -1,25 +1,27 @@
 {% if popularSearchWords is not empty %}
-     <div class="width-search d-flex justify-content-between align-items-center">
-         <h5 class="fw-bold ms-2 my-3">{{'Popular search terms'|trans}}</h5>
-{#         <small class="text-muted me-3 my-3">{{'Updated'|trans}} 23:35</small>#}
-     </div>
-     <div class="row g-3 width-search" data-controller="popularsearch">
-         {% for popularSearch in popularSearchWords %}
-             {% if popularSearch.image %}
-                 {% set popularSearchImage = '/uploads/recipes/' ~ popularSearch.image %}
-             {% else %}
-                 {% set popularSearchImage = 'https://placehold.in/200' %}
-             {% endif %}
-             <div class="col-6 col-md-3 ">
-                 <div
-                     data-action="click->popularsearch#open"
-                     class="keyword-card d-block"
-                     data-popularsearch-query-url-value="{{ path('search_page',{'keyword':popularSearch.name})  }}"
-                 >
-                     <img src="{{ popularSearchImage }}" width="230" class="img-fluid" alt="">
-                     <span class="keyword-title">{{ popularSearch.name }}</span>
-                 </div>
-             </div>
-         {% endfor %}
-     </div>
+<section class="home-section home-keywords">
+    <div class="home-section__head">
+        <h2 class="home-section__title">{{ 'Popular search terms'|trans }}</h2>
+    </div>
+    <div class="row g-3 home-section__body" data-controller="popularsearch">
+        {% for popularSearch in popularSearchWords %}
+            {% if popularSearch.image %}
+                {% set popularSearchImage = '/uploads/recipes/' ~ popularSearch.image %}
+            {% else %}
+                {% set popularSearchImage = 'https://placehold.in/200' %}
+            {% endif %}
+            <div class="col-6 col-md-3">
+                <div
+                    data-action="click->popularsearch#open"
+                    class="home-keyword-card keyword-card"
+                    data-popularsearch-query-url-value="{{ path('search_page', {keyword: popularSearch.name}) }}"
+                >
+                    <img src="{{ popularSearchImage }}" width="230" class="img-fluid" alt="{{ popularSearch.name }}">
+                    <span class="home-keyword-card__overlay"></span>
+                    <span class="keyword-title home-keyword-card__title">{{ popularSearch.name }}</span>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</section>
 {% endif %}

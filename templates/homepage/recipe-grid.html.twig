@@ -1,13 +1,13 @@
-    <div class="width-search row g-4">
-        {% set countRepeatVal = countRepeat|default('1') %}
-        {% set favoriteIds = favoriteIds|default([]) %}
-        {% set newIds = newIds|default([]) %}
-        {% if recipes is not empty %}
-            {% for i in 1..countRepeatVal %}
+<div class="home-recipe-grid width-search row g-4">
+    {% set countRepeatVal = countRepeat|default('1') %}
+    {% set favoriteIds = favoriteIds|default([]) %}
+    {% set newIds = newIds|default([]) %}
+    {% if recipes is not empty %}
+        {% for i in 1..countRepeatVal %}
             {% for recipe in recipes %}
                 <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6 col-12">
-                    <div class="product-card shadow-sm">
-                        <div class="position-relative">
+                    <article class="home-recipe-card product-card">
+                        <div class="home-recipe-card__media position-relative">
                             {% if (favoriteIds is not empty) and (recipe.id in favoriteIds) %}
                                 {% set favoriteClass = 'selected' %}
                             {% else %}
@@ -20,54 +20,56 @@
                                 {% set recipeimage = 'https://placehold.in/200' %}
                             {% endif %}
 
-                            <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}">
-                                <img src="{{ recipeimage }}" class="product-image w-100" alt="{{ recipe.recipetranslations[0].name }}"/>
+                            <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="home-recipe-card__image-link">
+                                <img src="{{ recipeimage }}" class="product-image home-recipe-card__image w-100" alt="{{ recipe.recipetranslations[0].name }}"/>
                             </a>
 
                             {% if (newIds is not empty) and (recipe.id in favoriteIds) %}
-                                <span class="discount-badge">{{ 'New'|trans }}</span>
+                                <span class="discount-badge home-recipe-card__badge">{{ 'New'|trans }}</span>
                             {% endif %}
 
-                            <button title="{{ 'Add to Favorite List'|trans }}"
-                                    class="favorite-btn {{ favoriteClass }}"
-                                    data-id ="{{ recipe.id }}"
-                                    data-add ="{{ path('account_wishlist_add') }}"
-                                    data-remove ="{{ path('account_wishlist_remove') }}"
-                                    data-action="click->scroll#addFavoriteItem"
+                            <button
+                                title="{{ 'Add to Favorite List'|trans }}"
+                                class="favorite-btn home-recipe-card__favorite {{ favoriteClass }}"
+                                data-id="{{ recipe.id }}"
+                                data-add="{{ path('account_wishlist_add') }}"
+                                data-remove="{{ path('account_wishlist_remove') }}"
+                                data-action="click->scroll#addFavoriteItem"
                             >
                                 <i class="bi bi-heart"></i>
                             </button>
                         </div>
-                        <div class="p-3">
+                        <div class="home-recipe-card__body">
                             {% if recipes is not empty %}
                                 {% for category in recipe.recipecategorys %}
-                                    <span class="category-badge mb-2 d-inline-block">{{ category.name }}</span>
+                                    <span class="category-badge home-recipe-card__category">{{ category.name }}</span>
                                 {% endfor %}
                             {% endif %}
 
-                            <h6 class="recipe-name mb-1">{{ recipe.recipetranslations[0].name }}</h6>
+                            <h3 class="recipe-name home-recipe-card__title">{{ recipe.recipetranslations[0].name }}</h3>
 
                             {% include "recipe/block-info-time.html.twig" with {
-                                'recipe': recipe,
-                                'class':'recipe-info'
+                                recipe: recipe,
+                                class: 'recipe-info home-recipe-card__meta',
                             } %}
 
-                            <div class="d-flex flex-column gap-2 justify-content-between align-items-start">
-
+                            <div class="home-recipe-card__footer">
                                 {% include "author/block-info-author-full.html.twig" with {
-                                    'recipe': recipe
+                                    recipe: recipe,
                                 } %}
 
-                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary w-100">
+                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary home-recipe-card__cta w-100">
                                     {{ 'View'|trans }}
                                 </a>
                             </div>
                         </div>
-                    </div>
+                    </article>
                 </div>
             {% endfor %}
-            {% endfor %}
-        {% else %}
-            <h5 class="text-center">{{ 'We not found any recipe in this category'|trans }}</h5>
-        {% endif %}
-    </div>
+        {% endfor %}
+    {% else %}
+        <div class="home-empty">
+            <h5 class="home-empty__title">{{ 'We not found any recipe in this category'|trans }}</h5>
+        </div>
+    {% endif %}
+</div>

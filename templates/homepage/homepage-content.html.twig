@@ -1,45 +1,62 @@
-<div class="d-flex justify-content-center mt-3 p-3">
-    <input id="search_form"
-           type="hidden"
-           name="_token"
-           value="{{ csrf_token_search }}">
-    <div class="input-group search-box">
-        <div class="input-search-text">
-            <i class="bi bi-search"></i>
-            <input id="search-input"
-                type="text"
-                class="form-control"
-                data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
-                placeholder="{{ 'search_placeholder'|trans }}"
-            >
+{% set setting = site_settings() %}
+<div class="home-content">
+    <section class="home-hero">
+        <div class="home-hero__inner">
+            <div class="home-hero__copy">
+                <span class="home-hero__badge">{{ setting.header.title }}</span>
+                <h1 class="home-hero__title">{{ 'Recipes Collection'|trans }}</h1>
+                <p class="home-hero__subtitle">{{ 'Find a recipe'|trans }}</p>
+            </div>
+            <div class="home-search">
+                <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
+                <div class="home-search__box search-box">
+                    <div class="home-search__field input-search-text">
+                        <i class="bi bi-search"></i>
+                        <input
+                            id="search-input"
+                            type="text"
+                            class="form-control"
+                            data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
+                            placeholder="{{ 'search_placeholder'|trans }}"
+                        >
+                    </div>
+                    <button
+                        class="btn btn-primary home-search__btn"
+                        data-action="click->search#open"
+                        type="button"
+                    >
+                        {{ 'Find a recipe'|trans }}
+                    </button>
+                </div>
+            </div>
         </div>
-        <button
-            class="btn btn-primary px-4"
-            data-action="click->search#open"
-            type="button">
-            {{ 'Find a recipe'|trans }}
-        </button>
-    </div>
-</div>
+    </section>
 
-{% include "homepage/block-popular_search_words.html.twig" with {
-    'popularSearchWords': popularSearchWords,
-    'favoriteIds': favoriteIds,
-} %}
+    {% include "homepage/block-popular_search_words.html.twig" with {
+        popularSearchWords: popularSearchWords,
+        favoriteIds: favoriteIds,
+    } %}
 
-{% include "homepage/block-popular_recipes.html.twig" with {
-    'recipes': popularRecipes,
-    'favoriteIds': favoriteIds
-} %}
-{% include "homepage/block-favoritelist.html.twig" with {
-    'recipes': favoriteRecipes,
-    'favoriteIds': favoriteIds
-} %}
-{% include "homepage/block-recently_recipes.html.twig" with {
-    'recipes': recentlyRecipes,
-    'favoriteIds': favoriteIds
-} %}
+    {% include "homepage/block-popular_recipes.html.twig" with {
+        recipes: popularRecipes,
+        favoriteIds: favoriteIds,
+    } %}
 
-<div class="m-3">
-    {{ content|raw }}
+    {% include "homepage/block-favoritelist.html.twig" with {
+        recipes: favoriteRecipes,
+        favoriteIds: favoriteIds,
+    } %}
+
+    {% include "homepage/block-recently_recipes.html.twig" with {
+        recipes: recentlyRecipes,
+        favoriteIds: favoriteIds,
+    } %}
+
+    {% if content is defined and content is not empty %}
+        <section class="home-section home-about">
+            <div class="home-about__card">
+                {{ content|raw }}
+            </div>
+        </section>
+    {% endif %}
 </div>

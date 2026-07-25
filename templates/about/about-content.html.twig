@@ -1,2 +1,32 @@
+<div class="page-content">
+    {% if breadcrumbs is defined and breadcrumbs is not empty %}
+        <nav class="page-breadcrumbs" aria-label="Breadcrumb">
+            {% for breadCrumb in breadcrumbs %}
+                {% if breadCrumb.link %}
+                    {% if breadCrumb.url == 'home' %}
+                        <a href="{{ path('homepage') }}">{{ breadCrumb.name }}</a>
+                    {% else %}
+                        <a href="{{ path('collection_list', {slug: breadCrumb.url}) }}">{{ breadCrumb.name }}</a>
+                    {% endif %}
+                    <i class="bi bi-chevron-right" aria-hidden="true"></i>
+                {% else %}
+                    <span class="page-breadcrumbs__current">{{ breadCrumb.name }}</span>
+                {% endif %}
+            {% endfor %}
+        </nav>
+    {% endif %}
 
-{{ content|raw }}
+    <section class="page-hero">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-info-circle"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ breadcrumbs|last.name|default('About the Project'|trans) }}</h1>
+            <p class="page-hero__subtitle">{{ 'page.about_intro'|trans }}</p>
+        </div>
+    </section>
+
+    <div class="page-card page-prose">
+        {{ content|raw }}
+    </div>
+</div>
