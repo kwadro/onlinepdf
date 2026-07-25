@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Security\AuthenticationRedirectResolver;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Kwadro\UserSubscription\Model\SubscribableUserInterface;
@@ -21,8 +22,10 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 
 class RegistrationController extends AbstractController
 {
-    public function __construct(private EmailVerifier $emailVerifier)
-    {
+    public function __construct(
+        private EmailVerifier $emailVerifier,
+        private AuthenticationRedirectResolver $redirectResolver,
+    ) {
     }
 
     /**
@@ -93,6 +96,14 @@ class RegistrationController extends AbstractController
 
         // @TODO Change the redirect on success and handle or remove the flash message in your templates
         $this->addFlash('success', 'Your email address has been verified.');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if ($this->redirectResolver->isSuperAdmin($user)) {
+            return $this->redirectToRoute('admin', ['_locale' => $request->getLocale()]);
+        }
+
         return $this->redirectToRoute('homepage');
     }
 }

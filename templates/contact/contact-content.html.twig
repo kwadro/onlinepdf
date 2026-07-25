@@ -22,7 +22,15 @@
             </div>
         {% endfor %}
 
-        {{ form_start(ContactFormType, { attr: { class: 'page-form' } }) }}
+        {{ form_start(ContactFormType, {
+            attr: {
+                class: 'page-form',
+                'data-controller': 'contact-recaptcha',
+                'data-contact-recaptcha-site-key-value': recaptcha_site_key,
+                'data-contact-recaptcha-action-value': 'contact',
+                'data-turbo': 'false',
+            },
+        }) }}
             <div class="page-form__grid">
                 {{ form_row(ContactFormType.full_name, {
                     label: 'Full name'|trans,
@@ -37,7 +45,12 @@
                 label: 'Message'|trans,
                 attr: { class: 'form-control page-form__control page-form__textarea', rows: 6, placeholder: 'Message'|trans },
             }) }}
-            <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+            <input
+                type="hidden"
+                name="recaptcha_token"
+                id="recaptcha_token"
+                data-contact-recaptcha-target="token"
+            >
             <div class="page-form__actions">
                 <button type="submit" class="btn btn-primary page-form__submit">
                     <i class="bi bi-send me-2"></i>{{ 'Send Message'|trans }}
@@ -46,12 +59,3 @@
         {{ form_end(ContactFormType) }}
     </div>
 </div>
-
-<script src="https://www.google.com/recaptcha/api.js?render={{ recaptcha_site_key }}"></script>
-<script>
-    grecaptcha.ready(function () {
-        grecaptcha.execute('{{ recaptcha_site_key }}', {action: 'contact'}).then(function (token) {
-            document.getElementById('recaptcha_token').value = token;
-        });
-    });
-</script>

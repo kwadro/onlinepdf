@@ -47,19 +47,22 @@ class CustomAuthenticator extends AbstractAuthenticator
     private RouterInterface $router;
     private UserManager $userManager;
     private LoggerInterface $logger;
+    private AuthenticationRedirectResolver $redirectResolver;
 
     public function __construct(
         UrlGeneratorInterface $urlGenerator,
         HttpClientInterface $http,
         RouterInterface $router,
         UserManager $userManager,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        AuthenticationRedirectResolver $redirectResolver,
     ) {
         $this->router = $router;
         $this->urlGenerator = $urlGenerator;
         $this->http = $http;
         $this->userManager = $userManager;
         $this->logger = $logger;
+        $this->redirectResolver = $redirectResolver;
     }
 
 
@@ -265,7 +268,11 @@ class CustomAuthenticator extends AbstractAuthenticator
         TokenInterface $token,
         string $firewallName
     ): RedirectResponse {
-        return new RedirectResponse($this->router->generate('homepage'));
+        $user = $token->getUser();
+
+        return new RedirectResponse(
+            $this->redirectResolver->resolveUrl($user, $request)
+        );
     }
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
