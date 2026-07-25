@@ -211,6 +211,9 @@ menu.link_contact_form_single: Дані контактної форми
 menu.contact_form_items: Дані контакних форм
 menu.contact_form: Контактна форма
 search_placeholder: 'Приклад борошно, сода або піца'
+sidebar.navigation: 'Навігація'
+sidebar.my_account: 'Мій акаунт'
+sidebar.settings: 'Налаштування'
 Find a recipe: 'Знайти рецепт'
 Recipes Collection: 'Колекція рецептів'
 Filter: 'Фільтер'

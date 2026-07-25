@@ -1,80 +1,143 @@
 {% set setting = site_settings() %}
-<ul
-    class="list-group  mt-4"
-    data-controller="sidebar"
->
-    {% for item_menu in setting.menu %}
-         {% if  item_menu.megamenutype =='Sidebar'%}
-            <li  class="list-group-item  border-0 mx-1 mega-left-item
-                 {% if loop.first %}active fw-semibold{% endif %}"
-                 data-target="sidebar-{{ loop.index }}">
-                <div class="d-flex align-center">
-                    {{ item_menu.content|raw }}
-                    <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none text-dark py-1 px-2"
-                       href="{{ absolute_url(path(item_menu.url)) }}">
-                        {{ item_menu.name }}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set sidebar_icons = {
+    'homepage': 'bi-search',
+    'account_my_recipes': 'bi-journal-text',
+    'account_recently_viewed': 'bi-clock-history',
+    'account_wishlist_page': 'bi-heart',
+    'account_plan': 'bi-star',
+    'account_setting': 'bi-gear',
+    'app_logout': 'bi-box-arrow-right',
+} %}
+
+<aside class="site-sidebar" data-controller="sidebar">
+    {% set sidebar_items = setting.menu|filter(item => item.megamenutype == 'Sidebar') %}
+    {% if sidebar_items is not empty %}
+        <section class="site-sidebar__panel">
+            <nav class="site-sidebar__nav" aria-label="{{ 'sidebar.navigation'|trans }}">
+                {% for item_menu in sidebar_items %}
+                    {% set is_active = current_route == item_menu.url %}
+                    <a
+                        href="{{ absolute_url(path(item_menu.url)) }}"
+                        class="site-sidebar__link{% if is_active %} is-active{% endif %}"
+                    >
+                        <span class="site-sidebar__icon">
+                            {% if item_menu.content %}
+                                {{ item_menu.content|raw }}
+                            {% else %}
+                                <i class="bi {{ sidebar_icons[item_menu.url]|default('bi-circle') }}"></i>
+                            {% endif %}
+                        </span>
+                        <span class="site-sidebar__label">{{ item_menu.name }}</span>
                     </a>
+                {% endfor %}
+            </nav>
+        </section>
+    {% endif %}
+
+    {% if not app.user %}
+        {% set guest_blocks = setting.menu|filter(item => item.megamenutype == 'OnlyHtml') %}
+        {% for item_menu in guest_blocks %}
+            <section class="site-sidebar__panel site-sidebar__panel--guest">
+                <div class="site-sidebar__guest-badge">
+                    <i class="bi bi-person-plus"></i>
                 </div>
-            </li>
-         {% endif %}
-         {% if  item_menu.megamenutype =='OnlyHtml' and not app.user %}
-            <li  class="list-group-item  border-0 mx-1 mega-left-item
-                 {% if loop.first %}active fw-semibold{% endif %}"
-                 data-target="sidebar-{{ loop.index }}">
-                <div class="d-flex align-center">
+                <div class="site-sidebar__guest-content">
                     {{ item_menu.content|raw }}
                 </div>
-            </li>
-         {% endif %}
-    {% endfor %}
-</ul>
-{% if app.user %}
-    {% include "service/horisontal-text.html.twig" with {'content':''} %}
-    <ul class="list-group  mt-4"
-         data-controller="sidebar"
-    >
-        {% for item_menu in setting.menu %}
-            {% if  item_menu.megamenutype =='AccountSidebar'%}
-                <li  class="list-group-item  border-0 mx-1 mega-left-item
-                    {% if loop.first %}active fw-semibold{% endif %} {% if app.request.get('_route') == item_menu.url %}active fw-semibold{% endif %}"
-                    data-target="sidebar-{{ loop.index }}">
-                    <div class="d-flex align-center">
-                        {{ item_menu.content|raw }}
-                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
-                            href="{{ absolute_url(path(item_menu.url)) }}">
-                            {{ item_menu.name }}
-                        </a>
-                    </div>
-                </li>
-            {% endif %}
+            </section>
         {% endfor %}
-    </ul>
-    {% include "service/horisontal-text.html.twig" with {'content':''} %}
-    <ul class="list-group  mt-4"
-        data-controller="sidebar"
-    >
-        <li class="list-group-item border-0 mx-1 mega-left-item {% if app.request.get('_route') == 'account_plan' %}active fw-semibold{% endif %}">
-            <div class="d-flex align-center">
-                <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
-                   href="{{ absolute_url(path('account_plan', {_locale: app.request.locale})) }}">
-                    {{ 'subscription.your_plan'|trans }}
-                </a>
+    {% else %}
+        {% set display_name = app.user.firstName|default('') ~ ' ' ~ app.user.lastName|default('') %}
+        {% set display_name = display_name|trim ?: app.user.email %}
+
+        <section class="site-sidebar__panel site-sidebar__panel--profile">
+            <div class="site-sidebar__profile">
+                {% if app.user.avatarUrl %}
+                    {% set avatar_src = 'http' in app.user.avatarUrl ? app.user.avatarUrl : '/uploads/avatars/' ~ app.user.avatarUrl %}
+                    <img
+                        class="site-sidebar__avatar"
+                        src="{{ avatar_src }}"
+                        alt="{{ display_name }}"
+                        width="52"
+                        height="52"
+                    >
+                {% else %}
+                    <span class="site-sidebar__avatar-fallback" aria-hidden="true">
+                        {{ display_name|first|upper }}
+                    </span>
+                {% endif %}
+                <div class="site-sidebar__profile-meta">
+                    <strong class="site-sidebar__profile-name">{{ display_name }}</strong>
+                    <span class="site-sidebar__profile-email">{{ app.user.email }}</span>
+                </div>
             </div>
-        </li>
-        {% for item_menu in setting.menu %}
-            {% if  item_menu.megamenutype =='AccountSettingSidebar'%}
-                <li  class="list-group-item  border-0 mx-1 mega-left-item
-                    {% if loop.first %}active fw-semibold{% endif %} {% if app.request.get('_route') == item_menu.url %}active fw-semibold{% endif %}"
-                     data-target="sidebar-{{ loop.index }}">
-                    <div class="d-flex align-center">
-                        {{ item_menu.content|raw }}
-                        <a class="d-block lh-1 fw-semibold fs-5 text-decoration-none py-1 px-2"
-                           href="{{ absolute_url(path(item_menu.url)) }}">
-                            {{ item_menu.name }}
+        </section>
+
+        {% set account_items = setting.menu|filter(item => item.megamenutype == 'AccountSidebar') %}
+        {% if account_items is not empty %}
+            <section class="site-sidebar__panel">
+                <h2 class="site-sidebar__title">{{ 'sidebar.my_account'|trans }}</h2>
+                <nav class="site-sidebar__nav" aria-label="{{ 'sidebar.my_account'|trans }}">
+                    {% for item_menu in account_items %}
+                        {% set is_active = current_route == item_menu.url %}
+                        <a
+                            href="{{ absolute_url(path(item_menu.url, {_locale: app.request.locale})) }}"
+                            class="site-sidebar__link{% if is_active %} is-active{% endif %}"
+                        >
+                            <span class="site-sidebar__icon">
+                                {% if item_menu.content %}
+                                    {{ item_menu.content|raw }}
+                                {% else %}
+                                    <i class="bi {{ sidebar_icons[item_menu.url]|default('bi-circle') }}"></i>
+                                {% endif %}
+                            </span>
+                            <span class="site-sidebar__label">{{ item_menu.name }}</span>
                         </a>
-                    </div>
-                </li>
-            {% endif %}
-        {% endfor %}
-    </ul>
-{% endif %}
+                    {% endfor %}
+                </nav>
+            </section>
+        {% endif %}
+
+        <section class="site-sidebar__panel">
+            <h2 class="site-sidebar__title">{{ 'subscription.your_plan'|trans }}</h2>
+            <nav class="site-sidebar__nav">
+                <a
+                    href="{{ absolute_url(path('account_plan', {_locale: app.request.locale})) }}"
+                    class="site-sidebar__link{% if current_route == 'account_plan' %} is-active{% endif %}"
+                >
+                    <span class="site-sidebar__icon">
+                        <i class="bi {{ sidebar_icons.account_plan }}"></i>
+                    </span>
+                    <span class="site-sidebar__label">{{ 'subscription.your_plan'|trans }}</span>
+                </a>
+            </nav>
+        </section>
+
+        {% set settings_items = setting.menu|filter(item => item.megamenutype == 'AccountSettingSidebar') %}
+        {% if settings_items is not empty %}
+            <section class="site-sidebar__panel">
+                <h2 class="site-sidebar__title">{{ 'sidebar.settings'|trans }}</h2>
+                <nav class="site-sidebar__nav" aria-label="{{ 'sidebar.settings'|trans }}">
+                    {% for item_menu in settings_items %}
+                        {% set is_active = current_route == item_menu.url %}
+                        {% set is_logout = item_menu.url == 'app_logout' %}
+                        <a
+                            href="{{ absolute_url(path(item_menu.url, {_locale: app.request.locale})) }}"
+                            class="site-sidebar__link{% if is_active %} is-active{% endif %}{% if is_logout %} site-sidebar__link--danger{% endif %}"
+                        >
+                            <span class="site-sidebar__icon">
+                                {% if item_menu.content %}
+                                    {{ item_menu.content|raw }}
+                                {% else %}
+                                    <i class="bi {{ sidebar_icons[item_menu.url]|default('bi-circle') }}"></i>
+                                {% endif %}
+                            </span>
+                            <span class="site-sidebar__label">{{ item_menu.name }}</span>
+                        </a>
+                    {% endfor %}
+                </nav>
+            </section>
+        {% endif %}
+    {% endif %}
+</aside>

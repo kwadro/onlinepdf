@@ -1,5 +1,6 @@
 import {Controller} from "@hotwired/stimulus";
 import {EditorClass} from '../js/editor';
+import {measureLayoutBodyHeight} from '../js/layout-chrome';
 
 export default class extends Controller {
     static targets = ['textareaTitle', 'countTitle', 'countSpanTitle', 'countWarningTitle']
@@ -10,6 +11,10 @@ export default class extends Controller {
     connect() {
         this.editor = new EditorClass();
         this.updateRightContent = this.updateRightContent.bind(this);
+        this.handleResize = () => {
+            this.measure();
+            this.updateRightContent();
+        };
         const run = () => {
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
@@ -38,8 +43,10 @@ export default class extends Controller {
     }
 
     measure() {
-        console.log('heightContent', document.getElementById('rightContent').offsetHeight);
-        document.body.style.height = (document.getElementById('rightContent').offsetHeight + 220) + 'px';
+        const metrics = measureLayoutBodyHeight();
+        if (metrics) {
+            console.log('heightContent', document.getElementById('rightContent').offsetHeight, metrics);
+        }
     }
 
     updateRightContent() {
@@ -50,15 +57,13 @@ export default class extends Controller {
     }
 
     addListeners() {
-        const self = this
         window.addEventListener('scroll', this.updateRightContent);
-        window.addEventListener('resize', this.updateRightContent);
+        window.addEventListener('resize', this.handleResize);
     }
 
     disconnect() {
-        const self = this
         window.removeEventListener('scroll', this.updateRightContent);
-        window.removeEventListener('resize', this.updateRightContent);
+        window.removeEventListener('resize', this.handleResize);
     }
 
     addRecipe(e) {

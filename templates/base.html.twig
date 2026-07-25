@@ -61,10 +61,9 @@
     {% include "header.html.twig" %}
 {% endblock %}
 
-<div class="container-fluid my-4 "
+<div class="container-fluid my-4 layout-with-header"
      data-controller="search"
      data-ajaxurl="{{ searchAjaxUrl|default('empty') }}"
-     style="margin-top: 95px"
 >
     <div class="row gx-4">
         <div class="column-left sidebar-section">

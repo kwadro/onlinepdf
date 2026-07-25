@@ -1,143 +1,75 @@
 {% set setting = site_settings() %}
-<div class="container-fluid container__header">
-    <div class="container">
-        <header class="d-flex flex-wrap justify-content-between justify-content-md-center align-items-center py-1 py-md-3 mb-0">
-            <a href="{{ absolute_url(path('homepage')) }}"
-                class="d-flex align-items-center mb-0 me-md-auto  text-decoration-none">
-                <img src="{{ absolute_url(asset('uploads/logo/logo.png')) }}"
-                    alt="" width="50" height="auto"
-                    style="vertical-align:middle; margin-right:8px;">
-                <span class="fs-desktop-4 lh-50 text-uppercase text-white">{{ setting.header.title }}</span>
+<header class="site-header container__header">
+    <div class="container site-header__container">
+        <div class="site-header__inner">
+            <a href="{{ absolute_url(path('homepage')) }}" class="site-header__brand">
+                <span class="site-header__logo-wrap">
+                    <img
+                        src="{{ absolute_url(asset('uploads/logo/logo.png')) }}"
+                        alt="{{ setting.header.title }}"
+                        class="site-header__logo"
+                        width="44"
+                        height="44"
+                    >
+                </span>
+                <span class="site-header__title">{{ setting.header.title }}</span>
             </a>
-            <nav class="navbar navbar-expand-md navbar-light bg-green">
-                <div class="position-relative">
-                    <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar"
-                        aria-controls="mainNavbar"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div data-controller="navbar" class="collapse navbar-collapse dropdown-popup" id="mainNavbar">
-                            <ul class="navbar-nav ms-auto">
-                                {% for item_menu in setting.menu %}
-                                    {% if  item_menu.megamenutype =='Form'   %}
-                                        <li class="nav-item">
-                                            <a href="{{ absolute_url(path(item_menu.url)) }}"
-                                               class="px-2 px-lg-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
-                                                {{ item_menu.name }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                    {% if item_menu.megamenutype =='Link' and item_menu.url != 'homepage'%}
-                                        <li class="nav-item">
-                                            {% set isActive =
-                                                app.request.attributes.get('_route') == 'static_page'
-                                                and app.request.attributes.get('slug') == item_menu.url
-                                            %}
-                                            <a href="{{ absolute_url(path('static_page', {slug: item_menu.url})) }}"
-                                               class="px-2 px-lg-3 lh-m-50 p-m-0 nav-link text-white text-decoration-none {% if isActive %} active {% endif %}">
-                                                {{ item_menu.name }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                                {% for item_menu in setting.menu %}
-                                    {% if item_menu.megamenutype =='Catalog'%}
-                                        <li class="nav-item">
-                                            <a href="{{ absolute_url(path('catalog_list')) }}" class="px-2 px-lg-3 nav-link text-white text-decoration-none
-                                               {% if item_menu.url in app.request.get('_route') %}active {% endif %}">
-                                                {{ item_menu.name }}
-                                            </a>
-                                        </li>
-                                    {% endif %}
-                                    {% if item_menu.megamenutype =='Collection' %}
-                                        <li class="nav-item dropdown mega-dropdown position-static">
-                                            {% set isActive =
-                                                app.request.attributes.get('_route') == 'collection_list'
-                                            %}
-                                            <a class="nav-link px-2 px-lg-3 dropdown-toggle text-white text-decoration-none dropdown-toggle {% if isActive %} active {% endif %}"
-                                               href="#"
-                                               role="button"
-                                               data-bs-toggle="dropdown"
-                                               data-bs-auto-close="outside"
-                                               aria-expanded="false">
-                                                {{ item_menu.name }}
-                                            </a>
-                                            {% include "megamenu-collection.html.twig" with {
-                                                content: item_menu.content,
-                                                url_key: setting.menu_url_key
-                                            } %}
-                                        </li>
-                                    {% endif %}
-                                {% endfor %}
-                                <li class="nav-item">
-                                    {% if app.user %}
 
-                                        <a class="dropdown-toggle px-2 px-lg-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}"
-                                            href="#"
-                                            id="dropdown-account"
-                                            role="button"
-                                            data-bs-toggle="dropdown"
-                                            aria-haspopup="true"
-                                            aria-expanded="false">
-                                            {% if app.user.avatarUrl %}
-                                                {% set avatarSrc = '' %}
-                                                {% if 'http' in app.user.avatarUrl  %}
-                                                    {% set avatarSrc = app.user.avatarUrl %}
-                                                {% else %}
-                                                    {% set avatarSrc = "/uploads/avatars/" ~ app.user.avatarUrl %}
-                                                {% endif %}
-                                                <img id="user-header-image"
-                                                     class="header-avatar rounded-circle border border-secondary"
-                                                     src="{{avatarSrc}}"
-                                                     alt = "{{ 'Account'|trans }}"
-                                                     title = "{{ 'Account'|trans }}"
-                                                     width="25"
-                                                 />
-                                                {% else %}
-                                                {{ 'Account'|trans }}
-                                            {% endif %}
+            <nav class="site-header__nav navbar navbar-expand-md" aria-label="{{ 'sidebar.navigation'|trans }}">
+                <button
+                    class="site-header__toggle navbar-toggler"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar"
+                    aria-controls="mainNavbar"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="site-header__toggle-bar"></span>
+                    <span class="site-header__toggle-bar"></span>
+                    <span class="site-header__toggle-bar"></span>
+                </button>
 
-                                        </a>
-                                        {% include "security/account-menu.html.twig" %}
-                                    {% else %}
-                                        <a href="{{ path('app_login') }}" class="px-2 px-lg-3 nav-link text-white text-decoration-none {% if 'login' in app.request.get('_route') %}active {% endif %}">
-                                            {{ 'Login'|trans }}
-                                        </a>
-                                    {% endif %}
+                <div data-controller="navbar" class="collapse navbar-collapse site-header__menu dropdown-popup" id="mainNavbar">
+                    {% include 'header/nav-links.html.twig' %}
 
-                                </li>
-{#                                <li class="nav-item dropdown">#}
-{#                                    <a class="px-2 px-lg-3 nav-link text-white text-decoration-none dropdown-toggle"#}
-{#                                       href="#" id="dropdown-language"#}
-{#                                       role="button"#}
-{#                                       data-bs-toggle="dropdown"#}
-{#                                       aria-haspopup="true"#}
-{#                                       aria-expanded="false">#}
-{#                                        {{ app.request.locale|upper }}#}
-{#                                    </a>#}
-{#                                    <ul class="dropdown-menu dropdown-menu-end p-1" aria-labelledby="dropdown-language">#}
-{#                                        <li class="list-group-item p-1">#}
-{#                                            <a class="text-dark-custom text-decoration-none dropdown-item {% if app.request.locale == 'en' %} active {% endif %}"#}
-{#                                               href="{{ path('switch_language', {_locale: 'en'}) }}">#}
-{#                                                {{ 'English'|trans }}#}
-{#                                            </a>#}
-{#                                        </li>#}
-{#                                        <li class="list-group-item p-0">#}
-{#                                            <a class="text-dark-custom text-decoration-none dropdown-item {% if app.request.locale == 'uk' %} active {% endif %}"#}
-{#                                               href="{{ path('switch_language', {_locale: 'uk'}) }}">#}
-{#                                                {{ 'Ukrainian'|trans }}#}
-{#                                            </a>#}
-{#                                        </li>#}
-{#                                    </ul>#}
-{#                                </li>#}
-                            </ul>
-                    </div>
+                    {% include 'header/mobile-account-nav.html.twig' %}
                 </div>
             </nav>
-        </header>
+
+            <div class="site-header__actions d-none d-md-flex">
+                {% if app.user %}
+                    <a
+                        class="site-header__account dropdown-toggle"
+                        href="#"
+                        id="dropdown-account"
+                        role="button"
+                        data-bs-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                    >
+                        {% if app.user.avatarUrl %}
+                            {% set avatarSrc = 'http' in app.user.avatarUrl ? app.user.avatarUrl : '/uploads/avatars/' ~ app.user.avatarUrl %}
+                            <img
+                                id="user-header-image"
+                                class="site-header__avatar"
+                                src="{{ avatarSrc }}"
+                                alt="{{ 'Account'|trans }}"
+                                title="{{ 'Account'|trans }}"
+                                width="36"
+                                height="36"
+                            >
+                        {% else %}
+                            <span class="site-header__account-fallback">{{ 'Account'|trans }}</span>
+                        {% endif %}
+                    </a>
+                    {% include 'security/account-menu.html.twig' %}
+                {% else %}
+                    <a href="{{ path('app_login') }}" class="site-header__cta btn btn-primary {% if 'login' in app.request.get('_route') %}is-active{% endif %}">
+                        {{ 'Login'|trans }}
+                    </a>
+                {% endif %}
+            </div>
+        </div>
     </div>
-</div>
+</header>
