@@ -1,0 +1,75 @@
+{% set current_route = app.request.attributes.get('_route') %}
+{% set sidebar_icons = {
+    'account_my_recipes': 'bi-journal-text',
+    'account_recently_viewed': 'bi-clock-history',
+    'account_wishlist_page': 'bi-heart',
+    'account_plan': 'bi-star',
+    'account_setting': 'bi-gear',
+    'app_logout': 'bi-box-arrow-right',
+} %}
+
+<div class="site-header__mobile-section d-md-none">
+    {% if app.user %}
+        {% set account_items = setting.menu|filter(item => item.megamenutype == 'AccountSidebar') %}
+        {% if account_items is not empty %}
+            <p class="site-header__mobile-title">{{ 'sidebar.my_account'|trans }}</p>
+            <ul class="site-header__account-links">
+                {% for item_menu in account_items %}
+                    <li>
+                        <a
+                            href="{{ absolute_url(path(item_menu.url, {_locale: app.request.locale})) }}"
+                            class="site-header__link site-header__link--menu{% if current_route == item_menu.url %} is-active{% endif %}"
+                        >
+                            <span class="site-header__menu-icon">
+                                <i class="bi {{ sidebar_icons[item_menu.url]|default('bi-circle') }}"></i>
+                            </span>
+                            {{ item_menu.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <p class="site-header__mobile-title">{{ 'subscription.your_plan'|trans }}</p>
+        <ul class="site-header__account-links">
+            <li>
+                <a
+                    href="{{ absolute_url(path('account_plan', {_locale: app.request.locale})) }}"
+                    class="site-header__link site-header__link--menu{% if current_route == 'account_plan' %} is-active{% endif %}"
+                >
+                    <span class="site-header__menu-icon">
+                        <i class="bi {{ sidebar_icons.account_plan }}"></i>
+                    </span>
+                    {{ 'subscription.your_plan'|trans }}
+                </a>
+            </li>
+        </ul>
+
+        {% set settings_items = setting.menu|filter(item => item.megamenutype == 'AccountSettingSidebar') %}
+        {% if settings_items is not empty %}
+            <p class="site-header__mobile-title">{{ 'sidebar.settings'|trans }}</p>
+            <ul class="site-header__account-links">
+                {% for item_menu in settings_items %}
+                    {% set is_logout = item_menu.url == 'app_logout' %}
+                    <li>
+                        <a
+                            href="{{ absolute_url(path(item_menu.url, {_locale: app.request.locale})) }}"
+                            class="site-header__link site-header__link--menu{% if current_route == item_menu.url %} is-active{% endif %}{% if is_logout %} site-header__link--danger{% endif %}"
+                        >
+                            <span class="site-header__menu-icon">
+                                <i class="bi {{ sidebar_icons[item_menu.url]|default('bi-circle') }}"></i>
+                            </span>
+                            {{ item_menu.name }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% else %}
+        <div class="site-header__actions site-header__actions--menu">
+            <a href="{{ path('app_login') }}" class="site-header__cta btn btn-primary w-100 {% if 'login' in current_route %}is-active{% endif %}">
+                {{ 'Login'|trans }}
+            </a>
+        </div>
+    {% endif %}
+</div>

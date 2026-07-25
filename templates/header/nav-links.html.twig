@@ -1,0 +1,147 @@
+{% set current_route = app.request.attributes.get('_route') %}
+{% set nav_icons = {
+    'about': 'bi-info-circle',
+    'contact': 'bi-envelope',
+    'catalog': 'bi-grid',
+    'collection': 'bi-folder',
+    'homepage': 'bi-house',
+} %}
+
+{% macro render_icon(item_url, nav_icons) %}
+    <span class="site-header__menu-icon site-header__menu-icon--nav">
+        <i class="bi {{ nav_icons[item_url]|default('bi-link-45deg') }}"></i>
+    </span>
+{% endmacro %}
+{% import _self as nav %}
+
+<div class="site-header__mobile-section site-header__mobile-section--nav d-md-none">
+    <p class="site-header__mobile-title">{{ 'sidebar.navigation'|trans }}</p>
+    <ul class="site-header__account-links site-header__main-links">
+        {% for item_menu in setting.menu %}
+            {% if item_menu.megamenutype == 'Form' %}
+                <li>
+                    <a
+                        href="{{ absolute_url(path(item_menu.url)) }}"
+                        class="site-header__link site-header__link--menu{% if item_menu.url in current_route %} is-active{% endif %}"
+                    >
+                        {{ nav.render_icon(item_menu.url, nav_icons) }}
+                        {{ item_menu.name }}
+                    </a>
+                </li>
+            {% endif %}
+            {% if item_menu.megamenutype == 'Link' and item_menu.url != 'homepage' %}
+                {% set isActive =
+                    current_route == 'static_page'
+                    and app.request.attributes.get('slug') == item_menu.url
+                %}
+                <li>
+                    <a
+                        href="{{ absolute_url(path('static_page', {slug: item_menu.url})) }}"
+                        class="site-header__link site-header__link--menu{% if isActive %} is-active{% endif %}"
+                    >
+                        {{ nav.render_icon(item_menu.url, nav_icons) }}
+                        {{ item_menu.name }}
+                    </a>
+                </li>
+            {% endif %}
+        {% endfor %}
+
+        {% for item_menu in setting.menu %}
+            {% if item_menu.megamenutype == 'Catalog' %}
+                <li>
+                    <a
+                        href="{{ absolute_url(path('catalog_list')) }}"
+                        class="site-header__link site-header__link--menu{% if item_menu.url in current_route %} is-active{% endif %}"
+                    >
+                        {{ nav.render_icon(item_menu.url, nav_icons) }}
+                        {{ item_menu.name }}
+                    </a>
+                </li>
+            {% endif %}
+            {% if item_menu.megamenutype == 'Collection' %}
+                {% set isActive = current_route == 'collection_list' %}
+                <li class="site-header__main-links-dropdown">
+                    <button
+                        class="site-header__link site-header__link--menu site-header__link--toggle{% if isActive %} is-active{% endif %}"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mobileCollectionMenu"
+                        aria-expanded="false"
+                        aria-controls="mobileCollectionMenu"
+                    >
+                        {{ nav.render_icon(item_menu.url, nav_icons) }}
+                        {{ item_menu.name }}
+                        <i class="bi bi-chevron-down site-header__chevron ms-auto"></i>
+                    </button>
+                    <div class="collapse site-header__submenu" id="mobileCollectionMenu">
+                        {% include 'megamenu-collection.html.twig' with {
+                            content: item_menu.content,
+                            url_key: setting.menu_url_key
+                        } %}
+                    </div>
+                </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+
+<ul class="navbar-nav site-header__links d-none d-md-flex">
+    {% for item_menu in setting.menu %}
+        {% if item_menu.megamenutype == 'Form' %}
+            <li class="nav-item">
+                <a
+                    href="{{ absolute_url(path(item_menu.url)) }}"
+                    class="site-header__link nav-link {% if item_menu.url in current_route %}is-active{% endif %}"
+                >
+                    {{ item_menu.name }}
+                </a>
+            </li>
+        {% endif %}
+        {% if item_menu.megamenutype == 'Link' and item_menu.url != 'homepage' %}
+            {% set isActive =
+                current_route == 'static_page'
+                and app.request.attributes.get('slug') == item_menu.url
+            %}
+            <li class="nav-item">
+                <a
+                    href="{{ absolute_url(path('static_page', {slug: item_menu.url})) }}"
+                    class="site-header__link nav-link {% if isActive %}is-active{% endif %}"
+                >
+                    {{ item_menu.name }}
+                </a>
+            </li>
+        {% endif %}
+    {% endfor %}
+
+    {% for item_menu in setting.menu %}
+        {% if item_menu.megamenutype == 'Catalog' %}
+            <li class="nav-item">
+                <a
+                    href="{{ absolute_url(path('catalog_list')) }}"
+                    class="site-header__link nav-link {% if item_menu.url in current_route %}is-active{% endif %}"
+                >
+                    {{ item_menu.name }}
+                </a>
+            </li>
+        {% endif %}
+        {% if item_menu.megamenutype == 'Collection' %}
+            {% set isActive = current_route == 'collection_list' %}
+            <li class="nav-item dropdown mega-dropdown position-static">
+                <a
+                    class="site-header__link nav-link dropdown-toggle {% if isActive %}is-active{% endif %}"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    data-bs-auto-close="outside"
+                    aria-expanded="false"
+                >
+                    {{ item_menu.name }}
+                </a>
+                {% include 'megamenu-collection.html.twig' with {
+                    content: item_menu.content,
+                    url_key: setting.menu_url_key
+                } %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>
