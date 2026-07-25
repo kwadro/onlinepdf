@@ -1,88 +1,113 @@
-
-{% set setting = site_settings() %}
 {% extends "base-account.html.twig" %}
 {% block main %}
-    <div class="width-search d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold ms-2 my-3">{{'Profile'|trans}}</h4>
-    </div>
+<div class="page-content page-content--settings account-settings-page">
+    {% set image_button = 'Add image'|trans %}
+    {% set full_name = '' %}
 
-    <div class="width-search setting-page row g-4" >
-        <div class="col-4 d-flex flex-column justify-content-center align-items-center user-select-none" >
-
-        {% set image_button = 'Add image'|trans %}
-        {% set full_name = '' %}
-
-        {% if recipeUser.avatarurl %}
-            {% if 'http' in app.user.avatarUrl  %}
-                {% set avatarimage = recipeUser.avatarurl %}
-            {% else %}
-                {% set avatarimage = '/uploads/avatars/' ~ recipeUser.avatarurl %}
-            {% endif %}
-
-            {% set image_button = 'Edit image'|trans %}
+    {% if recipeUser.avatarurl %}
+        {% if 'http' in app.user.avatarUrl %}
+            {% set avatarimage = recipeUser.avatarurl %}
         {% else %}
-            {% set avatarimage = 'https://placehold.in/200' %}
+            {% set avatarimage = '/uploads/avatars/' ~ recipeUser.avatarurl %}
         {% endif %}
+        {% set image_button = 'Edit image'|trans %}
+    {% else %}
+        {% set avatarimage = 'https://placehold.in/200' %}
+    {% endif %}
 
-        {% set account_name = '@cook-' ~ (recipeUser.id+1253) %}
+    {% set account_name = '@cook-' ~ (recipeUser.id + 1253) %}
 
-        {% set user_button = 'Add name'|trans %}
-        {% set user_class = '' %}
-        {% if recipeUser is defined and recipeUser.firstname is defined and recipeUser.firstname %}
-            {% set full_name = recipeUser.firstname ~ ' ' ~ recipeUser.lastname %}
-            {% set user_button = 'Edit name'|trans %}
-            {% set user_class = 'ms-3' %}
-        {% endif %}
+    {% set user_button = 'Add name'|trans %}
+    {% if recipeUser is defined and recipeUser.firstname is defined and recipeUser.firstname %}
+        {% set full_name = recipeUser.firstname ~ ' ' ~ recipeUser.lastname %}
+        {% set user_button = 'Edit name'|trans %}
+    {% endif %}
 
-            <img id="user-image"
-                src="{{ avatarimage }}"
-                class="profile-image"
-
-                alt="{{ full_name }}"
-                data-editing-target="resourceImage"
-            />
-
-            <button
-                id="button-open-image"
-                class="my-3 btn btn-sm btn-primary text-center"
-                data-ajaxurl="{{ ajaxUrl }}"
-                data-formcode="avatar-image"
-                data-entity="Avatar"
-                data-action="click->popup#open click->editing#openImage"
-            >
-                {{ image_button }}
-            </button>
-    </div>
-        <div class="col-4">
-            <div class="col mb-1 d-flex flex-row justify-content-start align-items-center">
-                <div id="user-full-name"
-                    class="editing-field"
-                    data-editing-target="fullName"
-                >
-                {{ full_name }}
-                </div>
-                <button
-                    id="button-open-name"
-                    class="{{ user_class }} btn btn-sm btn-primary text-center"
-                    data-ajaxurl="{{ ajaxUrl }}"
-                    data-formcode="user-name"
-                    data-baselabel="{{ user_button }}"
-                    data-action="click->popup#open click->editing#openName"
-                >
-                    {{ user_button }}
-                </button>
-            </div>
-            <div class="col mb-1 d-flex flex-row justify-content-start align-items-center">
-                <div id="user-email">
-                    {{ recipeUser.email }}
-                </div>
-            </div>
-            <div class="col my-3 d-flex flex-row justify-content-start align-items-center">
-                {{ account_name }}
+    <section class="page-hero page-hero--account">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-gear"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'Profile'|trans }}</h1>
+            <div class="page-account__meta">
+                <span class="page-author__count">{{ account_name }}</span>
+                {% if full_name %}
+                    <span class="page-author__count">{{ full_name }}</span>
+                {% endif %}
             </div>
         </div>
+    </section>
 
-    </div>
+    <section class="home-section">
+        <div class="home-section__head">
+            <h2 class="home-section__title">{{ 'page.settings_profile'|trans }}</h2>
+        </div>
+        <div class="home-section__body">
+            <div class="page-card account-settings-profile">
+                <div class="account-settings-profile__avatar">
+                    <img
+                        id="user-image"
+                        src="{{ avatarimage }}"
+                        class="profile-image account-settings-profile__image"
+                        alt="{{ full_name ?: account_name }}"
+                        data-editing-target="resourceImage"
+                    />
+                    <button
+                        id="button-open-image"
+                        type="button"
+                        class="btn btn-primary account-settings-profile__btn"
+                        data-ajaxurl="{{ ajaxUrl }}"
+                        data-formcode="avatar-image"
+                        data-entity="Avatar"
+                        data-action="click->popup#open click->editing#openImage"
+                    >
+                        <i class="bi bi-camera me-2"></i>{{ image_button }}
+                    </button>
+                </div>
+
+                <div class="account-settings-profile__details">
+                    <div class="account-settings-field">
+                        <span class="account-settings-field__label">{{ 'page.settings_name'|trans }}</span>
+                        <div class="account-settings-field__row">
+                            <div
+                                id="user-full-name"
+                                class="account-settings-field__value editing-field"
+                                data-editing-target="fullName"
+                            >
+                                {{ full_name ?: '—' }}
+                            </div>
+                            <button
+                                id="button-open-name"
+                                type="button"
+                                class="btn btn-outline-primary account-settings-field__btn"
+                                data-ajaxurl="{{ ajaxUrl }}"
+                                data-formcode="user-name"
+                                data-baselabel="{{ user_button }}"
+                                data-action="click->popup#open click->editing#openName"
+                            >
+                                <i class="bi bi-pencil me-1"></i>{{ user_button }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="account-settings-field">
+                        <span class="account-settings-field__label">{{ 'page.settings_email'|trans }}</span>
+                        <div id="user-email" class="account-settings-field__value account-settings-field__value--readonly">
+                            {{ recipeUser.email }}
+                        </div>
+                    </div>
+
+                    <div class="account-settings-field">
+                        <span class="account-settings-field__label">{{ 'page.settings_username'|trans }}</span>
+                        <div class="account-settings-field__value account-settings-field__value--readonly account-settings-field__handle">
+                            {{ account_name }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     {% include "security/account/add-first-recipe.html.twig" %}
+</div>
 {% endblock %}

@@ -1,19 +1,60 @@
 {% extends "base.html.twig" %}
-{% block title %} {{ 'Recipe of author'|trans }} @cook-{{ recipeAuthor.id }} {% endblock %}
+{% block title %}{{ 'Recipe of author'|trans }} @cook-{{ recipeAuthor.id + 1253 }}{% endblock %}
 {% block main %}
-{#    {% include "recipe/breadcrumbs.html.twig" with {#}
-{#        breadCrumbs: breadcrumbs#}
-{#    } %}#}
-    <div class="width-search d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold ms-2 my-3">{{ 'Recipe of author'|trans }} {{ recipeAuthor.firstName }} {{ recipeAuthor.lastName }}</h4>
-    </div>
-    {% if recipes is not empty %}
-        {% include "homepage/recipe-grid.html.twig" with {
-            'recipes': recipes,
-            'newIds': [],
-            'favoriteIds': []
-        } %}
-    {% else %}
-        <h5 class="text-center">{{ 'We not found any recipe'|trans }}</h5>
-    {% endif %}
+<div class="page-content page-content--author">
+    {% set authorName = (recipeAuthor.firstName ~ ' ' ~ recipeAuthor.lastName)|trim %}
+    {% set authorLabel = authorName ?: recipeAuthor.email %}
+    {% set publicCookId = recipeAuthor.id + 1253 %}
+
+    <section class="page-hero page-hero--author">
+        {% if recipeAuthor.avatarUrl %}
+            {% set avatarSrc = 'http' in recipeAuthor.avatarUrl ? recipeAuthor.avatarUrl : '/uploads/avatars/' ~ recipeAuthor.avatarUrl %}
+            <img
+                class="page-author__avatar"
+                src="{{ avatarSrc }}"
+                alt="{{ authorLabel }}"
+                width="56"
+                height="56"
+            >
+        {% else %}
+            <div class="page-hero__icon" aria-hidden="true">
+                <i class="bi bi-person-circle"></i>
+            </div>
+        {% endif %}
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'Recipe of author'|trans }}</h1>
+            <div class="page-author__meta">
+                <span class="page-author__name">{{ authorLabel }}</span>
+                <span class="page-author__handle">@cook-{{ publicCookId }}</span>
+                <span class="page-author__count">
+                    {{ recipes|length }}
+                    {{ recipes|length == 1 ? 'page.search_result_one'|trans : 'page.search_result_many'|trans }}
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-section page-author__recipes">
+        <div class="home-section__head">
+            <h2 class="home-section__title">{{ 'page.author_recipes'|trans }}</h2>
+        </div>
+        <div class="home-section__body">
+            {% if recipes is not empty %}
+                {% include "homepage/recipe-grid.html.twig" with {
+                    recipes: recipes,
+                    newIds: [],
+                    favoriteIds: favoriteIds|default([]),
+                } %}
+            {% else %}
+                <div class="page-empty">
+                    <div class="page-empty__icon" aria-hidden="true">
+                        <i class="bi bi-journal-x"></i>
+                    </div>
+                    <h3 class="page-empty__title">{{ 'We not found any recipe'|trans }}</h3>
+                    <p class="page-empty__text">{{ 'page.author_empty_hint'|trans }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
 {% endblock %}

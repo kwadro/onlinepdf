@@ -90,11 +90,12 @@ export class EditorClass {
                 }
             }
         })
-        let saveAction='';
-        if (typeData==='Image'){
-            saveAction+='click->avatar#save'+ entityData;
+        let saveAction = '';
+        if (typeData === 'Image') {
+            saveAction = 'click->avatar#save' + entityData;
+        } else {
+            saveAction = 'click->popup#save' + typeData;
         }
-         saveAction += ' click->popup#save' + typeData;
 
 
         const divParams = {
@@ -126,10 +127,15 @@ export class EditorClass {
             divElement.append(editElement)
         })
         const popupContentElement = document.getElementById('popup');
-        const classes = [entityData.toLowerCase()].filter(Boolean);
+        popupContentElement.classList.remove('avatar', 'recipe');
+        popupContentElement.removeAttribute('data-controller');
 
-        if (classes.length) {
-            popupContentElement.classList.add(...classes);
+        if (entityData) {
+            popupContentElement.classList.add(entityData.toLowerCase());
+        }
+
+        if (typeData === 'Image') {
+            popupContentElement.setAttribute('data-controller', 'avatar');
         }
 
         popupContentElement.innerHTML = '';

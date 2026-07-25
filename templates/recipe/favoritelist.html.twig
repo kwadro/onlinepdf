@@ -1,16 +1,46 @@
 {% extends "base.html.twig" %}
-{% block title %}{{ 'Wish List' | trans }}{% endblock %}
+{% block title %}{{ 'Favorite List'|trans }}{% endblock %}
 {% block main %}
-    <div class="width-search d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold ms-2 my-3">{{'Favorite List'|trans}}</h4>
-    </div>
+<div class="page-content page-content--favorites">
+    <section class="page-hero page-hero--account">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-heart"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'Favorite List'|trans }}</h1>
+            <div class="page-account__meta">
+                <span class="page-author__count">
+                    {{ recipes|length }}
+                    {{ recipes|length == 1 ? 'page.search_result_one'|trans : 'page.search_result_many'|trans }}
+                </span>
+            </div>
+        </div>
+    </section>
+
     {% if recipes is not empty %}
-        {% include "homepage/recipe-grid.html.twig" with {
-            'recipes': recipes,
-            'newIds': newIds,
-            'favoriteIds': favoriteIds
-        } %}
+        <section class="home-section">
+            <div class="home-section__head">
+                <h2 class="home-section__title">{{ 'page.favorites_list'|trans }}</h2>
+            </div>
+            <div class="home-section__body">
+                {% include "homepage/recipe-grid.html.twig" with {
+                    recipes: recipes,
+                    newIds: newIds|default([]),
+                    favoriteIds: favoriteIds|default([]),
+                } %}
+            </div>
+        </section>
     {% else %}
-        <h5 class="text-center">{{ 'We not found any favorite recipe'|trans }}</h5>
+        <div class="page-empty">
+            <div class="page-empty__icon" aria-hidden="true">
+                <i class="bi bi-heart"></i>
+            </div>
+            <h3 class="page-empty__title">{{ 'We not found any favorite recipe'|trans }}</h3>
+            <p class="page-empty__text">{{ 'page.favorites_empty_hint'|trans }}</p>
+            <a href="{{ path('homepage') }}" class="btn btn-primary page-form__submit">
+                <i class="bi bi-search me-2"></i>{{ 'Find a recipe'|trans }}
+            </a>
+        </div>
     {% endif %}
+</div>
 {% endblock %}

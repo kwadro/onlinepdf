@@ -20,7 +20,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class SeedPlansCommand extends Command
 {
     public function __construct(
-        private PlanSeeder $planSeeder,
+        private readonly PlanSeeder $planSeeder,
     ) {
         parent::__construct();
     }

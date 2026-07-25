@@ -43,11 +43,16 @@ export default class extends Controller {
     }
 
     openName(event) {
-        const userFullName = this.fullNameTarget.innerHTML.trim();
+        event.preventDefault();
 
-        const parts = userFullName.trim().split(" ");
-        const firstName = parts[0] || "";
-        const lastName = parts[1] || "";
+        let userFullName = this.fullNameTarget.textContent.trim();
+        if (userFullName === '—' || userFullName === '–' || userFullName === '-') {
+            userFullName = '';
+        }
+
+        const parts = userFullName.split(/\s+/).filter(Boolean);
+        const firstName = parts[0] || '';
+        const lastName = parts.slice(1).join(' ');
 
         const instance = new EditorClass();
         instance.addFieldsToPopup(
@@ -61,7 +66,7 @@ export default class extends Controller {
     openImage(event) {
         event.preventDefault();
         let imageValue = this.resourceImageTarget.src ;
-        const entity = event.target.dataset.entity;
+        const entity = event.currentTarget.dataset.entity;
         const instance = new EditorClass();
         instance.addFieldsToPopup(
             [

@@ -36,6 +36,12 @@ export default class extends Controller {
         this.overlayTarget.classList.remove("active");
         document.body.style.overflow = "";
         document.removeEventListener("keydown", this.handleEscape);
+
+        const popup = document.getElementById('popup');
+        if (popup) {
+            popup.classList.remove('avatar', 'recipe');
+            popup.removeAttribute('data-controller');
+        }
     }
 
     closeOnOverlay(event) {

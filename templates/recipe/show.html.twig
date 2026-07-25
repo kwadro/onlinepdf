@@ -1,112 +1,111 @@
 {% extends "base.html.twig" %}
 {% block title %}{{ recipe.recipetranslations[0].name }}{% endblock %}
 {% block main %}
-{#    {% include "recipe/breadcrumbs.html.twig" with {#}
-{#        breadCrumbs: breadcrumbs#}
-{#    } %}#}
+<div class="page-content recipe-page">
     {% if message is not empty %}
-        <div class="px-2 mt-3 d-flex justify-content-start gap-2">
-            <div class="alert alert-warning w-100" role="alert">
-                {{message|trans}}
-            </div>
+        <div class="page-alert alert alert-warning" role="alert">
+            {{ message|trans }}
         </div>
     {% endif %}
-    <div class="container my-4">
-        <div class="row g-4">
-            <!-- Image -->
-            <div class="col-12 col-md-4 col-lg-3 text-center">
-                {% if recipe.image %}
-                    {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
-                {% else %}
-                    {% set recipeimage = 'https://placehold.in/200' %}
-                {% endif %}
-                <img src="{{ recipeimage }}"
-                    class="img-fluid rounded shadow-sm"
+
+    {% if recipe.image %}
+        {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
+    {% else %}
+        {% set recipeimage = 'https://placehold.in/200' %}
+    {% endif %}
+
+    <article class="recipe-page__layout">
+        <aside class="recipe-page__aside">
+            <div class="recipe-page__media page-card">
+                <img
+                    src="{{ recipeimage }}"
+                    class="recipe-page__image"
                     alt="{{ recipe.recipetranslations[0].name }}"
                     title="{{ recipe.recipetranslations[0].name }}"
                 >
-                {% if recipe.recipetranslations[0].groupcomponents %}
-                    <ul class=" ingredients-grid ">
-                        {% for groupcomponent in recipe.recipetranslations[0].groupcomponents %}
-                            <h4 class="fw-bold my-3">
-                                {{ groupcomponent.name }}
-                            </h4>
-                            {% for component in groupcomponent.components %}
-                                <li class="list-group-item  d-flex justify-content-between align-items-center">
-                                    {% if component.ingredient %}
-                                        <span>{{ component.ingredient.name }}</span>
-                                    {% endif %}
-                                    <span class="fw-bold">
-                                    {% if component.unit.id !== 5 %}
-                                        {{ component.quantity }} {{ component.unit }}
-                                    {% else %}
-                                        {{ component.unit }}
-                                    {% endif %}
-                                    </span>
-                                </li>
-                            {% endfor %}
-                        {% endfor %}
-                    </ul>
-                {% endif %}
-
             </div>
 
-            <!-- Content -->
-            <div class="col-12 col-md-8 col-lg-9">
-                <h1 class="mb-3">{{ recipe.recipetranslations[0].name }}</h1>
+            {% if recipe.recipetranslations[0].groupcomponents is not empty %}
+                <div class="recipe-page__ingredients page-card">
+                    <h2 class="recipe-page__ingredients-heading">{{ 'page.recipe_ingredients'|trans }}</h2>
+                    {% for groupcomponent in recipe.recipetranslations[0].groupcomponents %}
+                        <div class="recipe-page__ingredient-group">
+                            <h3 class="recipe-page__ingredient-group-title">{{ groupcomponent.name }}</h3>
+                            <ul class="recipe-page__ingredient-list">
+                                {% for component in groupcomponent.components %}
+                                    <li class="recipe-page__ingredient-item">
+                                        {% if component.ingredient %}
+                                            <span class="recipe-page__ingredient-name">{{ component.ingredient.name }}</span>
+                                        {% endif %}
+                                        <span class="recipe-page__ingredient-qty">
+                                            {% if component.unit.id != 5 %}
+                                                {{ component.quantity }} {{ component.unit }}
+                                            {% else %}
+                                                {{ component.unit }}
+                                            {% endif %}
+                                        </span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </aside>
 
-                {% include "author/block-info-author-full.html.twig" with {
-                    'recipe': recipe
-                } %}
+        <div class="recipe-page__main">
+            <header class="recipe-page__hero page-hero">
+                <div class="recipe-page__hero-copy page-hero__copy">
+                    <h1 class="page-hero__title recipe-page__title">{{ recipe.recipetranslations[0].name }}</h1>
 
-                <p class="text-muted mb-4">
-                    {{ recipe.recipetranslations[0].description|nl2br }}
-                </p>
+                    <div class="recipe-page__author">
+                        {% include "author/block-info-author-full.html.twig" with { recipe: recipe } %}
+                    </div>
 
-                {% include "recipe/block-info-time.html.twig" with {
-                    'recipe': recipe,
-                    'class':'recipe-info full'
-                } %}
-                {% include "recipe/block-share-content.html.twig" with {
-                    'recipe': recipe,
-                    'class':'recipe-info full'
-                } %}
+                    {% include "recipe/block-info-time.html.twig" with {
+                        recipe: recipe,
+                        class: 'recipe-info recipe-page__meta',
+                    } %}
 
-                <!-- Preparation steps -->
-                <h3 class="text-center fw-bold my-4">
-                    {{ 'Preparation steps'|trans }}
-                </h3>
+                    <div class="recipe-page__share">
+                        {% include "recipe/block-share-content.html.twig" with { recipe: recipe } %}
+                    </div>
+                </div>
+            </header>
 
-                <ul class="steps-grid list-group mb-4">
-                    {% for step in recipe.recipetranslations[0].recipesteps %}
-                        <li class="list-group-item">
-                            <div class="d-flex flex-column flex-md-row gap-3">
-                                <div class="flex-grow-1">
-                                    <h5 class="fw-bold mb-1">
-                                        {{ step.name }}
-                                    </h5>
+            {% if recipe.recipetranslations[0].description %}
+                <section class="recipe-page__description page-card">
+                    <h2 class="recipe-page__section-title">{{ 'page.recipe_description'|trans }}</h2>
+                    <div class="recipe-page__description-text">
+                        {{ recipe.recipetranslations[0].description|nl2br }}
+                    </div>
+                </section>
+            {% endif %}
 
+            {% if recipe.recipetranslations[0].recipesteps is not empty %}
+                <section class="recipe-page__steps">
+                    <div class="home-section__head">
+                        <h2 class="home-section__title">{{ 'Preparation steps'|trans }}</h2>
+                    </div>
+                    <ol class="recipe-page__steps-list">
+                        {% for step in recipe.recipetranslations[0].recipesteps %}
+                            <li class="recipe-page__step page-card">
+                                <span class="recipe-page__step-num">{{ loop.index }}</span>
+                                <div class="recipe-page__step-body">
+                                    <h3 class="recipe-page__step-title">{{ step.name }}</h3>
                                     {% if step.question %}
-                                        <p class="mb-1 text-muted">
-                                            {{ step.question|nl2br  }}
-                                        </p>
+                                        <p class="recipe-page__step-question">{{ step.question|nl2br }}</p>
                                     {% endif %}
-
                                     {% if step.answer %}
-                                        <p class="mb-0">
-                                            {{ step.answer|nl2br  }}
-                                        </p>
+                                        <div class="recipe-page__step-answer">{{ step.answer|nl2br }}</div>
                                     {% endif %}
                                 </div>
-                            </div>
-                        </li>
-                    {% endfor %}
-                </ul>
-
-            </div>
+                            </li>
+                        {% endfor %}
+                    </ol>
+                </section>
+            {% endif %}
         </div>
-
-
-    </div>
-
+    </article>
+</div>
 {% endblock %}

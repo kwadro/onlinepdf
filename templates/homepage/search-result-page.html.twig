@@ -1,35 +1,77 @@
 {% extends "base.html.twig" %}
 {% block main %}
+<div class="page-content page-content--search">
+    <section class="page-hero page-hero--search">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-search"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'Search result for request'|trans }}</h1>
+            <div class="page-search__meta">
+                <span class="page-search__keyword">«{{ keyword }}»</span>
+                <span class="page-search__count">
+                    {{ recipes|length }}
+                    {{ recipes|length == 1 ? 'page.search_result_one'|trans : 'page.search_result_many'|trans }}
+                </span>
+            </div>
+        </div>
+    </section>
 
-    <div class="d-flex justify-content-center mt-3 p-3">
-        {% include "homepage/input-search.html.twig" with {
-            'csrf_token_search': csrf_token_search,
-            'keyword': keyword|default('')
-        } %}
+    <div class="home-search page-search__form">
+        <input id="search_form" type="hidden" name="_token" value="{{ csrf_token_search }}">
+        <div class="home-search__box search-box">
+            <div class="home-search__field input-search-text">
+                <i class="bi bi-search"></i>
+                <input
+                    id="search-input"
+                    type="text"
+                    value="{{ keyword|default('') }}"
+                    class="form-control"
+                    data-baseurl="{{ url('search_page', { keyword: 'keyword' }) }}"
+                    placeholder="{{ 'search_placeholder'|trans }}"
+                >
+            </div>
+            <button
+                class="btn btn-primary home-search__btn"
+                data-action="click->search#open"
+                type="button"
+            >
+                {{ 'Find a recipe'|trans }}
+            </button>
+        </div>
     </div>
-    <div class="width-search d-flex justify-content-between align-items-center">
-        <h4 class="fw-bold ms-2 my-3">{{'Search result for request'|trans}} "{{ keyword}}" ( {{ recipes|length }} )</h4>
-    </div>
-    <div class="product-grid">
-        {% if recipes is not empty %}
-            <!-- Recipe Grid -->
-            {% include "homepage/recipe-grid.html.twig" with {
-                'recipes': recipes,
-                'favoriteIds': favoriteIds,
-                'countRepeat': 1
-            } %}
-        {% else %}
-            <h5 class="text-center">{{ 'We not found any recipe'|trans }}</h5>
-        {% endif %}
-    </div>
+
+    <section class="home-section page-search__results">
+        <div class="home-section__head">
+            <h2 class="home-section__title">{{ 'page.search_results'|trans }}</h2>
+        </div>
+        <div class="home-section__body">
+            {% if recipes is not empty %}
+                {% include "homepage/recipe-grid.html.twig" with {
+                    recipes: recipes,
+                    favoriteIds: favoriteIds,
+                    countRepeat: 1,
+                } %}
+            {% else %}
+                <div class="page-empty">
+                    <div class="page-empty__icon" aria-hidden="true">
+                        <i class="bi bi-emoji-frown"></i>
+                    </div>
+                    <h3 class="page-empty__title">{{ 'We not found any recipe'|trans }}</h3>
+                    <p class="page-empty__text">{{ 'page.search_empty_hint'|trans }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+
     {% include "homepage/block-popular_recipes.html.twig" with {
-        'recipes': popularRecipes,
-        'favoriteIds': favoriteIds
+        recipes: popularRecipes,
+        favoriteIds: favoriteIds,
     } %}
 
     {% include "homepage/block-recently_recipes.html.twig" with {
-        'recipes': recentlyRecipes,
-        'favoriteIds': favoriteIds
+        recipes: recentlyRecipes,
+        favoriteIds: favoriteIds,
     } %}
-
+</div>
 {% endblock %}

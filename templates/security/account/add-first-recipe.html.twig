@@ -1,34 +1,48 @@
-<div class="width-search d-flex flex-column justify-content-center align-items-center mb-4">
-    <img class="item" src="{{ absolute_url(asset('images/first-recipe.png')) }}"
-         alt="'Add first recipe'|trans"
-         title="'Add first recipe'|trans"
-         style="width: 225px;"
-    />
-
-    {% if countRecipe===0 %}
-        <h2 class="text-center">{{ 'Get started and create your first recipe!'|trans }}</h2>
-        <h4 class="text-center">{{ 'You have not created any recipes. Write your first one and see it here!!'|trans }}</h4>
-    {% else %}
-        <h2 class="text-center">{{ 'Congratulations!'|trans }}</h2>
-
-        <h2 class="text-center">
-            {% if countRecipe===1 %}
-                {{ 'You created 1 recipe'|trans({'%count%': countRecipe}) }}
+<section class="home-section account-settings-recipes">
+    <div class="home-section__head">
+        <h2 class="home-section__title">
+            {% if countRecipe == 0 %}
+                {{ 'page.settings_recipes_start'|trans }}
             {% else %}
-                {{ 'You created %count% recipes'|trans({'%count%': countRecipe}) }}
+                {{ 'page.settings_recipes_progress'|trans }}
             {% endif %}
         </h2>
-    {% endif %}
-    <div class="d-flex justify-content-center gap-2">
-        {% if countRecipe > 0 %}
-            <a href="{{ absolute_url(path('account_my_recipes')) }}" class="my-3 btn btn-sm btn-primary text-center">
-                {{ 'Edit recipes'|trans }}
-            </a>
-        {% endif %}
-        <a href="{{ absolute_url(path('add_recipe')) }}" class="my-3 btn btn-sm btn-primary text-center">
-            {{ 'Add new recipe'|trans }}
-        </a>
-
     </div>
+    <div class="home-section__body">
+        <div class="page-card account-settings-recipes__card">
+            <img
+                class="account-settings-recipes__illustration"
+                src="{{ asset('images/first-recipe.png') }}"
+                alt="{{ 'Get started and create your first recipe!'|trans }}"
+                title="{{ 'Get started and create your first recipe!'|trans }}"
+            />
 
-</div>
+            <div class="account-settings-recipes__copy">
+                {% if countRecipe == 0 %}
+                    <h3 class="account-settings-recipes__title">{{ 'Get started and create your first recipe!'|trans }}</h3>
+                    <p class="account-settings-recipes__text">{{ 'You have not created any recipes. Write your first one and see it here!!'|trans }}</p>
+                {% else %}
+                    <h3 class="account-settings-recipes__title">{{ 'Congratulations!'|trans }}</h3>
+                    <p class="account-settings-recipes__text">
+                        {% if countRecipe == 1 %}
+                            {{ 'You created 1 recipe'|trans({'%count%': countRecipe}) }}
+                        {% else %}
+                            {{ 'You created %count% recipes'|trans({'%count%': countRecipe}) }}
+                        {% endif %}
+                    </p>
+                {% endif %}
+            </div>
+
+            <div class="account-settings-recipes__actions">
+                {% if countRecipe > 0 %}
+                    <a href="{{ path('account_my_recipes') }}" class="btn btn-outline-primary account-settings-recipes__btn">
+                        <i class="bi bi-journal-text me-2"></i>{{ 'Edit recipes'|trans }}
+                    </a>
+                {% endif %}
+                <a href="{{ path('add_recipe') }}" class="btn btn-primary account-settings-recipes__btn">
+                    <i class="bi bi-plus-lg me-2"></i>{{ 'Add new recipe'|trans }}
+                </a>
+            </div>
+        </div>
+    </div>
+</section>

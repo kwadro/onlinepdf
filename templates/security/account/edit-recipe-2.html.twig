@@ -1,154 +1,195 @@
 {% set setting = site_settings() %}
 {% extends "base-account.html.twig" %}
 {% block main %}
-    {% if recipe.recipetranslations[0].confirmation ==='Yes' and  (not is_granted('ROLE_SUPER_ADMIN')) %}
-        <div class="px-2 mt-3 d-flex justify-content-start gap-2 w-100">
-            <div class="alert alert-warning" role="alert">
-                 {{'This recipe has been published. We can not editing it.'|trans}}
-            </div>
+<div class="page-content recipe-editor-page">
+    {% if recipe.recipetranslations[0].confirmation == 'Yes' and (not is_granted('ROLE_SUPER_ADMIN')) %}
+        <div class="page-alert alert alert-warning" role="alert">
+            {{ 'This recipe has been published. We can not editing it.'|trans }}
         </div>
     {% else %}
-        {{ form_start(form) }}
+        {{ form_start(form, { attr: { class: 'recipe-editor-form' } }) }}
         {{ form_row(form.id) }}
         {{ form_widget(form._token) }}
-        {% set saveButton = form_row(form.save,{
-            'attr':{'class': 'mb-1 fs-6 btn btn-success',
-                'data-action': 'click->scroll#saveScroll'}
+
+        {% set saveButton = form_row(form.save, {
+            attr: {
+                class: 'btn btn-success recipe-editor-btn recipe-editor-btn--save',
+                'data-action': 'click->scroll#saveScroll',
+            },
         }) %}
-        <div class="px-2 mt-3 d-flex justify-content-start gap-2 flex-wrap">
-            {{ saveButton |raw}}
-            {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
-            {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
-            {{ form_row(form.delete,{'attr': {'class': 'mb-1 btn  text-danger'}}) }}
 
+        <section class="page-hero page-hero--account recipe-editor-page__hero">
+            <div class="page-hero__icon" aria-hidden="true">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+            <div class="page-hero__copy">
+                <h1 class="page-hero__title">{{ 'page.recipe_editor_title'|trans }}</h1>
+                <p class="page-hero__subtitle">
+                    {{ recipe.recipetranslations[0].name ?: 'page.recipe_editor_subtitle'|trans }}
+                </p>
+            </div>
+        </section>
+
+        <div class="recipe-editor-toolbar page-card">
+            <div class="recipe-editor-toolbar__primary">
+                {{ saveButton|raw }}
+                {{ form_row(form.save_close, { attr: { class: 'btn btn-warning recipe-editor-btn' } }) }}
+                {{ form_row(form.close, { attr: { class: 'btn btn-secondary recipe-editor-btn' } }) }}
+                {{ form_row(form.delete, { attr: { class: 'btn btn-outline-danger recipe-editor-btn' } }) }}
+            </div>
             {% if recipe.id %}
-                <div class="ms-auto">
-                    {{ form_row(form.generate,{'attr': {'class': 'mb-1 btn  btn-warning'}}) }}
-                </div>
-
-                {% set recipeSlug = recipe.recipetranslations[0].slug %}
-                <div class="ms-auto">
-                    <a target="_blank" title="{{'View'|trans }}" href="{{ path('catalog_show', {urlKey: recipeSlug}) }}" class="btn btn-sm btn-primary w-100" style="font-size: 14px;">
+                <div class="recipe-editor-toolbar__secondary">
+                    {{ form_row(form.generate, { attr: { class: 'btn btn-warning recipe-editor-btn' } }) }}
+                    {% set recipeSlug = recipe.recipetranslations[0].slug %}
+                    <a
+                        target="_blank"
+                        title="{{ 'View'|trans }}"
+                        href="{{ path('catalog_show', {urlKey: recipeSlug}) }}"
+                        class="btn btn-primary recipe-editor-btn recipe-editor-btn--view"
+                    >
                         <i class="bi bi-eye"></i>
+                        {{ 'View'|trans }}
                     </a>
                 </div>
             {% endif %}
         </div>
 
         <div class="recipe-edit-page">
-            <div class="row">
-                <div class="col-12 col-xxl-3 mb-3">
-                    <div class="col-12 mt-3 d-flex flex-column justify-content-center align-items-center user-select-none" >
-                        {% set image_button = 'Add image'|trans %}
-                        {% set full_name = '' %}
+            <section class="page-card recipe-editor-section">
+                <div class="home-section__head">
+                    <h2 class="home-section__title">{{ 'page.recipe_editor_main'|trans }}</h2>
+                </div>
+                <div class="row g-3">
+                    <div class="col-12 col-xxl-3">
+                        <div class="recipe-editor-image">
+                            {% set image_button = 'Add image'|trans %}
+                            {% if recipe.id and recipe.image %}
+                                {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
+                                {% set image_button = 'Edit image'|trans %}
+                            {% else %}
+                                {% set recipeimage = 'https://placehold.in/200' %}
+                            {% endif %}
+                            <img
+                                id="recipe-image"
+                                src="{{ recipeimage }}"
+                                class="recipe-image recipe-editor-image__preview"
+                                alt="{{ recipe.recipetranslations[0].name }}"
+                                data-editing-target="resourceImage"
+                            >
+                            <button
+                                id="button-open-image"
+                                class="btn btn-primary recipe-editor-image__btn"
+                                type="button"
+                                data-ajaxurl="{{ ajaxUrl }}"
+                                data-entity="Recipe"
+                                data-formcode="recipe-image"
+                                data-action="click->popup#open click->editing#openImage"
+                            >
+                                <i class="bi bi-image me-2"></i>{{ image_button }}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-12 col-xxl-9">
+                        {{ form_row(form.recipetranslations[0].name) }}
+                        {{ form_row(form.recipetranslations[0].short_description) }}
+                        {{ form_row(form.recipetranslations[0].description) }}
+                    </div>
+                </div>
+            </section>
 
-                        {% if recipe.id and recipe.image  %}
-                            {% set recipeimage = '/uploads/recipes/' ~ recipe.image %}
-                            {% set image_button = 'Edit image'|trans %}
-                        {% else %}
-                            {% set recipeimage = 'https://placehold.in/200' %}
-                        {% endif %}
-                        <img id="recipe-image"
-                             src="{{ recipeimage }}"
-                             class="recipe-image"
-                             alt="{{ recipe.id }}"
-                             data-editing-target="resourceImage"
-                        />
+            <section class="page-card recipe-editor-section">
+                <div class="home-section__head">
+                    <h2 class="home-section__title">{{ 'page.recipe_editor_notes'|trans }}</h2>
+                </div>
+                {{ form_row(form.recipetranslations[0].notes, { attr: { class: 'form-control notes recipe-editor-control' } }) }}
+            </section>
 
-                        <button
-                            id="button-open-image"
-                            class="my-3 btn btn-sm btn-primary text-center"
-                            data-ajaxurl="{{ ajaxUrl }}"
-                            data-entity="Recipe"
-                            data-formcode="recipe-image"
-                            data-action="click->popup#open click->editing#openImage"
+            <section class="page-card recipe-editor-section">
+                <div class="home-section__head">
+                    <h2 class="home-section__title">{{ 'Time setting'|trans }}</h2>
+                </div>
+                <div class="recipe-editor-time row g-3">
+                    <div class="col-12 col-md-4">{{ form_row(form.prep_time_min) }}</div>
+                    <div class="col-12 col-md-4">{{ form_row(form.cook_time_min) }}</div>
+                    <div class="col-12 col-md-4">{{ form_row(form.servings) }}</div>
+                </div>
+            </section>
+
+            <div class="row g-3">
+                <div class="col-12 col-xxl-5">
+                    <section class="page-card recipe-editor-section h-100" data-controller="groupcomponent">
+                        <div class="home-section__head">
+                            <h2 class="home-section__title">{{ 'Ingredients'|trans }}</h2>
+                        </div>
+                        <div
+                            id="recipe-group-components"
+                            class="recipegroupcomponents"
+                            data-groupcomponent-target="container"
+                            data-prototype="{{ form_widget(form.recipetranslations[0].groupcomponents.vars.prototype)|e('html_attr') }}"
                         >
-                            {{ image_button }}
+                            {% for groupComponentForm in form.recipetranslations[0].groupcomponents %}
+                                <div class="container-recipe-group-component-item collection" data-controller="component">
+                                    <div id="{{ 'group-save-' ~ loop.index0 }}" class="group-save d-none">
+                                        {{ saveButton|raw }}
+                                    </div>
+                                    {{ form_row(groupComponentForm.name) }}
+                                    {{ form_row(groupComponentForm.position) }}
+                                    <div
+                                        id="recipe-components"
+                                        class="recipecomponents"
+                                        data-sotable-target="container"
+                                        data-component-target="container"
+                                        data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}"
+                                    >
+                                        {% for componenForm in groupComponentForm.components %}
+                                            <div class="container-recipe-component-item">
+                                                {{ form_row(componenForm.drag) }}
+                                                {{ form_row(componenForm.position) }}
+                                                {{ form_row(componenForm.ingredient) }}
+                                                {{ form_row(componenForm.quantity) }}
+                                                {{ form_row(componenForm.unit) }}
+                                                <button type="button" class="remove-component" title="{{ 'Remove component'|trans }}" data-action="click->component#remove">×</button>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                    <button type="button" class="remove-step" data-action="click->groupcomponent#remove" title="{{ 'Remove Group'|trans }}">×</button>
+                                    <button type="button" id="add-component" class="add-component" data-action="click->component#add" title="{{ 'Add Component'|trans }}">+</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" id="add-group-component" class="add-group-component recipe-editor-add-btn" data-action="click->groupcomponent#add" title="{{ 'Add Group'|trans }}">
+                            <i class="bi bi-plus-lg me-2"></i>{{ 'Add Group'|trans }}
                         </button>
-                    </div>
+                    </section>
                 </div>
-                <div class="col-12 col-xxl-9 mb-3">
-                    {{ form_row(form.recipetranslations[0].name) }}
-                    {{ form_row(form.recipetranslations[0].short_description) }}
-                    {{ form_row(form.recipetranslations[0].description) }}
 
-                </div>
-            </div>
-            <div class="row mt-3 mb-3">
-                <div class="col-12">
-                    {{ form_row(form.recipetranslations[0].notes,{'attr': {'class': 'mb-1 form-control notes'}}) }}
-                </div>
-            </div>
-            <div class="row mt-3 mb-3">
-                <h4 class="fw-bold ms-2 my-3 ">{{'Time setting'|trans}}</h4>
-                <div class="col-12 d-flex gap-3">
-                    {{ form_row(form.prep_time_min) }}
-                    {{ form_row(form.cook_time_min) }}
-                    {{ form_row(form.servings) }}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-xxl-5 mb-3" data-controller="groupcomponent">
-                    <h4 class="fw-bold ms-2 my-3">{{'Ingredients'|trans}}</h4>
-                    <div id="recipe-group-components" class="recipegroupcomponents"
-                         data-groupcomponent-target="container"
-                         data-prototype="{{ form_widget(form.recipetranslations[0].groupcomponents.vars.prototype)|e('html_attr') }}">
-
-                        {% for groupComponentForm in form.recipetranslations[0].groupcomponents %}
-
-                            <div class="container-recipe-group-component-item collection"  data-controller="component">
-                                   <div id="{{'group-save-' ~ loop.index0}}" class="group-save d-none">
-                                       {{ saveButton|raw }}
-                                   </div>
-
-                                   {{ form_row(groupComponentForm.name) }}
-                                   {{ form_row(groupComponentForm.position) }}
-                                <div id="recipe-components" class="recipecomponents"
-                                     data-sotable-target="container"
-                                     data-component-target="container"
-                                     data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}">
-
-                                      {% for componenForm in groupComponentForm.components %}
-                                         <div class="container-recipe-component-item">
-
-                                             {{ form_row(componenForm.drag) }}
-                                             {{ form_row(componenForm.position) }}
-                                             {{ form_row(componenForm.ingredient) }}
-                                             {{ form_row(componenForm.quantity) }}
-                                             {{ form_row(componenForm.unit) }}
-
-                                            <button type="button" class="remove-component" title="{{'Remove component'|trans}}"
-                                                    data-action="click->component#remove">X</button>
-                                         </div>
-                                      {% endfor %}
-
-                                   </div>
-                                   <button type="button" class="remove-step" data-action="click->groupcomponent#remove" title="{{'Remove Group'|trans}}">X</button>
-                                   <button type="button" id="add-component" class="add-component" data-action="click->component#add" title="{{'Add Component'|trans}}">+</button>
-
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button type="button" id="add-group-component" class="add-group-component" data-action="click->groupcomponent#add" title="{{'Add Group'|trans}}">{{'Add Group'|trans}}</button>
-                </div>
-                <div class="col-12 col-xxl-7 mb-3" data-controller="sortable">
-                    <h4 class="fw-bold ms-2 my-3">{{'Steps'|trans}}</h4>
-                    <div id="recipe-steps" class="recipesteps"
-                         data-sortable-target="container"
-                         data-prototype="{{ form_widget(form.recipetranslations[0].recipesteps.vars.prototype)|e('html_attr') }}">
-
-                        {% for stepForm in form.recipetranslations[0].recipesteps %}
-                            <div class="container-recipe-step-item">
-                                {{ form_row(stepForm) }}
-                                <button type="button" class="remove-step"
-                                        data-action="click->sortable#remove">X</button>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button type="button" id="add-step" class="add-step" data-action="click->sortable#add">Add</button>
+                <div class="col-12 col-xxl-7">
+                    <section class="page-card recipe-editor-section h-100" data-controller="sortable">
+                        <div class="home-section__head">
+                            <h2 class="home-section__title">{{ 'Steps'|trans }}</h2>
+                        </div>
+                        <div
+                            id="recipe-steps"
+                            class="recipesteps"
+                            data-sortable-target="container"
+                            data-prototype="{{ form_widget(form.recipetranslations[0].recipesteps.vars.prototype)|e('html_attr') }}"
+                        >
+                            {% for stepForm in form.recipetranslations[0].recipesteps %}
+                                <div class="container-recipe-step-item">
+                                    {{ form_row(stepForm) }}
+                                    <button type="button" class="remove-step" data-action="click->sortable#remove">×</button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button type="button" id="add-step" class="add-step recipe-editor-add-btn" data-action="click->sortable#add">
+                            <i class="bi bi-plus-lg me-2"></i>{{ 'Add'|trans }}
+                        </button>
+                    </section>
                 </div>
             </div>
         </div>
-        {{ form_end(form,{ render_rest: false }) }}
+
+        {{ form_end(form, { render_rest: false }) }}
     {% endif %}
+</div>
 {% endblock %}
