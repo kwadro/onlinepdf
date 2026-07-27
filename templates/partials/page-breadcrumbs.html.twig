@@ -1,0 +1,18 @@
+{% if breadcrumbs is defined and breadcrumbs is not empty %}
+    <nav class="page-breadcrumbs" aria-label="{{ 'page.breadcrumb'|trans }}">
+        {% for breadCrumb in breadcrumbs %}
+            {% if breadCrumb.link %}
+                {% if breadCrumb.url == 'home' %}
+                    <a href="{{ path('homepage') }}">{{ breadCrumb.name }}</a>
+                {% elseif breadCrumb.route is defined %}
+                    <a href="{{ path(breadCrumb.route, breadCrumb.routeParams|default({})) }}">{{ breadCrumb.name }}</a>
+                {% else %}
+                    <a href="{{ path('collection_list', {slug: breadCrumb.url}) }}">{{ breadCrumb.name }}</a>
+                {% endif %}
+                <i class="bi bi-chevron-right" aria-hidden="true"></i>
+            {% else %}
+                <span class="page-breadcrumbs__current">{{ breadCrumb.name }}</span>
+            {% endif %}
+        {% endfor %}
+    </nav>
+{% endif %}

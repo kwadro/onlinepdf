@@ -1,0 +1,23 @@
+<div class="auth-social">
+    <a href="{{ path('login_google') }}" class="auth-social__btn auth-social__btn--google">
+        <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="" class="auth-social__icon" width="22" height="22">
+        <span>
+            {% if mode|default('login') == 'register' %}
+                {{ 'Register with Google'|trans }}
+            {% else %}
+                {{ 'Sign in with Google'|trans }}
+            {% endif %}
+        </span>
+    </a>
+
+    <a href="{{ path('login_facebook') }}" class="auth-social__btn auth-social__btn--facebook">
+        <img src="{{ absolute_url(asset('images/icons/facebook.png')) }}" alt="" class="auth-social__icon" width="22" height="22">
+        <span>
+            {% if mode|default('login') == 'register' %}
+                {{ 'Register with Facebook'|trans }}
+            {% else %}
+                {{ 'Sign in with Facebook'|trans }}
+            {% endif %}
+        </span>
+    </a>
+</div>
