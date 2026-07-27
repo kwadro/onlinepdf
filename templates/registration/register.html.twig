@@ -1,64 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ 'Register'|trans }}{% endblock %}
 
 {% form_theme registrationForm 'bootstrap_5_layout.html.twig' %}
 
 {% block main %}
-        <section class="d-flex flex-wrap justify-content-left py-3 my-4">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-4">
-                        <h2 class="w-100 mb-4">{{ 'Register'|trans }}</h2>
+<div class="page-content page-content--auth">
+    <section class="page-hero page-hero--auth">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-person-plus"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'Register'|trans }}</h1>
+            <p class="page-hero__subtitle">{{ 'auth.register_intro'|trans }}</p>
+        </div>
+    </section>
 
-                        {% for flash_error in app.flashes('verify_email_error') %}
-                            <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                        {% endfor %}
+    <div class="page-card page-card--form auth-card">
+        {% for flash_error in app.flashes('verify_email_error') %}
+            <div class="alert alert-danger page-alert" role="alert">{{ flash_error }}</div>
+        {% endfor %}
 
-                        {% for flash_success in app.flashes('success') %}
-                            <div class="alert alert-success" role="alert">{{ flash_success }}</div>
-                        {% endfor %}
+        {% for flash_success in app.flashes('success') %}
+            <div class="alert alert-success page-alert" role="alert">{{ flash_success }}</div>
+        {% endfor %}
 
-                        {{ form_errors(registrationForm) }}
+        {{ form_start(registrationForm, { attr: { class: 'page-form auth-form' } }) }}
+            {{ form_errors(registrationForm) }}
 
-                        {{ form_start(registrationForm) }}
-                        {{ form_row(registrationForm.first_name, {'attr': {'class': 'mb-1 form-control first_name'}}) }}
-                        {{ form_row(registrationForm.last_name, {'attr': {'class': 'mb-1 form-control last_name'}}) }}
-                        {{ form_row(registrationForm.email, {'attr': {'class': 'mb-1 form-control email'}}) }}
-                        {{ form_row(registrationForm.plainPassword, {'label':'Password','attr': {'class': 'mb-1 form-control password'}}) }}
-                        {{ form_row(registrationForm.agreeTerms, {
-                            'row_attr': { 'class': 'd-flex align-items-center' },
-                            'attr': {'class': 'mb-3 mt-1 form-check'},
-                            'label_attr': { 'class': 'ms-3' }
-                        }) }}
-
-                        <button type="submit" class="mb-3 btn btn-lg btn-primary">
-                            {{ 'Register'|trans }}
-                        </button>
-                        {{ form_end(registrationForm) }}
-                        {% include "service/horisontal-text.html.twig" with {'content':"OR"}%}
-                        <a href="{{ path('login_google') }}" >
-                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
-                                <img src="https://img.icons8.com/color/48/000000/google-logo.png" alt="Google Logo" class="me-2" width="24" height="24">
-                                <span class="">{{ 'Register with Google'|trans }}</span>
-                            </button>
-                        </a>
-                        {% include "service/horisontal-text.html.twig" with {'content':"OR"} %}
-                        <a href="{{ path('login_facebook') }}" >
-                            <button class="btn btn-light btn-lg d-flex align-items-center shadow-sm border rounded-pill px-4 my-3">
-                                <img src="{{ absolute_url(asset('images/icons/facebook.png')) }}" alt="{{ 'Facebook Logo'|trans }}" class="me-2" width="24" height="24">
-                                <span class="">{{ 'Sign in with Facebook'|trans }}</span>
-                            </button>
-                        </a>
-                        {% include "service/horisontal-text.html.twig" with {'content':'If you have an account?'|trans } %}
-
-                        <a href="{{ path('app_login') }}" >
-                            <button class="btn my-1 btn-lg btn-primary" type="submit">
-                                {{ 'Sign in'|trans }}
-                            </button>
-                        </a>
-                    </div>
-                </div>
+            <div class="page-form__grid auth-form__grid">
+                {{ form_row(registrationForm.first_name, {
+                    label: 'First name'|trans,
+                    attr: { class: 'form-control page-form__control first_name' },
+                }) }}
+                {{ form_row(registrationForm.last_name, {
+                    label: 'Last name'|trans,
+                    attr: { class: 'form-control page-form__control last_name' },
+                }) }}
             </div>
-        </section>
+
+            {{ form_row(registrationForm.email, {
+                label: 'Email'|trans,
+                attr: { class: 'form-control page-form__control email' },
+            }) }}
+
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'|trans,
+                attr: { class: 'form-control page-form__control password' },
+            }) }}
+
+            {{ form_row(registrationForm.agreeTerms, {
+                row_attr: { class: 'auth-form__terms' },
+                attr: { class: 'form-check-input' },
+                label_attr: { class: 'form-check-label' },
+            }) }}
+
+            <div class="page-form__actions auth-form__actions">
+                <button type="submit" class="btn btn-primary page-form__submit auth-form__submit">
+                    <i class="bi bi-person-plus me-2"></i>{{ 'Register'|trans }}
+                </button>
+            </div>
+        {{ form_end(registrationForm) }}
+
+        {% include 'security/_auth-divider.html.twig' with { label: 'OR' } %}
+        {% include 'security/_auth-social.html.twig' with { mode: 'register' } %}
+
+        <div class="auth-switch">
+            <p class="auth-switch__text mb-0">{{ 'If you have an account?'|trans }}</p>
+            <a href="{{ path('app_login') }}" class="btn btn-outline-primary auth-switch__link">
+                {{ 'Sign in'|trans }}
+            </a>
+        </div>
+    </div>
+</div>
 {% endblock %}

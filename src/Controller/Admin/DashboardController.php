@@ -53,6 +53,8 @@ use App\Entity\EmailFilterGroup;
 use App\Entity\EmailMailbox;
 use App\Entity\EmailMailboxFolder;
 use App\Entity\EmailMessage;
+use App\Entity\HolidayTable;
+use App\Entity\HolidayTableRecipe;
 // @GENERATE USE FINISH
 
 #[AdminDashboard(routePath: '/admin/{_locale}', routeName: 'admin')]
@@ -156,6 +158,9 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailfilter', [],
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailfiltergroup', [], 'messages'), 'fas fa-list', Emailfiltergroup::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmailbox', [], 'messages'), 'fas fa-list', Emailmailbox::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_emailmailboxfolder', [], 'messages'), 'fas fa-list', Emailmailboxfolder::class);
+        yield MenuItem::section($this->translator->trans('menu.group_planner', [], 'messages'));
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_holidaytable', [], 'messages'), 'fas fa-list', Holidaytable::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_holidaytablerecipe', [], 'messages'), 'fas fa-list', Holidaytablerecipe::class);
 // @GENERATE MENU FINISH
         yield MenuItem::section($this->translator->trans('menu.group_subscriptions', [], 'messages'));
         yield MenuItem::linkToCrud($this->translator->trans('menu.link_subscription_plan', [], 'messages'), 'fas fa-tags', SubscriptionPlan::class);

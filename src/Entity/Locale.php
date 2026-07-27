@@ -15,6 +15,7 @@ use App\Entity\SeoSettingsTranslation;
 use App\Entity\MegaMenuTranslation;
 use App\Entity\Popularsearch;
 use App\Entity\FacebookSetting;
+use App\Entity\RecipeTranslation;
 
 #[ORM\Entity(repositoryClass: LocaleRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -77,6 +78,13 @@ class Locale
         orphanRemoval: false,
     )]
         public ?Collection $facebooksettinglocales;
+    #[ORM\OneToMany(
+        targetEntity: RecipeTranslation::class,
+        mappedBy: 'locale',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $recipelocales;
 
     public function __construct()
     {
@@ -86,6 +94,7 @@ class Locale
         $this->megamenutranslatelocales = new ArrayCollection();
         $this->popularsearchlocales = new ArrayCollection();
         $this->facebooksettinglocales = new ArrayCollection();
+        $this->recipelocales = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -274,6 +283,32 @@ class Locale
     public function getFacebooksettinglocales(): ?Collection
     {
         return $this->facebooksettinglocales;
+    }
+
+    public function addRecipeTranslation(RecipeTranslation $recipetranslation): self
+    {
+        if (!$this->recipelocales->contains($recipetranslation)) {
+            $this->recipelocales[] = $recipetranslation;
+            $recipetranslation->setLocale($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecipeTranslation(RecipeTranslation $recipetranslation): self
+    {
+        if ($this->recipelocales->removeElement($recipetranslation)) {
+            if ($recipetranslation->getLocale() === $this) {
+                $recipetranslation->setLocale(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRecipelocales(): ?Collection
+    {
+        return $this->recipelocales;
     }
 
 }

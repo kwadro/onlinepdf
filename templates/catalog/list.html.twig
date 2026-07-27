@@ -2,9 +2,6 @@
 {% extends "base.html.twig" %}
 {% block title %} {{ 'Recipes'|trans }}{% endblock %}
 {% block main %}
-    {% include "recipe/breadcrumbs.html.twig" with {
-        breadCrumbs: breadcrumbs
-    } %}
     {% set menu_url_key = setting.menu_url_key | default('catalog') %}
     <div class="container py-5">
         <div class="row d-flex justify-content-between align-items-center mb-1">

@@ -36,17 +36,19 @@
     {% endif %}
 
     {% if not app.user %}
-        {% set guest_blocks = setting.menu|filter(item => item.megamenutype == 'OnlyHtml') %}
-        {% for item_menu in guest_blocks %}
-            <section class="site-sidebar__panel site-sidebar__panel--guest">
-                <div class="site-sidebar__guest-badge">
-                    <i class="bi bi-person-plus"></i>
-                </div>
-                <div class="site-sidebar__guest-content">
-                    {{ item_menu.content|raw }}
-                </div>
-            </section>
-        {% endfor %}
+        <section class="site-sidebar__panel site-sidebar__panel--guest">
+            <div class="site-sidebar__guest-badge">
+                <i class="bi bi-journal-plus"></i>
+            </div>
+            <div class="site-sidebar__guest-content">
+                <p class="site-sidebar__guest-title">{{ 'To start creating a recipe collection, please'|trans }}</p>
+                <p class="site-sidebar__guest-actions mb-0">
+                    <a href="{{ path('app_register') }}">{{ 'registered'|trans }}</a>
+                    {{ 'or'|trans }}
+                    <a href="{{ path('app_login') }}">{{ 'sign in'|trans }}</a>
+                </p>
+            </div>
+        </section>
     {% else %}
         {% set display_name = app.user.firstName|default('') ~ ' ' ~ app.user.lastName|default('') %}
         {% set display_name = display_name|trim ?: app.user.email %}

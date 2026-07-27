@@ -15,10 +15,14 @@ export default class extends Controller {
             this.measure();
             this.updateRightContent();
         };
+        this.handleLayoutRemeasure = () => {
+            this.scheduleMeasure();
+        };
         const run = () => {
             requestAnimationFrame(() => {
                 requestAnimationFrame(() => {
                     this.measure();
+                    this.observeContent();
                     this.addListeners();
                     this.loadScroll();
                 });
@@ -42,11 +46,36 @@ export default class extends Controller {
         sessionStorage.setItem('scrollPosition', window.scrollY);
     }
 
+    scheduleMeasure() {
+        if (this.remeasureFrame) {
+            cancelAnimationFrame(this.remeasureFrame);
+        }
+
+        this.remeasureFrame = requestAnimationFrame(() => {
+            this.remeasureFrame = requestAnimationFrame(() => {
+                this.measure();
+                this.updateRightContent();
+            });
+        });
+    }
+
     measure() {
         const metrics = measureLayoutBodyHeight();
         if (metrics) {
-            console.log('heightContent', document.getElementById('rightContent').offsetHeight, metrics);
+            console.log('heightContent', metrics.contentHeight, metrics);
         }
+    }
+
+    observeContent() {
+        const rightContent = document.getElementById('rightContent');
+        if (!rightContent || typeof ResizeObserver === 'undefined') {
+            return;
+        }
+
+        this.contentObserver = new ResizeObserver(() => {
+            this.scheduleMeasure();
+        });
+        this.contentObserver.observe(rightContent);
     }
 
     updateRightContent() {
@@ -59,11 +88,17 @@ export default class extends Controller {
     addListeners() {
         window.addEventListener('scroll', this.updateRightContent);
         window.addEventListener('resize', this.handleResize);
+        window.addEventListener('layout:remeasure', this.handleLayoutRemeasure);
     }
 
     disconnect() {
         window.removeEventListener('scroll', this.updateRightContent);
         window.removeEventListener('resize', this.handleResize);
+        window.removeEventListener('layout:remeasure', this.handleLayoutRemeasure);
+        this.contentObserver?.disconnect();
+        if (this.remeasureFrame) {
+            cancelAnimationFrame(this.remeasureFrame);
+        }
     }
 
     addRecipe(e) {

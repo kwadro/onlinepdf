@@ -45,12 +45,12 @@ class SiteSettingsProvider
                     'content' => $menuSettingItem->getContent()
                 ];
             }
-            if($menuSettingItem->getMegamenutype() == 'Form'){
+            if ($menuSettingItem->getMegamenutype() == 'Form' && $menuSettingItem->getUrl() !== 'holiday_table') {
                 $content = explode('"', $content)[1];
-                $entityClass = 'App\\Form\\' . ucfirst($content).'FormType';
+                $entityClass = 'App\\Form\\' . ucfirst($content) . 'FormType';
                 $menuPages[$menuSettingItem->getUrl()] = [
-                    'content'=>$this->getFormContent($entityClass),
-                    'isForm'=>true,
+                    'content' => $this->getFormContent($entityClass),
+                    'isForm' => true,
                 ];
             }
             if ($menuSettingItem->getMegamenutype() == 'Collection') {
@@ -119,8 +119,8 @@ class SiteSettingsProvider
                 'id' => $footerSetting->getId(),
                 'content' => $footerSetting->getTranslations()[0]->getContent()
             ] : [],
-            'menu_pages'=>$menuPages?: [],
-            'menu_url_key'=>$menuUrlKey,
+            'menu_pages' => $menuPages ?: [],
+            'menu_url_key' => $menuUrlKey,
             'menu' => $menuSetting ?: [],
         ];
     }

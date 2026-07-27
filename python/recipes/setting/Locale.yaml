@@ -48,3 +48,8 @@ fields:
   typeRelation: OneToMany
   objectRelation: FacebookSetting
   mappedBy: locale
+- name: recipelocales
+  type: relation
+  typeRelation: OneToMany
+  objectRelation: RecipeTranslation
+  mappedBy: locale

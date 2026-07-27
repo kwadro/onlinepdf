@@ -176,4 +176,65 @@ class RecipeServiceRepository extends ServiceEntityRepository
             ->getQuery();
         return $query->getResult();
     }
+
+    /**
+     * @param int[] $recipeIds
+     *
+     * @return Recipe[]
+     */
+    public function findByIdsWithComponents(array $recipeIds, $site, $locale): array
+    {
+        if ($recipeIds === []) {
+            return [];
+        }
+
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')->addSelect('t')
+            ->leftJoin('t.groupcomponents', 'gc')->addSelect('gc')
+            ->leftJoin('gc.components', 'c')->addSelect('c')
+            ->leftJoin('c.ingredient', 'i')->addSelect('i')
+            ->leftJoin('c.unit', 'u')->addSelect('u')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.is_active = :is_active')
+            ->andWhere('t.publish = :publish')
+            ->andWhere('t.confirmation = :confirmation')
+            ->andWhere('s.id IN (:recipeIds)')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('recipeIds', $recipeIds)
+            ->setParameter('is_active', 'Yes')
+            ->setParameter('publish', 'Yes')
+            ->setParameter('confirmation', 'Yes')
+            ->orderBy('s.position', 'ASC')
+            ->getQuery();
+        $query->setHint(Query::HINT_REFRESH, true);
+
+        return $query->getResult();
+    }
+
+    /**
+     * @return Recipe[]
+     */
+    public function findPublishedForPicker($site, $locale, int $limit = 100): array
+    {
+        $query = $this->createQueryBuilder('s')
+            ->innerJoin('s.recipetranslations', 't')->addSelect('t')
+            ->where('s.site = :site')
+            ->andWhere('t.locale = :locale')
+            ->andWhere('t.is_active = :is_active')
+            ->andWhere('t.publish = :publish')
+            ->andWhere('t.confirmation = :confirmation')
+            ->setParameter('site', $site)
+            ->setParameter('locale', $locale)
+            ->setParameter('is_active', 'Yes')
+            ->setParameter('publish', 'Yes')
+            ->setParameter('confirmation', 'Yes')
+            ->orderBy('t.name', 'ASC')
+            ->setMaxResults($limit)
+            ->getQuery();
+        $query->setHint(Query::HINT_REFRESH, true);
+
+        return $query->getResult();
+    }
 }

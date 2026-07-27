@@ -1,17 +1,3 @@
-<div class="container mt-2">
-    {% for breadCrumb in breadCrumbs %}
-        {% if breadCrumb.link %}
-            {% if breadCrumb.url=='home' %}
-                <a class="" href="{{ path('homepage')}}">{{ breadCrumb.name }}</a>
-                <i class="bi bi-chevron-right ms-0 ms-md-2"></i>
-            {% else %}
-                <a class="" href="{{ path('collection_list',{'slug':breadCrumb.url})}}">{{ breadCrumb.name }}</a>
-                <i class="bi bi-chevron-right ms-0 ms-md-2"></i>
-            {% endif %}
-
-        {% else %}
-            <span>{{ breadCrumb.name }}</span>
-        {% endif %}
-    {% endfor %}
-
-</div>
+{% include 'partials/page-breadcrumbs.html.twig' with {
+    breadcrumbs: breadCrumbs|default(breadcrumbs|default([])),
+} %}

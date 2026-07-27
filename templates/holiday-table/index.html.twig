@@ -1,0 +1,248 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ 'holiday_table.title'|trans }}{% endblock %}
+
+{% block main %}
+<div class="page-content page-content--holiday-table">
+    <section class="page-hero page-hero--holiday-table">
+        <div class="page-hero__icon" aria-hidden="true">
+            <i class="bi bi-basket"></i>
+        </div>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ 'holiday_table.title'|trans }}</h1>
+            <p class="page-hero__subtitle">{{ 'holiday_table.intro'|trans }}</p>
+        </div>
+    </section>
+
+    {% if form %}
+        <section class="home-section">
+            <div class="home-section__head">
+                <h2 class="home-section__title">{{ 'holiday_table.form_title'|trans }}</h2>
+            </div>
+            <div class="home-section__body">
+                <div class="page-card page-card--form">
+                <div
+                    class="holiday-table-widget"
+                    data-controller="holiday-table"
+                    data-holiday-table-calculate-url-value="{{ calculateUrl }}"
+                    data-holiday-table-save-url-value="{{ saveUrl|default('') }}"
+                    data-holiday-table-load-event-url-value="{{ loadEventUrl|default('') }}"
+                    data-holiday-table-requires-event-selection-value="{{ requiresEventSelection ? 'true' : 'false' }}"
+                    data-holiday-table-saved-events-value="{{ savedEvents|default([])|json_encode|e('html_attr') }}"
+                    data-holiday-table-recipe-options-value="{{ recipeOptions|json_encode|e('html_attr') }}"
+                    data-holiday-table-label-remove-value="{{ 'holiday_table.recipes_remove'|trans|e('html_attr') }}"
+                    data-holiday-table-label-empty-value="{{ 'holiday_table.recipes_empty'|trans|e('html_attr') }}"
+                    data-holiday-table-label-no-results-value="{{ 'holiday_table.recipes_no_results'|trans|e('html_attr') }}"
+                    data-holiday-table-label-saved-value="{{ 'holiday_table.saved_success'|trans|e('html_attr') }}"
+                    data-holiday-table-label-results-meta-value="{{ 'holiday_table.results_meta'|trans|e('html_attr') }}"
+                    data-holiday-table-label-events-no-results-value="{{ 'holiday_table.events_no_results'|trans|e('html_attr') }}"
+                    data-holiday-table-label-loading-event-value="{{ 'holiday_table.loading_event'|trans|e('html_attr') }}"
+                    data-holiday-table-label-form-mode-edit-value="{{ 'holiday_table.form_mode_edit'|trans|e('html_attr') }}"
+                    data-holiday-table-label-form-mode-create-value="{{ 'holiday_table.form_mode_create'|trans|e('html_attr') }}"
+                    data-holiday-table-label-events-meta-value="{{ 'holiday_table.events_meta'|trans|e('html_attr') }}"
+                >
+                    {% if requiresEventSelection %}
+                        <div class="holiday-table-event-picker" data-holiday-table-target="eventPicker">
+                            <h3 class="holiday-table-event-picker__title">{{ 'holiday_table.events_title'|trans }}</h3>
+                            <p class="holiday-table-event-picker__hint">{{ 'holiday_table.events_hint'|trans }}</p>
+
+                            {% if savedEvents|length > 0 %}
+                                <label class="visually-hidden" for="holiday-table-event-search">{{ 'holiday_table.events_search'|trans }}</label>
+                                <div class="holiday-table-event-picker__search-wrap">
+                                    <i class="bi bi-search holiday-table-event-picker__search-icon" aria-hidden="true"></i>
+                                    <input
+                                        type="search"
+                                        id="holiday-table-event-search"
+                                        class="form-control page-form__control holiday-table-event-picker__search"
+                                        placeholder="{{ 'holiday_table.events_search'|trans }}"
+                                        autocomplete="off"
+                                        data-holiday-table-target="eventSearch"
+                                        data-action="input->holiday-table#filterEvents"
+                                    >
+                                </div>
+                                <ul
+                                    class="holiday-table-event-list"
+                                    data-holiday-table-target="eventList"
+                                    role="listbox"
+                                    aria-label="{{ 'holiday_table.events_title'|trans }}"
+                                ></ul>
+                            {% else %}
+                                <p class="holiday-table-event-picker__empty">{{ 'holiday_table.events_empty'|trans }}</p>
+                            {% endif %}
+
+                            <div class="holiday-table-event-picker__actions">
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    data-action="click->holiday-table#createNewEvent"
+                                >
+                                    <i class="bi bi-plus-lg me-2"></i>{{ 'holiday_table.events_create'|trans }}
+                                </button>
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    <div class="{{ requiresEventSelection ? 'd-none' : '' }}" data-holiday-table-target="formPanel">
+                        {% if requiresEventSelection %}
+                            <div class="holiday-table-form__toolbar">
+                                <button
+                                    type="button"
+                                    class="btn btn-link holiday-table-form__back"
+                                    data-action="click->holiday-table#backToPicker"
+                                >
+                                    <i class="bi bi-arrow-left me-1"></i>{{ 'holiday_table.back_to_events'|trans }}
+                                </button>
+                                <p class="holiday-table-form__mode mb-0" data-holiday-table-target="formMode"></p>
+                            </div>
+                        {% endif %}
+
+                        {{ form_start(form, {
+                            attr: {
+                                class: 'page-form holiday-table-form',
+                                'data-holiday-table-target': 'form',
+                                'data-turbo': 'false',
+                            },
+                        }) }}
+                            {{ form_widget(form.holiday_table_id, { attr: { 'data-holiday-table-target': 'holidayTableId' } }) }}
+
+                            <div class="page-form__grid holiday-table-form__event">
+                                {{ form_row(form.event_name, {
+                                    label: 'holiday_table.event_name'|trans,
+                                    attr: { class: 'form-control page-form__control', 'data-holiday-table-target': 'eventName' },
+                                }) }}
+                                {{ form_row(form.event_date, {
+                                    label: 'holiday_table.event_date'|trans,
+                                    attr: { class: 'form-control page-form__control', 'data-holiday-table-target': 'eventDate' },
+                                }) }}
+                            </div>
+
+                            <div class="page-form__grid holiday-table-form__guests">
+                                {{ form_row(form.men_count, {
+                                    label: 'holiday_table.men_count'|trans,
+                                    attr: {
+                                        class: 'form-control page-form__control',
+                                        min: 0,
+                                        'data-holiday-table-target': 'men',
+                                        'data-action': 'input->holiday-table#updateGuestTotal',
+                                    },
+                                }) }}
+                                {{ form_row(form.women_count, {
+                                    label: 'holiday_table.women_count'|trans,
+                                    attr: {
+                                        class: 'form-control page-form__control',
+                                        min: 0,
+                                        'data-holiday-table-target': 'women',
+                                        'data-action': 'input->holiday-table#updateGuestTotal',
+                                    },
+                                }) }}
+                                <div class="holiday-table-form__guest-total">
+                                    <span class="holiday-table-form__guest-total-label">{{ 'holiday_table.guest_count'|trans }}</span>
+                                    <output class="holiday-table-form__guest-total-value" data-holiday-table-target="guestTotal">10</output>
+                                </div>
+                            </div>
+
+                            <div class="holiday-table-form__recipes">
+                                <h3 class="holiday-table-form__recipes-title">{{ 'holiday_table.recipes'|trans }}</h3>
+                                <p class="holiday-table-form__recipes-hint">{{ 'holiday_table.recipes_hint'|trans }}</p>
+
+                                <div class="holiday-table-form__recipes-layout">
+                                    <div class="holiday-table-recipes-selected-panel">
+                                        <h4 class="holiday-table-recipes-panel__title">{{ 'holiday_table.recipes_selected'|trans }}</h4>
+                                        <ul class="holiday-table-recipes-selected" data-holiday-table-target="selectedList"></ul>
+                                        <p class="holiday-table-recipes-empty" data-holiday-table-target="recipesEmpty">
+                                            {{ 'holiday_table.recipes_empty'|trans }}
+                                        </p>
+                                        {{ form_errors(form.recipes) }}
+                                    </div>
+
+                                    <div class="holiday-table-recipes-picker-panel">
+                                        <h4 class="holiday-table-recipes-panel__title">{{ 'holiday_table.recipes_picker'|trans }}</h4>
+                                        <div class="holiday-table-recipes-picker">
+                                            <label class="visually-hidden" for="holiday-table-recipe-search">{{ 'holiday_table.recipes_search'|trans }}</label>
+                                            <div class="holiday-table-recipes-picker__search-wrap">
+                                                <i class="bi bi-search holiday-table-recipes-picker__search-icon" aria-hidden="true"></i>
+                                                <input
+                                                    type="search"
+                                                    id="holiday-table-recipe-search"
+                                                    class="form-control page-form__control holiday-table-recipes-picker__search"
+                                                    placeholder="{{ 'holiday_table.recipes_search'|trans }}"
+                                                    autocomplete="off"
+                                                    data-holiday-table-target="recipeSearch"
+                                                    data-action="input->holiday-table#filterRecipes focus->holiday-table#openDropdown"
+                                                >
+                                            </div>
+                                            <ul
+                                                class="holiday-table-recipes-dropdown"
+                                                data-holiday-table-target="recipeDropdown"
+                                                role="listbox"
+                                                aria-label="{{ 'holiday_table.recipes_picker'|trans }}"
+                                            ></ul>
+                                            <button
+                                                type="button"
+                                                class="btn btn-outline-primary holiday-table-recipes-picker__add"
+                                                data-holiday-table-target="addButton"
+                                                data-action="click->holiday-table#addHighlightedRecipe"
+                                            >
+                                                <i class="bi bi-plus-lg me-1" aria-hidden="true"></i>{{ 'holiday_table.recipes_add'|trans }}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="visually-hidden">{{ form_widget(form.recipes, { attr: { 'data-holiday-table-target': 'recipesSelect' } }) }}</div>
+                            </div>
+
+                            <div class="page-form__actions holiday-table-form__actions">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-primary holiday-table-form__save"
+                                    data-holiday-table-target="saveButton"
+                                    data-action="click->holiday-table#save"
+                                >
+                                    <i class="bi bi-bookmark me-2"></i>{{ 'holiday_table.save'|trans }}
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-primary page-form__submit"
+                                    data-holiday-table-target="submit"
+                                    data-action="click->holiday-table#calculate"
+                                >
+                                    <i class="bi bi-calculator me-2"></i>{{ 'holiday_table.calculate'|trans }}
+                                </button>
+                            </div>
+                        {{ form_end(form) }}
+
+                        <div class="holiday-table-results d-none" data-holiday-table-target="results">
+                            <div class="holiday-table-results__head">
+                                <h3 class="holiday-table-results__title">{{ 'holiday_table.results_title'|trans }}</h3>
+                                <p class="holiday-table-results__meta" data-holiday-table-target="meta"></p>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table holiday-table-results__table">
+                                    <thead>
+                                        <tr>
+                                            <th>{{ 'holiday_table.product'|trans }}</th>
+                                            <th>{{ 'holiday_table.quantity'|trans }}</th>
+                                            <th>{{ 'holiday_table.unit'|trans }}</th>
+                                            <th>{{ 'holiday_table.used_in'|trans }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody data-holiday-table-target="tbody"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="alert alert-success page-alert d-none" role="alert" data-holiday-table-target="success"></div>
+                    <div class="alert alert-danger page-alert d-none" role="alert" data-holiday-table-target="error"></div>
+                </div>
+                </div>
+            </div>
+        </section>
+    {% else %}
+        <div class="page-empty">
+            <p class="page-empty__text mb-0">{{ 'holiday_table.unavailable'|trans }}</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,100 +1,158 @@
 {% set setting = site_settings() %}
-{% extends "base-account.html.twig" %}
+{% set recipeTranslation = recipe.recipetranslations[0] %}
+{% set recipeName = recipeTranslation.name|default('page.facebook_recipe_subtitle'|trans) %}
+
+{% extends 'base-account.html.twig' %}
+
+{% block title %}{{ 'page.facebook_recipe_title'|trans }} — {{ recipeName }}{% endblock %}
+
 {% block main %}
-    {{ form_start(form) }}
-    {{ form_row(form.id) }}
-    {{ form_row(form.recipe_id) }}
-    {{ form_widget(form._token) }}
-    <div class="recipe-facebook-page">
-        <div class="row ps-2">
-            <div class="col-12 px-2 mt-3 d-flex justify-content-start gap-2 flex-wrap">
-                {% set saveButton = form_row(form.save,{
-                    'attr':{'class': 'mb-1 fs-6 btn btn-success',
-                        'data-action': 'click->scroll#saveScroll'}
-                }) %}
+<div
+    class="page-content page-content--facebook-recipe recipe-facebook-page"
+    data-controller="facebook-recipe"
+>
+    {{ form_start(form, {
+        attr: {
+            class: 'recipe-facebook-form',
+            'data-turbo': 'false',
+        },
+    }) }}
+        {{ form_row(form.id) }}
+        {{ form_row(form.recipe_id) }}
+        {{ form_widget(form._token) }}
 
-                {{ saveButton |raw }}
-                {{ form_row(form.save_close,{'attr': {'class': 'mb-1 btn btn-warning'}}) }}
-                {{ form_row(form.close,{'attr': {'class': 'mb-1 btn btn-secondary'}}) }}
+        {% set saveButton = form_row(form.save, {
+            attr: {
+                class: 'btn btn-success recipe-editor-btn recipe-editor-btn--save',
+                'data-action': 'click->scroll#saveScroll',
+            },
+        }) %}
+
+        <section class="page-hero page-hero--account recipe-facebook-page__hero">
+            <div class="page-hero__icon" aria-hidden="true">
+                <i class="bi bi-facebook"></i>
             </div>
-            <div class="offset-4 col-6  my-3 facebook-menu ">
-                <div class="row">
-                    <div class="col-6">
-                        <span class="tab-btn d-block text-center my-2 fs-4 active"
-                              style="cursor: pointer;"
-                              onclick="showDiv('image-block',this)"
-                        >
-                              {{ 'Image'|trans }}
-                        </span>
-                    </div>
+            <div class="page-hero__copy">
+                <h1 class="page-hero__title">{{ 'page.facebook_recipe_title'|trans }}</h1>
+                <p class="page-hero__subtitle">{{ recipeName }}</p>
+            </div>
+        </section>
 
-                    <div class="col-6">
-                        <span class="tab-btn d-block text-center my-2 fs-4"
-                               style="cursor: pointer;"
-                               onclick="showDiv('text-block',this)"
-                        >
-                            {{ 'Text'|trans }}
-                        </span>
-                    </div>
-                </div>
+        <div class="recipe-editor-toolbar page-card recipe-facebook-page__toolbar">
+            <div class="recipe-editor-toolbar__primary">
+                {{ saveButton|raw }}
+                {{ form_row(form.save_close, { attr: { class: 'btn btn-warning recipe-editor-btn' } }) }}
+                {{ form_row(form.close, { attr: { class: 'btn btn-secondary recipe-editor-btn' } }) }}
+            </div>
+            <div class="recipe-editor-toolbar__secondary">
+                <a
+                    href="{{ path('recipe_edit', { id: recipe.id, _locale: app.request.locale }) }}"
+                    class="btn btn-outline-primary recipe-editor-btn recipe-editor-btn--view"
+                >
+                    <i class="bi bi-arrow-left" aria-hidden="true"></i>
+                    {{ 'page.facebook_back_to_recipe'|trans }}
+                </a>
             </div>
         </div>
-        <div class="row ps-2">
-            <div id="text-block" class="col-9  my-3 block ">
-                {{ form_row(form.text_post) }}
-                {{ form_row(form.tag) }}
+
+        <div class="page-card recipe-facebook-page__tabs-wrap">
+            <div class="recipe-facebook-tabs" role="tablist" aria-label="{{ 'page.facebook_recipe_tabs'|trans }}">
+                <button
+                    type="button"
+                    class="recipe-facebook-tabs__btn is-active"
+                    role="tab"
+                    id="facebook-tab-image"
+                    aria-selected="true"
+                    aria-controls="facebook-panel-image"
+                    data-facebook-recipe-target="imageTab"
+                    data-action="facebook-recipe#showImage"
+                >
+                    <i class="bi bi-image" aria-hidden="true"></i>
+                    {{ 'Image'|trans }}
+                </button>
+                <button
+                    type="button"
+                    class="recipe-facebook-tabs__btn"
+                    role="tab"
+                    id="facebook-tab-text"
+                    aria-selected="false"
+                    aria-controls="facebook-panel-text"
+                    data-facebook-recipe-target="textTab"
+                    data-action="facebook-recipe#showText"
+                >
+                    <i class="bi bi-chat-left-text" aria-hidden="true"></i>
+                    {{ 'Text'|trans }}
+                </button>
             </div>
-            <div id="image-block" class="col-12  my-3 block active">
-                <div class="row">
-                    <div id="image-block" class="col-4  my-3 ">
-                        {{ form_row(form.title1) }}
-                        {{ form_row(form.title2) }}
-                        {{ form_row(form.title3) }}
-                        {{ form_row(form.content1) }}
-                        {{ form_row(form.content2) }}
-                        {{ form_row(form.content3) }}
-                        {{ form_row(form.notes , {'attr': {'class': 'mb-1 form-control notes'}}) }}
-                        {{ saveButton |raw }}
-                    </div>
-                    <div id="image-block" class="col-8  my-3 ">
-                        {% if recipe.id and recipe.recipetranslations[0].facebookImage %}
-                            {% set recipeImage = '/facebook/' ~ recipe.recipetranslations[0].facebookImage %}
+        </div>
+
+        <div
+            id="facebook-panel-image"
+            class="recipe-facebook-panel"
+            role="tabpanel"
+            aria-labelledby="facebook-tab-image"
+            data-facebook-recipe-target="imagePanel"
+        >
+            <div class="row g-3">
+                <div class="col-12 col-xl-4">
+                    <section class="page-card recipe-facebook-page__fields">
+                        <div class="home-section__head">
+                            <h2 class="home-section__title">{{ 'page.facebook_image_fields'|trans }}</h2>
+                        </div>
+                        <div class="recipe-facebook-page__field-list">
+                            {{ form_row(form.title1) }}
+                            {{ form_row(form.title2) }}
+                            {{ form_row(form.title3) }}
+                            {{ form_row(form.content1) }}
+                            {{ form_row(form.content2) }}
+                            {{ form_row(form.content3) }}
+                            {{ form_row(form.notes, { attr: { class: 'form-control notes mb-1' } }) }}
+                        </div>
+                        <p class="recipe-facebook-page__hint">{{ 'page.facebook_image_hint'|trans }}</p>
+                    </section>
+                </div>
+                <div class="col-12 col-xl-8">
+                    <section class="page-card recipe-facebook-page__preview">
+                        <div class="home-section__head">
+                            <h2 class="home-section__title">{{ 'page.facebook_preview'|trans }}</h2>
+                        </div>
+                        {% if recipe.id and recipeTranslation.facebookImage %}
+                            {% set recipeImage = '/facebook/' ~ recipeTranslation.facebookImage %}
                         {% else %}
-                            {% set recipeImage = 'https://placehold.in/200' %}
+                            {% set recipeImage = 'https://placehold.in/900x900/eeeeee/999999?text=Facebook+Preview' %}
                         {% endif %}
-                        <img id="recipe-facebook-image"
-                             src="{{ recipeImage }}"
-                             class="recipe-facebook-image"
-                             alt="{{ recipe.id }}"
-                             width="900"
-                             style="display: block;"
-                        />
-                    </div>
+                        <div class="recipe-facebook-preview">
+                            <img
+                                id="recipe-facebook-image"
+                                src="{{ recipeImage }}"
+                                class="recipe-facebook-preview__image"
+                                alt="{{ recipeName }}"
+                                width="900"
+                            >
+                        </div>
+                    </section>
                 </div>
             </div>
         </div>
-    </div>
-    {{ form_end(form,{ render_rest: false }) }}
-    <script>
-        function showDiv(id, button) {
-            document.getElementById('image-block').classList.remove('active');
-            document.getElementById('text-block').classList.remove('active');
-            console.log('id',id)
-            document.getElementById(id).classList.add('active');
-            document.querySelectorAll('.recipe-facebook-page .tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            button.classList.add('active');
-            const run = () => {
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        const rightElement = document.getElementById('rightContent');
-                        console.log('document.body.style.height : ',rightElement.offsetHeight)
-                        document.body.style.height = rightElement.offsetHeight + 200 + 'px';
-                    });
-                });
-            };
-            setTimeout(run, 100);
-        }
-    </script>
+
+        <div
+            id="facebook-panel-text"
+            class="recipe-facebook-panel d-none"
+            role="tabpanel"
+            aria-labelledby="facebook-tab-text"
+            data-facebook-recipe-target="textPanel"
+        >
+            <section class="page-card recipe-facebook-page__fields">
+                <div class="home-section__head">
+                    <h2 class="home-section__title">{{ 'page.facebook_text_fields'|trans }}</h2>
+                </div>
+                <div class="recipe-facebook-page__field-list">
+                    {{ form_row(form.text_post) }}
+                    {{ form_row(form.tag) }}
+                </div>
+                <p class="recipe-facebook-page__hint">{{ 'page.facebook_text_hint'|trans }}</p>
+            </section>
+        </div>
+    {{ form_end(form, { render_rest: false }) }}
+</div>
 {% endblock %}

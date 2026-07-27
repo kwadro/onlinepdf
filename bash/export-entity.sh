@@ -25,4 +25,6 @@ php bin/console app:export:csv EmailFilterGroup
 php bin/console app:export:csv EmailMailbox
 php bin/console app:export:csv EmailMailboxFolder
 php bin/console app:export:csv EmailMessage
+php bin/console app:export:csv HolidayTable
+php bin/console app:export:csv HolidayTableRecipe
 php bin/console app:export:csv User

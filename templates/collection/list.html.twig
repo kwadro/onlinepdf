@@ -1,81 +1,81 @@
-{% set setting = site_settings() %}
-{% extends "base.html.twig" %}
-{% block title %}Рецепти{% endblock %}
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ recipeCategory.name|default('Categories'|trans) }}{% endblock %}
+
 {% block main %}
-    {% include "recipe/breadcrumbs.html.twig" with {
-        breadCrumbs: breadcrumbs
-    } %}
-    {% set menu_url_key = setting.menu_url_key | default('catalog1') %}
-    <div class="container">
-        {% if recipeCategory.children is not empty %}
-            <div class="row my-3 children-category">
-                <div class="col ">
-                    <h3 class="mb-3 text-center">{{ 'Categories'|trans }}</h3>
-                    <div class="d-flex flex-wrap gap-2 align-center justify-content-center">
-                        {% for child in recipeCategory.children %}
-                            <a class="d-block px-3 py-2 text-center rounded text-decoration-none text-dark border hover-shadow"
-                               href="{{ absolute_url('/' ~ app.request.locale ~ '/' ~ menu_url_key ~ '/' ~ child.slug) }}">
-                                {{ child.name }}
-                            </a>
-                        {% endfor %}
-                    </div>
-                </div>
+<div class="page-content page-content--collection">
+    <section class="page-hero page-hero--collection">
+        {% if recipeCategory.image %}
+            <img
+                class="page-collection__image"
+                src="/uploads/recipes/{{ recipeCategory.image }}"
+                alt="{{ recipeCategory.name }}"
+                width="56"
+                height="56"
+            >
+        {% else %}
+            <div class="page-hero__icon" aria-hidden="true">
+                <i class="bi bi-folder2-open"></i>
             </div>
         {% endif %}
-
-        <div class="row my-3 ">
-            <div class="col">
-                <h3 class="my-1 text-center card-title">{{ recipeCategory.name }}</h3>
-                {% if recipeCategory.image %}
-                    <img src="/uploads/recipes/{{ recipeCategory.image }}"
-                        class="card-img-top"
-                        alt="{{ recipeCategory.image }}"
-                        style="object-fit:cover;"
-                        >
-                {% endif %}
-            </div>
-
-            <div class="col">
-                {% if recipes is not empty %}
-                    <h3 class="text-center">{{ 'List of recipes'|trans }}</h3>
-                    <ul class="list-group ">
-                    {% for recipe in recipes %}
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <div class="col-10 text-start">
-                                <div class="row">
-                                    <p>{{ recipe.recipetranslations[0].name }}</p>
-                                </div>
-                                <div class="d-flex gap-2 text-muted flex-row small">
-                                    <span data-bs-toggle="tooltip" title="{{ 'Prepare time'|trans }}">
-                                        <i class="me-1 bi bi-clock"></i>{{ recipe.prepTimeMin }} {{ 'minutes'|trans }}
-                                    </span>
-                                    <span data-bs-toggle="tooltip" title="{{ 'Cook time'|trans }}">
-                                        <i class="me-1 bi bi-fire"></i>{{ recipe.cookTimeMin }} {{ 'minutes'|trans }}
-                                    </span>
-                                    <span data-bs-toggle="tooltip" title="{{ 'Servings'|trans }}">
-                                        <i class="me-1 bi bi-people"></i>{{ recipe.servings }}
-                                    </span>
-                                </div>
-                                <div class="flex-row small">
-                                    <span>{{ 'Author'|trans }}</span>
-                                    <a href="{{ path('author_list', {id: recipe.recipetranslations[0].user.id}) }}" class="btn btn-sm btn-secondary">
-                                        @cook-{{ recipe.recipetranslations[0].user.id }}
-                                    </a>
-                                </div>
-                            </div>
-                            <div class="col-2 text-end">
-                                <a href="{{ path('catalog_show', {urlKey: recipe.recipetranslations[0].slug}) }}" class="btn btn-sm btn-primary">
-                                    {{ 'View'|trans }}
-                                </a>
-                            </div>
-                        </li>
-                    {% endfor %}
-                    </ul>
-                {% else %}
-                    <h5 class="text-center">{{ 'We not found any recipe in this category'|trans }}</h5>
+        <div class="page-hero__copy">
+            <h1 class="page-hero__title">{{ recipeCategory.name }}</h1>
+            <div class="page-collection__meta">
+                <span class="page-collection__count">
+                    {{ recipes|length }}
+                    {{ recipes|length == 1 ? 'page.search_result_one'|trans : 'page.search_result_many'|trans }}
+                </span>
+                {% if recipeCategory.children is not empty %}
+                    <span class="page-collection__subcount">
+                        {{ recipeCategory.children|length }}
+                        {{ recipeCategory.children|length == 1 ? 'page.collection_subcategory_one'|trans : 'page.collection_subcategory_many'|trans }}
+                    </span>
                 {% endif %}
             </div>
         </div>
-    </div>
-{% endblock %}
+    </section>
 
+    {% if recipeCategory.children is not empty %}
+        <section class="home-section page-collection__categories">
+            <div class="home-section__head">
+                <h2 class="home-section__title">{{ 'Categories'|trans }}</h2>
+            </div>
+            <div class="home-section__body">
+                <div class="page-collection__category-grid">
+                    {% for child in recipeCategory.children %}
+                        <a
+                            class="page-collection__category-chip"
+                            href="{{ path('collection_list', {slug: child.slug, _locale: app.request.locale}) }}"
+                        >
+                            {{ child.name }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+
+    <section class="home-section page-collection__recipes">
+        <div class="home-section__head">
+            <h2 class="home-section__title">{{ 'List of recipes'|trans }}</h2>
+        </div>
+        <div class="home-section__body">
+            {% if recipes is not empty %}
+                {% include 'homepage/recipe-grid.html.twig' with {
+                    recipes: recipes,
+                    favoriteIds: favoriteIds|default([]),
+                    newIds: [],
+                } %}
+            {% else %}
+                <div class="page-empty">
+                    <div class="page-empty__icon" aria-hidden="true">
+                        <i class="bi bi-journal-x"></i>
+                    </div>
+                    <h3 class="page-empty__title">{{ 'We not found any recipe in this category'|trans }}</h3>
+                    <p class="page-empty__text">{{ 'page.collection_empty_hint'|trans }}</p>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+</div>
+{% endblock %}

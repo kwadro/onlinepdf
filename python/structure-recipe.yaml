@@ -45,3 +45,9 @@ groups:
       model_namespace: 'Kwadro\UserSubscription\Model'
       controller_namespace: 'App\Controller\Admin'
       controller_root: src/Controller/Admin
+  planner:
+    translate:
+      link:
+        uk: Планування
+        en: Planning
+    entities_dir: recipes/planner

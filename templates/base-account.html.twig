@@ -74,6 +74,16 @@
         </div>
         <div class="column-right"  data-controller="scroll">
             <div class="content" id="rightContent">
+                {% if breadcrumbs is defined and breadcrumbs|length > 0 %}
+                    {% set page_breadcrumbs_items = breadcrumbs %}
+                {% else %}
+                    {% set page_breadcrumbs_items = page_breadcrumbs|default([]) %}
+                {% endif %}
+                {% if page_breadcrumbs_items is not empty %}
+                    <div class="layout-breadcrumbs">
+                        {% include 'partials/page-breadcrumbs.html.twig' with { breadcrumbs: page_breadcrumbs_items } %}
+                    </div>
+                {% endif %}
                 {% block main %}
                 {% endblock %}
 

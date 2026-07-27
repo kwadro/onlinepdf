@@ -12,14 +12,23 @@ export function measureLayoutBodyHeight(rightContentId = 'rightContent') {
     );
     const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--layout-chrome-gap')) || 16;
     const chromeHeight = footerHeight + headerHeight + (gap * 2);
+    const contentHeight = Math.max(
+        rightContent.offsetHeight,
+        rightContent.scrollHeight,
+    );
 
     document.documentElement.style.setProperty('--footer-height', `${footerHeight}px`);
     document.documentElement.style.setProperty('--header-height', `${headerHeight}px`);
-    document.body.style.height = `${rightContent.offsetHeight + chromeHeight}px`;
+    document.body.style.height = `${contentHeight + chromeHeight}px`;
 
     return {
         footerHeight,
         headerHeight,
         chromeHeight,
+        contentHeight,
     };
+}
+
+export function requestLayoutRemeasure() {
+    window.dispatchEvent(new CustomEvent('layout:remeasure'));
 }

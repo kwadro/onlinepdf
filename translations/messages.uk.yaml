@@ -37,6 +37,14 @@ PDF Editor: Редактор PDF
 Contact: Контакт
 About: Про проект
 Home: Головна
+page.breadcrumb: 'Навігаційний ланцюжок'
+Search: 'Пошук'
+Privacy Policy: 'Політика конфіденційності'
+My Recipes: 'Мої рецепти'
+Favorite Recipe: 'Улюблені рецепти'
+page.collection_subcategory_one: 'підкатегорія'
+page.collection_subcategory_many: 'підкатегорії'
+page.collection_empty_hint: 'Спробуйте обрати іншу категорію або переглянути весь каталог.'
 About the Project: Про проект
 page.about_intro: 'Дізнайтеся більше про наш проєкт, місію та можливості платформи рецептів.'
 page.contact_intro: 'Маєте питання чи пропозицію? Напишіть нам — ми відповімо найближчим часом.'
@@ -48,6 +56,12 @@ Your fast and free online PDF editor.: Швидкий і безкоштовни�
 This project aims to create a modern and user-friendly PDF editor. Users will be able to add and edit text, insert images, draw shapes, sign documents, and save changes directly to PDF files in their browser.: 'Цей проєкт має на меті створення сучасного та інтуїтивно зрозумілого редактора PDF-файлів. Користувачі зможуть додавати, редагувати текст, вставляти зображення, форми, підписи та зберігати зміни у PDF-документі прямо у браузері.'
 Register: Зареєструвати акаунт
 Login: Вхід
+auth.login_intro: 'Увійдіть до акаунта, щоб зберігати події та керувати рецептами.'
+auth.register_intro: 'Створіть акаунт, щоб користуватися святковим столом та іншими можливостями.'
+auth.logged_in_as: 'Ви вже увійшли як %email%.'
+First name: "Ім'я"
+Last name: 'Прізвище'
+Register with Facebook: 'Продовжити з Facebook'
 Admin Panel: Панель Адміністратора
 Email: Email
 Message: Повідомлення
@@ -180,12 +194,20 @@ Subject: Тема
 Body Html: Html Листа
 Received At: Отримано
 Is Seen: Прочитано
+menu.group_planner: Планування
+menu.link_holidaytable_single: Святковий стіл
+menu.link_holidaytable: Святкові столи
+Guest Count: Кількість Гостей
+Men Count: Чоловіків
+Women Count: Жінок
+menu.link_holidaytablerecipe_single: Страва святкового столу
+menu.link_holidaytablerecipe: Страви святкового столу
 #@GENERATE TRANSLATE FINISH
 Please sign in: 'Будь ласка увійдіть'
 Sign in with Google: 'Продовжити з Google'
 Google Logo: 'Google лого'
 Sign in: 'Увійти'
-Remember me: 'Запамятати мене'
+Remember me: "Запам'ятати мене"
 Logout: 'Вийти'
 Registration: 'Зареєструвавати акаунт'
 Recipes of category: 'Рецепти категорії'
@@ -243,6 +265,16 @@ page.recipe_editor_title: 'Редагування рецепта'
 page.recipe_editor_subtitle: 'Заповніть поля нижче та збережіть зміни.'
 page.recipe_editor_main: 'Основна інформація'
 page.recipe_editor_notes: 'Нотатки'
+page.facebook_recipe_title: 'Facebook-публікація'
+page.facebook_recipe_subtitle: 'Налаштування поста для Facebook'
+page.facebook_recipe_tabs: 'Розділи Facebook-публікації'
+page.facebook_image_fields: 'Текст на зображенні'
+page.facebook_text_fields: 'Текст поста'
+page.facebook_preview: 'Попередній перегляд'
+page.facebook_image_hint: 'Зміни застосовуються до зображення автоматично після збереження поля.'
+page.facebook_text_hint: 'Текст поста та хештеги для публікації у Facebook.'
+page.facebook_back_to_recipe: 'До редактора рецепта'
+Text: Текст
 page.recently_viewed_list: 'Нещодавно переглянуті рецепти'
 page.recently_empty_title: 'Ви не переглянули жодного рецепту.'
 page.recently_empty_hint: 'Переглядайте рецепти — і вони зʼявляться тут для швидкого доступу.'
@@ -258,8 +290,8 @@ Share: 'Поділитися'
 To start creating a recipe collection, please: 'Щоб розпочати створення колекції рецептів, будь ласка'
 OR: 'АБО'
 or: 'або'
-If you have an account?: 'Якщо маєте акаунт?'
-If you haven't an account?: "Якщо не маєте акаунта?"
+If you have an account?: 'Вже маєте акаунт?'
+If you haven't an account?: 'Ще немає акаунта?'
 registered: 'зареєструтесь'
 sign in: 'увійдіть'
 You don't have any recipes yet: "Ви ще не маєте рецептів."
@@ -343,6 +375,47 @@ subscription.continue_payment: 'Перейти до оплати'
 subscription.cancel_pending: 'Скасувати оплату'
 subscription.pending_cancelled: 'Спробу оплати скасовано.'
 subscription.pending_keeps_current_plan: 'Поточний план залишається активним, доки оплата не буде підтверджена.'
+holiday_table.title: 'Святковий стіл'
+holiday_table.intro: 'Оберіть кількість гостей, страви для свята та розрахуйте список продуктів.'
+holiday_table.form_title: 'Планування святкового столу'
+holiday_table.event_name: 'Назва події'
+holiday_table.event_date: 'Дата події'
+holiday_table.guest_count: 'Кількість людей на святі'
+holiday_table.guests_required: 'Вкажіть хоча б одного гостя — чоловіка або жінку.'
+holiday_table.men_count: 'Чоловіків'
+holiday_table.women_count: 'Жінок'
+holiday_table.recipes: 'Страви для свята'
+holiday_table.recipes_hint: 'Знайдіть рецепт у каталозі праворуч і додайте його до списку страв для свята.'
+holiday_table.recipes_selected: 'Обрані страви'
+holiday_table.recipes_picker: 'Каталог рецептів'
+holiday_table.recipes_search: 'Пошук рецепта...'
+holiday_table.recipes_add: 'Додати до списку'
+holiday_table.recipes_remove: 'Прибрати зі списку'
+holiday_table.recipes_empty: 'Ще не обрано жодної страви. Знайдіть рецепт у каталозі та натисніть «Додати до списку».'
+holiday_table.recipes_no_results: 'Рецептів не знайдено.'
+holiday_table.recipes_required: 'Оберіть хоча б одну страву.'
+holiday_table.calculate: 'Розрахувати продукти'
+holiday_table.save: 'Зберегти подію'
+holiday_table.saved_success: 'Подію збережено у вашому акаунті.'
+holiday_table.save_login_required: 'Увійдіть у акаунт, щоб зберегти подію.'
+holiday_table.events_title: 'Ваші події'
+holiday_table.events_hint: 'Оберіть збережену подію або створіть нову. Форма з’явиться після вибору.'
+holiday_table.events_search: 'Пошук події...'
+holiday_table.events_empty: 'У вас ще немає збережених подій. Створіть першу подію.'
+holiday_table.events_create: 'Створити нову подію'
+holiday_table.events_no_results: 'Подій не знайдено.'
+holiday_table.events_meta: '%date% · %guests% гостей · %recipes% страв'
+holiday_table.back_to_events: 'Назад до списку подій'
+holiday_table.form_mode_edit: 'Редагування події'
+holiday_table.form_mode_create: 'Нова подія'
+holiday_table.loading_event: 'Не вдалося завантажити подію.'
+holiday_table.results_meta: 'Гості: %guests% · Порції: %portions% · Страви: %recipes%'
+holiday_table.results_title: 'Необхідні продукти'
+holiday_table.product: 'Продукт'
+holiday_table.quantity: 'Кількість'
+holiday_table.unit: 'Одиниця'
+holiday_table.used_in: 'У стравах'
+holiday_table.unavailable: 'Сторінка тимчасово недоступна.'
 menu:
     email_group_all: 'Всі в групі'
     email_all_messages: 'Всі листи'
