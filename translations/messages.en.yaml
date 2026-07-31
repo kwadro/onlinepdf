@@ -281,6 +281,11 @@ page.facebook_preview: 'Preview'
 page.facebook_image_hint: 'Changes are applied to the image automatically after each field is saved.'
 page.facebook_text_hint: 'Post copy and hashtags for your Facebook publication.'
 page.facebook_back_to_recipe: 'Back to recipe editor'
+page.facebook_design_title: 'Image layout'
+page.facebook_design_classic: 'Classic'
+page.facebook_design_classic_hint: 'Text on the left, photo on the right, warm background.'
+page.facebook_design_modern: 'Modern'
+page.facebook_design_modern_hint: 'Photo on the left, text on the right, green accents.'
 Text: Text
 page.recently_viewed_list: 'Recently viewed recipes'
 page.recently_empty_title: "You haven't viewed any recipes yet."

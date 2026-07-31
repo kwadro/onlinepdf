@@ -1,6 +1,7 @@
 {% set setting = site_settings() %}
 {% set recipeTranslation = recipe.recipetranslations[0] %}
 {% set recipeName = recipeTranslation.name|default('page.facebook_recipe_subtitle'|trans) %}
+{% set currentTemplate = form.template.vars.value|default(1) %}
 
 {% extends 'base-account.html.twig' %}
 
@@ -10,6 +11,9 @@
 <div
     class="page-content page-content--facebook-recipe recipe-facebook-page"
     data-controller="facebook-recipe"
+    data-facebook-recipe-autosave-url-value="{{ path('recipe_autosave', {_locale: app.request.locale}) }}"
+    data-facebook-recipe-locale-value="{{ app.request.locale }}"
+    data-facebook-recipe-site-value="{{ app.request.attributes.get('site').id }}"
 >
     {{ form_start(form, {
         attr: {
@@ -94,6 +98,44 @@
             data-facebook-recipe-target="imagePanel"
         >
             <div class="row g-3">
+                <div class="col-12">
+                    <section class="page-card recipe-facebook-page__design">
+                        <div class="home-section__head">
+                            <h2 class="home-section__title">{{ 'page.facebook_design_title'|trans }}</h2>
+                        </div>
+                        <div class="recipe-facebook-design-grid">
+                            <button
+                                type="button"
+                                class="recipe-facebook-design-card {{ currentTemplate == 1 ? 'is-active' : '' }}"
+                                data-template="1"
+                                data-facebook-recipe-target="designOption"
+                                data-action="facebook-recipe#selectDesign"
+                            >
+                                <span class="recipe-facebook-design-card__preview recipe-facebook-design-card__preview--classic" aria-hidden="true">
+                                    <span class="recipe-facebook-design-card__preview-text"></span>
+                                    <span class="recipe-facebook-design-card__preview-image"></span>
+                                </span>
+                                <span class="recipe-facebook-design-card__label">{{ 'page.facebook_design_classic'|trans }}</span>
+                                <span class="recipe-facebook-design-card__hint">{{ 'page.facebook_design_classic_hint'|trans }}</span>
+                            </button>
+                            <button
+                                type="button"
+                                class="recipe-facebook-design-card {{ currentTemplate == 2 ? 'is-active' : '' }}"
+                                data-template="2"
+                                data-facebook-recipe-target="designOption"
+                                data-action="facebook-recipe#selectDesign"
+                            >
+                                <span class="recipe-facebook-design-card__preview recipe-facebook-design-card__preview--modern" aria-hidden="true">
+                                    <span class="recipe-facebook-design-card__preview-image"></span>
+                                    <span class="recipe-facebook-design-card__preview-text"></span>
+                                </span>
+                                <span class="recipe-facebook-design-card__label">{{ 'page.facebook_design_modern'|trans }}</span>
+                                <span class="recipe-facebook-design-card__hint">{{ 'page.facebook_design_modern_hint'|trans }}</span>
+                            </button>
+                        </div>
+                        {{ form_widget(form.template) }}
+                    </section>
+                </div>
                 <div class="col-12 col-xl-4">
                     <section class="page-card recipe-facebook-page__fields">
                         <div class="home-section__head">
@@ -146,9 +188,11 @@
                 <div class="home-section__head">
                     <h2 class="home-section__title">{{ 'page.facebook_text_fields'|trans }}</h2>
                 </div>
-                <div class="recipe-facebook-page__field-list">
+                <div class="recipe-facebook-page__field-list recipe-facebook-page__field-list--text">
                     {{ form_row(form.text_post) }}
-                    {{ form_row(form.tag) }}
+                    <div class="recipe-facebook-page__tag-field">
+                        {{ form_row(form.tag) }}
+                    </div>
                 </div>
                 <p class="recipe-facebook-page__hint">{{ 'page.facebook_text_hint'|trans }}</p>
             </section>

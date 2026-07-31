@@ -83,6 +83,10 @@ export default class extends Controller {
     }
 
     animateResize() {
+        if (this.textarea.tagName !== 'TEXTAREA') {
+            return;
+        }
+
         this.textarea.style.transition = 'height 0.15s ease';
         this.textarea.style.height = 'auto';
         this.textarea.style.height = `${this.textarea.scrollHeight}px`;

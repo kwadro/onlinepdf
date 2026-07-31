@@ -404,7 +404,11 @@ class AccountController extends AbstractController
                         'site' => $site->getId(),
                         'locale' => $locale->getId()
                     ]);
-                $facebookSetting->$method($value);
+                if ($field === 'template') {
+                    $facebookSetting->setTemplate((int) $value);
+                } else {
+                    $facebookSetting->$method($value);
+                }
                 $entityManager->persist($facebookSetting);
                 $entityManager->flush();
 

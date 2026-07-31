@@ -45,12 +45,11 @@ class FacebookSettingType extends AbstractType
                     'attr' => [
                         'data-controller' => 'smarttextarea',
                         'data-smarttextarea-autosave-url-value' => '/' . $localeCode . '/recipe/autosave',
-                        'class' => 'form-control text-sm field-title',
+                        'class' => 'form-control field-tag',
                         'maxlength' => 100,
                         'field' => 'facebook-tag',
                         'locale' => $localeCode,
                         'site' => $site,
-                        'rows' => '1'
                     ]
                 ]
             )
@@ -172,7 +171,14 @@ class FacebookSettingType extends AbstractType
                         'rows' => '1'
                     ]
                 ]
-            );
+            )
+            ->add('template', HiddenType::class, [
+                'required' => false,
+                'empty_data' => '1',
+                'attr' => [
+                    'data-facebook-recipe-target' => 'templateInput',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
