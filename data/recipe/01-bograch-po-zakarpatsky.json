@@ -1,0 +1,243 @@
+{
+    "schema_version": 1,
+    "site": "www.kwadro.com.ua",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "bograch-po-zakarpatsky",
+            "position": 5,
+            "prep_time_min": 30,
+            "cook_time_min": 150,
+            "servings": 6,
+            "image": "bograch-po-zakarpatsky.png",
+            "categories": [
+                "Перші страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Бограч по-закарпатськи",
+                    "slug": "bograch-po-zakarpatsky",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Бограч по-закарпатськи — традиційний закарпатський рецепт",
+                    "meta_description": "Справжній закарпатський бограч з яловичиною, свининою, паприкою та овочами.",
+                    "short_description": "Густий традиційний закарпатський суп-гуляш.",
+                    "description": "Бограч — традиційна закарпатська страва, яку готують у казані.",
+                    "cuisine": "Українська (закарпатська)",
+                    "notes": "Найкраще смакує наступного дня.",
+                    "facebook_image": "bograch-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+                    "group_components": [
+                        {
+                            "name": "М'ясо",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Яловичина",
+                                    "unit": "г.",
+                                    "quantity": 600
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Свинина",
+                                    "unit": "г.",
+                                    "quantity": 400
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Сало",
+                                    "unit": "г.",
+                                    "quantity": 100
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Овочі",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Картопля",
+                                    "unit": "г.",
+                                    "quantity": 700
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Морква",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Перець солодкий",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Часник",
+                                    "unit": "зуб.",
+                                    "quantity": 5
+                                },
+                                {
+                                    "position": 6,
+                                    "ingredient": "Томатна паста",
+                                    "unit": "г.",
+                                    "quantity": 70
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Спеції",
+                            "position": 3,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Паприка мелена",
+                                    "unit": "ст. л.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Кмин",
+                                    "unit": "ч. л.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Перець чорний",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        }
+                    ],
+                    "steps": [
+                        {
+                            "name": "Крок 1",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Нарізати всі види м'яса великими кубиками та обсушити.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 2",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Розтопити сало у казані.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 3",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Обсмажити м'ясо до рум'яної скоринки.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 4",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Додати нарізану цибулю та готувати до прозорості.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 5",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Всипати паприку, швидко перемішати.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 6",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Додати томатну пасту та трохи води.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 7",
+                            "position": 7,
+                            "question": null,
+                            "answer": "Тушкувати під кришкою 40 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 8",
+                            "position": 8,
+                            "question": null,
+                            "answer": "Додати моркву та перець.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 9",
+                            "position": 9,
+                            "question": null,
+                            "answer": "Долити гарячу воду або бульйон.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 10",
+                            "position": 10,
+                            "question": null,
+                            "answer": "Додати картоплю великими шматками.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 11",
+                            "position": 11,
+                            "question": null,
+                            "answer": "Приправити кмином, сіллю та перцем.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 12",
+                            "position": 12,
+                            "question": null,
+                            "answer": "Варити до м'якості картоплі.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 13",
+                            "position": 13,
+                            "question": null,
+                            "answer": "Додати подрібнений часник.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 14",
+                            "position": 14,
+                            "question": null,
+                            "answer": "Настояти 15 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 15",
+                            "position": 15,
+                            "question": null,
+                            "answer": "Подавати зі свіжим хлібом.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+
+}

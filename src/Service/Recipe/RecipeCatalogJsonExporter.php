@@ -53,7 +53,7 @@ final class RecipeCatalogJsonExporter
         $payload = [
             'schema_version' => 1,
             'site' => $siteDomain,
-            'recipes' => array_map(fn (Recipe $recipe) => $this->exportRecipe($recipe), $recipes),
+            'recipes' => array_map(fn(Recipe $recipe) => $this->exportRecipe($recipe), $recipes),
         ];
 
         if ($includeReferenceData) {
@@ -63,8 +63,12 @@ final class RecipeCatalogJsonExporter
         return $payload;
     }
 
-    public function exportToFile(string $filePath, string $siteDomain, ?array $recipeIds = null, bool $includeReferenceData = true): void
-    {
+    public function exportToFile(
+        string $filePath,
+        string $siteDomain,
+        ?array $recipeIds = null,
+        bool $includeReferenceData = true
+    ): void {
         $payload = $this->export($siteDomain, $recipeIds, $includeReferenceData);
         $json = json_encode($payload, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR);
 
@@ -106,7 +110,10 @@ final class RecipeCatalogJsonExporter
             ];
         }
 
-        foreach ($this->entityManager->getRepository(RecipeCategory::class)->findBy([], ['position' => 'ASC']) as $category) {
+        foreach (
+            $this->entityManager->getRepository(RecipeCategory::class)->findBy([], ['position' => 'ASC']
+            ) as $category
+        ) {
             if (!$category instanceof RecipeCategory) {
                 continue;
             }
@@ -142,14 +149,21 @@ final class RecipeCatalogJsonExporter
             'cook_time_min' => $recipe->getCookTimeMin(),
             'servings' => $recipe->getServings(),
             'image' => $recipe->getImage(),
-            'categories' => array_values(array_map(
-                static fn (RecipeCategory $category) => (string) $category->getName(),
-                $recipe->getRecipecategorys()?->toArray() ?? [],
-            )),
-            'translations' => array_values(array_map(
-                fn (RecipeTranslation $translation) => $this->exportTranslation($translation),
-                $recipe->getRecipetranslations()?->toArray() ?? [],
-            )),
+            'categories' => array_values(
+                array_map(
+                    static fn(RecipeCategory $category) => [
+                        'id' => (int)$category->getId(),
+                        'name' => (string)$category->getName(),
+                    ],
+                    $recipe->getRecipecategorys()?->toArray() ?? [],
+                )
+            ),
+            'translations' => array_values(
+                array_map(
+                    fn(RecipeTranslation $translation) => $this->exportTranslation($translation),
+                    $recipe->getRecipetranslations()?->toArray() ?? [],
+                )
+            ),
         ];
     }
 
@@ -161,6 +175,7 @@ final class RecipeCatalogJsonExporter
         $locale = $translation->getLocale();
 
         return [
+            'id' => $translation->getId(),
             'locale' => $locale?->getCode() ?? $locale?->getName(),
             'name' => $translation->getName(),
             'slug' => $translation->getSlug(),
@@ -176,14 +191,18 @@ final class RecipeCatalogJsonExporter
             'notes' => $translation->getNotes(),
             'facebook_image' => $translation->getFacebookImage(),
             'author_email' => $translation->getUser()?->getEmail(),
-            'group_components' => array_values(array_map(
-                fn (GroupComponent $group) => $this->exportGroupComponent($group),
-                $translation->getGroupcomponents()?->toArray() ?? [],
-            )),
-            'steps' => array_values(array_map(
-                fn (RecipeStep $step) => $this->exportStep($step),
-                $translation->getRecipesteps()?->toArray() ?? [],
-            )),
+            'group_components' => array_values(
+                array_map(
+                    fn(GroupComponent $group) => $this->exportGroupComponent($group),
+                    $translation->getGroupcomponents()?->toArray() ?? [],
+                )
+            ),
+            'steps' => array_values(
+                array_map(
+                    fn(RecipeStep $step) => $this->exportStep($step),
+                    $translation->getRecipesteps()?->toArray() ?? [],
+                )
+            ),
         ];
     }
 
@@ -193,12 +212,15 @@ final class RecipeCatalogJsonExporter
     private function exportGroupComponent(GroupComponent $group): array
     {
         return [
+            'id' => $group->getId(),
             'name' => $group->getName(),
             'position' => $group->getPosition(),
-            'components' => array_values(array_map(
-                fn (Component $component) => $this->exportComponent($component),
-                $group->getComponents()?->toArray() ?? [],
-            )),
+            'components' => array_values(
+                array_map(
+                    fn(Component $component) => $this->exportComponent($component),
+                    $group->getComponents()?->toArray() ?? [],
+                )
+            ),
         ];
     }
 
@@ -208,6 +230,7 @@ final class RecipeCatalogJsonExporter
     private function exportComponent(Component $component): array
     {
         return [
+            'id' => $component->getId(),
             'position' => $component->getPosition(),
             'ingredient' => $component->getIngredient()?->getName(),
             'unit' => $component->getUnit()?->getShortName(),
@@ -221,6 +244,7 @@ final class RecipeCatalogJsonExporter
     private function exportStep(RecipeStep $step): array
     {
         return [
+            'id' => $step->getId(),
             'name' => $step->getName(),
             'position' => $step->getPosition(),
             'question' => $step->getQuestion(),

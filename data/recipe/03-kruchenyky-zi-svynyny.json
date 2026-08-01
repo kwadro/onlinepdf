@@ -1,0 +1,223 @@
+{
+    "schema_version": 1,
+    "site": "www.kwadro.com.ua",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "kruchenyky-zi-svynyny",
+            "position": 7,
+            "prep_time_min": 35,
+            "cook_time_min": 70,
+            "servings": 6,
+            "image": "kruchenyky-zi-svynyny.png",
+            "categories": [
+                "Другі страви",
+                "Українська кухня"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Крученики зі свинини",
+                    "slug": "kruchenyky-zi-svynyny",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Крученики зі свинини — традиційний український рецепт",
+                    "meta_description": "Соковиті крученики зі свинини з грибною начинкою у ніжному соусі.",
+                    "short_description": "Домашні свинячі рулетики з грибами та цибулею.",
+                    "description": "Крученики — класична українська страва зі свинини, фарширована ароматною начинкою.",
+                    "cuisine": "Українська",
+                    "notes": "Після обсмажування обов'язково тушкуйте крученики для максимальної соковитості.",
+                    "facebook_image": "kruchenyky-facebook-post.png",
+                    "author_email": "kwadro2010@gmail.com",
+                    "group_components": [
+                        {
+                            "name": "М'ясо",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Свиняча корейка",
+                                    "unit": "г.",
+                                    "quantity": 900
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Перець чорний",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Начинка",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Печериці",
+                                    "unit": "г.",
+                                    "quantity": 300
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Вершкове масло",
+                                    "unit": "г.",
+                                    "quantity": 40
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Соус",
+                            "position": 3,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Сметана",
+                                    "unit": "г.",
+                                    "quantity": 250
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Борошно",
+                                    "unit": "ст. л.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Вода",
+                                    "unit": "мл.",
+                                    "quantity": 250
+                                }
+                            ]
+                        }
+                    ],
+                    "steps": [
+                        {
+                            "name": "Крок 1",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Нарізати свинину порційними шматками товщиною приблизно 1 см.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 2",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Добре відбити кожен шматок через харчову плівку.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 3",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Посолити та поперчити м'ясо з обох боків.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 4",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Дрібно нарізати цибулю.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 5",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Нарізати печериці маленькими кубиками.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 6",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Розтопити вершкове масло на сковороді.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 7",
+                            "position": 7,
+                            "question": null,
+                            "answer": "Обсмажити цибулю до прозорості.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 8",
+                            "position": 8,
+                            "question": null,
+                            "answer": "Додати гриби та смажити до випаровування рідини.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 9",
+                            "position": 9,
+                            "question": null,
+                            "answer": "Охолодити начинку.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 10",
+                            "position": 10,
+                            "question": null,
+                            "answer": "Викласти начинку на кожен шматок м'яса.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 11",
+                            "position": 11,
+                            "question": null,
+                            "answer": "Щільно згорнути рулетики та закріпити зубочистками.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 12",
+                            "position": 12,
+                            "question": null,
+                            "answer": "Обсмажити крученики до золотистої скоринки.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 13",
+                            "position": 13,
+                            "question": null,
+                            "answer": "Змішати сметану, воду та борошно до однорідності.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 14",
+                            "position": 14,
+                            "question": null,
+                            "answer": "Залити соусом, накрити кришкою та тушкувати 40 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 15",
+                            "position": 15,
+                            "question": null,
+                            "answer": "Перед подачею видалити зубочистки та прикрасити зеленню.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [],
+        "ingredients": []
+    }
+}

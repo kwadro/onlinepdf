@@ -1,0 +1,228 @@
+{
+    "schema_version": 1,
+    "site": "www.kwadro.com.ua",
+    "recipes": [
+        {
+            "id": 0,
+            "external_key": "poltavski-halushky",
+            "position": 6,
+            "prep_time_min": 25,
+            "cook_time_min": 45,
+            "servings": 6,
+            "image": "poltavski-halushky.png",
+            "categories": [
+                "Другі страви"
+            ],
+            "translations": [
+                {
+                    "locale": "uk",
+                    "name": "Полтавські галушки",
+                    "slug": "poltavski-halushky",
+                    "is_active": "Yes",
+                    "publish": "Yes",
+                    "confirmation": "Yes",
+                    "is_popular": "Yes",
+                    "meta_title": "Полтавські галушки — класичний рецепт",
+                    "meta_description": "Традиційні полтавські галушки з куркою та засмажкою.",
+                    "short_description": "Пухкі домашні галушки з ніжним м'ясом та цибулевою засмажкою.",
+                    "description": "Полтавські галушки — одна з найвідоміших українських страв.",
+                    "cuisine": "Українська (Полтавська)",
+                    "notes": "Тісто має бути м'яким, але не липким.",
+                    "facebook_image": "poltavski-halushky-facebook.png",
+                    "author_email": "kwadro2010@gmail.com",
+                    "group_components": [
+                        {
+                            "name": "Для тіста",
+                            "position": 1,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Борошно пшеничне",
+                                    "unit": "г.",
+                                    "quantity": 500
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Яйце",
+                                    "unit": "шт.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Кефір",
+                                    "unit": "мл.",
+                                    "quantity": 250
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Сода",
+                                    "unit": "ч. л.",
+                                    "quantity": 1
+                                },
+                                {
+                                    "position": 5,
+                                    "ingredient": "Сіль",
+                                    "unit": "за смаком",
+                                    "quantity": 1
+                                }
+                            ]
+                        },
+                        {
+                            "name": "Для подачі",
+                            "position": 2,
+                            "components": [
+                                {
+                                    "position": 1,
+                                    "ingredient": "Куряче філе",
+                                    "unit": "г.",
+                                    "quantity": 500
+                                },
+                                {
+                                    "position": 2,
+                                    "ingredient": "Цибуля",
+                                    "unit": "шт.",
+                                    "quantity": 2
+                                },
+                                {
+                                    "position": 3,
+                                    "ingredient": "Вершкове масло",
+                                    "unit": "г.",
+                                    "quantity": 50
+                                },
+                                {
+                                    "position": 4,
+                                    "ingredient": "Петрушка",
+                                    "unit": "г.",
+                                    "quantity": 20
+                                }
+                            ]
+                        }
+                    ],
+                    "steps": [
+                        {
+                            "name": "Крок 1",
+                            "position": 1,
+                            "question": null,
+                            "answer": "Просіяти борошно у велику миску.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 2",
+                            "position": 2,
+                            "question": null,
+                            "answer": "Змішати кефір із содою та залишити на 5 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 3",
+                            "position": 3,
+                            "question": null,
+                            "answer": "Додати яйце, сіль і перемішати.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 4",
+                            "position": 4,
+                            "question": null,
+                            "answer": "Поступово всипати борошно та замісити м'яке тісто.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 5",
+                            "position": 5,
+                            "question": null,
+                            "answer": "Накрити тісто рушником на 15 хвилин.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 6",
+                            "position": 6,
+                            "question": null,
+                            "answer": "Закип'ятити підсолену воду.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 7",
+                            "position": 7,
+                            "question": null,
+                            "answer": "Розкачати тісто товщиною близько 1,5 см.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 8",
+                            "position": 8,
+                            "question": null,
+                            "answer": "Нарізати ромбами або квадратами.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 9",
+                            "position": 9,
+                            "question": null,
+                            "answer": "Опускати галушки невеликими порціями у киплячу воду.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 10",
+                            "position": 10,
+                            "question": null,
+                            "answer": "Варити 3–4 хвилини після спливання.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 11",
+                            "position": 11,
+                            "question": null,
+                            "answer": "Окремо відварити або обсмажити куряче філе та нарізати шматочками.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 12",
+                            "position": 12,
+                            "question": null,
+                            "answer": "Обсмажити цибулю на вершковому маслі до золотистого кольору.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 13",
+                            "position": 13,
+                            "question": null,
+                            "answer": "Змішати галушки з куркою та засмажкою.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 14",
+                            "position": 14,
+                            "question": null,
+                            "answer": "Посипати дрібно нарізаною петрушкою.",
+                            "image": null
+                        },
+                        {
+                            "name": "Крок 15",
+                            "position": 15,
+                            "question": null,
+                            "answer": "Подавати гарячими зі сметаною.",
+                            "image": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "reference_data": {
+        "units": [
+            {
+                "name": "грам",
+                "short_name": "г."
+            },
+            {
+                "name": "мілілітри",
+                "short_name": "мл."
+            },
+            {
+                "name": "штук",
+                "short_name": "шт."
+            }
+        ]
+    }
+}
