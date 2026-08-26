@@ -9,6 +9,7 @@ use App\Entity\HolidayTableRecipe;
 use App\Entity\User;
 use App\Form\HolidayTableFormType;
 use App\Repository\HolidayTableRepository;
+use App\Repository\HolidayTableServiceRepository;
 use App\Repository\RecipeServiceRepository;
 use App\Service\HolidayTableProductCalculator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -31,7 +32,7 @@ class HolidayTableController extends AbstractController
     public function index(
         Request $request,
         RecipeServiceRepository $recipeServiceRepository,
-        HolidayTableRepository $holidayTableRepository,
+        HolidayTableServiceRepository $holidayTableRepository,
     ): Response {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
@@ -103,7 +104,7 @@ class HolidayTableController extends AbstractController
     public function loadEvent(
         int $id,
         Request $request,
-        HolidayTableRepository $holidayTableRepository,
+        HolidayTableServiceRepository $holidayTableRepository,
     ): JsonResponse {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
@@ -170,7 +171,7 @@ class HolidayTableController extends AbstractController
         Request $request,
         RecipeServiceRepository $recipeServiceRepository,
         EntityManagerInterface $entityManager,
-        HolidayTableRepository $holidayTableRepository,
+        HolidayTableServiceRepository $holidayTableRepository,
     ): JsonResponse {
         $site = $request->attributes->get('site');
         $localeObject = $request->attributes->get('localeObject');
