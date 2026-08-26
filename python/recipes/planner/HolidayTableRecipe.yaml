@@ -1,0 +1,22 @@
+translate:
+  link:
+    uk: Страви святкового столу
+    uk_single: Страва святкового столу
+    en: Holiday Table Recipes
+    en_single: Holiday Table Recipe
+disable_import: true
+fields:
+  - name: id
+    type: integer
+    id: true
+  - name: holidaytable
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: HolidayTable
+    inversedBy: holidaytablerecipes
+  - name: recipe
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: Recipe
+  - name: position
+    type: integer

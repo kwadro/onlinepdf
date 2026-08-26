@@ -111,6 +111,8 @@ menu.link_groupcomponent_single: Group of Components
 menu.link_groupcomponent: Groups of Components
 menu.link_ingredient_single: Ingredient
 menu.link_ingredient: Ingredients
+menu.link_product_single: Product
+menu.link_product: Products
 menu.link_recipe_single: Recipe
 menu.link_recipe: Recipes
 Prep Time Min: Prep Time Min
@@ -208,6 +210,8 @@ menu.group_planner: Planning
 menu.link_holidaytable_single: Holiday Table
 menu.link_holidaytable: Holiday Tables
 Guest Count: Guest Count
+Event Name: Event Name
+Event Date: Event Date
 Men Count: Men Count
 Women Count: Women Count
 menu.link_holidaytablerecipe_single: Holiday Table Recipe

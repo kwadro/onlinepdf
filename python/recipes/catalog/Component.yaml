@@ -22,6 +22,10 @@ fields:
   inversedBy: components
   typeInput: addNew
   formSetting: name|name,sku
+- name: quantity
+  type: integer
+- name: textunit
+  type: string
 - name: unit
   type: relation
   objectRelation: Unit
@@ -29,9 +33,7 @@ fields:
   roleRelation: master
   inversedBy: components
   typeInput: addNew
-  formSetting: name|name
-- name: quantity
-  type: integer
+  formSetting: name|name,short_name
 - name: groupcomponent
   type: relation
   objectRelation: GroupComponent

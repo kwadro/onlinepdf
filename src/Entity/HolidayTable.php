@@ -18,7 +18,7 @@ use App\Entity\HolidayTableRecipe;
 #[ORM\HasLifecycleCallbacks]
 class HolidayTable
 {
-    use TimeStampAbleTrait;
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
 
@@ -46,11 +46,11 @@ class HolidayTable
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $guest_count;
 
-    #[ORM\Column(type:"string", length:255, nullable:true)]
+    #[ORM\Column(type:"string", nullable:true)]
     private ?string $event_name;
 
-    #[ORM\Column(type:"date_immutable", nullable:true)]
-    private ?\DateTimeImmutable $event_date;
+    #[ORM\Column(type:"datetime", nullable:true)]
+    private ?\DateTimeInterface $event_date;
 
     #[ORM\Column(type:"integer", nullable:true)]
     private ?int $men_count;
@@ -119,11 +119,9 @@ class HolidayTable
     {
         return $this->guest_count;
     }
-
     public function setEventName(?string $event_name): self
     {
         $this->event_name = $event_name;
-
         return $this;
     }
 
@@ -131,19 +129,16 @@ class HolidayTable
     {
         return $this->event_name;
     }
-
-    public function setEventDate(?\DateTimeImmutable $event_date): self
+    public function setEventDate(?\DateTimeInterface $event_date): self
     {
         $this->event_date = $event_date;
-
         return $this;
     }
 
-    public function getEventDate(): ?\DateTimeImmutable
+    public function getEventDate(): ?\DateTimeInterface
     {
         return $this->event_date;
     }
-
     public function setMenCount(?int $men_count): self
     {
         $this->men_count = $men_count;

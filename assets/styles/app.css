@@ -3977,8 +3977,15 @@ body {
     flex-wrap: wrap;
     gap: 0.5rem;
     padding: 0.65rem 2rem 0.65rem 0.65rem;
+    align-items: center;
 }
+.recipe-editor-page .container-recipe-component-item  .container_row1{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    column-gap: 0.5rem;
 
+}
 .recipe-editor-page .container-recipe-step-item {
     background: #fafafa;
     border: 1px solid var(--header-border);
@@ -3987,7 +3994,6 @@ body {
     padding: 0.85rem 2rem 0.85rem 0.85rem;
 }
 
-.recipe-editor-page .recipecomponents,
 .recipe-editor-page .recipesteps {
     padding: 0.5rem 0 0.5rem 1.75rem;
 }
@@ -4063,6 +4069,22 @@ body {
     width: 80px;
 }
 
+.component-unit-display {
+    align-items: center;
+    display: inline-flex;
+    min-width: 72px;
+    padding-top: 20px;
+}
+
+.component-unit-label {
+    color: #4b5563;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+    padding-top: 15px;
+    white-space: nowrap;
+}
+
 .add-step, .add-component {
     border-width: 1px;
     border-radius: 5px;
@@ -4105,7 +4127,7 @@ body {
 }
 
 .recipecomponents {
-    padding: 10px 10px 10px 20px;
+    padding: 5px;
 }
 
 .recipe-step-item,
@@ -4117,7 +4139,7 @@ body {
 }
 
 .recipegroupcomponents button:not(:disabled).drag-handle {
-    left: -29px;
+    left: -40px;
 }
 
 .recipegroupcomponents .recipe-component-item {

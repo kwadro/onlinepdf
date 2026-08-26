@@ -31,6 +31,7 @@ use App\Entity\Component;
 use App\Entity\FacebookSetting;
 use App\Entity\GroupComponent;
 use App\Entity\Ingredient;
+use App\Entity\Product;
 use App\Entity\Recipe;
 use App\Entity\RecipeCategory;
 use App\Entity\RecipeStep;
@@ -135,6 +136,7 @@ yield MenuItem::linkToCrud($this->translator->trans('menu.link_component', [], '
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_facebooksetting', [], 'messages'), 'fas fa-list', Facebooksetting::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_groupcomponent', [], 'messages'), 'fas fa-list', Groupcomponent::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_ingredient', [], 'messages'), 'fas fa-list', Ingredient::class);
+yield MenuItem::linkToCrud($this->translator->trans('menu.link_product', [], 'messages'), 'fas fa-list', Product::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipe', [], 'messages'), 'fas fa-list', Recipe::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipecategory', [], 'messages'), 'fas fa-list', Recipecategory::class);
 yield MenuItem::linkToCrud($this->translator->trans('menu.link_recipestep', [], 'messages'), 'fas fa-list', Recipestep::class);

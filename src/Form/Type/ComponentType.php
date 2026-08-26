@@ -24,6 +24,7 @@ class ComponentType extends AbstractType
         $builder
             ->add('position', IntegerType::class)
             ->add('quantity', IntegerType::class)
+            ->add('textunit', TextType::class)
          ;
     }
 

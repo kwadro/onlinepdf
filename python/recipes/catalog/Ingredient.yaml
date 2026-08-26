@@ -17,12 +17,21 @@ fields:
   isstring: true
 - name: sku
   type: string
-- name: url
-  type: string
-- name: price
-  type: money
+- name: unit
+  type: relation
+  objectRelation: Unit
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: ingredients
+  typeInput: addNew
+  formSetting: name|name
 - name: components
   type: relation
   objectRelation: Component
+  typeRelation: OneToMany
+  mappedBy: ingredient
+- name: products
+  type: relation
+  objectRelation: Product
   typeRelation: OneToMany
   mappedBy: ingredient

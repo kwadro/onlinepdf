@@ -1,0 +1,46 @@
+translate:
+  link:
+    uk: Святкові столи
+    uk_single: Святковий стіл
+    en: Holiday Tables
+    en_single: Holiday Table
+disable_import: true
+fields:
+  - name: id
+    type: integer
+    id: true
+  - name: user
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: User
+  - name: site
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: Site
+  - name: locale
+    type: relation
+    typeRelation: ManyToOne
+    objectRelation: Locale
+  - name: guest_count
+    type: integer
+    name_uk: Кількість гостей
+  - name: event_name
+    type: string
+    name_uk: Назва події
+  - name: event_date
+    type: date
+    isnative: true
+    name_uk: Дата події
+  - name: men_count
+    type: integer
+    name_uk: Чоловіків
+  - name: women_count
+    type: integer
+    name_uk: Жінок
+  - name: holidaytablerecipes
+    isCollectionField: true
+    type: relation
+    typeRelation: OneToMany
+    objectRelation: HolidayTableRecipe
+    mappedBy: holidaytable
+    roleRelation: master

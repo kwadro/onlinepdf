@@ -32,15 +32,18 @@ class Component
             inversedBy: 'components'
     )]
         private ?Ingredient $ingredient;
+
+    #[ORM\Column(type:"integer", nullable:true)]
+    private ?int $quantity;
+
+    #[ORM\Column(type:"string", nullable:true)]
+    private ?string $textunit;
     #[ORM\ManyToOne(
             targetEntity: Unit::class,
             cascade: ['persist'],
             inversedBy: 'components'
     )]
         private ?Unit $unit;
-
-    #[ORM\Column(type:"integer", nullable:true)]
-    private ?int $quantity;
     #[ORM\ManyToOne(
             targetEntity: GroupComponent::class,
             cascade: ['persist'],
@@ -81,16 +84,6 @@ class Component
         $this->ingredient = $ingredient;
         return $this;
     }
-
-    public function getUnit(): ?Unit
-    {
-        return $this->unit;
-    }
-    public function setUnit(?Unit $unit): Component
-    {
-        $this->unit = $unit;
-        return $this;
-    }
     public function setQuantity(?int $quantity): self
     {
         $this->quantity = $quantity;
@@ -100,6 +93,26 @@ class Component
     public function getQuantity(): ?int
     {
         return $this->quantity;
+    }
+    public function setTextunit(?string $textunit): self
+    {
+        $this->textunit = $textunit;
+        return $this;
+    }
+
+    public function getTextunit(): ?string
+    {
+        return $this->textunit;
+    }
+
+    public function getUnit(): ?Unit
+    {
+        return $this->unit;
+    }
+    public function setUnit(?Unit $unit): Component
+    {
+        $this->unit = $unit;
+        return $this;
     }
 
     public function getGroupcomponent(): ?GroupComponent

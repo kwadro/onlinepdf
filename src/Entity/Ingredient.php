@@ -9,7 +9,9 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\IngredientRepository;
+use App\Entity\Unit;
 use App\Entity\Component;
+use App\Entity\Product;
 
 #[ORM\Entity(repositoryClass: IngredientRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -27,12 +29,12 @@ class Ingredient
 
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $sku;
-
-    #[ORM\Column(type:"string", nullable:true)]
-    private ?string $url;
-
-    #[ORM\Column(type:"string", nullable:true)]
-    private ?string $price;
+    #[ORM\ManyToOne(
+            targetEntity: Unit::class,
+            cascade: ['persist'],
+            inversedBy: 'ingredients'
+    )]
+        private ?Unit $unit;
     #[ORM\OneToMany(
         targetEntity: Component::class,
         mappedBy: 'ingredient',
@@ -40,10 +42,18 @@ class Ingredient
         orphanRemoval: false,
     )]
         public ?Collection $components;
+    #[ORM\OneToMany(
+        targetEntity: Product::class,
+        mappedBy: 'ingredient',
+        cascade: ['persist'],
+        orphanRemoval: false,
+    )]
+        public ?Collection $products;
 
     public function __construct()
     {
         $this->components = new ArrayCollection();
+        $this->products = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -79,25 +89,15 @@ class Ingredient
     {
         return $this->sku;
     }
-    public function setUrl(?string $url): self
-    {
-        $this->url = $url;
-        return $this;
-    }
 
-    public function getUrl(): ?string
+    public function getUnit(): ?Unit
     {
-        return $this->url;
+        return $this->unit;
     }
-    public function setPrice(?string $price): self
+    public function setUnit(?Unit $unit): Ingredient
     {
-        $this->price = $price;
+        $this->unit = $unit;
         return $this;
-    }
-
-    public function getPrice(): ?string
-    {
-        return $this->price;
     }
 
     public function addComponent(Component $component): self
@@ -122,6 +122,30 @@ class Ingredient
     public function getComponents(): ?Collection
     {
         return $this->components;
+    }
+
+    public function addProduct(Product $product): self
+    {
+        if(!$this->products->contains($product)) {
+           $this->products[] = $product;
+           $product->setIngredient($this);
+        }
+        return $this;
+    }
+
+    public function removeProduct(Product $product): self
+    {
+        if($this->products->removeElement($product)) {
+           if ($product->getIngredient() === $this) {
+               $product->setIngredient(null);
+           }
+        }
+        return $this;
+    }
+
+    public function getProducts(): ?Collection
+    {
+        return $this->products;
     }
 
 }

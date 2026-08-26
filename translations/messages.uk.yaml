@@ -101,6 +101,8 @@ menu.link_groupcomponent_single: Група Компонентів
 menu.link_groupcomponent: Групи Компонентів
 menu.link_ingredient_single: Інградієнт
 menu.link_ingredient: Інградієнти
+menu.link_product_single: Продукт
+menu.link_product: Продукти
 menu.link_recipe_single: Рецепт
 menu.link_recipe: Рецепти
 Prep Time Min: Час Підготовки
@@ -198,6 +200,8 @@ menu.group_planner: Планування
 menu.link_holidaytable_single: Святковий стіл
 menu.link_holidaytable: Святкові столи
 Guest Count: Кількість Гостей
+Event Name: Назва Події
+Event Date: Дата Події
 Men Count: Чоловіків
 Women Count: Жінок
 menu.link_holidaytablerecipe_single: Страва святкового столу

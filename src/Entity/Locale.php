@@ -287,22 +287,20 @@ class Locale
 
     public function addRecipeTranslation(RecipeTranslation $recipetranslation): self
     {
-        if (!$this->recipelocales->contains($recipetranslation)) {
-            $this->recipelocales[] = $recipetranslation;
-            $recipetranslation->setLocale($this);
+        if(!$this->recipelocales->contains($recipetranslation)) {
+           $this->recipelocales[] = $recipetranslation;
+           $recipetranslation->setLocale($this);
         }
-
         return $this;
     }
 
     public function removeRecipeTranslation(RecipeTranslation $recipetranslation): self
     {
-        if ($this->recipelocales->removeElement($recipetranslation)) {
-            if ($recipetranslation->getLocale() === $this) {
-                $recipetranslation->setLocale(null);
-            }
+        if($this->recipelocales->removeElement($recipetranslation)) {
+           if ($recipetranslation->getLocale() === $this) {
+               $recipetranslation->setLocale(null);
+           }
         }
-
         return $this;
     }
 

@@ -14,9 +14,49 @@ export default class extends Controller {
                 animation: 150,
                 onEnd: () => this.updatePositions()
             });
+            this.bindIngredientListeners();
         } else {
             this.index = 0;
         }
+    }
+
+    bindIngredientListeners() {
+        if (!this.hasContainerTarget) {
+            return;
+        }
+
+        this.containerTarget.querySelectorAll('.container-recipe-component-item').forEach((item) => {
+            this.setupComponentItem(item);
+        });
+    }
+
+    setupComponentItem(item) {
+        const ingredientSelect = item.querySelector('select.ingredient');
+        const unitInput = item.querySelector('select.component-unit-input');
+        const unitLabel = item.querySelector('.component-unit-label');
+
+        if (!ingredientSelect || ingredientSelect.dataset.unitSyncBound === 'true') {
+            return;
+        }
+
+        const updateUnit = () => {
+            const option = ingredientSelect.selectedOptions[0];
+            const unitId = option?.dataset.unitId ?? '';
+            const unitLabelText = option?.dataset.unitLabel ?? '—';
+
+            if (unitLabel) {
+                unitLabel.textContent = unitLabelText || '—';
+            }
+
+            if (unitInput) {
+                unitInput.value = unitId;
+                unitInput.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        };
+
+        ingredientSelect.addEventListener('change', updateUnit);
+        ingredientSelect.dataset.unitSyncBound = 'true';
+        updateUnit();
     }
     setStatusSaveButton( saveButton, status){
         console.log('setStatusSaveButton saveButton',saveButton)
@@ -56,6 +96,7 @@ export default class extends Controller {
         });
         div.appendChild(removeBtn);
         this.containerTarget.appendChild(div);
+        this.setupComponentItem(div);
 
         const groupItemElement = event.currentTarget.closest('.container-recipe-group-component-item');
         const saveButton = groupItemElement.querySelector('.group-save');

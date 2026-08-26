@@ -68,11 +68,15 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+
     tasks = set(args.only) if args.only else ALL_TASKS
+
+
     entity_filter = set(args.entity) if args.entity else None
     group_filter = set(args.group) if args.group else None
 
     cfg = load_config(args.config)
+
     if not args.skip_warnings:
         for warning in validate_config(cfg):
             print(f"Warning: {warning}")

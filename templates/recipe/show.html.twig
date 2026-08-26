@@ -38,10 +38,10 @@
                                             <span class="recipe-page__ingredient-name">{{ component.ingredient.name }}</span>
                                         {% endif %}
                                         <span class="recipe-page__ingredient-qty">
-                                            {% if component.unit.id != 5 %}
-                                                {{ component.quantity }} {{ component.unit }}
+                                            {% if component.textunit is not empty %}
+                                                {{ component.textunit }}
                                             {% else %}
-                                                {{ component.unit }}
+                                                {{ component.quantity }}  {{ component.unit }}
                                             {% endif %}
                                         </span>
                                     </li>

@@ -33,9 +33,9 @@ class IngredientCrudController extends AbstractCrudController
             IdField::new('id')->hideOnForm(),
             TextField::new('name')->setRequired(true),
             TextField::new('sku'),
-            TextField::new('url'),
-            MoneyField::new('price')->setCurrency('USD')->setStoredAsCents(false),
+            AssociationField::new('unit'),
             AssociationField::new('components')->setFormTypeOption('by_reference', false),
+            AssociationField::new('products')->setFormTypeOption('by_reference', false),
         ];
     }
 

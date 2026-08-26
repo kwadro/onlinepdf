@@ -18,7 +18,7 @@ class Writer:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
         self.written.append(path)
-        print(f"Written: {path}")
+#         print(f"Written: {path}")
 
     def insert_code_by_markers(
         self,

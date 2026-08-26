@@ -1,5 +1,25 @@
 {% set setting = site_settings() %}
 {% extends "base-account.html.twig" %}
+
+{% macro component_item_fields(componenForm) %}
+
+    {{ form_row(componenForm.drag) }}
+    <div class="container_row1">
+        {{ form_row(componenForm.position) }}
+        {{ form_row(componenForm.ingredient) }}
+        {{ form_row(componenForm.quantity) }}
+        {% set ingredientUnit = componenForm.vars.data.ingredient.unit ?? componenForm.vars.data.unit ?? null %}
+        <div class="component-unit-display">
+            <span class="component-unit-label">{{ ingredientUnit ? (ingredientUnit.shortName ?? ingredientUnit.name) : '—' }}</span>
+            {{ form_widget(componenForm.unit, { label: false }) }}
+        </div>
+    </div>
+    <div class="container_row2">
+        {{ form_row(componenForm.textunit) }}
+    </div>
+
+{% endmacro %}
+{% import _self as recipeEditor %}
 {% block main %}
 <div class="page-content recipe-editor-page">
     {% if recipe.recipetranslations[0].confirmation == 'Yes' and (not is_granted('ROLE_SUPER_ADMIN')) %}
@@ -139,15 +159,11 @@
                                         class="recipecomponents"
                                         data-sotable-target="container"
                                         data-component-target="container"
-                                        data-prototype="{{ form_row(groupComponentForm.components.vars.prototype)|e('html_attr') }}"
+                                        data-prototype="{{ recipeEditor.component_item_fields(groupComponentForm.components.vars.prototype)|e('html_attr') }}"
                                     >
                                         {% for componenForm in groupComponentForm.components %}
                                             <div class="container-recipe-component-item">
-                                                {{ form_row(componenForm.drag) }}
-                                                {{ form_row(componenForm.position) }}
-                                                {{ form_row(componenForm.ingredient) }}
-                                                {{ form_row(componenForm.quantity) }}
-                                                {{ form_row(componenForm.unit) }}
+                                                {{ recipeEditor.component_item_fields(componenForm) }}
                                                 <button type="button" class="remove-component" title="{{ 'Remove component'|trans }}" data-action="click->component#remove">×</button>
                                             </div>
                                         {% endfor %}

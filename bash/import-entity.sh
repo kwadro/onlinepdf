@@ -5,6 +5,7 @@ php bin/console app:import:csv Component scalar
 php bin/console app:import:csv FacebookSetting scalar
 php bin/console app:import:csv GroupComponent scalar
 php bin/console app:import:csv Ingredient scalar
+php bin/console app:import:csv Product scalar
 php bin/console app:import:csv Recipe scalar
 php bin/console app:import:csv RecipeCategory scalar
 php bin/console app:import:csv RecipeStep scalar
@@ -27,10 +28,13 @@ php bin/console app:import:csv EmailFilterGroup scalar
 php bin/console app:import:csv EmailMailbox scalar
 php bin/console app:import:csv EmailMailboxFolder scalar
 php bin/console app:import:csv EmailMessage scalar
+php bin/console app:import:csv HolidayTable scalar
+php bin/console app:import:csv HolidayTableRecipe scalar
 php bin/console app:import:csv Component association
 php bin/console app:import:csv FacebookSetting association
 php bin/console app:import:csv GroupComponent association
 php bin/console app:import:csv Ingredient association
+php bin/console app:import:csv Product association
 php bin/console app:import:csv Recipe association
 php bin/console app:import:csv RecipeCategory association
 php bin/console app:import:csv RecipeStep association
@@ -48,8 +52,10 @@ php bin/console app:import:csv Popularsearch association
 php bin/console app:import:csv SeoSetting association
 php bin/console app:import:csv SeoSettingsTranslation association
 php bin/console app:import:csv Site association
+php bin/console app:import:csv EmailFilter association
+php bin/console app:import:csv EmailFilterGroup association
 php bin/console app:import:csv EmailMailbox association
 php bin/console app:import:csv EmailMailboxFolder association
 php bin/console app:import:csv EmailMessage association
-php bin/console app:import:csv EmailFilterGroup association
-php bin/console app:import:csv EmailFilter association
+php bin/console app:import:csv HolidayTable association
+php bin/console app:import:csv HolidayTableRecipe association

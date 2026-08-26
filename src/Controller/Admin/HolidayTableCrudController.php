@@ -39,7 +39,7 @@ class HolidayTableCrudController extends AbstractCrudController
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),
             TextField::new('event_name'),
-            DateField::new('event_date'),
+            DateField::new('event_date')->renderAsNativeWidget(),
             IntegerField::new('men_count')
                 ->setFormTypeOption('attr', ['min' => 0, 'max' => 1000])
                 ->setHelp('Enter a positive number only'),

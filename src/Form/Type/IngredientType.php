@@ -12,7 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use App\Form\Type\UnitType;
+use App\Entity\Unit;
 use App\Form\Type\ComponentType;
+use App\Form\Type\ProductType;
 class IngredientType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -20,7 +23,6 @@ class IngredientType extends AbstractType
         $builder
             ->add('name', TextType::class)
             ->add('sku', TextType::class)
-            ->add('url', TextType::class)
          ;
     }
 

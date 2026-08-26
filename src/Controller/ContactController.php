@@ -67,9 +67,12 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('contact');
         }
 
-        return $this->render('contact/index.html.twig', [
+        $response = $this->render('contact/index.html.twig', [
             'ContactFormType' => $form,
             'recaptcha_site_key' => $_ENV['RECAPTCHA_SITE_KEY'],
         ]);
+        $response->headers->set('Turbo-Cache-Control', 'no-cache');
+
+        return $response;
     }
 }

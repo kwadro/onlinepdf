@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\UnitRepository;
-use App\Entity\Component;
+use App\Entity\Ingredient;
 
 #[ORM\Entity(repositoryClass: UnitRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -28,16 +28,16 @@ class Unit
     #[ORM\Column(type:"string", nullable:true)]
     private ?string $short_name;
     #[ORM\OneToMany(
-        targetEntity: Component::class,
+        targetEntity: Ingredient::class,
         mappedBy: 'unit',
         cascade: ['persist'],
         orphanRemoval: false,
     )]
-        public ?Collection $components;
+        public ?Collection $ingredients;
 
     public function __construct()
     {
-        $this->components = new ArrayCollection();
+        $this->ingredients = new ArrayCollection();
     }
     public function setId(?int $id): self
     {
@@ -74,28 +74,28 @@ class Unit
         return $this->short_name;
     }
 
-    public function addComponent(Component $component): self
+    public function addIngredient(Ingredient $ingredient): self
     {
-        if(!$this->components->contains($component)) {
-           $this->components[] = $component;
-           $component->setUnit($this);
+        if(!$this->ingredients->contains($ingredient)) {
+           $this->ingredients[] = $ingredient;
+           $ingredient->setUnit($this);
         }
         return $this;
     }
 
-    public function removeComponent(Component $component): self
+    public function removeIngredient(Ingredient $ingredient): self
     {
-        if($this->components->removeElement($component)) {
-           if ($component->getUnit() === $this) {
-               $component->setUnit(null);
+        if($this->ingredients->removeElement($ingredient)) {
+           if ($ingredient->getUnit() === $this) {
+               $ingredient->setUnit(null);
            }
         }
         return $this;
     }
 
-    public function getComponents(): ?Collection
+    public function getIngredients(): ?Collection
     {
-        return $this->components;
+        return $this->ingredients;
     }
 
 }

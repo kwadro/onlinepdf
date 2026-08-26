@@ -17,8 +17,8 @@ fields:
 - name: short_name
   type: string
   isstring: true
-- name: components
+- name: ingredients
   type: relation
-  objectRelation: Component
+  objectRelation: Ingredient
   typeRelation: OneToMany
   mappedBy: unit

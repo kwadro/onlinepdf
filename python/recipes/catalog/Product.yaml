@@ -1,0 +1,39 @@
+translate:
+  link:
+    uk: Продукти
+    uk_single: Продукт
+    en: Products
+    en_single: Product
+import:
+  type: json
+  resource: recipe_products.json
+fields:
+- name: id
+  type: integer
+  id: true
+- name: name
+  type: string
+  isrequire: true
+  isstring: true
+- name: url
+  type: string
+- name: price
+  type: money
+- name: quantity
+  type: integer
+- name: unit
+  type: relation
+  objectRelation: Unit
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: components
+  typeInput: addNew
+  formSetting: name|name
+- name: ingredient
+  type: relation
+  objectRelation: Ingredient
+  typeRelation: ManyToOne
+  roleRelation: master
+  inversedBy: products
+  typeInput: addNew
+  formSetting: name|name,sku

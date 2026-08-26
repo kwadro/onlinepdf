@@ -255,7 +255,7 @@ def generate_export_script(writer: Writer, groups: dict) -> None:
             handle.write("\nphp bin/console app:export:csv User")
 
     code = render_template("import.sh.j2", groups=export_groups).strip()
-#     writer.write_file(OUT / "bash/import-entity.sh", code)
+    writer.write_file(OUT / "bash/import-entity.sh", code)
 
 
 def generate_group_files(
@@ -298,7 +298,6 @@ def run_tasks(
 
     for entity_ref in ctx.iter_entities(entity_filter, group_filter):
         print(f"Group: {entity_ref.group_name}, Entity: {entity_ref.name}")
-
         if "entity" in per_entity:
             generate_entity(writer, entity_ref)
         if "controller" in per_entity:
@@ -308,6 +307,7 @@ def run_tasks(
         if "repository" in per_entity:
             generate_repository(writer, entity_ref)
         if "import" in per_entity:
+            print(f"import: {entity_ref.name}")
             generate_import(writer, entity_ref)
 
     if "dashboard" in once:
@@ -316,3 +316,5 @@ def run_tasks(
         generate_export_script(writer, ctx.groups)
     if "group_files" in once:
         generate_group_files(writer, ctx, group_filter)
+
+    return 0
