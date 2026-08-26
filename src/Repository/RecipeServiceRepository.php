@@ -193,7 +193,7 @@ class RecipeServiceRepository extends ServiceEntityRepository
             ->leftJoin('t.groupcomponents', 'gc')->addSelect('gc')
             ->leftJoin('gc.components', 'c')->addSelect('c')
             ->leftJoin('c.ingredient', 'i')->addSelect('i')
-            ->leftJoin('c.unit', 'u')->addSelect('u')
+            ->leftJoin('i.unit', 'u')->addSelect('u')
             ->where('s.site = :site')
             ->andWhere('t.locale = :locale')
             ->andWhere('t.is_active = :is_active')

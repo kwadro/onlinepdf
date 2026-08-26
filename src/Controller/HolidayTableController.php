@@ -8,11 +8,12 @@ use App\Entity\HolidayTable;
 use App\Entity\HolidayTableRecipe;
 use App\Entity\User;
 use App\Form\HolidayTableFormType;
-use App\Repository\HolidayTableRepository;
 use App\Repository\HolidayTableServiceRepository;
 use App\Repository\RecipeServiceRepository;
 use App\Service\HolidayTableProductCalculator;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\Exception\ORMException;
+use Gedmo\Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -135,34 +136,40 @@ class HolidayTableController extends AbstractController
         RecipeServiceRepository $recipeServiceRepository,
         HolidayTableProductCalculator $calculator,
     ): JsonResponse {
-        $site = $request->attributes->get('site');
-        $localeObject = $request->attributes->get('localeObject');
+        try{
+            $site = $request->attributes->get('site');
+            $localeObject = $request->attributes->get('localeObject');
 
-        if (!$site || !$localeObject) {
-            return $this->json(['error' => 'Site context is missing'], Response::HTTP_BAD_REQUEST);
+            if (!$site || !$localeObject) {
+                return $this->json(['error' => 'Site context is missing'], Response::HTTP_BAD_REQUEST);
+            }
+
+            $form = $this->createFormFromRequest($request, $recipeServiceRepository, $site, $localeObject);
+            $form->handleRequest($request);
+
+            if (!$form->isSubmitted() || !$form->isValid()) {
+                return $this->json(['errors' => $this->collectFormErrors($form)], Response::HTTP_UNPROCESSABLE_ENTITY);
+            }
+
+            $data = $form->getData();
+            $menCount = (int) ($data['men_count'] ?? 0);
+            $womenCount = (int) ($data['women_count'] ?? 0);
+            $recipeIds = array_map('intval', $data['recipes'] ?? []);
+
+            $result = $calculator->calculate(
+                $recipeIds,
+                $menCount,
+                $womenCount,
+                $site->getId(),
+                $localeObject->getId(),
+            );
+
+            return $this->json($result);
+        }catch (Exception $exception){
+            echo ($exception->getMessage());
+            exit;
         }
 
-        $form = $this->createFormFromRequest($request, $recipeServiceRepository, $site, $localeObject);
-        $form->handleRequest($request);
-
-        if (!$form->isSubmitted() || !$form->isValid()) {
-            return $this->json(['errors' => $this->collectFormErrors($form)], Response::HTTP_UNPROCESSABLE_ENTITY);
-        }
-
-        $data = $form->getData();
-        $menCount = (int) ($data['men_count'] ?? 0);
-        $womenCount = (int) ($data['women_count'] ?? 0);
-        $recipeIds = array_map('intval', $data['recipes'] ?? []);
-
-        $result = $calculator->calculate(
-            $recipeIds,
-            $menCount,
-            $womenCount,
-            $site->getId(),
-            $localeObject->getId(),
-        );
-
-        return $this->json($result);
     }
 
     #[Route('/{_locale}/holiday-table/save', name: 'holiday_table_save', methods: ['POST'])]
@@ -380,6 +387,7 @@ class HolidayTableController extends AbstractController
 
     /**
      * @param int[] $recipeIds
+     * @throws ORMException
      */
     private function createHolidayTable(
         EntityManagerInterface $entityManager,
@@ -407,6 +415,7 @@ class HolidayTableController extends AbstractController
 
     /**
      * @param int[] $recipeIds
+     * @throws ORMException
      */
     private function updateHolidayTable(
         EntityManagerInterface $entityManager,
@@ -429,6 +438,7 @@ class HolidayTableController extends AbstractController
 
     /**
      * @param int[] $recipeIds
+     * @throws ORMException
      */
     private function applyHolidayTableData(
         HolidayTable $holidayTable,

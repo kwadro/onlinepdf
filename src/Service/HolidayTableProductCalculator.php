@@ -51,6 +51,7 @@ class HolidayTableProductCalculator
         }
 
         $recipes = $this->recipeServiceRepository->findByIdsWithComponents($recipeIds, $siteId, $localeId);
+
         $effectivePortions = $this->resolveEffectivePortions($menCount, $womenCount);
         $merged = [];
         $recipeMeta = [];
@@ -75,8 +76,8 @@ class HolidayTableProductCalculator
             foreach ($translation->getGroupcomponents() ?? [] as $groupComponent) {
                 foreach ($groupComponent->getComponents() ?? [] as $component) {
                     $ingredient = $component->getIngredient();
-                    $unit = $component->getUnit();
-                    if ($ingredient === null || $unit === null) {
+                    $unit = $ingredient->getUnit();
+                    if ($unit === null) {
                         continue;
                     }
 
