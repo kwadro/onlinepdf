@@ -27,6 +27,7 @@ fields:
   - name: event_name
     type: string
     name_uk: Назва події
+    isstring: true
   - name: event_date
     type: date
     isnative: true

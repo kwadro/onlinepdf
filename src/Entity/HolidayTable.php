@@ -129,6 +129,10 @@ class HolidayTable
     {
         return $this->event_name;
     }
+    public function __toString(): string
+    {
+        return $this->event_name;
+    }
     public function setEventDate(?\DateTimeInterface $event_date): self
     {
         $this->event_date = $event_date;
